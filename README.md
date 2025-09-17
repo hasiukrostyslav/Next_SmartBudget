@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Smart Budget
+
+A simple and powerful application to help you take control of your money.  
+Track income, expenses, and savings — all in one place.
+
+## Features
+
+- 💰 Track your income and expenses with ease
+- 📊 Get clear insights with charts and analytics
+- 🎯 Set and manage budgets for different categories
+- 🔔 Receive reminders to stay on top of your goals
+- 🔒 Secure and private — your data stays safe
+
+## Why Use Smart Budget?
+
+Managing money can be stressful. With Smart Budget, you’ll always know where your money goes.  
+Whether you’re saving for a goal, reducing unnecessary costs, or just keeping an eye on daily spending, this app makes financial management **simple, clear, and stress-free**.
 
 ## Getting Started
 
-First, run the development server:
+1. Add your income and expenses
+2. Organize them into categories
+3. Set budgets and financial goals
+4. Track your progress with real-time insights
+
+## Tech Stack
+
+**Client:** React, Next, TailwindCSS.
+
+**Server:** Next, Prisma.
+
+**DataBase:** PostgreSQL.
+
+## Project setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# clone the project
+$ git clone https://github.com/hasiukrostyslav/Next_SmartBudget.git
+
+# go to the project directory
+$ cd Next_SmartBudget
+
+# install dependencies
+$ npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Build and run the project
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# build
+$ npm run build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# production mode
+$ npm run start
 
-## Learn More
+# development mode
+$ npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Author
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[Rostyslav Hasiuk](https://github.com/hasiukrostyslav)
