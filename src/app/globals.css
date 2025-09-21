@@ -21,7 +21,7 @@
     transition-duration: 100ms;
 
     @apply focus-visible:outline-4;
-    @apply focus-visible:outline-offset-4;
+    @apply focus-visible:outline-offset-3;
     @apply focus-visible:outline-blue-500;
   }
 }

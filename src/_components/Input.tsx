@@ -6,10 +6,9 @@ interface InputProps {
 
 export default function Input({ name, label, error }: InputProps) {
   return (
-    <div className='flex flex-col gap-2 mb-2'>
-      <label className='text-sm flex justify-between items-end' htmlFor={name}>
+    <div className='flex flex-col gap-2 mb-4.5 relative'>
+      <label className='text-sm' htmlFor={name}>
         {label}
-        <span className='text-xs text-red-500'>{error}</span>
       </label>
       <input
         type='text'
@@ -18,6 +17,7 @@ export default function Input({ name, label, error }: InputProps) {
           error ? 'border-red-500' : 'border-slate-300'
         }`}
       />
+      <span className='text-xs text-red-500 absolute -bottom-5.5'>{error}</span>
     </div>
   );
 }

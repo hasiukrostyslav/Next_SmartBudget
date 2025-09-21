@@ -9,7 +9,7 @@ export default function Logo() {
     <Image
       src={theme === 'light' ? '/logo-dark.svg' : '/logo-light.svg'}
       alt='Logo'
-      width={200}
+      width={300}
       height={100}
     />
   );
