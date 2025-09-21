@@ -2,6 +2,10 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+button {
+  cursor: pointer;
+}
+
 @layer components {
   .outline-round-sm {
     border-radius: 3px;
@@ -22,6 +26,17 @@
 
     @apply focus-visible:outline-4;
     @apply focus-visible:outline-offset-3;
+    @apply focus-visible:outline-blue-500;
+  }
+
+  .outline-round-full {
+    border-radius: 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 100ms;
+
+    @apply focus-visible:outline-2;
+    @apply focus-visible:outline-offset-2;
     @apply focus-visible:outline-blue-500;
   }
 }

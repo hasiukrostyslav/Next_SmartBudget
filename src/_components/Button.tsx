@@ -13,7 +13,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`outline-round-md bg-blue-600 hover:bg-blue-500 text-slate-100 rounded-md px-3 py-2 cursor-pointer ${className}`}
+      className={`outline-round-md bg-blue-600 hover:bg-blue-500 text-slate-100 rounded-md px-3 py-2 ${className}`}
       type={type}
     >
       {children}

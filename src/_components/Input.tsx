@@ -32,7 +32,7 @@ export default function Input({ name, label, error, isPassword }: InputProps) {
       />
       {isPassword && (
         <button
-          className='cursor-pointer absolute outline-round-sm right-3 bottom-3 w-4 h-4'
+          className='absolute outline-round-sm right-3 bottom-3 w-4 h-4'
           onClick={handleClick}
         >
           {isVisible ? <Icon name='visible' /> : <Icon name='hidden' />}

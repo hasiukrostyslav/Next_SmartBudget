@@ -9,7 +9,7 @@ export default function useTheme() {
   if (!context)
     throw new Error('ThemeContext has to be used within ThemeProvider');
 
-  const { theme, toggleTheme } = context;
+  const { theme, setLightTheme, setDarkTheme } = context;
 
-  return { theme, toggleTheme };
+  return { theme, setLightTheme, setDarkTheme };
 }

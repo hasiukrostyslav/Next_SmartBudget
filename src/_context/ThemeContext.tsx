@@ -4,7 +4,8 @@ import { createContext, useEffect, useState } from 'react';
 
 interface themeContextType {
   theme: 'light' | 'dark';
-  toggleTheme: () => void;
+  setLightTheme: () => void;
+  setDarkTheme: () => void;
 }
 
 export const ThemeContext = createContext<themeContextType | null>(null);
@@ -30,6 +31,12 @@ export default function ThemeProvider({
     }
   }, [theme]);
 
-  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
-  return <ThemeContext value={{ theme, toggleTheme }}>{children}</ThemeContext>;
+  const setLightTheme = () => setTheme('light');
+  const setDarkTheme = () => setTheme('dark');
+
+  return (
+    <ThemeContext value={{ theme, setLightTheme, setDarkTheme }}>
+      {children}
+    </ThemeContext>
+  );
 }
