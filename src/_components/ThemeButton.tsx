@@ -2,8 +2,10 @@
 
 import useTheme from '@/_hooks/useTheme';
 import Icon from './Icon';
+import { useState } from 'react';
 
 export default function ThemeButton({ className }: { className?: string }) {
+  const [isInitial, setIsInitial] = useState(true);
   const { theme, setLightTheme, setDarkTheme } = useTheme();
 
   return (
@@ -11,18 +13,26 @@ export default function ThemeButton({ className }: { className?: string }) {
       className={`flex gap-6 px-2 py-1 border-2 border-slate-300 rounded-2xl ${className}`}
     >
       <button
-        className={`outline-round-full p-1 ${
+        className={`outline-round-full  p-1 ${
           theme === 'light' ? 'bg-slate-300' : ''
-        }`}
-        onClick={setLightTheme}
+        } ${!isInitial && theme === 'light' ? 'animate-wiggle' : ''}`}
+        onClick={() => {
+          setIsInitial(true);
+          setLightTheme();
+          setIsInitial(false);
+        }}
       >
         <Icon name='sun' />
       </button>
       <button
         className={`outline-round-full p-1 ${
           theme === 'dark' ? 'bg-slate-500' : ''
-        }`}
-        onClick={setDarkTheme}
+        } ${!isInitial && theme === 'dark' ? 'animate-wiggle' : ''}`}
+        onClick={() => {
+          setIsInitial(true);
+          setDarkTheme();
+          setIsInitial(false);
+        }}
       >
         <Icon name='moon' />
       </button>

@@ -40,3 +40,16 @@ button {
     @apply focus-visible:outline-blue-500;
   }
 }
+
+@theme {
+  --animate-wiggle: wiggle 2s ease-in-out;
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(360deg);
+    }
+  }
+}
