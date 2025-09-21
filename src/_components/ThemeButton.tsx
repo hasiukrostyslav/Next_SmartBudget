@@ -20,7 +20,7 @@ export default function ThemeButton({ className }: { className?: string }) {
       </button>
       <button
         className={`outline-round-full p-1 ${
-          theme === 'dark' ? 'bg-slate-300' : ''
+          theme === 'dark' ? 'bg-slate-500' : ''
         }`}
         onClick={setDarkTheme}
       >

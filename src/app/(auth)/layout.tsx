@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${roboto.className}`}>
-        <main className='flex h-screen w-screen text-slate-900'>
+        <main className='flex h-screen w-screen text-slate-900 dark:text-slate-300 dark:bg-slate-900'>
           <div className='relative w-7/12'>
             <Image src='/background.jpg' fill alt='background image' />
           </div>
