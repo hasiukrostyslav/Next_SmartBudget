@@ -1,15 +1,17 @@
 import type { Metadata } from 'next';
-import { Source_Sans_3 } from 'next/font/google';
+import Image from 'next/image';
+import { Roboto } from 'next/font/google';
 import '../globals.css';
+import ThemeProvider from '@/_context/ThemeContext';
 
-const sourceSans = Source_Sans_3({ subsets: ['latin'] });
+const roboto = Roboto({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
     template: '%s | SmartBudget',
     default: 'Welcome | SmartBudget',
   },
-  description: 'Track all your finance in one app',
+  description: 'Smart Money, Bright Tomorrow',
 };
 
 export default function RootLayout({
@@ -19,7 +21,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${sourceSans.className}`}>{children}</body>
+      <body className={`${roboto.className}`}>
+        <main className='flex h-screen w-screen text-slate-900'>
+          <div className='relative w-7/12'>
+            <Image src='/background.jpg' fill alt='background image' />
+          </div>
+          <ThemeProvider>{children}</ThemeProvider>
+        </main>
+      </body>
     </html>
   );
 }

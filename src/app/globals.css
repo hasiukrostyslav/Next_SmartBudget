@@ -1,3 +1,27 @@
 @import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+  .outline-round-sm {
+    border-radius: 3px;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 100ms;
+
+    @apply focus-visible:outline-2;
+    @apply focus-visible:outline-offset-2;
+    @apply focus-visible:outline-blue-500;
+  }
+
+  .outline-round-md {
+    border-radius: 6px;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 100ms;
+
+    @apply focus-visible:outline-4;
+    @apply focus-visible:outline-offset-4;
+    @apply focus-visible:outline-blue-500;
+  }
+}
