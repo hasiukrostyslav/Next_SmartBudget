@@ -28,8 +28,6 @@ export default function ThemeProvider({
       document.documentElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
     }
-
-    console.log(document.documentElement.classList);
   }, [theme]);
 
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
