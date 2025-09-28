@@ -1,0 +1,29 @@
+import type { Metadata } from 'next';
+import { Roboto } from 'next/font/google';
+import './globals.css';
+
+const roboto = Roboto({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
+  title: {
+    template: '%s | SmartBudget',
+    default: 'Welcome | SmartBudget',
+  },
+  description: 'Smart Money, Bright Tomorrow',
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang='en'>
+      <body className={`${roboto.className}`}>
+        <main className='text-slate-900 dark:text-slate-300 bg-slate-50 dark:bg-slate-900'>
+          {children}
+        </main>
+      </body>
+    </html>
+  );
+}

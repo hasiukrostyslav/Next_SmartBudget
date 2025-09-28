@@ -1,18 +1,18 @@
 import type { Metadata } from 'next';
 import AuthForm from '@/_components/AuthForm';
-import LoginForm from '@/_components/LoginForm';
+import SignUpForm from '@/_components/SignUpForm';
 import AuthLink from '@/_components/AuthLink';
 
 export const metadata: Metadata = {
-  title: 'Sign In',
+  title: 'Sign Up',
 };
 
-export default function LoginPage() {
+export default function SignUpPage() {
   return (
-    <AuthForm heading='Login to account'>
-      <LoginForm />
+    <AuthForm heading='Create an account'>
+      <SignUpForm />
       <p className='text-xs mt-3 text-slate-400'>
-        Don&apos;t have an account? <AuthLink href='/signup'>Sign Up</AuthLink>
+        Already have an account? <AuthLink href='/auth/login'>Sign In</AuthLink>
       </p>
     </AuthForm>
   );
