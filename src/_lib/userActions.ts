@@ -1,30 +1,42 @@
 'use server';
 
+import z from 'zod';
 import { prisma } from './db';
+import { SignInSchema, SignUpSchema } from './zod';
 
 export async function signUp(formData: FormData) {
-  const userName = formData.get('name');
-  const email = formData.get('email');
-  const password = formData.get('password');
+  const validatedFields = SignUpSchema.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    password: formData.get('password'),
+  });
+
+  if (!validatedFields.success) {
+    return z.treeifyError(validatedFields.error).properties;
+  }
 
   const newUser = await prisma.users.create({
     data: {
-      user_name: userName,
-      email,
-      password,
+      user_name: validatedFields.data.name,
+      email: validatedFields.data.email,
+      password: validatedFields.data.password,
     },
   });
-  console.log(newUser);
 }
 
 export async function login(formData: FormData) {
-  const email = formData.get('email');
-  const password = formData.get('password');
+  const validatedFields = SignInSchema.safeParse({
+    email: formData.get('email'),
+    password: formData.get('password'),
+  });
+
+  if (!validatedFields.success) {
+    return z.treeifyError(validatedFields.error).properties;
+  }
 
   const user = await prisma.users.findUnique({
     where: {
-      email,
+      email: validatedFields.data.email,
     },
   });
-  console.log(user);
 }
