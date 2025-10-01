@@ -8,11 +8,13 @@ export const SignUpSchema = z.object({
   email: z.email({ message: 'Please enter a valid email.' }).trim(),
   password: z
     .string()
-    .min(8, { message: 'Be at least 8 characters long' })
-    .regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
-    .regex(/[0-9]/, { message: 'Contain at least one number.' })
+    .min(8, { message: 'Password should be at least 8 characters long.' })
+    .regex(/[a-zA-Z]/, {
+      message: 'Password should contain at least one letter.',
+    })
+    .regex(/[0-9]/, { message: 'Password should contain at least one number.' })
     .regex(/[^a-zA-Z0-9]/, {
-      message: 'Contain at least one special character.',
+      message: 'Password should contain at least one special character.',
     })
     .trim(),
 });
@@ -21,11 +23,28 @@ export const SignInSchema = z.object({
   email: z.email({ message: 'Please enter a valid email.' }).trim(),
   password: z
     .string()
-    .min(8, { message: 'Be at least 8 characters long' })
-    .regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
-    .regex(/[0-9]/, { message: 'Contain at least one number.' })
+    .min(8, { message: 'Password should be at least 8 characters long.' })
+    .regex(/[a-zA-Z]/, {
+      message: 'Password should contain at least one letter.',
+    })
+    .regex(/[0-9]/, { message: 'Password should contain at least one number.' })
     .regex(/[^a-zA-Z0-9]/, {
-      message: 'Contain at least one special character.',
+      message: 'Password should contain at least one special character.',
     })
     .trim(),
 });
+
+export type FormState =
+  | {
+      errors?: {
+        name?: { errors: string[] };
+        email?: { errors: string[] };
+        password?: { errors: string[] };
+      };
+      payloads?: {
+        name?: string;
+        email: string;
+        password: string;
+      };
+    }
+  | undefined;

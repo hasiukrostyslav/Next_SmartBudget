@@ -2,9 +2,9 @@
 
 import z from 'zod';
 import { prisma } from './db';
-import { SignInSchema, SignUpSchema } from './zod';
+import { FormState, SignInSchema, SignUpSchema } from './zod';
 
-export async function signUp(formData: FormData) {
+export async function signUp(prevState: FormState, formData: FormData) {
   const validatedFields = SignUpSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
@@ -12,7 +12,14 @@ export async function signUp(formData: FormData) {
   });
 
   if (!validatedFields.success) {
-    return z.treeifyError(validatedFields.error).properties;
+    return {
+      errors: z.treeifyError(validatedFields.error).properties,
+      payloads: {
+        name: formData.get('name')?.toString() ?? '',
+        email: formData.get('email')?.toString() ?? '',
+        password: formData.get('password')?.toString() ?? '',
+      },
+    };
   }
 
   const newUser = await prisma.users.create({
@@ -24,14 +31,20 @@ export async function signUp(formData: FormData) {
   });
 }
 
-export async function login(formData: FormData) {
+export async function login(prevState: FormState, formData: FormData) {
   const validatedFields = SignInSchema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),
   });
 
   if (!validatedFields.success) {
-    return z.treeifyError(validatedFields.error).properties;
+    return {
+      errors: z.treeifyError(validatedFields.error).properties,
+      payloads: {
+        email: formData.get('email')?.toString() ?? '',
+        password: formData.get('password')?.toString() ?? '',
+      },
+    };
   }
 
   const user = await prisma.users.findUnique({
