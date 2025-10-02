@@ -4,6 +4,10 @@
 
 button {
   cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
 }
 
 @layer components {

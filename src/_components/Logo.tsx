@@ -8,10 +8,10 @@ export default function Logo() {
   return (
     <Image
       src={theme === 'light' ? '/logo-dark.svg' : '/logo-light.svg'}
-      alt='Logo'
+      alt="Logo"
       width={404}
       height={92}
-      className='w-[300px] h-auto'
+      className="h-auto w-[300px]"
     />
   );
 }
