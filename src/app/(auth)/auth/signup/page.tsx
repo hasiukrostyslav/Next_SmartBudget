@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 
 export default function SignUpPage() {
   return (
-    <AuthForm heading='Create an account'>
+    <AuthForm heading="Create an account">
       <SignUpForm />
-      <p className='text-xs mt-3 text-slate-400'>
-        Already have an account? <AuthLink href='/auth/login'>Sign In</AuthLink>
+      <p className="mt-3 text-xs text-slate-400">
+        Already have an account? <AuthLink href="/auth/login">Sign In</AuthLink>
       </p>
     </AuthForm>
   );
