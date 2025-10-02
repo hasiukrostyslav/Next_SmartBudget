@@ -29,6 +29,8 @@ export async function signUp(prevState: FormState, formData: FormData) {
       password: validatedFields.data.password,
     },
   });
+
+  return { success: true };
 }
 
 export async function login(prevState: FormState, formData: FormData) {
@@ -52,4 +54,6 @@ export async function login(prevState: FormState, formData: FormData) {
       email: validatedFields.data.email,
     },
   });
+
+  return { success: true };
 }
