@@ -59,6 +59,7 @@ export default function Input({
       />
       {isPassword && (
         <button
+          type="button"
           className="outline-round-sm absolute right-3 bottom-3 h-4 w-4"
           onClick={handleClick}
         >
