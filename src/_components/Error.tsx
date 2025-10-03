@@ -17,12 +17,12 @@ const errors = {
 };
 
 interface ErrorProps {
-  type: 'auth' | 'route' | 'server';
+  type: keyof typeof errors;
 }
 
 export default function Error({ type }: ErrorProps) {
   return (
-    <div className="flex flex-col items-center justify-center gap-6">
+    <figure className="flex flex-col items-center justify-center gap-6">
       <Image
         className="h-[300] w-auto"
         alt="Error"
@@ -30,8 +30,10 @@ export default function Error({ type }: ErrorProps) {
         width={300}
         height={300}
       />
-      <p className="mt-4 text-3xl font-bold">{errors[type].header}</p>
+      <figcaption className="mt-4 text-3xl font-bold">
+        {errors[type].header}
+      </figcaption>
       <ButtonLink href="#">Return Home</ButtonLink>
-    </div>
+    </figure>
   );
 }

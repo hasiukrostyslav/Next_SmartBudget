@@ -3,11 +3,11 @@
 import { useActionState, useEffect } from 'react';
 import { login } from '@/_lib/userActions';
 import { toast } from 'react-toastify';
+import { toastOptions } from '@/_lib/constants';
 import AuthLink from './AuthLink';
 import Button from './Button';
 import Input from './Input';
-import Toast, { toastOptions } from './Toast';
-
+import Toast from './Toast';
 export default function LoginForm() {
   const [state, action, isPending] = useActionState(login, undefined);
 
