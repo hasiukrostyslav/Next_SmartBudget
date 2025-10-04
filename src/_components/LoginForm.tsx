@@ -8,6 +8,8 @@ import AuthLink from './AuthLink';
 import Button from './Button';
 import Input from './Input';
 import Toast from './Toast';
+import Icon from './Icon';
+
 export default function LoginForm() {
   const [state, action, isPending] = useActionState(login, undefined);
 
@@ -27,6 +29,8 @@ export default function LoginForm() {
         name="email"
         defaultValue={state?.payloads?.email}
         error={state?.errors?.email?.errors.at(0)}
+        disabled={isPending}
+        placeholder={!isPending ? 'Please enter your email' : ''}
       />
       <Input
         label="Password"
@@ -34,12 +38,21 @@ export default function LoginForm() {
         isPassword
         defaultValue={state?.payloads?.password}
         error={state?.errors?.password?.errors.at(0)}
+        disabled={isPending}
+        placeholder={!isPending ? 'Please enter your password' : ''}
       />
-      <AuthLink href="#" className="mb-3 self-end">
+      <AuthLink href="/auth/forgot-password" className="mb-3 self-end">
         Forgot password
       </AuthLink>
-      <Button disabled={isPending} type="submit">
-        {!isPending ? 'Sing In' : 'Loading...'}
+      <Button color="black" disabled={isPending} type="submit">
+        {!isPending ? (
+          'Sign Up'
+        ) : (
+          <span className="flex items-center justify-center gap-2">
+            <Icon name="loader-circle" className="animate-spin" />
+            Submit
+          </span>
+        )}
       </Button>
     </form>
   );

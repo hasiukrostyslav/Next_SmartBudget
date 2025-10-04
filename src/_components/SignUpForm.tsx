@@ -7,6 +7,7 @@ import { toastOptions } from '@/_lib/constants';
 import Button from './Button';
 import Input from './Input';
 import Toast from './Toast';
+import Icon from './Icon';
 
 export default function SignUpForm() {
   const [state, action, isPending] = useActionState(signUp, undefined);
@@ -23,17 +24,20 @@ export default function SignUpForm() {
       className="mt-6 flex w-full flex-col gap-2"
     >
       <Input
-        label="Name"
+        label="Full name"
         name="name"
         defaultValue={state?.payloads?.name}
         error={state?.errors?.name?.errors.at(0)}
         disabled={isPending}
+        placeholder={!isPending ? 'Please enter your full name' : ''}
       />
       <Input
         label="Email address"
         name="email"
         defaultValue={state?.payloads?.email}
         error={state?.errors?.email?.errors.at(0)}
+        disabled={isPending}
+        placeholder={!isPending ? 'Please enter your email' : ''}
       />
       <Input
         label="Password"
@@ -41,9 +45,18 @@ export default function SignUpForm() {
         isPassword
         defaultValue={state?.payloads?.password}
         error={state?.errors?.password?.errors.at(0)}
+        disabled={isPending}
+        placeholder={!isPending ? 'Please enter your password' : ''}
       />
-      <Button disabled={isPending} type="submit" className="mt-3">
-        {!isPending ? 'Sign Up' : 'Loading...'}
+      <Button color="black" disabled={isPending} type="submit" className="mt-3">
+        {!isPending ? (
+          'Sign Up'
+        ) : (
+          <span className="flex items-center justify-center gap-2">
+            <Icon name="loader-circle" className="animate-spin" />
+            Submit
+          </span>
+        )}
       </Button>
     </form>
   );

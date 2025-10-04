@@ -8,7 +8,7 @@ const errors = {
   },
   route: {
     code: 404,
-    header: 'Page not found',
+    header: "Sorry, we didn't find any match!",
   },
   server: {
     code: 500,
@@ -24,13 +24,13 @@ export default function Error({ type }: ErrorProps) {
   return (
     <figure className="flex flex-col items-center justify-center gap-6">
       <Image
-        className="h-[300] w-auto"
+        className="h-[250] w-auto"
         alt="Error"
         src={`/error-${errors[type].code}.png`}
-        width={300}
-        height={300}
+        width={250}
+        height={250}
       />
-      <figcaption className="mt-4 text-3xl font-bold">
+      <figcaption className="mt-4 text-2xl font-bold">
         {errors[type].header}
       </figcaption>
       <ButtonLink href="#">Return Home</ButtonLink>
