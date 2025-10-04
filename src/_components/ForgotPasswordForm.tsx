@@ -10,7 +10,7 @@ export default function ForgotPasswordForm() {
         label="Email address"
         name="email"
         defaultValue=""
-        placeholder="Please enter your password"
+        placeholder="Please enter your email"
       />
       <Button color="black" type="submit">
         Reset Password
