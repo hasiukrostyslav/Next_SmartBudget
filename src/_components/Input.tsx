@@ -55,11 +55,7 @@ export default function Input({
         disabled={disabled}
         defaultValue={defaultValue}
         placeholder={placeholder}
-        type={
-          (isPassword && !isVisible && 'password') ||
-          (isPassword && isVisible && 'text') ||
-          name
-        }
+        type={isPassword && !isVisible ? 'password' : 'text'}
         name={name}
         className={`outline-input border-2 py-2.5 pl-10 tracking-wider text-slate-700 dark:text-slate-50 dark:placeholder:text-slate-400 ${borderColor} ${
           isPassword ? 'pr-10' : 'pr-3'
