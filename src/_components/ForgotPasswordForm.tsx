@@ -5,9 +5,16 @@ import Input from './Input';
 
 export default function ForgotPasswordForm() {
   return (
-    <form autoComplete="off" className="mt-6 flex w-full flex-col gap-5">
-      <Input label="Email address" name="email" />
-      <Button type="submit">Reset Password</Button>
+    <form autoComplete="off" className="flex w-full flex-col gap-3">
+      <Input
+        label="Email address"
+        name="email"
+        defaultValue=""
+        placeholder="Please enter your password"
+      />
+      <Button color="black" type="submit">
+        Reset Password
+      </Button>
     </form>
   );
 }

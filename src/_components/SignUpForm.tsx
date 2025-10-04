@@ -24,17 +24,20 @@ export default function SignUpForm() {
       className="mt-6 flex w-full flex-col gap-2"
     >
       <Input
-        label="Name"
+        label="Full name"
         name="name"
         defaultValue={state?.payloads?.name}
         error={state?.errors?.name?.errors.at(0)}
         disabled={isPending}
+        placeholder={!isPending ? 'Please enter your full name' : ''}
       />
       <Input
         label="Email address"
         name="email"
         defaultValue={state?.payloads?.email}
         error={state?.errors?.email?.errors.at(0)}
+        disabled={isPending}
+        placeholder={!isPending ? 'Please enter your email' : ''}
       />
       <Input
         label="Password"
@@ -42,8 +45,10 @@ export default function SignUpForm() {
         isPassword
         defaultValue={state?.payloads?.password}
         error={state?.errors?.password?.errors.at(0)}
+        disabled={isPending}
+        placeholder={!isPending ? 'Please enter your password' : ''}
       />
-      <Button disabled={isPending} type="submit" className="mt-3">
+      <Button color="black" disabled={isPending} type="submit" className="mt-3">
         {!isPending ? (
           'Sign Up'
         ) : (

@@ -11,6 +11,7 @@ interface InputProps {
   isPassword?: boolean;
   defaultValue: string | undefined;
   disabled?: boolean;
+  placeholder?: string;
 }
 
 function setBorderColor({
@@ -18,8 +19,8 @@ function setBorderColor({
   disabled,
 }: Pick<InputProps, 'error' | 'disabled'>) {
   const styles = {
-    default: 'border-slate-300',
-    error: 'border-red-500',
+    default: 'border-slate-300 dark:border-slate-400',
+    error: 'border-red-300 dark:border-red-400',
     disabled: 'border-slate-200 dark:border-slate-500',
   };
   if (error) return styles.error;
@@ -34,6 +35,7 @@ export default function Input({
   isPassword,
   defaultValue,
   disabled,
+  placeholder,
 }: InputProps) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -46,16 +48,21 @@ export default function Input({
 
   return (
     <div className="relative mb-4.5 flex flex-col gap-2">
-      <label className="text-sm" htmlFor={name}>
+      <label className="text-sm tracking-wider" htmlFor={name}>
         {label}
       </label>
       <input
         disabled={disabled}
         defaultValue={defaultValue}
-        type={isPassword && !isVisible ? 'password' : 'text'}
+        placeholder={placeholder}
+        type={
+          (isPassword && !isVisible && 'password') ||
+          (isPassword && isVisible && 'text') ||
+          name
+        }
         name={name}
-        className={`outline-round-md border-2 py-2 ${borderColor} ${
-          isPassword ? 'pr-10 pl-3' : 'px-3'
+        className={`outline-input border-2 py-2.5 pl-10 tracking-wider text-slate-700 dark:text-slate-50 dark:placeholder:text-slate-400 ${borderColor} ${
+          isPassword ? 'pr-10' : 'pr-3'
         }`}
       />
       <span className="absolute bottom-3.5 left-3">
@@ -68,7 +75,7 @@ export default function Input({
       {isPassword && (
         <button
           type="button"
-          className="outline-round-sm absolute right-3 bottom-3 h-4 w-4"
+          className="outline-round-sm absolute right-3 bottom-3.5"
           onClick={handleClick}
         >
           <Icon
@@ -78,7 +85,9 @@ export default function Input({
           />
         </button>
       )}
-      <span className="absolute -bottom-5.5 text-xs text-red-500">{error}</span>
+      <span className="absolute -bottom-5 text-xs tracking-wide text-red-500">
+        {error}
+      </span>
     </div>
   );
 }

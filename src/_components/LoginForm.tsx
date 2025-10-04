@@ -29,6 +29,8 @@ export default function LoginForm() {
         name="email"
         defaultValue={state?.payloads?.email}
         error={state?.errors?.email?.errors.at(0)}
+        disabled={isPending}
+        placeholder={!isPending ? 'Please enter your email' : ''}
       />
       <Input
         label="Password"
@@ -36,11 +38,13 @@ export default function LoginForm() {
         isPassword
         defaultValue={state?.payloads?.password}
         error={state?.errors?.password?.errors.at(0)}
+        disabled={isPending}
+        placeholder={!isPending ? 'Please enter your password' : ''}
       />
       <AuthLink href="/auth/forgot-password" className="mb-3 self-end">
         Forgot password
       </AuthLink>
-      <Button disabled={isPending} type="submit">
+      <Button color="black" disabled={isPending} type="submit">
         {!isPending ? (
           'Sign Up'
         ) : (
