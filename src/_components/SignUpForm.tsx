@@ -7,6 +7,7 @@ import { toastOptions } from '@/_lib/constants';
 import Button from './Button';
 import Input from './Input';
 import Toast from './Toast';
+import Icon from './Icon';
 
 export default function SignUpForm() {
   const [state, action, isPending] = useActionState(signUp, undefined);
@@ -43,7 +44,14 @@ export default function SignUpForm() {
         error={state?.errors?.password?.errors.at(0)}
       />
       <Button disabled={isPending} type="submit" className="mt-3">
-        {!isPending ? 'Sign Up' : 'Loading...'}
+        {!isPending ? (
+          'Sign Up'
+        ) : (
+          <span className="flex items-center justify-center gap-2">
+            <Icon name="loader-circle" className="animate-spin" />
+            Submit
+          </span>
+        )}
       </Button>
     </form>
   );

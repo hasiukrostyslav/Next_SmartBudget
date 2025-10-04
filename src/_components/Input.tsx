@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import Icon from './Icon';
+import { inputIcons } from '@/_lib/constants';
 
 interface InputProps {
-  name: string;
+  name: 'name' | 'email' | 'password';
   label?: string;
   error?: string;
   isPassword?: boolean;
@@ -57,13 +58,24 @@ export default function Input({
           isPassword ? 'pr-10 pl-3' : 'px-3'
         }`}
       />
+      <span className="absolute bottom-3.5 left-3">
+        <Icon
+          className="text-slate-400 dark:text-slate-400"
+          size={18}
+          name={inputIcons[name]}
+        />
+      </span>
       {isPassword && (
         <button
           type="button"
           className="outline-round-sm absolute right-3 bottom-3 h-4 w-4"
           onClick={handleClick}
         >
-          {isVisible ? <Icon name="visible" /> : <Icon name="hidden" />}
+          <Icon
+            className="text-slate-500 dark:text-slate-400"
+            size={16}
+            name={isVisible ? 'eye' : 'eye-off'}
+          />
         </button>
       )}
       <span className="absolute -bottom-5.5 text-xs text-red-500">{error}</span>

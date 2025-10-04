@@ -8,6 +8,8 @@ import AuthLink from './AuthLink';
 import Button from './Button';
 import Input from './Input';
 import Toast from './Toast';
+import Icon from './Icon';
+
 export default function LoginForm() {
   const [state, action, isPending] = useActionState(login, undefined);
 
@@ -39,7 +41,14 @@ export default function LoginForm() {
         Forgot password
       </AuthLink>
       <Button disabled={isPending} type="submit">
-        {!isPending ? 'Sing In' : 'Loading...'}
+        {!isPending ? (
+          'Sign Up'
+        ) : (
+          <span className="flex items-center justify-center gap-2">
+            <Icon name="loader-circle" className="animate-spin" />
+            Submit
+          </span>
+        )}
       </Button>
     </form>
   );
