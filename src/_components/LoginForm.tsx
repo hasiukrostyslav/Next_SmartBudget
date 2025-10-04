@@ -35,7 +35,7 @@ export default function LoginForm() {
         defaultValue={state?.payloads?.password}
         error={state?.errors?.password?.errors.at(0)}
       />
-      <AuthLink href="#" className="mb-3 self-end">
+      <AuthLink href="/auth/forgot-password" className="mb-3 self-end">
         Forgot password
       </AuthLink>
       <Button disabled={isPending} type="submit">
