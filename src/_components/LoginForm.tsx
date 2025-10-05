@@ -15,7 +15,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (state?.success)
-      toast(<Toast role="success" type="signUp" />, toastOptions);
+      toast(<Toast role="success" type="login" />, toastOptions);
   }, [state]);
 
   return (
@@ -46,7 +46,7 @@ export default function LoginForm() {
       </AuthLink>
       <Button color="black" disabled={isPending} type="submit">
         {!isPending ? (
-          'Sign Up'
+          'Sign In'
         ) : (
           <span className="flex items-center justify-center gap-2">
             <Icon name="loader-circle" className="animate-spin" />

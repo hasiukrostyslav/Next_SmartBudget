@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={`${roboto.className}`}>
         <main className="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-300">
           <ThemeProvider>
-            <ToastContainer />
+            <ToastContainer limit={1} />
             {children}
           </ThemeProvider>
         </main>
