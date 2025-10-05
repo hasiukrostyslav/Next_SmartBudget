@@ -1,3 +1,4 @@
+// Icon names
 export type IconName =
   | 'eye'
   | 'eye-off'
@@ -12,6 +13,7 @@ export type IconName =
   | 'circle-alert'
   | 'loader-circle';
 
+// Toast Component types
 interface ToastStyleProps<I extends IconName> {
   icon: I;
   bgIcon: string;
@@ -26,6 +28,7 @@ export interface ToastRoles {
   warning: ToastStyleProps<'circle-alert'>;
 }
 
+// Auth input with icons types
 export interface InputIcons {
   name: Extract<IconName, 'user'>;
   email: Extract<IconName, 'mail'>;

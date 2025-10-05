@@ -1,28 +1,23 @@
 'use server';
 
 import z from 'zod';
+import { redirect } from 'next/navigation';
 import { prisma } from './db';
-import { FormState, SignInSchema, SignUpSchema } from './zod';
+import { SignInSchema, SignUpSchema } from './zod';
 
-export async function signUp(prevState: FormState, formData: FormData) {
-  const validatedFields = SignUpSchema.safeParse({
-    name: formData.get('name'),
-    email: formData.get('email'),
-    password: formData.get('password'),
-  });
+type SignUpFormData = z.infer<typeof SignUpSchema>;
+type SignInFormData = z.infer<typeof SignInSchema>;
+
+export async function signUp(formData: SignUpFormData) {
+  const validatedFields = SignUpSchema.safeParse(formData);
 
   if (!validatedFields.success) {
     return {
-      errors: z.treeifyError(validatedFields.error).properties,
-      payloads: {
-        name: formData.get('name')?.toString() ?? '',
-        email: formData.get('email')?.toString() ?? '',
-        password: formData.get('password')?.toString() ?? '',
-      },
+      error: z.treeifyError(validatedFields.error).properties,
     };
   }
 
-  const newUser = await prisma.users.create({
+  await prisma.users.create({
     data: {
       user_name: validatedFields.data.name,
       email: validatedFields.data.email,
@@ -30,22 +25,15 @@ export async function signUp(prevState: FormState, formData: FormData) {
     },
   });
 
-  return { success: true };
+  redirect('/dashboard');
 }
 
-export async function login(prevState: FormState, formData: FormData) {
-  const validatedFields = SignInSchema.safeParse({
-    email: formData.get('email'),
-    password: formData.get('password'),
-  });
+export async function login(formData: SignInFormData) {
+  const validatedFields = SignInSchema.safeParse(formData);
 
   if (!validatedFields.success) {
     return {
-      errors: z.treeifyError(validatedFields.error).properties,
-      payloads: {
-        email: formData.get('email')?.toString() ?? '',
-        password: formData.get('password')?.toString() ?? '',
-      },
+      error: z.treeifyError(validatedFields.error).properties,
     };
   }
 
@@ -55,5 +43,5 @@ export async function login(prevState: FormState, formData: FormData) {
     },
   });
 
-  return { success: true };
+  redirect('/dashboard');
 }

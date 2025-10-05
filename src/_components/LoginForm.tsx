@@ -1,8 +1,12 @@
 'use client';
 
-import { useActionState, useEffect } from 'react';
-import { login } from '@/_lib/userActions';
+import { useState, useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
+import { login } from '@/_lib/userActions';
+import { SignInSchema } from '@/_lib/schema';
 import { toastOptions } from '@/_lib/constants';
 import AuthLink from './AuthLink';
 import Button from './Button';
@@ -10,36 +14,63 @@ import Input from './Input';
 import Toast from './Toast';
 import Icon from './Icon';
 
-export default function LoginForm() {
-  const [state, action, isPending] = useActionState(login, undefined);
+type FormInputs = z.infer<typeof SignInSchema>;
 
-  useEffect(() => {
-    if (state?.success)
-      toast(<Toast role="success" type="login" />, toastOptions);
-  }, [state]);
+export default function LoginForm() {
+  const [isPending, startTransition] = useTransition();
+  const [serverError, setServerError] = useState<{
+    name?: string;
+    email?: string;
+    password?: string;
+  }>({});
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(SignInSchema),
+  });
+
+  async function onSubmit(data: FormInputs) {
+    setServerError({});
+
+    startTransition(async () => {
+      const result = await login(data);
+      if (result.error) {
+        setServerError({
+          email: result.error?.email?.errors.at(0),
+          password: result.error?.password?.errors.at(0),
+        });
+        return;
+      }
+
+      reset();
+      toast(<Toast type="login" role="success" />, toastOptions);
+    });
+  }
 
   return (
     <form
-      action={action}
+      onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
       className="mt-6 flex w-full flex-col gap-2"
     >
       <Input
         label="Email address"
-        name="email"
-        defaultValue={state?.payloads?.email}
-        error={state?.errors?.email?.errors.at(0)}
-        disabled={isPending}
+        {...register('email')}
         placeholder={!isPending ? 'Please enter your email' : ''}
+        disabled={isPending}
+        error={errors.email?.message || serverError.email}
       />
       <Input
         label="Password"
-        name="password"
-        isPassword
-        defaultValue={state?.payloads?.password}
-        error={state?.errors?.password?.errors.at(0)}
-        disabled={isPending}
+        {...register('password')}
         placeholder={!isPending ? 'Please enter your password' : ''}
+        isPassword
+        disabled={isPending}
+        error={errors.password?.message || serverError.password}
       />
       <AuthLink href="/auth/forgot-password" className="mb-3 self-end">
         Forgot password

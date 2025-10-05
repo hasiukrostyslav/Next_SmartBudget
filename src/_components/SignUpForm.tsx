@@ -1,52 +1,83 @@
 'use client';
 
-import { useActionState, useEffect } from 'react';
-import { signUp } from '@/_lib/userActions';
+import { useState, useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
+import { signUp } from '@/_lib/userActions';
+import { SignUpSchema } from '@/_lib/schema';
 import { toastOptions } from '@/_lib/constants';
 import Button from './Button';
 import Input from './Input';
 import Toast from './Toast';
 import Icon from './Icon';
 
-export default function SignUpForm() {
-  const [state, action, isPending] = useActionState(signUp, undefined);
+type FormInputs = z.infer<typeof SignUpSchema>;
 
-  useEffect(() => {
-    if (state?.success)
+export default function SignUpForm() {
+  const [isPending, startTransition] = useTransition();
+  const [serverError, setServerError] = useState<{
+    name?: string;
+    email?: string;
+    password?: string;
+  }>({});
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(SignUpSchema),
+  });
+
+  async function onSubmit(data: FormInputs) {
+    setServerError({});
+
+    startTransition(async () => {
+      const result = await signUp(data);
+      if (result.error) {
+        setServerError({
+          name: result.error?.name?.errors.at(0),
+          email: result.error?.email?.errors.at(0),
+          password: result.error?.password?.errors.at(0),
+        });
+        return;
+      }
+
+      reset();
       toast(<Toast type="signUp" role="success" />, toastOptions);
-  }, [state]);
+    });
+  }
 
   return (
     <form
-      action={action}
+      onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
       className="mt-6 flex w-full flex-col gap-2"
     >
       <Input
         label="Full name"
-        name="name"
-        defaultValue={state?.payloads?.name}
-        error={state?.errors?.name?.errors.at(0)}
+        {...register('name')}
+        placeholder="Please enter your full name"
         disabled={isPending}
-        placeholder={!isPending ? 'Please enter your full name' : ''}
+        error={errors.name?.message || serverError.name}
       />
       <Input
         label="Email address"
-        name="email"
-        defaultValue={state?.payloads?.email}
-        error={state?.errors?.email?.errors.at(0)}
+        {...register('email')}
+        placeholder="Please enter your email"
         disabled={isPending}
-        placeholder={!isPending ? 'Please enter your email' : ''}
+        error={errors.email?.message || serverError.email}
       />
       <Input
         label="Password"
-        name="password"
+        {...register('password')}
+        placeholder="Please enter your password"
         isPassword
-        defaultValue={state?.payloads?.password}
-        error={state?.errors?.password?.errors.at(0)}
         disabled={isPending}
-        placeholder={!isPending ? 'Please enter your password' : ''}
+        error={errors.password?.message || serverError.password}
       />
       <Button color="black" disabled={isPending} type="submit" className="mt-3">
         {!isPending ? (

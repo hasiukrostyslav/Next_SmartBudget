@@ -9,7 +9,6 @@ export default function ForgotPasswordForm() {
       <Input
         label="Email address"
         name="email"
-        defaultValue=""
         placeholder="Please enter your email"
       />
       <Button color="black" type="submit">

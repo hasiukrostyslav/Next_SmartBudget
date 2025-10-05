@@ -1,31 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import Icon from './Icon';
 import { inputIcons } from '@/_lib/constants';
+import { setBorderColor } from '@/_lib/utils';
+import Icon from './Icon';
 
 interface InputProps {
   name: 'name' | 'email' | 'password';
   label?: string;
   error?: string;
   isPassword?: boolean;
-  defaultValue: string | undefined;
   disabled?: boolean;
   placeholder?: string;
-}
-
-function setBorderColor({
-  error,
-  disabled,
-}: Pick<InputProps, 'error' | 'disabled'>) {
-  const styles = {
-    default: 'border-slate-300 dark:border-slate-400',
-    error: 'border-red-300 dark:border-red-400',
-    disabled: 'border-slate-200 dark:border-slate-500',
-  };
-  if (error) return styles.error;
-  if (disabled) return styles.disabled;
-  return styles.default;
+  ref?: React.Ref<HTMLInputElement>;
 }
 
 export default function Input({
@@ -33,9 +20,10 @@ export default function Input({
   label,
   error,
   isPassword,
-  defaultValue,
   disabled,
   placeholder,
+  ref,
+  ...props
 }: InputProps) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -52,8 +40,9 @@ export default function Input({
         {label}
       </label>
       <input
+        {...props}
+        ref={ref}
         disabled={disabled}
-        defaultValue={defaultValue}
         placeholder={placeholder}
         type={isPassword && !isVisible ? 'password' : 'text'}
         name={name}
