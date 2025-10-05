@@ -27,7 +27,6 @@ export default function LoginForm() {
       <Input
         label="Email address"
         name="email"
-        defaultValue={state?.payloads?.email}
         error={state?.errors?.email?.errors.at(0)}
         disabled={isPending}
         placeholder={!isPending ? 'Please enter your email' : ''}
@@ -36,7 +35,6 @@ export default function LoginForm() {
         label="Password"
         name="password"
         isPassword
-        defaultValue={state?.payloads?.password}
         error={state?.errors?.password?.errors.at(0)}
         disabled={isPending}
         placeholder={!isPending ? 'Please enter your password' : ''}
