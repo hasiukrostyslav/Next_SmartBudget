@@ -38,17 +38,17 @@ export default function LoginForm() {
 
     startTransition(async () => {
       const result = await login(data);
-      if (result.error) {
+      if (result && result.error) {
         setServerError({
           email: result.error?.email?.errors.at(0),
           password: result.error?.password?.errors.at(0),
         });
         return;
       }
-
-      reset();
-      toast(<Toast type="login" role="success" />, toastOptions);
     });
+
+    reset();
+    toast(<Toast type="login" role="success" />, toastOptions);
   }
 
   return (

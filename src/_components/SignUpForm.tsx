@@ -37,7 +37,7 @@ export default function SignUpForm() {
 
     startTransition(async () => {
       const result = await signUp(data);
-      if (result.error) {
+      if (result && result.error) {
         setServerError({
           name: result.error?.name?.errors.at(0),
           email: result.error?.email?.errors.at(0),
@@ -45,10 +45,10 @@ export default function SignUpForm() {
         });
         return;
       }
-
-      reset();
-      toast(<Toast type="signUp" role="success" />, toastOptions);
     });
+
+    reset();
+    toast(<Toast type="signUp" role="success" />, toastOptions);
   }
 
   return (
