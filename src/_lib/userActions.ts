@@ -3,7 +3,7 @@
 import z from 'zod';
 import { redirect } from 'next/navigation';
 import { prisma } from './db';
-import { SignInSchema, SignUpSchema } from './zod';
+import { SignInSchema, SignUpSchema } from './schema';
 
 type SignUpFormData = z.infer<typeof SignUpSchema>;
 type SignInFormData = z.infer<typeof SignInSchema>;

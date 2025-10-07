@@ -60,14 +60,14 @@ export default function LoginForm() {
       <Input
         label="Email address"
         {...register('email')}
-        placeholder={!isPending ? 'Please enter your email' : ''}
+        placeholder="Please enter your email"
         disabled={isPending}
         error={errors.email?.message || serverError.email}
       />
       <Input
         label="Password"
         {...register('password')}
-        placeholder={!isPending ? 'Please enter your password' : ''}
+        placeholder="Please enter your password"
         isPassword
         disabled={isPending}
         error={errors.password?.message || serverError.password}
