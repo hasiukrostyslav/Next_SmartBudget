@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { inputIcons } from '@/_lib/constants';
-import { setBorderColor } from '@/_lib/utils';
+import { inputIcons } from '@/lib/constants';
+import { setBorderColor } from '@/lib/utils';
 import Icon from './Icon';
 
 interface InputProps {

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useTheme } from '@/_hooks/useTheme';
+import { useTheme } from '@/hooks/useTheme';
 
 export default function Logo() {
   const { theme } = useTheme();

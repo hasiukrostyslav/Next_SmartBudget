@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useTheme } from '@/_hooks/useTheme';
+import { useTheme } from '@/hooks/useTheme';
 import Icon from './Icon';
 
 export default function ThemeButton({ className }: { className?: string }) {

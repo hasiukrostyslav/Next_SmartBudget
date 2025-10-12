@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import AuthFormContainer from '@/_components/AuthFormContainer';
-import ForgotPasswordForm from '@/_components/ForgotPasswordForm';
+import AuthFormContainer from '@/components/layouts/AuthFormContainer';
+import ForgotPasswordForm from '@/components/forms/ForgotPasswordForm';
 
 export const metadata: Metadata = {
   title: 'Forgot Password',

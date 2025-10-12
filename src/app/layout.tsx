@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import './globals.css';
 import { ToastContainer } from 'react-toastify';
-import ThemeProvider from '@/_context/ThemeContext';
+import ThemeProvider from '@/context/ThemeContext';
 
 const roboto = Roboto({ subsets: ['latin'] });
 

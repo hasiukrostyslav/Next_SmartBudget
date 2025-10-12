@@ -5,13 +5,13 @@ import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
-import { signUp } from '@/_lib/userActions';
-import { SignUpSchema } from '@/_lib/schema';
-import { toastOptions } from '@/_lib/constants';
-import Button from './Button';
-import Input from './Input';
-import Toast from './Toast';
-import Icon from './Icon';
+import { signUp } from '@/lib/userActions';
+import { SignUpSchema } from '@/lib/schema';
+import { toastOptions } from '@/lib/constants';
+import Button from '../ui/Button';
+import Input from '../ui/Input';
+import Toast from '../ui/Toast';
+import Icon from '../ui/Icon';
 
 type FormInputs = z.infer<typeof SignUpSchema>;
 
