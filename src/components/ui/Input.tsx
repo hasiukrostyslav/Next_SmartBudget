@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { inputIcons } from '@/lib/constants';
-import { setBorderColor } from '@/lib/utils';
+import { setBorderColor } from '@/lib/utils/ui';
 import Icon from './Icon';
 
 interface InputProps {

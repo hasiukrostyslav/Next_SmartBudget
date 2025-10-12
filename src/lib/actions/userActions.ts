@@ -2,9 +2,9 @@
 
 import z from 'zod';
 import { redirect } from 'next/navigation';
-import { prisma } from './db';
-import { SignInSchema, SignUpSchema } from './schema';
 import { cookies } from 'next/headers';
+import { prisma } from '../db/db';
+import { SignInSchema, SignUpSchema } from '../schemas/schema';
 
 type SignUpFormData = z.infer<typeof SignUpSchema>;
 type SignInFormData = z.infer<typeof SignInSchema>;
