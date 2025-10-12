@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import AuthFormContainer from '@/_components/AuthFormContainer';
-import SignUpForm from '@/_components/SignUpForm';
-import AuthLink from '@/_components/AuthLink';
+import AuthFormContainer from '@/components/layouts/AuthFormContainer';
+import SignUpForm from '@/components/forms/SignUpForm';
+import AuthLink from '@/components/ui/AuthLink';
 
 export const metadata: Metadata = {
   title: 'Sign Up',

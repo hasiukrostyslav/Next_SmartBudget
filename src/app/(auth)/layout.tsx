@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import ThemeProvider from '@/_context/ThemeContext';
+import ThemeProvider from '@/context/ThemeContext';
 
 export default function AuthLayout({
   children,

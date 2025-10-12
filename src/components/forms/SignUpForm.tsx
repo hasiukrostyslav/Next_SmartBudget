@@ -4,19 +4,15 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'react-toastify';
-import { login } from '@/_lib/userActions';
-import { SignInSchema } from '@/_lib/schema';
-import { toastOptions } from '@/_lib/constants';
-import AuthLink from './AuthLink';
-import Button from './Button';
-import Input from './Input';
-import Toast from './Toast';
-import Icon from './Icon';
+import { signUp } from '@/lib/userActions';
+import { SignUpSchema } from '@/lib/schema';
+import Button from '../ui/Button';
+import Input from '../ui/Input';
+import Icon from '../ui/Icon';
 
-type FormInputs = z.infer<typeof SignInSchema>;
+type FormInputs = z.infer<typeof SignUpSchema>;
 
-export default function LoginForm() {
+export default function SignUpForm() {
   const [isPending, startTransition] = useTransition();
   const [serverError, setServerError] = useState<{
     name?: string;
@@ -27,28 +23,24 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(SignInSchema),
+    resolver: zodResolver(SignUpSchema),
   });
 
   async function onSubmit(data: FormInputs) {
     setServerError({});
 
     startTransition(async () => {
-      const result = await login(data);
-      if (result && result.error) {
+      const failed = await signUp(data);
+      if (failed) {
         setServerError({
-          email: result.error?.email?.errors.at(0),
-          password: result.error?.password?.errors.at(0),
+          name: failed.errors?.name?.at(0),
+          email: failed.errors?.email?.at(0),
+          password: failed.errors?.password?.at(0),
         });
-        return;
       }
     });
-
-    reset();
-    toast(<Toast type="login" role="success" />, toastOptions);
   }
 
   return (
@@ -57,6 +49,13 @@ export default function LoginForm() {
       autoComplete="off"
       className="mt-6 flex w-full flex-col gap-2"
     >
+      <Input
+        label="Full name"
+        {...register('name')}
+        placeholder="Please enter your full name"
+        disabled={isPending}
+        error={errors.name?.message || serverError.name}
+      />
       <Input
         label="Email address"
         {...register('email')}
@@ -72,12 +71,9 @@ export default function LoginForm() {
         disabled={isPending}
         error={errors.password?.message || serverError.password}
       />
-      <AuthLink href="/auth/forgot-password" className="mb-3 self-end">
-        Forgot password
-      </AuthLink>
-      <Button color="black" disabled={isPending} type="submit">
+      <Button color="black" disabled={isPending} type="submit" className="mt-3">
         {!isPending ? (
-          'Sign In'
+          'Sign Up'
         ) : (
           <span className="flex items-center justify-center gap-2">
             <Icon name="loader-circle" className="animate-spin" />
