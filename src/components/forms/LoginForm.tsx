@@ -31,7 +31,7 @@ export default function LoginForm() {
 
     startTransition(async () => {
       const result = await login(data);
-      if (result.error) {
+      if (result?.error) {
         setServerError(result.error);
       }
     });

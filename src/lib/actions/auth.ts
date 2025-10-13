@@ -9,7 +9,6 @@ import { getUserByEmail } from '../db/user';
 import { signIn } from '@/auth/auth';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { AuthError } from 'next-auth';
-import { error } from 'console';
 
 type SignUpFormData = z.infer<typeof SignUpSchema>;
 type SignInFormData = z.infer<typeof SignInSchema>;
@@ -71,7 +70,6 @@ export async function login(formData: SignInFormData) {
       }
       return { error: 'Something went wrong' };
     }
+    throw error;
   }
-
-  throw error;
 }
