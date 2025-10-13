@@ -4,13 +4,10 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'react-toastify';
 import { signUp } from '@/lib/actions/userActions';
 import { SignUpSchema } from '@/lib/schemas/schema';
-import { toastOptions } from '@/lib/constants';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
-import Toast from '../ui/Toast';
 import Icon from '../ui/Icon';
 
 type FormInputs = z.infer<typeof SignUpSchema>;
@@ -26,7 +23,6 @@ export default function SignUpForm() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(SignUpSchema),
@@ -36,19 +32,15 @@ export default function SignUpForm() {
     setServerError({});
 
     startTransition(async () => {
-      const result = await signUp(data);
-      if (result && result.error) {
+      const failed = await signUp(data);
+      if (failed) {
         setServerError({
-          name: result.error?.name?.errors.at(0),
-          email: result.error?.email?.errors.at(0),
-          password: result.error?.password?.errors.at(0),
+          name: failed.errors?.name?.at(0),
+          email: failed.errors?.email?.at(0),
+          password: failed.errors?.password?.at(0),
         });
-        return;
       }
     });
-
-    reset();
-    toast(<Toast type="signUp" role="success" />, toastOptions);
   }
 
   return (

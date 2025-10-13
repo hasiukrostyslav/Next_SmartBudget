@@ -17,3 +17,5 @@ export const inputIcons: InputIcons = {
   email: 'mail',
   password: 'lock',
 };
+
+export const saltRounds = 10;
