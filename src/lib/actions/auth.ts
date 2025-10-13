@@ -2,8 +2,6 @@
 
 import z from 'zod';
 import bcrypt from 'bcryptjs';
-import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
 import { db } from '../db/db';
 import { SignInSchema, SignUpSchema } from '../schemas/schema';
 import { saltRounds } from '../constants';
@@ -22,7 +20,7 @@ export async function signUp(formData: SignUpFormData) {
 
   if (!validatedFields.success) {
     return {
-      errors: z.flattenError(validatedFields.error).fieldErrors,
+      error: 'Invalid credentials',
     };
   }
 
@@ -33,7 +31,7 @@ export async function signUp(formData: SignUpFormData) {
 
   if (existingUser)
     return {
-      errors: { email: ['An account with this email already exists.'] },
+      error: 'An account with this email already exists.',
     };
 
   // Hash password
@@ -47,16 +45,6 @@ export async function signUp(formData: SignUpFormData) {
       password: hashedPassword,
     },
   });
-
-  // Set cookie for Toast component
-  const cookieStore = cookies();
-  (await cookieStore).set({
-    name: 'signup_success',
-    value: '1',
-    maxAge: 1,
-  });
-
-  // redirect('/dashboard');
 }
 
 export async function login(formData: SignInFormData) {
@@ -64,7 +52,7 @@ export async function login(formData: SignInFormData) {
 
   if (!validatedFields.success) {
     return {
-      error: z.treeifyError(validatedFields.error).properties,
+      error: 'Invalid email or password!',
     };
   }
 
@@ -78,12 +66,10 @@ export async function login(formData: SignInFormData) {
     });
   } catch (error) {
     if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return { error: 'Invalid credential!' };
-        default:
-          return { error: 'Something went wrong' };
+      if (error.type === 'CredentialsSignin') {
+        return { error: 'Invalid email or password!' };
       }
+      return { error: 'Something went wrong' };
     }
   }
 
