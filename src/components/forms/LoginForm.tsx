@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
-import { login } from '@/lib/actions/userActions';
+import { login } from '@/lib/actions/auth';
 import { SignInSchema } from '@/lib/schemas/schema';
 import { toastOptions } from '@/lib/constants';
 import AuthLink from '../ui/AuthLink';
