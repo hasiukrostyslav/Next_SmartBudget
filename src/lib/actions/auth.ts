@@ -1,10 +1,17 @@
 'use server';
 
 import z from 'zod';
+import bcrypt from 'bcryptjs';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import { prisma } from '../db/db';
+import { db } from '../db/db';
 import { SignInSchema, SignUpSchema } from '../schemas/schema';
+import { saltRounds } from '../constants';
+import { getUserByEmail } from '../db/user';
+import { signIn } from '@/auth/auth';
+import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
+import { AuthError } from 'next-auth';
+import { error } from 'console';
 
 type SignUpFormData = z.infer<typeof SignUpSchema>;
 type SignInFormData = z.infer<typeof SignInSchema>;
@@ -19,23 +26,25 @@ export async function signUp(formData: SignUpFormData) {
     };
   }
 
-  // Checking if account with provided email exist
-  const existUser = await prisma.users.findUnique({
-    where: { email: validatedFields.data.email },
-    select: { email: true },
-  });
+  const { email, password, name } = validatedFields.data;
 
-  if (existUser)
+  // Checking if account with provided email exist
+  const existingUser = await getUserByEmail(email);
+
+  if (existingUser)
     return {
       errors: { email: ['An account with this email already exists.'] },
     };
 
+  // Hash password
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+
   // Create new user
-  await prisma.users.create({
+  await db.user.create({
     data: {
-      user_name: validatedFields.data.name,
-      email: validatedFields.data.email,
-      password: validatedFields.data.password,
+      name,
+      email,
+      password: hashedPassword,
     },
   });
 
@@ -47,7 +56,7 @@ export async function signUp(formData: SignUpFormData) {
     maxAge: 1,
   });
 
-  redirect('/dashboard');
+  // redirect('/dashboard');
 }
 
 export async function login(formData: SignInFormData) {
@@ -59,11 +68,24 @@ export async function login(formData: SignInFormData) {
     };
   }
 
-  const user = await prisma.users.findUnique({
-    where: {
-      email: validatedFields.data.email,
-    },
-  });
+  const { email, password } = validatedFields.data;
 
-  redirect('/dashboard');
+  try {
+    await signIn('credentials', {
+      email,
+      password,
+      redirectTo: DEFAULT_LOGIN_REDIRECT,
+    });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return { error: 'Invalid credential!' };
+        default:
+          return { error: 'Something went wrong' };
+      }
+    }
+  }
+
+  throw error;
 }
