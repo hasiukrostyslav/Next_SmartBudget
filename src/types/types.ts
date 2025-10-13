@@ -8,9 +8,11 @@ export type IconName =
   | 'sun'
   | 'moon'
   | 'check'
+  | 'circle-check-big'
   | 'x'
   | 'info'
   | 'circle-alert'
+  | 'triangle-alert'
   | 'loader-circle';
 
 // Toast Component types
