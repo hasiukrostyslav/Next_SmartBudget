@@ -17,14 +17,15 @@ export default auth(async function middleware(req) {
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiRoute);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  const isBaseRoute = nextUrl.pathname === '/';
 
   if (isApiAuthRoute) return NextResponse.next();
 
-  if (isAuthRoute && isLoggedIn) {
+  if ((isAuthRoute && isLoggedIn) || (isLoggedIn && isBaseRoute)) {
     return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
   }
 
-  if (!isLoggedIn && !isAuthRoute && !isPublicRoute) {
+  if (!isLoggedIn && !isAuthRoute) {
     return NextResponse.redirect(new URL('/auth/login', nextUrl));
   }
 
