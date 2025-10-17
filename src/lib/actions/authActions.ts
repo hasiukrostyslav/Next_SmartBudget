@@ -6,9 +6,7 @@ import { db } from '../db/db';
 import { SignInSchema, SignUpSchema } from '../schemas/schema';
 import { saltRounds } from '../constants';
 import { getUserByEmail } from '../db/user';
-import { signIn } from '@/auth/auth';
-import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
-import { AuthError } from 'next-auth';
+import { signInUser } from '@/auth/utils';
 
 type SignUpFormData = z.infer<typeof SignUpSchema>;
 type SignInFormData = z.infer<typeof SignInSchema>;
@@ -44,9 +42,14 @@ export async function signUp(formData: SignUpFormData) {
       password: hashedPassword,
     },
   });
+
+  // Sign In
+  const result = await signInUser(email, password);
+  if (!result.success) return result;
 }
 
 export async function login(formData: SignInFormData) {
+  // Form data validation
   const validatedFields = SignInSchema.safeParse(formData);
 
   if (!validatedFields.success) {
@@ -57,19 +60,7 @@ export async function login(formData: SignInFormData) {
 
   const { email, password } = validatedFields.data;
 
-  try {
-    await signIn('credentials', {
-      email,
-      password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
-    });
-  } catch (error) {
-    if (error instanceof AuthError) {
-      if (error.type === 'CredentialsSignin') {
-        return { error: 'Invalid email or password!' };
-      }
-      return { error: 'Something went wrong' };
-    }
-    throw error;
-  }
+  // Sign In
+  const result = await signInUser(email, password);
+  if (!result.success) return result;
 }
