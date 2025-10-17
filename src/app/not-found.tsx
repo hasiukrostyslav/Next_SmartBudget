@@ -1,11 +1,11 @@
-import Error from '@/_components/Error';
-import ThemeButton from '@/_components/ThemeButton';
+import Error from '@/components/ui/Error';
+import ThemeButton from '@/components/ui/ThemeButton';
 
 export default function NotFound() {
   return (
-    <section className='w-5/12 flex justify-center items-center relative'>
-      <Error type='route' />
-      <ThemeButton className='absolute bottom-5 right-10' />
+    <section className="relative flex w-5/12 items-center justify-center">
+      <Error type="route" />
+      <ThemeButton className="absolute right-10 bottom-5" />
     </section>
   );
 }

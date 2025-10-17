@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import AuthForm from '@/_components/AuthForm';
-import SignUpForm from '@/_components/SignUpForm';
-import AuthLink from '@/_components/AuthLink';
+import AuthFormContainer from '@/components/layouts/AuthFormContainer';
+import SignUpForm from '@/components/forms/SignUpForm';
+import AuthLink from '@/components/ui/AuthLink';
 
 export const metadata: Metadata = {
   title: 'Sign Up',
@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 
 export default function SignUpPage() {
   return (
-    <AuthForm heading='Create an account'>
+    <AuthFormContainer heading="Create an account">
       <SignUpForm />
-      <p className='text-xs mt-3 text-slate-400'>
-        Already have an account? <AuthLink href='/auth/login'>Sign In</AuthLink>
+      <p className="mt-3 text-xs text-slate-400">
+        Already have an account? <AuthLink href="/auth/login">Sign In</AuthLink>
       </p>
-    </AuthForm>
+    </AuthFormContainer>
   );
 }

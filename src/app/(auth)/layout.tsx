@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import ThemeProvider from '@/_context/ThemeContext';
+import ThemeProvider from '@/context/ThemeContext';
 
 export default function AuthLayout({
   children,
@@ -7,12 +7,12 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section className='flex h-screen w-screen'>
-      <figure className='relative w-7/12'>
+    <section className="flex h-screen w-screen">
+      <figure className="relative w-7/12">
         <Image
-          src='/background.jpg'
-          alt='background image'
-          sizes='(max-width: 768px) 50vw, (max-width: 1200px) 70vw, 100vw'
+          src="/background.jpg"
+          alt="background image"
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 70vw, 100vw"
           quality={100}
           fill
           priority
