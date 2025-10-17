@@ -4,21 +4,18 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signUp } from '@/lib/actions/auth';
+import { signUp } from '@/lib/actions/authActions';
 import { SignUpSchema } from '@/lib/schemas/schema';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 import Icon from '../ui/Icon';
+import FormError from '../ui/FormError';
 
 type FormInputs = z.infer<typeof SignUpSchema>;
 
 export default function SignUpForm() {
   const [isPending, startTransition] = useTransition();
-  const [serverError, setServerError] = useState<{
-    name?: string;
-    email?: string;
-    password?: string;
-  }>({});
+  const [serverError, setServerError] = useState<string>();
 
   const {
     register,
@@ -29,16 +26,12 @@ export default function SignUpForm() {
   });
 
   async function onSubmit(data: FormInputs) {
-    setServerError({});
+    setServerError(undefined);
 
     startTransition(async () => {
-      const failed = await signUp(data);
-      if (failed) {
-        setServerError({
-          name: failed.errors?.name?.at(0),
-          email: failed.errors?.email?.at(0),
-          password: failed.errors?.password?.at(0),
-        });
+      const result = await signUp(data);
+      if (result?.error) {
+        setServerError(result.error);
       }
     });
   }
@@ -54,14 +47,14 @@ export default function SignUpForm() {
         {...register('name')}
         placeholder="Please enter your full name"
         disabled={isPending}
-        error={errors.name?.message || serverError.name}
+        error={errors.name?.message}
       />
       <Input
         label="Email address"
         {...register('email')}
         placeholder="Please enter your email"
         disabled={isPending}
-        error={errors.email?.message || serverError.email}
+        error={errors.email?.message}
       />
       <Input
         label="Password"
@@ -69,8 +62,9 @@ export default function SignUpForm() {
         placeholder="Please enter your password"
         isPassword
         disabled={isPending}
-        error={errors.password?.message || serverError.password}
+        error={errors.password?.message}
       />
+      {serverError && <FormError message={serverError} />}
       <Button color="black" disabled={isPending} type="submit" className="mt-3">
         {!isPending ? (
           'Sign Up'

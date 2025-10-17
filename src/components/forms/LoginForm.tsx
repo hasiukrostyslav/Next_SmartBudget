@@ -4,51 +4,37 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'react-toastify';
-import { login } from '@/lib/actions/auth';
+import { login } from '@/lib/actions/authActions';
 import { SignInSchema } from '@/lib/schemas/schema';
-import { toastOptions } from '@/lib/constants';
 import AuthLink from '../ui/AuthLink';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
-import Toast from '../ui/Toast';
 import Icon from '../ui/Icon';
+import FormError from '../ui/FormError';
 
 type FormInputs = z.infer<typeof SignInSchema>;
 
 export default function LoginForm() {
   const [isPending, startTransition] = useTransition();
-  const [serverError, setServerError] = useState<{
-    name?: string;
-    email?: string;
-    password?: string;
-  }>({});
+  const [serverError, setServerError] = useState<string>();
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(SignInSchema),
   });
 
   async function onSubmit(data: FormInputs) {
-    setServerError({});
+    setServerError(undefined);
 
     startTransition(async () => {
       const result = await login(data);
-      if (result && result.error) {
-        setServerError({
-          email: result.error?.email?.errors.at(0),
-          password: result.error?.password?.errors.at(0),
-        });
-        return;
+      if (result?.error) {
+        setServerError(result.error);
       }
     });
-
-    reset();
-    toast(<Toast type="login" role="success" />, toastOptions);
   }
 
   return (
@@ -62,7 +48,7 @@ export default function LoginForm() {
         {...register('email')}
         placeholder="Please enter your email"
         disabled={isPending}
-        error={errors.email?.message || serverError.email}
+        error={errors.email?.message}
       />
       <Input
         label="Password"
@@ -70,11 +56,12 @@ export default function LoginForm() {
         placeholder="Please enter your password"
         isPassword
         disabled={isPending}
-        error={errors.password?.message || serverError.password}
+        error={errors.password?.message}
       />
       <AuthLink href="/auth/forgot-password" className="mb-3 self-end">
         Forgot password
       </AuthLink>
+      {serverError && <FormError message={serverError} />}
       <Button color="black" disabled={isPending} type="submit">
         {!isPending ? (
           'Sign In'
