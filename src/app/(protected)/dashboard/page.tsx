@@ -8,7 +8,7 @@ export default async function page() {
       <form
         action={async () => {
           'use server';
-          await signOut();
+          await signOut({ redirectTo: '/auth/login' });
         }}
       >
         <h1 className="text-3xl">Hello {session?.user?.name}</h1>
