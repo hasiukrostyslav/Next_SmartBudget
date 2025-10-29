@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useTheme } from '@/hooks/useTheme';
 
-export default function Logo() {
+export default function Logo({ className }: { className?: string }) {
   const { theme } = useTheme();
   return (
     <Image
@@ -11,7 +11,7 @@ export default function Logo() {
       alt="Logo"
       width={404}
       height={92}
-      className="h-auto w-[300px]"
+      className={`h-auto ${className}`}
     />
   );
 }

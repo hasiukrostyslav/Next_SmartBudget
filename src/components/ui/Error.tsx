@@ -8,7 +8,7 @@ const errors = {
   },
   route: {
     code: 404,
-    header: "Sorry, we didn't find any match!",
+    header: 'Oops! This page doesn’t exist!',
   },
   server: {
     code: 500,
@@ -22,18 +22,18 @@ interface ErrorProps {
 
 export default function Error({ type }: ErrorProps) {
   return (
-    <figure className="flex flex-col items-center justify-center gap-6">
+    <figure className="flex flex-col items-center justify-center gap-8">
       <Image
-        className="h-[250] w-auto"
+        className="h-[350] w-[350]"
         alt="Error"
         src={`/error-${errors[type].code}.png`}
-        width={250}
-        height={250}
+        width={350}
+        height={350}
       />
-      <figcaption className="mt-4 text-2xl font-bold">
+      <figcaption className="mt-4 text-3xl leading-snug font-medium tracking-wider">
         {errors[type].header}
       </figcaption>
-      <ButtonLink href="#">Return Home</ButtonLink>
+      <ButtonLink href="/">Back to Home</ButtonLink>
     </figure>
   );
 }

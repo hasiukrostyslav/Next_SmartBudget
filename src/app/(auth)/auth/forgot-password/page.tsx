@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import AuthFormContainer from '@/components/layouts/AuthFormContainer';
+import AuthFormContainer from '@/components/containers/AuthFormContainer';
 import ForgotPasswordForm from '@/components/forms/ForgotPasswordForm';
 
 export const metadata: Metadata = {
