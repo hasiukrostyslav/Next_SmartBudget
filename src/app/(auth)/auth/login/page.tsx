@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import AuthFormContainer from '@/components/containers/AuthFormContainer';
+import AuthFormContainer from '@/components/layouts/AuthFormContainer';
 import LoginForm from '@/components/forms/LoginForm';
 import AuthLink from '@/components/ui/AuthLink';
 
