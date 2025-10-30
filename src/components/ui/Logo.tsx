@@ -3,11 +3,21 @@
 import Image from 'next/image';
 import { useTheme } from '@/hooks/useTheme';
 
-export default function Logo({ className }: { className?: string }) {
+interface LogoProps {
+  type: 'sm' | 'lg';
+  className?: string;
+}
+
+export default function Logo({ className, type }: LogoProps) {
   const { theme } = useTheme();
+
   return (
     <Image
-      src={theme === 'light' ? '/logo-dark.svg' : '/logo-light.svg'}
+      src={
+        type === 'sm'
+          ? '/logo-sm.svg'
+          : `/logo-${theme === 'light' ? 'dark' : 'light'}.svg`
+      }
       alt="Logo"
       width={404}
       height={92}
