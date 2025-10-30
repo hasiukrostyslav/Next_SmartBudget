@@ -1,15 +1,3 @@
-@import 'tailwindcss';
-
-@custom-variant dark (&:where(.dark, .dark *));
-
-button {
-  cursor: pointer;
-
-  &:disabled {
-    cursor: default;
-  }
-}
-
 @layer components {
   .outline-round-sm {
     border-radius: 3px;
@@ -53,25 +41,5 @@ button {
     @apply focus-visible:outline-2;
     @apply focus-visible:-outline-offset-2;
     @apply focus-visible:outline-blue-500;
-  }
-}
-
-@theme {
-  --animate-wiggle: wiggle 2s ease-in-out;
-  @keyframes wiggle {
-    0%,
-    100% {
-      transform: rotate(0deg);
-    }
-    50% {
-      transform: rotate(360deg);
-    }
-  }
-
-  --animate-spin: spin 1s linear infinite;
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
   }
 }
