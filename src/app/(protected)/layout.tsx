@@ -9,8 +9,8 @@ export default function DashboardLayout({
 }>) {
   return (
     <section className="grid h-screen grid-cols-14 grid-rows-[auto_1fr_auto]">
-      <Header />
       <Sidebar />
+      <Header />
       {children}
       <Footer />
     </section>

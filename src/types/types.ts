@@ -5,6 +5,7 @@ export type IconName =
   | 'mail'
   | 'lock'
   | 'user'
+  | 'user-round'
   | 'sun'
   | 'moon'
   | 'check'
@@ -13,7 +14,21 @@ export type IconName =
   | 'info'
   | 'circle-alert'
   | 'triangle-alert'
-  | 'loader-circle';
+  | 'loader-circle'
+  | 'layout-grid'
+  | 'credit-card'
+  | 'arrow-left-right'
+  | 'wallet-cards'
+  | 'piggy-bank'
+  | 'percent'
+  | 'banknote-arrow-up'
+  | 'settings'
+  | 'chevrons-right'
+  | 'chevrons-left'
+  | 'search'
+  | 'bell'
+  | 'message-circle-more'
+  | 'log-out';
 
 // Toast Component types
 interface ToastStyleProps<I extends IconName> {
