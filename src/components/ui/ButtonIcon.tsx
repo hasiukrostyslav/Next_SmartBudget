@@ -7,6 +7,7 @@ interface ButtonIconProps {
   size: number;
   shape: 'round' | 'square';
   variant: 'solid' | 'outline';
+  className?: string;
 }
 
 export default function ButtonIcon({
@@ -14,6 +15,7 @@ export default function ButtonIcon({
   size,
   shape,
   variant,
+  className,
 }: ButtonIconProps) {
   return (
     <button
@@ -25,6 +27,7 @@ export default function ButtonIcon({
         variant === 'solid'
           ? 'bg-blue-200/45 text-slate-500 dark:bg-slate-600 dark:text-slate-400'
           : '',
+        className,
       )}
     >
       <Icon name={iconName} size={size} />

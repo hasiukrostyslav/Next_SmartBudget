@@ -5,7 +5,7 @@ import {
   apiRoute,
   authRoutes,
   DEFAULT_LOGIN_REDIRECT,
-  publicRoutes,
+  // publicRoutes,
 } from './routes';
 
 const { auth } = NextAuth(authConfig);
@@ -15,7 +15,7 @@ export default auth(async function middleware(req) {
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiRoute);
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+  // const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   const isBaseRoute = nextUrl.pathname === '/';
 
