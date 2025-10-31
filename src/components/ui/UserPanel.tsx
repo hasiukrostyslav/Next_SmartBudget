@@ -1,7 +1,11 @@
+import { auth } from '@/auth/auth';
 import SignOutForm from '../forms/SignOutForm';
 import ButtonIcon from './ButtonIcon';
 
-export default function UserPanel() {
+export default async function UserPanel() {
+  const session = await auth();
+  const userName = session?.user?.name;
+
   return (
     <div className="ml-10 flex items-center">
       <div className="mr-6 flex items-center gap-3">
@@ -14,7 +18,7 @@ export default function UserPanel() {
         <ButtonIcon size={16} iconName="bell" shape="round" variant="solid" />
       </div>
       <div className="mr-4 flex items-center gap-2">
-        <span>Rostyslav Hasiuk</span>
+        <span>{userName}</span>
         <ButtonIcon
           size={18}
           iconName="user-round"
