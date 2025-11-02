@@ -12,16 +12,27 @@ export default function Logo({ className, type }: LogoProps) {
   const { theme } = useTheme();
 
   return (
-    <Image
-      src={
-        type === 'sm'
-          ? '/logo-sm.svg'
-          : `/logo-${theme === 'light' ? 'dark' : 'light'}.svg`
-      }
-      alt="Logo"
-      width={404}
-      height={92}
-      className={`h-auto ${className}`}
-    />
+    <>
+      {type === 'lg' && (
+        <Image
+          src={theme === 'light' ? '/logo-dark.svg' : '/logo-light.svg'}
+          alt="Logo"
+          width={404}
+          height={92}
+          className={`w-auto ${className}`}
+          priority
+        />
+      )}
+      {type === 'sm' && (
+        <Image
+          src="/logo-sm.svg"
+          alt="Logo"
+          width={404}
+          height={92}
+          className={`w-auto ${className}`}
+          priority
+        />
+      )}
+    </>
   );
 }
