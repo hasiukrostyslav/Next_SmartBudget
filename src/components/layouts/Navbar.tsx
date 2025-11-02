@@ -1,34 +1,39 @@
+import { navLinks } from '@/lib/constants';
 import NavLink from '../ui/NavLink';
 
-export default function Navbar() {
+interface NavbarProps {
+  isCollapsed: boolean;
+}
+
+export default function Navbar({ isCollapsed }: NavbarProps) {
   return (
     <nav className="mt-4 flex flex-col gap-3">
-      <NavLink iconName="layout-grid" href="/dashboard" text="Dashboard" />
-      <NavLink
-        iconName="arrow-left-right"
-        href="/dashboard/transactions"
-        text="Transactions"
-      />
-      <NavLink
-        iconName="credit-card"
-        href="/dashboard/payments"
-        text="Payments"
-      />
-      <NavLink iconName="wallet-cards" href="/dashboard/cards" text="Cards" />
-      <NavLink iconName="piggy-bank" href="/dashboard/savings" text="Savings" />
-      <NavLink iconName="percent" href="/dashboard/loans" text="Loans" />
-      <NavLink
-        iconName="banknote-arrow-up"
-        href="/dashboard/deposits"
-        text="Deposits"
-      />
+      {navLinks
+        .filter((el) => el.type === 'main')
+        .map((el) => (
+          <NavLink
+            key={el.page}
+            iconName={el.icon}
+            href={
+              el.page === 'dashboard' ? '/dashboard' : `/dashboard/${el.page}`
+            }
+            text={el.page.replace(el.page[0], el.page[0].toUpperCase())}
+            isCollapsed={isCollapsed}
+          />
+        ))}
+
       <div className="flex flex-col gap-3 border-t-2 border-blue-400 pt-3">
-        <NavLink iconName="user" href="/dashboard/profile" text="Profile" />
-        <NavLink
-          iconName="settings"
-          href="/dashboard/settings"
-          text="Settings"
-        />
+        {navLinks
+          .filter((el) => el.type === 'setting')
+          .map((el) => (
+            <NavLink
+              key={el.page}
+              iconName={el.icon}
+              href={`/dashboard/${el.page}`}
+              text={el.page.replace(el.page[0], el.page[0].toUpperCase())}
+              isCollapsed={isCollapsed}
+            />
+          ))}
       </div>
     </nav>
   );
