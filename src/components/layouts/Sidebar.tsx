@@ -1,27 +1,23 @@
 'use client';
 
-import Link from 'next/link';
-import clsx from 'clsx';
-import Logo from '../ui/Logo';
-import Navbar from './Navbar';
-import Icon from '../ui/Icon';
 import { useState } from 'react';
+import clsx from 'clsx';
+import Navbar from './Navbar';
 import ButtonIcon from '../ui/ButtonIcon';
+import AnimatedLogo from '../ui/AnimatedLogo';
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+
   return (
     <aside
       className={clsx(
-        'relative row-span-full flex flex-col overflow-hidden px-4 py-2.5 text-nowrap',
+        'relative row-span-full flex flex-col overflow-hidden px-4 py-2.5',
         'border-r-2 border-blue-400 bg-slate-100 transition-all duration-1000 ease-in-out dark:bg-slate-800',
         isCollapsed ? 'w-18' : 'w-58',
       )}
     >
-      <Link className="outline-round-md flex justify-center" href="/">
-        {!isCollapsed && <Logo className="h-10" type="lg" />}
-        {isCollapsed && <Logo className="h-10" type="sm" />}
-      </Link>
+      <AnimatedLogo isCollapsed={isCollapsed} />
       <Navbar isCollapsed={isCollapsed} />
 
       <ButtonIcon
