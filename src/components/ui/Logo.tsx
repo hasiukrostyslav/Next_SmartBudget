@@ -14,14 +14,15 @@ export default function Logo({ className, type }: LogoProps) {
   return (
     <Image
       src={
-        type === 'sm'
-          ? '/logo-sm.svg'
-          : `/logo-${theme === 'light' ? 'dark' : 'light'}.svg`
+        type === 'lg'
+          ? `/logo-${theme === 'light' ? 'dark' : 'light'}.svg`
+          : '/logo-sm.svg'
       }
       alt="Logo"
       width={404}
       height={92}
-      className={`h-auto ${className}`}
+      className={`w-auto ${className}`}
+      priority
     />
   );
 }

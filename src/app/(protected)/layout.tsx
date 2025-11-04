@@ -8,7 +8,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="grid h-screen grid-cols-[210px_1fr] grid-rows-[auto_1fr_auto]">
+    <section className="grid h-screen grid-cols-[auto_1fr] grid-rows-[auto_1fr_auto]">
       <Sidebar />
       <Header />
       {children}

@@ -8,7 +8,7 @@ button {
   cursor: pointer;
   transition-property: hover;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 1000ms;
+  transition-duration: 500ms;
 
   &:disabled {
     cursor: default;

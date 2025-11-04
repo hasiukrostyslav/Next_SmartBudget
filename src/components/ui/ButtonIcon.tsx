@@ -8,6 +8,8 @@ interface ButtonIconProps {
   shape: 'round' | 'square';
   variant: 'solid' | 'outline';
   className?: string;
+  iconClassName?: string;
+  onClick?: () => void;
 }
 
 export default function ButtonIcon({
@@ -16,9 +18,12 @@ export default function ButtonIcon({
   shape,
   variant,
   className,
+  iconClassName,
+  onClick,
 }: ButtonIconProps) {
   return (
     <button
+      onClick={onClick}
       className={clsx(
         'p-1.5',
         shape === 'round'
@@ -30,7 +35,7 @@ export default function ButtonIcon({
         className,
       )}
     >
-      <Icon name={iconName} size={size} />
+      <Icon className={iconClassName} name={iconName} size={size} />
     </button>
   );
 }
