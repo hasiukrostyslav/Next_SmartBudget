@@ -6,6 +6,7 @@ interface themeContextType {
   theme: 'light' | 'dark';
   setLightTheme: () => void;
   setDarkTheme: () => void;
+  toggleTheme: () => void;
 }
 
 export const ThemeContext = createContext<themeContextType | null>(null);
@@ -15,27 +16,23 @@ export default function ThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window === 'undefined') return 'light';
+    return document.documentElement.classList.contains('dark')
+      ? 'dark'
+      : 'light';
+  });
 
   useEffect(() => {
-    if (
-      theme === 'dark' ||
-      (!('theme' in localStorage) &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
-    ) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
+    localStorage.setItem('theme', theme);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
 
   const setLightTheme = () => setTheme('light');
   const setDarkTheme = () => setTheme('dark');
-
+  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
   return (
-    <ThemeContext value={{ theme, setLightTheme, setDarkTheme }}>
+    <ThemeContext value={{ theme, setLightTheme, setDarkTheme, toggleTheme }}>
       {children}
     </ThemeContext>
   );
