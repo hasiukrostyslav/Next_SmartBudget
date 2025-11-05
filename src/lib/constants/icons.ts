@@ -1,6 +1,7 @@
 import {
   Apple,
   ArrowLeftRight,
+  ArrowUp,
   Banknote,
   BanknoteArrowDown,
   BanknoteArrowUp,
@@ -28,6 +29,7 @@ import {
   Flower,
   Gamepad2,
   Globe,
+  HandCoins,
   HandHeart,
   Heart,
   House,
@@ -128,4 +130,6 @@ export const icons = {
   trophy: Trophy,
   'chart-line': ChartLine,
   plus: Plus,
+  'hand-coins': HandCoins,
+  'arrow-up': ArrowUp,
 } as const;

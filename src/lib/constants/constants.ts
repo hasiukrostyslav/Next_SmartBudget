@@ -35,7 +35,7 @@ export const navLinks: {
   { type: 'main', page: 'transactions', icon: 'arrow-left-right' },
   { type: 'main', page: 'payments', icon: 'credit-card' },
   { type: 'main', page: 'cards', icon: 'wallet-cards' },
-  { type: 'main', page: 'savings', icon: 'piggy-bank' },
+  { type: 'main', page: 'savings', icon: 'hand-coins' },
   { type: 'main', page: 'loans', icon: 'percent' },
   { type: 'main', page: 'deposits', icon: 'banknote-arrow-up' },
   { type: 'setting', page: 'profile', icon: 'user' },

@@ -1,5 +1,6 @@
 @layer components {
-  .outline-round-sm {
+  .outline-round-sm,
+  .peer:checked ~ .outline-round-sm-ch {
     border-radius: 3px;
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
