@@ -67,7 +67,7 @@ export default function LoginForm() {
           'Sign In'
         ) : (
           <span className="flex items-center justify-center gap-2">
-            <Icon name="loader-circle" className="animate-spin" />
+            <Icon size={24} name="loader-circle" className="animate-spin" />
             Submit
           </span>
         )}
