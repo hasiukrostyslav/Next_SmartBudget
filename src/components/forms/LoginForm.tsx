@@ -62,7 +62,7 @@ export default function LoginForm() {
         Forgot password
       </AuthLink>
       {serverError && <FormError message={serverError} />}
-      <Button color="black" disabled={isPending} type="submit">
+      <Button size="lg" color="black" disabled={isPending} type="submit">
         {!isPending ? (
           'Sign In'
         ) : (

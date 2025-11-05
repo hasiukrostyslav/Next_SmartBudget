@@ -43,6 +43,7 @@ import {
   Moon,
   Percent,
   PiggyBank,
+  Plus,
   Scissors,
   Search,
   Settings,
@@ -126,4 +127,5 @@ export const icons = {
   zap: Zap,
   trophy: Trophy,
   'chart-line': ChartLine,
+  plus: Plus,
 } as const;
