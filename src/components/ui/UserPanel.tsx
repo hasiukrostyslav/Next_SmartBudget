@@ -24,7 +24,7 @@ export default async function UserPanel() {
           iconName="user-round"
           shape="round"
           variant="outline"
-          className="border-2"
+          className="border-2 border-slate-400"
         />
       </div>
       <SignOutForm />
