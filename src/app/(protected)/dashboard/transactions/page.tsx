@@ -1,6 +1,6 @@
-import TransactionsFilters from '@/components/layouts/TransactionsFilters';
-import TransactionsList from '@/components/layouts/TransactionsList';
-import Pagination from '@/components/layouts/Pagination';
+import TransactionsFilters from '@/components/ui/TransactionsFilters';
+import TransactionsList from '@/components/ui/TransactionsList';
+import Pagination from '@/components/ui/Pagination';
 
 export default function TransactionsPage() {
   return (

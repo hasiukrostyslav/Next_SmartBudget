@@ -11,7 +11,7 @@ export default function DashboardLayout({
     <section className="grid h-screen grid-cols-[auto_1fr] grid-rows-[auto_1fr_auto]">
       <Sidebar />
       <Header />
-      <section className="mx-5 rounded-2xl border-2 border-slate-300 p-4 dark:border-slate-600">
+      <section className="mx-5 rounded-2xl border-2 border-slate-300 px-3 py-4 dark:border-slate-600">
         {children}
       </section>
       <Footer />
