@@ -42,66 +42,70 @@ export const navLinks: {
   { type: 'setting', page: 'settings', icon: 'settings' },
 ];
 
+const category = {
+  income: [
+    { name: 'Income', icon: 'banknote-arrow-up' },
+    { name: 'Investments', icon: 'chart-line' },
+    { name: 'Prize', icon: 'trophy' },
+  ],
+  expenses: [
+    { name: 'Advertisement', icon: 'megaphone' },
+    { name: 'Appliance', icon: 'washing-machine' },
+    { name: 'Books', icon: 'book-open-text' },
+    { name: 'Cafe', icon: 'utensils' },
+    { name: 'Car', icon: 'car' },
+    { name: 'Clothes', icon: 'shirt' },
+    { name: 'Delivery', icon: 'truck' },
+    { name: 'Donations', icon: 'hand-heart' },
+    { name: 'Entertainment', icon: 'gamepad-2' },
+    { name: 'Flowers', icon: 'flower' },
+    { name: 'Groceries', icon: 'apple' },
+    { name: 'Healthcare', icon: 'heart' },
+    { name: 'Insurance', icon: 'umbrella' },
+    { name: 'Internet', icon: 'globe' },
+    { name: 'Loan', icon: 'banknote-arrow-down' },
+    { name: 'Mobile Phone', icon: 'smartphone' },
+    { name: 'Movies', icon: 'clapperboard' },
+    { name: 'Others', icon: 'ellipsis' },
+    { name: 'Personal Care', icon: 'scissors' },
+    { name: 'Pet Care', icon: 'cat' },
+    { name: 'Repair', icon: 'drill' },
+    { name: 'Sport', icon: 'volleyball' },
+    { name: 'Taxes', icon: 'landmark' },
+    { name: 'Taxi', icon: 'car-taxi-front' },
+    { name: 'Transfer', icon: 'arrow-left-right' },
+    { name: 'Travel', icon: 'briefcase' },
+    {
+      name: 'Utilities',
+      type: [
+        {
+          name: 'Utility',
+          icon: 'house',
+        },
+        {
+          name: 'Gas',
+          icon: 'flame',
+        },
+        {
+          name: 'Water',
+          icon: 'droplet',
+        },
+        {
+          name: 'Electricity',
+          icon: 'zap',
+        },
+      ],
+    },
+  ],
+};
+
 export const transactionsFilters = {
   filters: [
     {
       name: 'category',
-      types: {
-        income: [
-          { name: 'Income', icon: 'banknote-arrow-up' },
-          { name: 'Investments', icon: 'chart-line' },
-          { name: 'Prize', icon: 'trophy' },
-        ],
-        expenses: [
-          { name: 'Advertisement', icon: 'megaphone' },
-          { name: 'Appliance', icon: 'washing-machine' },
-          { name: 'Books', icon: 'book-open-text' },
-          { name: 'Cafe and Restaurants', icon: 'utensils' },
-          { name: 'Car', icon: 'car' },
-          { name: 'Clothes', icon: 'shirt' },
-          { name: 'Delivery', icon: 'truck' },
-          { name: 'Donations', icon: 'hand-heart' },
-          { name: 'Entertainment', icon: 'gamepad-2' },
-          { name: 'Flowers', icon: 'flower' },
-          { name: 'Groceries', icon: 'apple' },
-          { name: 'Healthcare', icon: 'heart' },
-          { name: 'Insurance', icon: 'umbrella' },
-          { name: 'Internet', icon: 'globe' },
-          { name: 'Loan', icon: 'banknote-arrow-down' },
-          { name: 'Mobile Phone', icon: 'smartphone' },
-          { name: 'Movies', icon: 'clapperboard' },
-          { name: 'Others', icon: 'ellipsis' },
-          { name: 'Personal Care', icon: 'scissors' },
-          { name: 'Pet Care', icon: 'cat' },
-          { name: 'Repair', icon: 'drill' },
-          { name: 'Sport', icon: 'volleyball' },
-          { name: 'Taxes', icon: 'landmark' },
-          { name: 'Taxi', icon: 'car-taxi-front' },
-          { name: 'Transfer', icon: 'arrow-left-right' },
-          { name: 'Travel', icon: 'briefcase' },
-          {
-            name: 'Utilities',
-            type: [
-              {
-                name: 'Utility',
-                icon: 'house',
-              },
-              {
-                name: 'Gas',
-                icon: 'flame',
-              },
-              {
-                name: 'Water',
-                icon: 'droplet',
-              },
-              {
-                name: 'Electricity',
-                icon: 'zap',
-              },
-            ],
-          },
-        ],
-      },
+      types: [...category.income, ...category.expenses]
+        .map((el) => el.name)
+        .toSorted(),
     },
     {
       name: 'account',

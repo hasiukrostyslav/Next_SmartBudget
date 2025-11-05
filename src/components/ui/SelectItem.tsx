@@ -1,0 +1,40 @@
+'use client';
+
+import clsx from 'clsx';
+
+interface SelectItemProps {
+  selectedItem: string;
+  option: string;
+  isOpen: boolean;
+  heading?: string;
+  onSelect: (option: string) => void;
+}
+
+export default function SelectItem({
+  selectedItem,
+  option,
+  isOpen,
+  onSelect,
+  heading,
+}: SelectItemProps) {
+  return (
+    <button
+      role="option"
+      tabIndex={isOpen ? 0 : -1}
+      aria-selected={selectedItem === option}
+      onClick={() => {
+        onSelect(option);
+      }}
+      type="button"
+      className={clsx(
+        'outline-input flex w-full rounded-md px-1.5 py-1',
+        'hover:bg-slate-200/40 dark:hover:bg-slate-600/40',
+        selectedItem === option ? 'text-blue-500' : '',
+      )}
+    >
+      {option === 'all'
+        ? heading
+        : option.replace(option[0], option[0].toUpperCase())}
+    </button>
+  );
+}
