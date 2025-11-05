@@ -26,7 +26,7 @@ export default function TransactionsFilters() {
       </div>
 
       <div className="ml-auto flex items-center gap-4">
-        {/* <Select name="date" heading="" /> */}
+        <Select name="date" heading="Date" data={[]} />
         <Button
           className="flex items-center gap-0.5 text-sm"
           color="blue"

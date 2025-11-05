@@ -31,6 +31,7 @@ export default function SelectContent({
       )}
     >
       <div
+        tabIndex={-1}
         className={clsx(
           'scrollbar grid max-h-[300px] gap-1 p-2 shadow-md',
           'rounded-md border-[1px] border-slate-300 dark:border-slate-600',
