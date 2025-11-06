@@ -4,7 +4,7 @@ import z from 'zod';
 import bcrypt from 'bcryptjs';
 import { db } from '../db/db';
 import { SignInSchema, SignUpSchema } from '../schemas/schema';
-import { saltRounds } from '../constants';
+import { saltRounds } from '../constants/constants';
 import { getUserByEmail } from '../db/user';
 import { signInUser } from '@/auth/utils';
 

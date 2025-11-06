@@ -65,7 +65,13 @@ export default function SignUpForm() {
         error={errors.password?.message}
       />
       {serverError && <FormError message={serverError} />}
-      <Button color="black" disabled={isPending} type="submit" className="mt-3">
+      <Button
+        size="lg"
+        color="black"
+        disabled={isPending}
+        type="submit"
+        className="mt-3"
+      >
         {!isPending ? (
           'Sign Up'
         ) : (

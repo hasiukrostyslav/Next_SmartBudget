@@ -62,12 +62,12 @@ export default function LoginForm() {
         Forgot password
       </AuthLink>
       {serverError && <FormError message={serverError} />}
-      <Button color="black" disabled={isPending} type="submit">
+      <Button size="lg" color="black" disabled={isPending} type="submit">
         {!isPending ? (
           'Sign In'
         ) : (
           <span className="flex items-center justify-center gap-2">
-            <Icon name="loader-circle" className="animate-spin" />
+            <Icon size={24} name="loader-circle" className="animate-spin" />
             Submit
           </span>
         )}
