@@ -8,7 +8,7 @@ export default function TransactionsFilters() {
   const [category, account, type] = transactionsFilters.filters;
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 px-1">
       <SearchForm size="md" placeholder="Search Transaction" />
 
       <div className="ml-5 flex items-center gap-2">

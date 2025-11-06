@@ -35,8 +35,7 @@ export default function SelectContent({
         className={clsx(
           'scrollbar grid max-h-[300px] gap-1 p-2 shadow-md',
           'rounded-md border-[1px] border-slate-300 dark:border-slate-600',
-          'bg-slate-50 dark:bg-slate-800',
-          data.length > 9 ? 'overflow-y-scroll' : '',
+          'overflow-y-auto bg-slate-50 dark:bg-slate-800',
           theme === 'dark' ? 'scrollbar-dark' : '',
         )}
       >
