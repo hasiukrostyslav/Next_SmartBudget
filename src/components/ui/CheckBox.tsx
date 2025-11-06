@@ -31,12 +31,12 @@ export default function CheckBox({
         aria-checked={checked}
         aria-disabled={disabled}
         tabIndex={!disabled ? 0 : -1}
-        onKeyDown={(e) => {
-          // if (e.key === ' ' || e.key === 'Enter') {
-          //   e.preventDefault();
-          //   if (!disabled) onChange({ target: { checked: !checked } });
-          // }
-        }}
+        // onKeyDown={(e) => {
+        //   if (e.key === ' ' || e.key === 'Enter') {
+        //     e.preventDefault();
+        //     if (!disabled) onChange({ target: { checked: !checked } });
+        //   }
+        // }}
         className={clsx(
           'flex h-4 w-4 items-center justify-center rounded-sm border',
           'outline-round-sm-ch outline-input border-slate-500',
