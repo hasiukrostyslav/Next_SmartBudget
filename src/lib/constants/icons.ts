@@ -38,6 +38,7 @@ import {
   Info,
   Landmark,
   LayoutGrid,
+  Loader,
   LoaderCircle,
   Lock,
   LogOut,
@@ -136,4 +137,5 @@ export const icons = {
   'arrow-up': ArrowUp,
   'chevron-left': ChevronLeft,
   'chevron-right': ChevronRight,
+  loader: Loader,
 } as const;

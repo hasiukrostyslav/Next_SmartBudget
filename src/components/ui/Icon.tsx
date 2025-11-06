@@ -6,10 +6,25 @@ interface IconProps {
   size?: number;
   color?: string;
   className?: string;
+  strokeWidth?: number;
 }
 
-export default function Icon({ name, className, color, size }: IconProps) {
+export default function Icon({
+  name,
+  className,
+  color,
+  size,
+  strokeWidth,
+}: IconProps) {
   const Icon = icons[name];
 
-  return <Icon name={name} size={size} color={color} className={className} />;
+  return (
+    <Icon
+      name={name}
+      strokeWidth={strokeWidth}
+      size={size}
+      color={color}
+      className={className}
+    />
+  );
 }

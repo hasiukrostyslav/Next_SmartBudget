@@ -6,8 +6,8 @@ export default function TransactionsList() {
   return (
     <div
       className={clsx(
-        'grid auto-rows-min grid-cols-[auto_1fr_1fr_auto_minmax(6rem,auto)_1fr_auto]',
-        'gap-x-4',
+        'grid auto-rows-min gap-x-4',
+        'grid-cols-[auto_1fr_1fr_auto_minmax(6rem,auto)_1fr_auto]',
       )}
     >
       <TransactionsSort />

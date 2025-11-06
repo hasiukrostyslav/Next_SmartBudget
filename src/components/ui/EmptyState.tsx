@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import Button from '../ui/Button';
+import Button from './Button';
 import clsx from 'clsx';
-import Icon from '../ui/Icon';
+import Icon from './Icon';
 
-export default function EmptyPage() {
+export default function EmptyState() {
   return (
     <section
       className={clsx(
