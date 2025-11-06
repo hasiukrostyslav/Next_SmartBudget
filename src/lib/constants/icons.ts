@@ -14,6 +14,8 @@ import {
   ChartLine,
   Check,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   ChevronsLeft,
   ChevronsRight,
   ChevronUp,
@@ -132,4 +134,6 @@ export const icons = {
   plus: Plus,
   'hand-coins': HandCoins,
   'arrow-up': ArrowUp,
+  'chevron-left': ChevronLeft,
+  'chevron-right': ChevronRight,
 } as const;

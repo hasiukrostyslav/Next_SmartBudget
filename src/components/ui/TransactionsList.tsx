@@ -14,7 +14,7 @@ export default function TransactionsList() {
       <div
         className={clsx(
           'col-span-full grid grid-cols-subgrid',
-          'scrollbar max-h-[58vh] overflow-y-auto',
+          'scrollbar max-h-[55vh] overflow-y-auto',
         )}
       >
         <TransactionsItem />
