@@ -2,20 +2,16 @@
 
 import clsx from 'clsx';
 import Icon from './Icon';
+import useCheckbox from '@/hooks/useCheckbox';
 
 interface CheckBoxProps {
   name: string;
   disabled?: boolean;
-  checked?: boolean;
-  onChange?: () => void;
 }
 
-export default function CheckBox({
-  name,
-  disabled,
-  checked,
-  onChange,
-}: CheckBoxProps) {
+export default function CheckBox({ name, disabled }: CheckBoxProps) {
+  const { checked, toggleCheck, toggleCheckOnKey } = useCheckbox();
+
   return (
     <label className="cursor-pointer select-none">
       <input
@@ -24,19 +20,14 @@ export default function CheckBox({
         name={name}
         disabled={disabled}
         checked={checked}
-        onChange={onChange}
+        onChange={toggleCheck}
       />
       <span
         role="checkbox"
         aria-checked={checked}
         aria-disabled={disabled}
         tabIndex={!disabled ? 0 : -1}
-        // onKeyDown={(e) => {
-        //   if (e.key === ' ' || e.key === 'Enter') {
-        //     e.preventDefault();
-        //     if (!disabled) onChange({ target: { checked: !checked } });
-        //   }
-        // }}
+        onKeyDown={toggleCheckOnKey}
         className={clsx(
           'flex h-4 w-4 items-center justify-center rounded-sm border',
           'outline-round-sm-ch outline-input border-slate-500',

@@ -25,6 +25,7 @@ export default function PaginationButton({
   return (
     <Link
       href={href}
+      tabIndex={disable ? -1 : 0}
       className={clsx(
         'flex h-7 w-7 items-center justify-center p-1 transition-[hover] duration-300',
         'outline-round-md rounded-md border text-sm',
