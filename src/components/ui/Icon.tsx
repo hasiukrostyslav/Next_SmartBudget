@@ -1,15 +1,15 @@
-import { IconName } from '@/types/types';
-import { DynamicIcon } from 'lucide-react/dynamic';
+import { icons } from '@/lib/constants/icons';
+import type { IconName } from '@/types/types';
 
 interface IconProps {
-  className?: string;
-  color?: string;
-  size?: number;
   name: IconName;
+  size?: number;
+  color?: string;
+  className?: string;
 }
 
 export default function Icon({ name, className, color, size }: IconProps) {
-  return (
-    <DynamicIcon name={name} size={size} color={color} className={className} />
-  );
+  const Icon = icons[name];
+
+  return <Icon name={name} size={size} color={color} className={className} />;
 }

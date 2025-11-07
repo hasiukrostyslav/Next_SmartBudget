@@ -1,34 +1,6 @@
-// Icon names
-export type IconName =
-  | 'eye'
-  | 'eye-off'
-  | 'mail'
-  | 'lock'
-  | 'user'
-  | 'user-round'
-  | 'sun'
-  | 'moon'
-  | 'check'
-  | 'circle-check-big'
-  | 'x'
-  | 'info'
-  | 'circle-alert'
-  | 'triangle-alert'
-  | 'loader-circle'
-  | 'layout-grid'
-  | 'credit-card'
-  | 'arrow-left-right'
-  | 'wallet-cards'
-  | 'piggy-bank'
-  | 'percent'
-  | 'banknote-arrow-up'
-  | 'settings'
-  | 'chevrons-right'
-  | 'chevrons-left'
-  | 'search'
-  | 'bell'
-  | 'message-circle-more'
-  | 'log-out';
+import { icons } from '@/lib/constants/icons';
+
+export type IconName = keyof typeof icons;
 
 // Toast Component types
 interface ToastStyleProps<I extends IconName> {

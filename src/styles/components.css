@@ -1,5 +1,6 @@
 @layer components {
-  .outline-round-sm {
+  .outline-round-sm,
+  .peer:checked ~ .outline-round-sm-ch {
     border-radius: 3px;
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -41,5 +42,13 @@
     @apply focus-visible:outline-2;
     @apply focus-visible:-outline-offset-2;
     @apply focus-visible:outline-blue-500;
+  }
+
+  .scrollbar {
+    scrollbar-width: thin;
+
+    &.scrollbar-dark {
+      scrollbar-color: var(--color-slate-700) var(--color-slate-900);
+    }
   }
 }

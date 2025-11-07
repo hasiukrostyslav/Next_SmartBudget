@@ -32,7 +32,7 @@ export default function ForgotPasswordForm() {
         placeholder="Please enter your email"
         error={errors.email?.message}
       />
-      <Button color="black" type="submit">
+      <Button size="lg" color="black" type="submit">
         Reset Password
       </Button>
     </form>
