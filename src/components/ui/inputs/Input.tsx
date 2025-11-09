@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { inputIcons } from '@/lib/constants/constants';
 import { setBorderColor } from '@/lib/utils/ui';
-import Icon from './Icon';
+import Icon from '../Icon';
 
 interface InputProps {
   name: 'name' | 'email' | 'password';

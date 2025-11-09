@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import CheckBox from './CheckBox';
-import Icon from './Icon';
+import CheckBox from '../inputs/CheckBox';
+import Icon from '../Icon';
 
 export default function TransactionsItem() {
   return (

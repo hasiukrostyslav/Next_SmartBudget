@@ -6,8 +6,8 @@ import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUp } from '@/lib/actions/authActions';
 import { SignUpSchema } from '@/lib/schemas/schema';
-import Button from '../ui/Button';
-import Input from '../ui/Input';
+import Button from '../ui/buttons/Button';
+import Input from '../ui/inputs/Input';
 import Icon from '../ui/Icon';
 import FormError from '../ui/FormError';
 

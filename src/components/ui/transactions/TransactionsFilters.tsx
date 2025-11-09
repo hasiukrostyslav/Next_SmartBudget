@@ -1,8 +1,8 @@
 import { transactionsFilters } from '@/lib/constants/constants';
-import SearchForm from '../forms/SearchForm';
-import Button from '../ui/Button';
-import Icon from '../ui/Icon';
-import Select from '../ui/Select';
+import SearchForm from '@/components/forms/SearchForm';
+import Button from '../buttons/Button';
+import Select from '../selects/Select';
+import Icon from '../Icon';
 
 export default function TransactionsFilters() {
   const [category, account, type] = transactionsFilters.filters;

@@ -2,14 +2,17 @@
 
 import clsx from 'clsx';
 import { useSelect } from '@/hooks/useSelect';
-import Icon from './Icon';
 import SelectContent from './SelectContent';
+import Icon from '../Icon';
 
 interface SelectProps {
   name: string;
   heading: string;
   className?: string;
   data: string[];
+  position?: 'top' | 'bottom';
+  width?: 'sm' | 'md' | 'lg';
+  color?: 'transparent' | 'blue';
 }
 
 export default function Select({
@@ -17,6 +20,9 @@ export default function Select({
   className,
   heading,
   data,
+  width = 'md',
+  position = 'bottom',
+  color = 'transparent',
 }: SelectProps) {
   const {
     id,
@@ -47,9 +53,13 @@ export default function Select({
         type="button"
         onClick={handleToggle}
         className={clsx(
-          'flex min-w-38 items-center justify-between gap-5 px-2.5 py-1.5 text-sm font-medium',
-          'outline-input rounded-md border-[1px] border-slate-300 text-slate-700',
+          'flex items-center justify-between px-2.5 py-1.5 text-sm font-medium',
+          'outline-input rounded-md border-[1px] text-slate-700',
           'dark:border-slate-500 dark:bg-slate-800 dark:text-slate-400',
+          width === 'md' ? 'min-w-38 gap-5' : 'min-w-18 gap-2',
+          color === 'blue'
+            ? 'border-blue-300 bg-blue-200/50'
+            : 'border-slate-300',
         )}
         name={name}
       >
@@ -71,6 +81,7 @@ export default function Select({
         />
       </button>
       <SelectContent
+        position={position}
         id={id}
         isOpen={isOpen}
         data={data}

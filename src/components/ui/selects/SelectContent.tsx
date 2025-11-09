@@ -5,6 +5,7 @@ import SelectItem from './SelectItem';
 interface SelectContentProps {
   id: string;
   isOpen: boolean;
+  position: 'top' | 'bottom';
   heading: string;
   selectedItem: string;
   data: string[];
@@ -18,6 +19,7 @@ export default function SelectContent({
   onSelect,
   data,
   heading,
+  position,
 }: SelectContentProps) {
   const { theme } = useTheme();
   return (
@@ -25,9 +27,12 @@ export default function SelectContent({
       id={`select-list-${id}`}
       role="listbox"
       className={clsx(
-        'absolute w-full origin-top translate-y-1 text-sm',
+        'absolute w-full text-sm',
         'transition-all duration-400 ease-in',
         isOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0',
+        position === 'top'
+          ? 'bottom-[calc(100%+4px)] origin-bottom'
+          : 'origin-top translate-y-1',
       )}
     >
       <div

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import Navbar from './Navbar';
-import ButtonIcon from '../ui/ButtonIcon';
+import ButtonIcon from '../ui/buttons/ButtonIcon';
 import AnimatedLogo from '../ui/AnimatedLogo';
 
 export default function Sidebar() {
