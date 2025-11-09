@@ -1,8 +1,17 @@
+import Select from './Select';
+
 export default function PaginationFilter() {
   return (
-    <div className="flex gap-2">
+    <div className="flex items-center gap-2">
       <span>Showing</span>
-      <input type="number" />
+      <Select
+        name="page"
+        heading="10"
+        data={['25', '50', '100']}
+        width="sm"
+        position="top"
+        color="blue"
+      />
       <span>out of 100</span>
     </div>
   );
