@@ -53,7 +53,8 @@ model Transaction {
   transactionCategory String  @map("transaction_category")
   paymentMethod       String  @map("payment_method")
   transactionType     String  @map("transaction_type")
-  amount              Int
+  currency            String
+  amount              Float
   description         String?
   status              String? @default("Pending")
 
