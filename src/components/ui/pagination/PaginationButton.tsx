@@ -29,7 +29,7 @@ export default function PaginationButton({
       tabIndex={disable ? -1 : 0}
       className={clsx(
         'flex h-7 w-7 items-center justify-center p-1 transition-[hover] duration-300',
-        'outline-round-md rounded-md border text-sm',
+        'outline-input rounded-md border text-sm focus:border-0',
         !disable
           ? 'border-blue-300 text-slate-700 dark:border-slate-500 dark:text-slate-300'
           : '',
