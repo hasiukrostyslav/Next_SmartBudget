@@ -1,6 +1,6 @@
 import { auth } from '@/auth/auth';
 import SignOutForm from '../forms/SignOutForm';
-import ButtonIcon from './ButtonIcon';
+import ButtonIcon from './buttons/ButtonIcon';
 
 export default async function UserPanel() {
   const session = await auth();

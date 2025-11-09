@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import Button from './Button';
 import clsx from 'clsx';
+import Button from './buttons/Button';
 import Icon from './Icon';
 
 export default function EmptyState() {

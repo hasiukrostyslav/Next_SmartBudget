@@ -1,5 +1,5 @@
+import ThemeButton from '../ui/buttons/ThemeButton';
 import Logo from '../ui/Logo';
-import ThemeButton from '../ui/ThemeButton';
 
 interface AuthFormProps {
   children: React.ReactNode;

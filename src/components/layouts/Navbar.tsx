@@ -1,5 +1,5 @@
 import { navLinks } from '@/lib/constants/constants';
-import NavLink from '../ui/NavLink';
+import NavLink from '../ui/links/NavLink';
 
 interface NavbarProps {
   isCollapsed: boolean;

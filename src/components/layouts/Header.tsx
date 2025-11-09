@@ -1,5 +1,5 @@
-import DashboardHeading from '../ui/DashboardHeading';
 import SearchForm from '../forms/SearchForm';
+import DashboardHeading from '../ui/DashboardHeading';
 import UserPanel from '../ui/UserPanel';
 import Time from '../ui/Time';
 

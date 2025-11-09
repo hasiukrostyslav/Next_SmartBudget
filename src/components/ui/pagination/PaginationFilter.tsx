@@ -1,4 +1,4 @@
-import Select from './Select';
+import Select from '../selects/Select';
 
 export default function PaginationFilter() {
   return (

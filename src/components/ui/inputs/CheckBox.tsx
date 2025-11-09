@@ -1,8 +1,8 @@
 'use client';
 
 import clsx from 'clsx';
-import Icon from './Icon';
 import useCheckbox from '@/hooks/useCheckbox';
+import Icon from '../Icon';
 
 interface CheckBoxProps {
   name: string;
