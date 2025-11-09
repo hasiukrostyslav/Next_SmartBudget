@@ -2,10 +2,9 @@
 
 import z from 'zod';
 import bcrypt from 'bcryptjs';
-import { db } from '../db/db';
 import { SignInSchema, SignUpSchema } from '../schemas/schema';
 import { saltRounds } from '../constants/constants';
-import { getUserByEmail } from '../db/user';
+import { createUser, getUserByEmail } from '../db/user';
 import { signInUser } from '@/auth/utils';
 
 type SignUpFormData = z.infer<typeof SignUpSchema>;
@@ -35,13 +34,7 @@ export async function signUp(formData: SignUpFormData) {
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   // Create new user
-  await db.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-    },
-  });
+  await createUser(name, email, hashedPassword);
 
   // Sign In
   const result = await signInUser(email, password);
