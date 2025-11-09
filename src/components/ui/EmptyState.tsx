@@ -19,16 +19,18 @@ export default function EmptyState() {
           height={200}
         />
         <h2
-          className={clsx('mt-4 text-lg leading-snug font-bold tracking-wider')}
+          className={clsx(
+            'mt-4 text-2xl leading-snug font-bold tracking-wider',
+          )}
         >
           Nothing here yet
         </h2>
       </div>
-      <div className="mt-2 flex flex-col items-center justify-center gap-3">
+      <div className="mt-2 flex flex-col items-center justify-center gap-6">
         <p className="text-slate-500">Add your first transaction</p>
-        <Button className="flex items-center gap-0.5" color="blue" size="md">
-          <Icon name="plus" size={20} />
-          <span>Create</span>
+        <Button className="flex items-center gap-1.5" color="blue" size="md">
+          <Icon name="plus" size={18} />
+          <span>Create transaction</span>
         </Button>
       </div>
     </section>
