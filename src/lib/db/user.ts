@@ -19,3 +19,21 @@ export async function getUserById(id: string) {
     return null;
   }
 }
+
+export async function createUser(
+  name: string,
+  email: string,
+  password: string,
+) {
+  try {
+    await db.user.create({
+      data: {
+        name,
+        email,
+        password,
+      },
+    });
+  } catch {
+    return null;
+  }
+}
