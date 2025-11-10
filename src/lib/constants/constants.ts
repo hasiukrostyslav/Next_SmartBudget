@@ -12,11 +12,11 @@ export const toastOptions = {
 };
 
 // Auth input with icons types
-export const inputIcons: InputIcons = {
-  name: 'user',
-  email: 'mail',
-  password: 'lock',
-};
+// export const inputIcons: InputIcons = {
+//   name: 'user',
+//   email: 'mail',
+//   password: 'lock',
+// };
 
 // Salt for password hashing
 export const saltRounds = 10;
@@ -30,14 +30,14 @@ export const navLinks: {
   {
     type: 'main',
     page: 'dashboard',
-    icon: 'layout-grid',
+    icon: 'dashboard',
   },
-  { type: 'main', page: 'transactions', icon: 'arrow-left-right' },
-  { type: 'main', page: 'payments', icon: 'credit-card' },
-  { type: 'main', page: 'cards', icon: 'wallet-cards' },
-  { type: 'main', page: 'savings', icon: 'hand-coins' },
+  { type: 'main', page: 'transactions', icon: 'transfer' },
+  { type: 'main', page: 'payments', icon: 'payment' },
+  { type: 'main', page: 'cards', icon: 'cards' },
+  { type: 'main', page: 'savings', icon: 'saving' },
   { type: 'main', page: 'loans', icon: 'percent' },
-  { type: 'main', page: 'deposits', icon: 'banknote-arrow-up' },
+  { type: 'main', page: 'deposits', icon: 'income' },
   { type: 'setting', page: 'profile', icon: 'user' },
   { type: 'setting', page: 'settings', icon: 'settings' },
 ];

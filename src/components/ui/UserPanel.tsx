@@ -9,19 +9,19 @@ export default async function UserPanel() {
   return (
     <div className="ml-10 flex items-center">
       <div className="mr-10 flex items-center gap-3">
+        <ButtonIcon size={16} iconName="chat" shape="round" variant="solid" />
         <ButtonIcon
           size={16}
-          iconName="message-circle-more"
+          iconName="message"
           shape="round"
           variant="solid"
         />
-        <ButtonIcon size={16} iconName="bell" shape="round" variant="solid" />
       </div>
       <div className="mr-6 flex items-center gap-2">
         <span>{userName}</span>
         <ButtonIcon
           size={16}
-          iconName="user-round"
+          iconName="user"
           shape="round"
           variant="outline"
           className="outline-input border border-slate-700"

@@ -1,6 +1,6 @@
 import { icons } from '@/lib/constants/icons';
 
-export type IconName = keyof typeof icons;
+export type IconName = (typeof icons)[number]['role'];
 
 // Toast Component types
 interface ToastStyleProps<I extends IconName> {
@@ -12,14 +12,14 @@ interface ToastStyleProps<I extends IconName> {
 
 export interface ToastRoles {
   success: ToastStyleProps<'check'>;
-  error: ToastStyleProps<'x'>;
+  error: ToastStyleProps<'close'>;
   info: ToastStyleProps<'info'>;
-  warning: ToastStyleProps<'circle-alert'>;
+  warning: ToastStyleProps<'warning'>;
 }
 
 // Auth input with icons types
 export interface InputIcons {
-  name: Extract<IconName, 'user'>;
-  email: Extract<IconName, 'mail'>;
-  password: Extract<IconName, 'lock'>;
+  name: Extract<IconName, 'name'>;
+  email: Extract<IconName, 'email'>;
+  password: Extract<IconName, 'password'>;
 }

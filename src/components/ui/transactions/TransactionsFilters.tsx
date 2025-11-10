@@ -1,8 +1,7 @@
 import { transactionsFilters } from '@/lib/constants/constants';
 import SearchForm from '@/components/forms/SearchForm';
-import Button from '../buttons/Button';
 import Select from '../selects/Select';
-import Icon from '../Icon';
+import TransactionsCTA from './TransactionsCTA';
 
 export default function TransactionsFilters() {
   const [category, account, type] = transactionsFilters.filters;
@@ -27,14 +26,7 @@ export default function TransactionsFilters() {
 
       <div className="ml-auto flex items-center gap-4">
         <Select name="date" heading="Date" data={[]} />
-        <Button
-          className="flex items-center gap-0.5 text-sm"
-          color="blue"
-          size="md"
-        >
-          <Icon name="plus" size={16} />
-          <span>Create</span>
-        </Button>
+        <TransactionsCTA buttonSize="md" iconSize={16} />
       </div>
     </div>
   );

@@ -14,11 +14,7 @@ export default function TransactionsItem() {
       <CheckBox name="" />
       <div className="flex gap-2 px-1.5">
         <span className="rounded-full bg-green-400 p-1.5">
-          <Icon
-            name="banknote-arrow-up"
-            size={20}
-            className="dark:text-slate-800"
-          />
+          <Icon name="income" size={20} className="dark:text-slate-800" />
         </span>
         <div className="flex flex-col">
           <span className="font-medium">Bonus Payment</span>
@@ -26,7 +22,7 @@ export default function TransactionsItem() {
         </div>
       </div>
       <div className="flex items-center gap-2 px-1.5">
-        <Icon name="credit-card" />
+        <Icon name="payment" />
         <span>Platinum Plus Visa</span>
       </div>
       <div className="flex flex-col px-1.5">
