@@ -27,11 +27,14 @@ export default function ForgotPasswordForm() {
       className="flex w-full flex-col gap-3"
     >
       <Input
-        label="Email address"
         {...register('email')}
+        label="Email address"
         placeholder="Please enter your email"
         error={errors.email?.message}
+        withError
+        withIcon
       />
+
       <Button size="lg" color="black" type="submit">
         Reset Password
       </Button>

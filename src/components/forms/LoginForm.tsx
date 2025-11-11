@@ -49,19 +49,26 @@ export default function LoginForm() {
         placeholder="Please enter your email"
         disabled={isPending}
         error={errors.email?.message}
+        withError
+        withIcon
       />
       <Input
         label="Password"
         {...register('password')}
         placeholder="Please enter your password"
-        isPassword
         disabled={isPending}
         error={errors.password?.message}
+        withError
+        withIcon
+        withButton
       />
+
       <AuthLink href="/auth/forgot-password" className="mb-3 self-end">
         Forgot password
       </AuthLink>
+
       {serverError && <FormError message={serverError} />}
+
       <Button size="lg" color="black" disabled={isPending} type="submit">
         {!isPending ? (
           'Sign In'

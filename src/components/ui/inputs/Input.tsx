@@ -1,30 +1,39 @@
 'use client';
 
-import { useState } from 'react';
-import { inputIcons } from '@/lib/constants/constants';
+import { useId, useState } from 'react';
+import clsx from 'clsx';
 import { setBorderColor } from '@/lib/utils/ui';
-import Icon from '../Icon';
+import { IconName } from '@/types/types';
+import InputError from './InputError';
+import InputButton from './InputButton';
+import InputIcon from './InputIcon';
+import InputLabel from './InputLabel';
 
 interface InputProps {
-  name: 'name' | 'email' | 'password';
+  name: IconName;
   label?: string;
   error?: string;
-  isPassword?: boolean;
   disabled?: boolean;
   placeholder?: string;
   ref?: React.Ref<HTMLInputElement>;
+  withIcon?: boolean;
+  withButton?: boolean;
+  withError?: boolean;
 }
 
 export default function Input({
   name,
   label,
   error,
-  isPassword,
   disabled,
   placeholder,
   ref,
+  withIcon,
+  withButton,
+  withError,
   ...props
 }: InputProps) {
+  const id = useId();
   const [isVisible, setIsVisible] = useState(false);
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -35,45 +44,36 @@ export default function Input({
   const borderColor = setBorderColor({ error, disabled });
 
   return (
-    <div className="relative mb-4.5">
-      <label className="flex flex-col gap-2 text-sm tracking-wider">
-        {label}
+    <div className={clsx('relative', withError ? 'mb-4.5' : '')}>
+      {label && <InputLabel label={label} htmlFor={`${name}-${id}`} />}
+
+      <div className="relative">
+        {withIcon && <InputIcon name={name} />}
+
         <input
           {...props}
           ref={ref}
+          id={`${name}-${id}`}
+          name={name}
           disabled={disabled}
           placeholder={placeholder}
-          type={isPassword && !isVisible ? 'password' : 'text'}
-          name={name}
-          className={`outline-input border-2 py-2.5 pl-10 tracking-wider text-slate-700 dark:text-slate-50 dark:placeholder:text-slate-400 ${borderColor} ${
-            isPassword ? 'pr-10' : 'pr-3'
-          }`}
           autoComplete="off"
+          type={name === 'password' && !isVisible ? 'password' : 'text'}
+          className={clsx(
+            'outline-input w-full border-2 py-2.5 text-sm tracking-wider',
+            'text-slate-700 dark:text-slate-50 dark:placeholder:text-slate-400',
+            withButton ? 'pr-10' : 'pr-3',
+            withIcon ? 'pl-10' : 'pl-3',
+            borderColor,
+          )}
         />
-      </label>
-      <span className="absolute bottom-3.5 left-3">
-        <Icon
-          className="text-slate-400 dark:text-slate-400"
-          size={18}
-          name={inputIcons[name]}
-        />
-      </span>
-      {isPassword && (
-        <button
-          type="button"
-          className="outline-round-sm absolute right-3 bottom-3.5"
-          onClick={handleClick}
-        >
-          <Icon
-            className="text-slate-500 dark:text-slate-400"
-            size={16}
-            name={isVisible ? 'eye' : 'eye-off'}
-          />
-        </button>
-      )}
-      <span className="absolute -bottom-5 text-xs tracking-wide text-red-500">
-        {error}
-      </span>
+
+        {withButton && (
+          <InputButton isVisible={isVisible} onClick={handleClick} />
+        )}
+      </div>
+
+      {error && <InputError message={error} />}
     </div>
   );
 }

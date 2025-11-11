@@ -1,4 +1,4 @@
-import { IconName, InputIcons } from '@/types/types';
+import { IconName } from '@/types/types';
 import { Zoom, type ToastPosition } from 'react-toastify';
 
 // Options for Toast Component
@@ -10,13 +10,6 @@ export const toastOptions = {
   hideProgressBar: true,
   className: '!bg-transparent !shadow-none !p-0 !m-0 !border-0',
 };
-
-// Auth input with icons types
-// export const inputIcons: InputIcons = {
-//   name: 'user',
-//   email: 'mail',
-//   password: 'lock',
-// };
 
 // Salt for password hashing
 export const saltRounds = 10;
