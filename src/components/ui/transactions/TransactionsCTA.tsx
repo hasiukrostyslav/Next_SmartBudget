@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
+import { useDialog } from '@/hooks/useDialog';
 import Button from '../buttons/Button';
 import Icon from '../Icon';
 import TransactionModal from '../modals/TransactionModal';
@@ -15,24 +15,11 @@ export default function TransactionsCTA({
   buttonSize,
   iconSize,
 }: TransactionsCTAProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const modalRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    if (isOpen && modalRef.current) {
-      modalRef.current.showModal();
-    }
-  }, [isOpen]);
-
-  const handleClose = () => {
-    modalRef.current?.close();
-    setIsOpen(false);
-  };
-
+  const { dialogRef, isOpen, handleOpen, handleClose } = useDialog();
   return (
     <>
       <Button
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
         className={clsx(
           'flex items-center',
           buttonSize === 'md' ? 'gap-0.5 text-sm' : 'gap-1.5',
@@ -43,7 +30,7 @@ export default function TransactionsCTA({
         <Icon name="plus" size={iconSize} />
         <span>Create{buttonSize === 'lg' ? ' Transaction' : ''}</span>
       </Button>
-      {isOpen && <TransactionModal ref={modalRef} handleClose={handleClose} />}
+      {isOpen && <TransactionModal ref={dialogRef} handleClose={handleClose} />}
     </>
   );
 }
