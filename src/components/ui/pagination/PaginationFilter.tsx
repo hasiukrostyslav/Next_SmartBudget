@@ -9,7 +9,7 @@ export default function PaginationFilter() {
         heading="10"
         data={['25', '50', '100']}
         width="sm"
-        position="top"
+        contentPosition="top"
         color="blue"
       />
       <span>out of 100</span>
