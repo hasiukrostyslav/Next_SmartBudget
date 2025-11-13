@@ -49,7 +49,7 @@ export default function SignUpForm() {
         disabled={isPending}
         error={errors.name?.message}
         withError
-        withIcon
+        icon="name"
       />
       <Input
         {...register('email')}
@@ -58,7 +58,7 @@ export default function SignUpForm() {
         disabled={isPending}
         error={errors.email?.message}
         withError
-        withIcon
+        icon="email"
       />
       <Input
         {...register('password')}
@@ -67,7 +67,7 @@ export default function SignUpForm() {
         disabled={isPending}
         error={errors.password?.message}
         withError
-        withIcon
+        icon="password"
         withButton
       />
 

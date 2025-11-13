@@ -7,18 +7,21 @@ interface ButtonProps {
   disabled?: boolean;
   color: keyof typeof buttonStyles.color;
   size: keyof typeof buttonStyles.size;
+  onClick?: () => void;
 }
 
 const buttonStyles = {
   color: {
-    black:
-      'bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-500',
-    blue: 'bg-blue-600 hover:bg-blue-500',
+    black: `border-slate-900 bg-slate-900 hover:border-slate-800 hover:bg-slate-800 
+    dark:border-blue-600 dark:bg-blue-600 dark:hover:border-blue-500 dark:hover:bg-blue-500`,
+    blue: 'border-blue-600 bg-blue-600 hover:border-blue-500 hover:bg-blue-500',
+    transparent: `border-slate-600 text-slate-600 hover:border-slate-500 
+    hover:text-slate-500 dark:border-slate-400 dark:text-slate-400`,
   },
   size: {
-    sm: 'px-2 py-1 outline-round-sm',
-    md: 'px-2 py-1.5 outline-round-sm',
-    lg: 'px-3 py-2.5 outline-round-md',
+    sm: 'outline-round-sm px-2 py-1',
+    md: 'outline-round-sm px-2 py-1.5',
+    lg: 'outline-round-md px-3 py-2.5',
   },
 };
 
@@ -29,19 +32,22 @@ export default function Button({
   disabled,
   color,
   size,
+  onClick,
 }: ButtonProps) {
   return (
     <button
       className={clsx(
-        'rounded-md text-slate-100',
-        disabled ? 'bg-slate-400' : buttonStyles.color[color],
+        'rounded-md border text-slate-100',
+        disabled ? 'border-slate-400 bg-slate-400' : buttonStyles.color[color],
         buttonStyles.size[size],
         className,
       )}
       type={type}
       disabled={disabled}
+      onClick={onClick}
     >
       {children}
+      <span className=""></span>
     </button>
   );
 }

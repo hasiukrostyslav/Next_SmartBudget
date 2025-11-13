@@ -16,6 +16,7 @@ export default function TransactionsCTA({
   iconSize,
 }: TransactionsCTAProps) {
   const { dialogRef, isOpen, handleOpen, handleClose } = useDialog();
+
   return (
     <>
       <Button

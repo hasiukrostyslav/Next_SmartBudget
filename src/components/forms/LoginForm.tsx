@@ -50,7 +50,7 @@ export default function LoginForm() {
         disabled={isPending}
         error={errors.email?.message}
         withError
-        withIcon
+        icon="email"
       />
       <Input
         label="Password"
@@ -59,7 +59,7 @@ export default function LoginForm() {
         disabled={isPending}
         error={errors.password?.message}
         withError
-        withIcon
+        icon="password"
         withButton
       />
 
