@@ -1,10 +1,10 @@
-import { transactionsFilters } from '@/lib/constants/constants';
+import { SelectFilters } from '@/lib/constants/constants';
 import SearchForm from '@/components/forms/SearchForm';
 import Select from '../selects/Select';
 import TransactionsCTA from './TransactionsCTA';
 
 export default function TransactionsFilters() {
-  const [category, account, type] = transactionsFilters.filters;
+  const { category, account, type } = SelectFilters;
 
   return (
     <div className="flex items-center gap-4 px-1">

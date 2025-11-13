@@ -6,7 +6,7 @@ export function useSelect() {
   const id = useId();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState('all');
-  const selectRef = useRef<HTMLFormElement>(null);
+  const selectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {

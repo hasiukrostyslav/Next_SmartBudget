@@ -27,7 +27,7 @@ export default function SelectContent({
       id={`select-list-${id}`}
       role="listbox"
       className={clsx(
-        'absolute w-full text-sm',
+        'absolute z-50 w-full text-sm',
         'transition-all duration-400 ease-in',
         isOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0',
         position === 'top'
@@ -40,7 +40,7 @@ export default function SelectContent({
         className={clsx(
           'scrollbar grid max-h-[300px] gap-1 p-2 shadow-md',
           'rounded-md border-[1px] border-slate-300 dark:border-slate-600',
-          'overflow-y-auto bg-slate-50 dark:bg-slate-800',
+          'overflow-y-auto bg-slate-50 dark:bg-slate-800 dark:text-slate-400',
           theme === 'dark' ? 'scrollbar-dark' : '',
         )}
       >

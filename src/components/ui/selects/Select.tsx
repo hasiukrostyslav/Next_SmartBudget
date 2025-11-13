@@ -10,10 +10,24 @@ interface SelectProps {
   heading: string;
   className?: string;
   data: string[];
-  position?: 'top' | 'bottom';
   width?: 'sm' | 'md' | 'lg';
+  padding?: 'sm' | 'md' | 'lg';
   color?: 'transparent' | 'blue';
+  contentPosition?: 'top' | 'bottom';
 }
+
+const styles = {
+  width: {
+    sm: 'min-w-18 gap-2',
+    md: 'min-w-38 gap-5',
+    lg: 'min-w-50 gap-5',
+  },
+  padding: { sm: 'py-1.5', md: 'py-2', lg: 'py-2.5' },
+  color: {
+    blue: 'border-blue-300 bg-blue-200/50',
+    transparent: 'border-slate-300',
+  },
+};
 
 export default function Select({
   name,
@@ -21,8 +35,9 @@ export default function Select({
   heading,
   data,
   width = 'md',
-  position = 'bottom',
+  padding = 'sm',
   color = 'transparent',
+  contentPosition = 'bottom',
 }: SelectProps) {
   const {
     id,
@@ -35,7 +50,7 @@ export default function Select({
   } = useSelect();
 
   return (
-    <form
+    <div
       role="combobox"
       aria-haspopup="listbox"
       aria-controls={`select-list-${id}`}
@@ -47,21 +62,20 @@ export default function Select({
     >
       <button
         id={`select-label-${id}`}
+        name={name}
         aria-haspopup="listbox"
         aria-controls={`select-list-${id}`}
         aria-expanded={isOpen}
         type="button"
         onClick={handleToggle}
         className={clsx(
-          'flex items-center justify-between px-2.5 py-1.5 text-sm font-medium',
+          'flex items-center justify-between px-2.5 text-sm font-medium',
           'outline-input rounded-md border-[1px] text-slate-700',
           'dark:border-slate-500 dark:bg-slate-800 dark:text-slate-400',
-          width === 'md' ? 'min-w-38 gap-5' : 'min-w-18 gap-2',
-          color === 'blue'
-            ? 'border-blue-300 bg-blue-200/50'
-            : 'border-slate-300',
+          styles.width[width],
+          styles.color[color],
+          styles.padding[padding],
         )}
-        name={name}
       >
         <span>
           {selectedItem === 'all'
@@ -80,8 +94,9 @@ export default function Select({
           )}
         />
       </button>
+
       <SelectContent
-        position={position}
+        position={contentPosition}
         id={id}
         isOpen={isOpen}
         data={data}
@@ -89,6 +104,6 @@ export default function Select({
         selectedItem={selectedItem}
         onSelect={handleSelect}
       />
-    </form>
+    </div>
   );
 }

@@ -10,16 +10,22 @@ import InputIcon from './InputIcon';
 import InputLabel from './InputLabel';
 
 interface InputProps {
-  name: IconName;
+  name: string;
   label?: string;
   error?: string;
   disabled?: boolean;
   placeholder?: string;
   ref?: React.Ref<HTMLInputElement>;
-  withIcon?: boolean;
+  icon?: IconName;
   withButton?: boolean;
   withError?: boolean;
+  padding?: 'sm' | 'md' | 'lg';
+  type?: 'text' | 'number' | 'password';
 }
+
+const styles = {
+  padding: { sm: 'py-1.5 border', md: 'py-2 border-2', lg: 'py-2.5 border-2' },
+};
 
 export default function Input({
   name,
@@ -28,9 +34,11 @@ export default function Input({
   disabled,
   placeholder,
   ref,
-  withIcon,
+  icon,
   withButton,
   withError,
+  padding = 'lg',
+  type = 'text',
   ...props
 }: InputProps) {
   const id = useId();
@@ -45,10 +53,12 @@ export default function Input({
 
   return (
     <div className={clsx('relative', withError ? 'mb-4.5' : '')}>
-      {label && <InputLabel label={label} htmlFor={`${name}-${id}`} />}
+      {label && (
+        <InputLabel label={label} htmlFor={`${name}-${id}`} margin={padding} />
+      )}
 
       <div className="relative">
-        {withIcon && <InputIcon name={name} />}
+        {icon && <InputIcon name={icon} />}
 
         <input
           {...props}
@@ -58,12 +68,20 @@ export default function Input({
           disabled={disabled}
           placeholder={placeholder}
           autoComplete="off"
-          type={name === 'password' && !isVisible ? 'password' : 'text'}
+          type={
+            name === 'password' && !isVisible
+              ? 'password'
+              : type === 'number'
+                ? 'number'
+                : 'text'
+          }
+          min={0}
           className={clsx(
-            'outline-input w-full border-2 py-2.5 text-sm tracking-wider',
+            'outline-input w-full text-sm tracking-wider',
             'text-slate-700 dark:text-slate-50 dark:placeholder:text-slate-400',
             withButton ? 'pr-10' : 'pr-3',
-            withIcon ? 'pl-10' : 'pl-3',
+            icon ? 'pl-10' : 'pl-3',
+            styles.padding[padding],
             borderColor,
           )}
         />

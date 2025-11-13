@@ -92,21 +92,27 @@ const category = {
   ],
 };
 
-export const transactionsFilters = {
-  filters: [
-    {
-      name: 'category',
-      types: [...category.income, ...category.expenses]
-        .map((el) => el.name)
-        .toSorted(),
-    },
-    {
-      name: 'account',
-      types: ['Cash'],
-    },
-    {
-      name: 'type',
-      types: ['Income', 'Expenses'],
-    },
-  ],
+export const SelectFilters = {
+  category: {
+    name: 'category',
+    types: [...category.income, ...category.expenses]
+      .map((el) => el.name)
+      .toSorted(),
+  },
+  account: {
+    name: 'account',
+    types: ['Cash'],
+  },
+  type: {
+    name: 'type',
+    types: ['Income', 'Expenses'],
+  },
+  status: {
+    name: 'status',
+    types: ['Pending', 'Completed'],
+  },
+  currency: {
+    name: 'currency',
+    types: ['UAH', 'USD', 'EUR', 'PLN', 'HUF', 'GBP'],
+  },
 };
