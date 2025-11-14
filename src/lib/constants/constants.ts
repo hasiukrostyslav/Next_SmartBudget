@@ -35,6 +35,7 @@ export const navLinks: {
   { type: 'setting', page: 'settings', icon: 'settings' },
 ];
 
+// Filters
 const category = {
   income: [
     { name: 'Income', icon: 'banknote-arrow-up' },

@@ -2,10 +2,10 @@
 
 import { useEffect, useId, useRef, useState } from 'react';
 
-export function useSelect() {
+export function useSelect(defaultValue: string | undefined) {
   const id = useId();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState('all');
+  const [selectedItem, setSelectedItem] = useState(defaultValue || 'all');
   const selectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

@@ -7,9 +7,10 @@ import Icon from '../Icon';
 
 interface SelectProps {
   name: string;
-  heading: string;
-  className?: string;
   data: string[];
+  label?: string;
+  defaultValue?: string;
+  className?: string;
   width?: 'sm' | 'md' | 'lg';
   padding?: 'sm' | 'md' | 'lg';
   color?: 'transparent' | 'blue';
@@ -32,8 +33,9 @@ const styles = {
 export default function Select({
   name,
   className,
-  heading,
+  label,
   data,
+  defaultValue,
   width = 'md',
   padding = 'sm',
   color = 'transparent',
@@ -47,7 +49,7 @@ export default function Select({
     handleBlur,
     handleSelect,
     handleToggle,
-  } = useSelect();
+  } = useSelect(defaultValue);
 
   return (
     <div
@@ -78,12 +80,14 @@ export default function Select({
         )}
       >
         <span>
-          {selectedItem === 'all'
-            ? heading
-            : selectedItem.replace(
-                selectedItem[0],
-                selectedItem[0].toUpperCase(),
-              )}
+          {selectedItem === 'all' && !defaultValue
+            ? label
+            : defaultValue === selectedItem
+              ? defaultValue
+              : selectedItem.replace(
+                  selectedItem[0],
+                  selectedItem[0].toUpperCase(),
+                )}
         </span>
         <Icon
           size={16}
@@ -100,7 +104,7 @@ export default function Select({
         id={id}
         isOpen={isOpen}
         data={data}
-        heading={heading}
+        label={label}
         selectedItem={selectedItem}
         onSelect={handleSelect}
       />

@@ -4,22 +4,22 @@ import SelectItem from './SelectItem';
 
 interface SelectContentProps {
   id: string;
-  isOpen: boolean;
-  position: 'top' | 'bottom';
-  heading: string;
-  selectedItem: string;
+  label?: string;
   data: string[];
+  isOpen: boolean;
+  selectedItem: string;
+  position: 'top' | 'bottom';
   onSelect: (option: string) => void;
 }
 
 export default function SelectContent({
   id,
+  label,
+  data,
   isOpen,
   selectedItem,
-  onSelect,
-  data,
-  heading,
   position,
+  onSelect,
 }: SelectContentProps) {
   const { theme } = useTheme();
   return (
@@ -44,14 +44,16 @@ export default function SelectContent({
           theme === 'dark' ? 'scrollbar-dark' : '',
         )}
       >
-        <SelectItem
-          key={'all'}
-          option={'all'}
-          isOpen={isOpen}
-          selectedItem={selectedItem}
-          onSelect={onSelect}
-          heading={heading}
-        />
+        {label && (
+          <SelectItem
+            key={'all'}
+            option={'all'}
+            isOpen={isOpen}
+            selectedItem={selectedItem}
+            onSelect={onSelect}
+            label={label}
+          />
+        )}
         {data.map((filter) => (
           <SelectItem
             key={filter}
