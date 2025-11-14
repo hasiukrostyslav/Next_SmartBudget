@@ -16,7 +16,7 @@ const buttonStyles = {
     dark:border-blue-600 dark:bg-blue-600 dark:hover:border-blue-500 dark:hover:bg-blue-500`,
     blue: 'border-blue-600 bg-blue-600 hover:border-blue-500 hover:bg-blue-500',
     transparent: `border-slate-600 text-slate-600 hover:border-slate-500 
-    hover:text-slate-500 dark:border-slate-400 dark:text-slate-400`,
+    hover:text-slate-500 dark:border-slate-400 dark:text-slate-400 focus:border-transparent`,
   },
   size: {
     sm: 'outline-round-sm px-2 py-1',

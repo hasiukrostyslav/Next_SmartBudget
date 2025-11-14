@@ -21,10 +21,12 @@ interface InputProps {
   withButton?: boolean;
   withError?: boolean;
   padding?: 'sm' | 'md' | 'lg';
+  width?: 'sm' | 'md' | 'lg' | 'full';
   type?: 'text' | 'number' | 'password';
 }
 
 const styles = {
+  width: { sm: 'min-w-18', md: 'min-w-38', lg: 'min-w-50', full: 'w-full' },
   padding: { sm: 'py-1.5 border', md: 'py-2 border-2', lg: 'py-2.5 border-2' },
 };
 
@@ -39,6 +41,7 @@ export default function Input({
   withButton,
   withError,
   padding = 'lg',
+  width = 'full',
   type = 'text',
   ...props
 }: InputProps) {
@@ -73,11 +76,12 @@ export default function Input({
           }
           min={0}
           className={clsx(
-            'outline-input w-full text-sm tracking-wider',
+            'outline-input text-sm tracking-wider',
             'text-slate-700 dark:text-slate-50 dark:placeholder:text-slate-400',
             withButton ? 'pr-10' : 'pr-3',
             icon ? 'pl-10' : 'pl-3',
             styles.padding[padding],
+            styles.width[width],
             borderColor,
           )}
         />
