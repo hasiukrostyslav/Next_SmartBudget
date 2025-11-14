@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { useSelect } from '@/hooks/useSelect';
 import SelectContent from './SelectContent';
 import Icon from '../Icon';
+import SelectDisplay from './SelectDisplay';
 
 interface SelectProps {
   name: string;
@@ -15,6 +16,7 @@ interface SelectProps {
   padding?: 'sm' | 'md' | 'lg';
   color?: 'transparent' | 'blue';
   contentPosition?: 'top' | 'bottom';
+  placeholder?: string;
 }
 
 const styles = {
@@ -40,6 +42,7 @@ export default function Select({
   padding = 'sm',
   color = 'transparent',
   contentPosition = 'bottom',
+  placeholder,
 }: SelectProps) {
   const {
     id,
@@ -49,7 +52,7 @@ export default function Select({
     handleBlur,
     handleSelect,
     handleToggle,
-  } = useSelect(defaultValue);
+  } = useSelect({ defaultValue });
 
   return (
     <div
@@ -79,16 +82,12 @@ export default function Select({
           styles.padding[padding],
         )}
       >
-        <span>
-          {selectedItem === 'all' && !defaultValue
-            ? label
-            : defaultValue === selectedItem
-              ? defaultValue
-              : selectedItem.replace(
-                  selectedItem[0],
-                  selectedItem[0].toUpperCase(),
-                )}
-        </span>
+        <SelectDisplay
+          selectedItem={selectedItem}
+          defaultValue={defaultValue}
+          label={label}
+          placeholder={placeholder}
+        />
         <Icon
           size={16}
           name="chevron-down"
