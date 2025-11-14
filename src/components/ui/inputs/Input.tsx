@@ -1,7 +1,8 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useId } from 'react';
 import clsx from 'clsx';
+import { useShowPassword } from '@/hooks/useShowPassword';
 import { setBorderColor } from '@/lib/utils/ui';
 import { IconName } from '@/types/types';
 import InputError from './InputError';
@@ -42,12 +43,7 @@ export default function Input({
   ...props
 }: InputProps) {
   const id = useId();
-  const [isVisible, setIsVisible] = useState(false);
-
-  function handleClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.preventDefault();
-    setIsVisible(isVisible ? false : true);
-  }
+  const { isPasswordShown, handleClick } = useShowPassword();
 
   const borderColor = setBorderColor({ error, disabled });
 
@@ -69,7 +65,7 @@ export default function Input({
           placeholder={placeholder}
           autoComplete="off"
           type={
-            name === 'password' && !isVisible
+            name === 'password' && !isPasswordShown
               ? 'password'
               : type === 'number'
                 ? 'number'
@@ -87,7 +83,10 @@ export default function Input({
         />
 
         {withButton && (
-          <InputButton isVisible={isVisible} onClick={handleClick} />
+          <InputButton
+            isPasswordShown={isPasswordShown}
+            onClick={handleClick}
+          />
         )}
       </div>
 

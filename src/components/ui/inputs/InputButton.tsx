@@ -2,10 +2,13 @@ import Icon from '../Icon';
 
 interface InputButtonProps {
   onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  isVisible: boolean;
+  isPasswordShown?: boolean;
 }
 
-export default function InputButton({ onClick, isVisible }: InputButtonProps) {
+export default function InputButton({
+  onClick,
+  isPasswordShown,
+}: InputButtonProps) {
   return (
     <button
       type="button"
@@ -15,7 +18,7 @@ export default function InputButton({ onClick, isVisible }: InputButtonProps) {
       <Icon
         className="text-slate-500 dark:text-slate-400"
         size={16}
-        name={isVisible ? 'show' : 'hide'}
+        name={isPasswordShown ? 'show' : 'hide'}
       />
     </button>
   );
