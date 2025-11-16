@@ -5,12 +5,14 @@ interface TransactionModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;
   handleClose: () => void;
   children: React.ReactNode;
+  heading: string;
 }
 
 export default function Dialog({
   ref,
   handleClose,
   children,
+  heading,
 }: TransactionModalProps) {
   return (
     <dialog
@@ -22,8 +24,8 @@ export default function Dialog({
       )}
     >
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold dark:text-slate-200">
-          Add new transaction
+        <h2 className="text-lg font-bold tracking-wide dark:text-slate-200">
+          {heading}
         </h2>
         <ButtonIcon
           className="dark:text-slate-200"

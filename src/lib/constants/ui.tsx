@@ -79,3 +79,9 @@ export const currency = [
   { local: 'eng', currency: 'HUF' },
   { local: 'eng', currency: 'GBP' },
 ];
+
+// Radio
+export const transactionTypesOptions = [
+  { label: 'Income', value: 'income' },
+  { label: 'Expenses', value: 'expenses' },
+];
