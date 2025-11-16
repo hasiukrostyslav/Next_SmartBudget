@@ -1,4 +1,4 @@
-import { navLinks } from '@/lib/constants/constants';
+import { navLinks } from '@/lib/constants/ui';
 import NavLink from '../ui/links/NavLink';
 
 interface NavbarProps {
