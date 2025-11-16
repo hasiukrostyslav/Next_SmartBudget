@@ -1,13 +1,16 @@
 import clsx from 'clsx';
+import { getAllTransactions } from '@/lib/actions/transactionActions';
 import TransactionsItem from './TransactionsItem';
 import TransactionsSort from './TransactionsSort';
 
-export default function TransactionsList() {
+export default async function TransactionsList() {
+  const result = await getAllTransactions();
+
   return (
     <div
       className={clsx(
         'grid auto-rows-min gap-x-4',
-        'grid-cols-[auto_1fr_1fr_auto_minmax(6rem,auto)_1fr_auto]',
+        'grid-cols-[auto_1fr_1fr_auto_minmax(6rem,auto)_1fr_auto_auto]',
       )}
     >
       <TransactionsSort />
@@ -17,22 +20,9 @@ export default function TransactionsList() {
           'scrollbar max-h-[55vh] overflow-y-auto',
         )}
       >
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
-        <TransactionsItem />
+        {result.data?.map((item) => (
+          <TransactionsItem key={item.transactionId} item={item} />
+        ))}
       </div>
     </div>
   );

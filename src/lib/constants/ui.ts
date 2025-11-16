@@ -26,6 +26,7 @@ export const transactionCategories: {
   { type: 'income', name: 'Income', icon: 'income' },
   { type: 'income', name: 'Investments', icon: 'investments' },
   { type: 'income', name: 'Prize', icon: 'prize' },
+  { type: 'income', name: 'Currency Exchange', icon: 'currency-exchange' },
   { type: 'expenses', name: 'Advertisement', icon: 'advertisement' },
   { type: 'expenses', name: 'Appliance', icon: 'appliance' },
   { type: 'expenses', name: 'Books', icon: 'books' },

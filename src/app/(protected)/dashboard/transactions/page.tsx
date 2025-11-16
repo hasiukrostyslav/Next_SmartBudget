@@ -8,6 +8,8 @@ import TransactionsCTA from '@/components/ui/transactions/TransactionsCTA';
 export default async function TransactionsPage() {
   const result = await getAllTransactions();
 
+  console.log(result);
+
   if (result.error) return null;
 
   if (result.data && result?.data?.length < 1)

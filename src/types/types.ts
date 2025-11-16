@@ -23,3 +23,18 @@ export interface InputIcons {
   email: Extract<IconName, 'email'>;
   password: Extract<IconName, 'password'>;
 }
+
+export interface TransactionItem {
+  createdAt: Date;
+  updatedAt: Date;
+  userId: string;
+  transactionId: string;
+  transactionName: string;
+  transactionCategory: string;
+  paymentMethod: string;
+  transactionType: string;
+  currency: string;
+  amount: number;
+  description: string | null;
+  status: string | null;
+}
