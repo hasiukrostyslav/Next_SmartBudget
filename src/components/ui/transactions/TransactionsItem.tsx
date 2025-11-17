@@ -43,8 +43,9 @@ export default function TransactionsItem({ item }: TransactionsItemProps) {
       className={clsx(
         'col-span-full grid grid-cols-subgrid items-center text-xs',
         'border-t tracking-wide text-slate-800 dark:text-slate-400',
-        'mr-3 border-slate-300 px-1 py-2 dark:border-slate-700',
+        'border-slate-300 px-1 py-2 dark:border-slate-700',
         'visible-hover-show visible-hide hover:bg-blue-200 dark:hover:bg-blue-950',
+        'next-sibling hover:rounded-md',
       )}
     >
       <CheckBox name="" />

@@ -58,4 +58,7 @@
   .visible-hide > div:last-child {
     visibility: hidden;
   }
+  div.next-sibling:hover + div {
+    border-color: transparent !important;
+  }
 }
