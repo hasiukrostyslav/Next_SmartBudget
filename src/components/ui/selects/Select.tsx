@@ -23,7 +23,7 @@ const styles = {
   width: {
     sm: 'min-w-18 gap-2',
     md: 'min-w-38 gap-5',
-    lg: 'min-w-50 gap-5',
+    lg: 'min-w-44 gap-5',
   },
   padding: { sm: 'py-1.5', md: 'py-2', lg: 'py-2.5' },
   color: {

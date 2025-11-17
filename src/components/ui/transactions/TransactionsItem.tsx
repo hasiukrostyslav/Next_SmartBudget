@@ -50,8 +50,12 @@ export default function TransactionsItem({ item }: TransactionsItemProps) {
     >
       <CheckBox name="" />
       <div className="flex gap-2 px-1.5">
-        <span className="rounded-full bg-green-400 p-1.5">
-          <Icon name={category} size={20} className="dark:text-slate-800" />
+        <span className="rounded-full bg-green-300 p-1.5 dark:bg-green-400">
+          <Icon
+            name={category || 'banknote'}
+            size={20}
+            className="dark:text-slate-800"
+          />
         </span>
         <div className="flex flex-col">
           <span className="font-medium">{transactionName}</span>

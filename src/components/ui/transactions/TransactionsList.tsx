@@ -17,7 +17,7 @@ export default async function TransactionsList() {
       <div
         className={clsx(
           'col-span-full grid grid-cols-subgrid',
-          'scrollbar max-h-[55vh] overflow-y-auto',
+          'h-55vh h-65vh overflow-y-auto',
         )}
       >
         {result.data?.map((item) => (

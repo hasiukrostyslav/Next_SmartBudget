@@ -13,6 +13,7 @@ export default function TransactionsFilters() {
           name="Transaction categories"
           label="All Categories"
           data={transactionCategories.map((c) => c.name)}
+          width="lg"
         />
         <Select name="Accounts" label="All Accounts" data={[]} />
         <Select
