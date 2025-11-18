@@ -1,16 +1,25 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import CheckBox from '../inputs/CheckBox';
-import Icon from '../Icon';
 import { TransactionItem } from '@/types/types';
 import { transactionCategories } from '@/lib/constants/ui';
-import IconColorful from '../IconColorful';
 import ButtonIcon from '../buttons/ButtonIcon';
+import CheckBox from '../inputs/CheckBox';
+import IconColorful from '../IconColorful';
+import Icon from '../Icon';
 
 interface TransactionsItemProps {
   item: TransactionItem;
+  checked: boolean;
+  toggleSelect: (id: string) => void;
 }
 
-export default function TransactionsItem({ item }: TransactionsItemProps) {
+export default function TransactionsItem({
+  item,
+  checked,
+  toggleSelect,
+}: TransactionsItemProps) {
   const {
     transactionCategory,
     transactionName,
@@ -23,6 +32,17 @@ export default function TransactionsItem({ item }: TransactionsItemProps) {
     status,
   } = item;
 
+  const [formattedAmount, setFormattedAmount] = useState('');
+
+  useEffect(() => {
+    const amountString = new Intl.NumberFormat('uk', {
+      style: 'currency',
+      currency,
+    }).format(amount);
+
+    setFormattedAmount(amountString);
+  }, [amount, currency]);
+
   const category = transactionCategories.find(
     (el) => el.name === transactionCategory,
   )?.icon;
@@ -33,10 +53,6 @@ export default function TransactionsItem({ item }: TransactionsItemProps) {
     minute: '2-digit',
     second: '2-digit',
   }).format(createdAt);
-  const formattedAmount = new Intl.NumberFormat('uk', {
-    style: 'currency',
-    currency,
-  }).format(amount);
 
   return (
     <div
@@ -48,7 +64,11 @@ export default function TransactionsItem({ item }: TransactionsItemProps) {
         'next-sibling hover:rounded-md',
       )}
     >
-      <CheckBox name="" />
+      <CheckBox
+        name={transactionName}
+        checked={checked}
+        onChange={toggleSelect}
+      />
       <div className="flex gap-2 px-1.5">
         <span className="rounded-full bg-green-300 p-1.5 dark:bg-green-400">
           <Icon

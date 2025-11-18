@@ -1,15 +1,25 @@
+'use client';
+
 import clsx from 'clsx';
 import SortButton from '../buttons/SortButton';
 import CheckBox from '../inputs/CheckBox';
 
-export default function TransactionsSort() {
+interface TransactionsSortProps {
+  isBulkSelect: boolean;
+  toggleBulkSelect: () => void;
+}
+
+export default function TransactionsSort({
+  isBulkSelect,
+  toggleBulkSelect,
+}: TransactionsSortProps) {
   return (
     <div
       className={clsx(
         'Buttons-center col-span-full mb-4 grid grid-cols-subgrid px-1',
       )}
     >
-      <CheckBox name="all" />
+      <CheckBox name="all" checked={isBulkSelect} onChange={toggleBulkSelect} />
       <SortButton label="Transaction Name" />
       <SortButton label="Account" />
       <SortButton label="Date & Time" />

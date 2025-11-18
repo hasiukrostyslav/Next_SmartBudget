@@ -8,9 +8,7 @@ import TransactionsCTA from '@/components/ui/transactions/TransactionsCTA';
 export default async function TransactionsPage() {
   const result = await getAllTransactions();
 
-  console.log(result);
-
-  if (result.error) return null;
+  if (result.error || !result.data) return null;
 
   if (result.data && result?.data?.length < 1)
     return (
@@ -18,12 +16,12 @@ export default async function TransactionsPage() {
         <TransactionsCTA buttonSize="lg" iconSize={20} />
       </EmptyState>
     );
-
-  return (
-    <section className="grid h-full grid-rows-[auto_1fr_auto] gap-4">
-      <TransactionsFilters />
-      <TransactionsList />
-      <PaginationTable />
-    </section>
-  );
+  else
+    return (
+      <section className="grid h-full grid-rows-[auto_1fr_auto] gap-4">
+        <TransactionsFilters />
+        <TransactionsList data={result.data} />
+        <PaginationTable />
+      </section>
+    );
 }
