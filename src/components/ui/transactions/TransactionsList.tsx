@@ -5,6 +5,7 @@ import { useCheckbox } from '@/hooks/useCheckbox';
 import TransactionsItem from './TransactionsItem';
 import TransactionsSort from './TransactionsSort';
 import { TransactionItem } from '@/types/types';
+import BulkToolbar from '../BulkToolbar';
 
 export default function TransactionsList({
   data,
@@ -17,7 +18,7 @@ export default function TransactionsList({
   return (
     <div
       className={clsx(
-        'grid auto-rows-min gap-x-4',
+        'relative grid auto-rows-min gap-x-4',
         'grid-cols-[auto_1fr_1fr_auto_minmax(6rem,auto)_1fr_auto_auto]',
       )}
     >
@@ -40,6 +41,7 @@ export default function TransactionsList({
           />
         ))}
       </div>
+      <BulkToolbar />
     </div>
   );
 }

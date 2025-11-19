@@ -87,7 +87,7 @@ export default function TransactionModal({
           <TextArea />
         </div>
         <div className="mt-4 flex justify-end gap-4">
-          <Button onClick={handleClose} size="md" color="transparent">
+          <Button onClick={handleClose} size="md" color="outline">
             Cancel
           </Button>
           <Button color="blue" size="md">
