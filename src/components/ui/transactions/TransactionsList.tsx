@@ -35,7 +35,7 @@ export default function TransactionsList({
       <div
         className={clsx(
           'col-span-full grid grid-cols-subgrid',
-          'h-55vh h-65vh overflow-y-auto',
+          'h-55vh h-65vh scrollbar overflow-y-auto',
         )}
       >
         {data.map((item) => (
