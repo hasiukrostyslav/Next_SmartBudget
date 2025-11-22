@@ -21,6 +21,7 @@ export default function TransactionsItem({
   toggleSelect,
 }: TransactionsItemProps) {
   const {
+    transactionId,
     transactionCategory,
     transactionName,
     transactionType,
@@ -67,7 +68,7 @@ export default function TransactionsItem({
       <CheckBox
         name={transactionName}
         checked={checked}
-        onChange={toggleSelect}
+        onChange={() => toggleSelect(transactionId)}
       />
       <div className="flex gap-2 px-1.5">
         <span className="rounded-full bg-green-300 p-1.5 dark:bg-green-400">

@@ -44,8 +44,18 @@ export default function BulkToolbar({
         onClick={bulkSelect}
         disabled={allSelected}
       />
-      <ToolbarButton iconName="status" iconSize={16} label="Change status" />
-      <ToolbarButton iconName="delete" iconSize={16} label="Delete" />
+      <ToolbarButton
+        iconName="status"
+        iconSize={16}
+        label="Change status"
+        onClick={() => console.log('test')}
+      />
+      <ToolbarButton
+        iconName="delete"
+        iconSize={16}
+        label="Delete"
+        onClick={() => console.log('test')}
+      />
 
       <ButtonIcon
         iconName="close"

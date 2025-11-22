@@ -7,7 +7,7 @@ interface ToolbarButtonProps {
   label: string;
   iconSize: number;
   onClick: () => void;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 export default function ToolbarButton({
