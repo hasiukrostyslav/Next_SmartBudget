@@ -1,15 +1,38 @@
-import { useState } from 'react';
+import { TransactionItem } from '@/types/types';
+import { useEffect, useState } from 'react';
 
-export default function useCheckbox() {
-  const [checked, setChecked] = useState(false);
+type useCheckboxProps = TransactionItem[];
 
-  const toggleCheck = () => setChecked(!checked);
-  const toggleCheckOnKey = (e: React.KeyboardEvent) => {
-    if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
-      toggleCheck();
-    }
+export function useCheckbox(list: useCheckboxProps) {
+  const [isBulkSelect, setIsBulkSelect] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (isBulkSelect) setSelectedItems(list.map((d) => d.transactionId));
+    else setSelectedItems([]);
+  }, [isBulkSelect, list]);
+
+  const toggleSelect = (id: string) =>
+    setSelectedItems((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
+    );
+
+  const toggleBulkSelect = () => setIsBulkSelect(!isBulkSelect);
+  const bulkSelect = () => {
+    setIsBulkSelect(true);
+    setSelectedItems(list.map((d) => d.transactionId));
+  };
+  const bulkUnSelect = () => {
+    setIsBulkSelect(false);
+    setSelectedItems([]);
   };
 
-  return { checked, toggleCheck, toggleCheckOnKey };
+  return {
+    selectedItems,
+    isBulkSelect,
+    toggleSelect,
+    toggleBulkSelect,
+    bulkSelect,
+    bulkUnSelect,
+  };
 }

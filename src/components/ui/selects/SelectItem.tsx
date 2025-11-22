@@ -6,7 +6,7 @@ interface SelectItemProps {
   selectedItem: string;
   option: string;
   isOpen: boolean;
-  heading?: string;
+  label?: string;
   onSelect: (option: string) => void;
 }
 
@@ -15,7 +15,7 @@ export default function SelectItem({
   option,
   isOpen,
   onSelect,
-  heading,
+  label,
 }: SelectItemProps) {
   return (
     <button
@@ -23,9 +23,7 @@ export default function SelectItem({
       tabIndex={isOpen ? 0 : -1}
       aria-selected={selectedItem === option}
       disabled={selectedItem === option}
-      onClick={() => {
-        onSelect(option);
-      }}
+      onClick={() => onSelect(option)}
       type="button"
       className={clsx(
         'outline-input flex w-full rounded-md px-1.5 py-1',
@@ -34,7 +32,7 @@ export default function SelectItem({
       )}
     >
       {option === 'all'
-        ? heading
+        ? label
         : option.replace(option[0], option[0].toUpperCase())}
     </button>
   );

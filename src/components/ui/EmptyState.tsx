@@ -1,9 +1,11 @@
 import Image from 'next/image';
 import clsx from 'clsx';
-import Button from './buttons/Button';
-import Icon from './Icon';
 
-export default function EmptyState() {
+export default function EmptyState({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <section
       className={clsx(
@@ -12,24 +14,24 @@ export default function EmptyState() {
     >
       <div className="flex flex-col items-center justify-center gap-8">
         <Image
-          className="h-[200] w-[200]"
+          className="h-[220] w-[220]"
           alt="Error"
           src="/error-404.png"
-          width={200}
-          height={200}
+          width={220}
+          height={220}
+          priority
         />
         <h2
-          className={clsx('mt-4 text-lg leading-snug font-bold tracking-wider')}
+          className={clsx(
+            'mt-4 text-2xl leading-snug font-bold tracking-wider',
+          )}
         >
           Nothing here yet
         </h2>
       </div>
-      <div className="mt-2 flex flex-col items-center justify-center gap-3">
+      <div className="mt-2 flex flex-col items-center justify-center gap-6">
         <p className="text-slate-500">Add your first transaction</p>
-        <Button className="flex items-center gap-0.5" color="blue" size="md">
-          <Icon name="plus" size={20} />
-          <span>Create</span>
-        </Button>
+        {children}
       </div>
     </section>
   );

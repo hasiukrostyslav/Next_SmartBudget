@@ -14,7 +14,7 @@ export default function DashboardLayout({
       <Header />
       <section
         className={clsx(
-          'relative mx-5 rounded-2xl border-2',
+          'relative mx-5 rounded-2xl border',
           'border-slate-300 px-3 py-4 dark:border-slate-600',
         )}
       >

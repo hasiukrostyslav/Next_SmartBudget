@@ -43,28 +43,36 @@ export default function SignUpForm() {
       className="mt-6 flex w-full flex-col gap-2"
     >
       <Input
-        label="Full name"
         {...register('name')}
+        label="Full name"
         placeholder="Please enter your full name"
         disabled={isPending}
         error={errors.name?.message}
+        withError
+        icon="name"
       />
       <Input
-        label="Email address"
         {...register('email')}
+        label="Email address"
         placeholder="Please enter your email"
         disabled={isPending}
         error={errors.email?.message}
+        withError
+        icon="email"
       />
       <Input
-        label="Password"
         {...register('password')}
+        label="Password"
         placeholder="Please enter your password"
-        isPassword
         disabled={isPending}
         error={errors.password?.message}
+        withError
+        icon="password"
+        withButton
       />
+
       {serverError && <FormError message={serverError} />}
+
       <Button
         size="lg"
         color="black"

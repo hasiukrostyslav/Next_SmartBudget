@@ -1,12 +1,14 @@
-'use client';
-
 import { useEffect, useId, useRef, useState } from 'react';
 
-export function useSelect() {
+interface useSelectProps {
+  defaultValue: string | undefined;
+}
+
+export function useSelect({ defaultValue }: useSelectProps) {
   const id = useId();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState('all');
-  const selectRef = useRef<HTMLFormElement>(null);
+  const [selectedItem, setSelectedItem] = useState(defaultValue || 'all');
+  const selectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {

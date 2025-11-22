@@ -16,7 +16,9 @@ export default function Icon({
   size,
   strokeWidth,
 }: IconProps) {
-  const Icon = icons[name];
+  const Icon = icons.find((icon) => icon.role === name)?.component;
+
+  if (!Icon) return null;
 
   return (
     <Icon
