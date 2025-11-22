@@ -10,21 +10,21 @@ export default function TransactionsFilters() {
 
       <div className="ml-5 flex items-center gap-2">
         <Select
-          name="Transaction categories"
-          label="All Categories"
+          name="categories"
           data={transactionCategories.map((c) => c.name)}
+          defaultOption="all"
           width="lg"
         />
-        <Select name="Accounts" label="All Accounts" data={[]} />
+        <Select name="accounts" data={[]} defaultOption="all" />
         <Select
-          name="Transaction types"
-          label="All types"
+          name="types"
           data={transactionTypes.map((c) => c.name)}
+          defaultOption="all"
         />
       </div>
 
       <div className="ml-auto flex items-center gap-4">
-        <Select name="date" label="Date" data={[]} />
+        {/* <Select name="date" defaultOption="" data={[]} /> */}
         <TransactionsCTA buttonSize="md" iconSize={16} />
       </div>
     </div>
