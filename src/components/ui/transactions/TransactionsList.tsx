@@ -4,16 +4,22 @@ import clsx from 'clsx';
 import { useCheckbox } from '@/hooks/useCheckbox';
 import TransactionsItem from './TransactionsItem';
 import TransactionsSort from './TransactionsSort';
-import { TransactionItem } from '@/types/types';
 import BulkToolbar from '../BulkToolbar';
+import { TransactionItem } from '@/types/types';
 
 export default function TransactionsList({
   data,
 }: {
   data: TransactionItem[];
 }) {
-  const { selectedItems, isBulkSelect, toggleSelect, toggleBulkSelect } =
-    useCheckbox(data);
+  const {
+    selectedItems,
+    isBulkSelect,
+    toggleSelect,
+    toggleBulkSelect,
+    bulkSelect,
+    bulkUnSelect,
+  } = useCheckbox(data);
 
   return (
     <div
@@ -41,7 +47,13 @@ export default function TransactionsList({
           />
         ))}
       </div>
-      <BulkToolbar />
+      <BulkToolbar
+        selectedNumber={selectedItems.length}
+        isShown={selectedItems.length > 0}
+        allSelected={selectedItems.length === data.length}
+        bulkSelect={bulkSelect}
+        bulkUnSelect={bulkUnSelect}
+      />
     </div>
   );
 }

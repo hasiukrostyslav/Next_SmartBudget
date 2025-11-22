@@ -18,6 +18,21 @@ export function useCheckbox(list: useCheckboxProps) {
     );
 
   const toggleBulkSelect = () => setIsBulkSelect(!isBulkSelect);
+  const bulkSelect = () => {
+    setIsBulkSelect(true);
+    setSelectedItems(list.map((d) => d.transactionId));
+  };
+  const bulkUnSelect = () => {
+    setIsBulkSelect(false);
+    setSelectedItems([]);
+  };
 
-  return { selectedItems, isBulkSelect, toggleSelect, toggleBulkSelect };
+  return {
+    selectedItems,
+    isBulkSelect,
+    toggleSelect,
+    toggleBulkSelect,
+    bulkSelect,
+    bulkUnSelect,
+  };
 }
