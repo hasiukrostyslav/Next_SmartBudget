@@ -16,6 +16,7 @@ interface SelectProps {
   padding?: 'sm' | 'md' | 'lg';
   color?: 'transparent' | 'blue';
   contentPosition?: 'top' | 'bottom';
+  autoFetchOnChange?: boolean;
 }
 
 const styles = {
@@ -41,6 +42,7 @@ export default function Select({
   padding = 'sm',
   color = 'transparent',
   contentPosition = 'bottom',
+  autoFetchOnChange = false,
 }: SelectProps) {
   const {
     id,
@@ -50,7 +52,7 @@ export default function Select({
     handleBlur,
     handleSelect,
     handleToggleExpanded,
-  } = useSelect({ defaultOption });
+  } = useSelect({ defaultOption, param: name, autoFetchOnChange });
 
   return (
     <div

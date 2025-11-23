@@ -12,13 +12,20 @@ export default function TransactionsFilters() {
         <Select
           name="categories"
           data={transactionCategories.map((c) => c.name)}
+          autoFetchOnChange
           defaultOption="all"
           width="lg"
         />
-        <Select name="accounts" data={[]} defaultOption="all" />
+        <Select
+          name="accounts"
+          data={[]}
+          autoFetchOnChange
+          defaultOption="all"
+        />
         <Select
           name="types"
           data={transactionTypes.map((c) => c.name)}
+          autoFetchOnChange
           defaultOption="all"
         />
       </div>

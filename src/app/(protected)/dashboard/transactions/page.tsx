@@ -4,9 +4,18 @@ import TransactionsList from '@/components/ui/transactions/TransactionsList';
 import PaginationTable from '@/components/ui/pagination/PaginationTable';
 import EmptyState from '@/components/ui/EmptyState';
 import TransactionsCTA from '@/components/ui/transactions/TransactionsCTA';
+import { SearchParamsSchema } from '@/lib/schemas/schema';
 
-export default async function TransactionsPage() {
-  const result = await getAllTransactions();
+export default async function TransactionsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = SearchParamsSchema.safeParse(await searchParams);
+
+  const result = await getAllTransactions({
+    limit: Number(params.data?.limit),
+  });
 
   if (result.error || !result.data) return null;
 

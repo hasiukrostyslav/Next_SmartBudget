@@ -37,3 +37,8 @@ export const SignInSchema = z.object({
 export const ForgotPasswordSchema = z.object({
   email: z.email({ message: 'Please enter a valid email.' }).trim(),
 });
+
+export const SearchParamsSchema = z.object({
+  limit: z.string().optional().default('2'),
+  page: z.string().optional().default('1'),
+});
