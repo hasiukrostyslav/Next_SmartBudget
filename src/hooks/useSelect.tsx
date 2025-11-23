@@ -1,6 +1,6 @@
-import { createSearchParamsString } from '@/lib/utils/utils';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { createQueryString } from '@/lib/utils/utils';
 
 interface useSelectProps {
   defaultOption: string | number | undefined;
@@ -17,9 +17,9 @@ export function useSelect({
   const [isExpanded, setIsExpanded] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
   const id = useId();
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const searchString = searchParams.toString();
+  const pathname = usePathname();
+  const router = useRouter();
 
   // Close by click outside
   useEffect(() => {
@@ -48,17 +48,9 @@ export function useSelect({
 
     // Make new request if autoFetchOnChange is true
     if (autoFetchOnChange) {
-      if (!searchString) {
-        router.replace(`?${param}=${option}`);
-      } else {
-        const newSearchString = createSearchParamsString(
-          searchString,
-          param,
-          option,
-        );
+      const newSearchString = createQueryString(searchParams, param, option);
 
-        router.replace(`?${newSearchString}`);
-      }
+      router.replace(`${pathname}?${newSearchString}`);
     }
   };
 
