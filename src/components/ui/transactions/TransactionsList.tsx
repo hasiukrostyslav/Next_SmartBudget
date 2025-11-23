@@ -34,7 +34,7 @@ export default function TransactionsList({
       />
       <div
         className={clsx(
-          'col-span-full grid grid-cols-subgrid',
+          'col-span-full grid auto-rows-min grid-cols-subgrid',
           'h-55vh h-65vh scrollbar overflow-y-auto',
         )}
       >
