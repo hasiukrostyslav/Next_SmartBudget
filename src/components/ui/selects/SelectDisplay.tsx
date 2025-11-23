@@ -23,10 +23,10 @@ export default function SelectDisplay({
   } else if (selectedOption === 'all') {
     renderOption = `All ${bulkLabel.at(0)?.toUpperCase() + bulkLabel.slice(1)}`;
   } else {
-    renderOption = selectedOption.replace(
-      selectedOption[0],
-      selectedOption[0].toUpperCase(),
-    );
+    renderOption = selectedOption
+      .split(' ')
+      .map((word) => word.replace(word[0], word[0].toUpperCase()))
+      .join(' ');
   }
 
   return <span>{renderOption}</span>;

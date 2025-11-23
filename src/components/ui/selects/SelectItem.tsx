@@ -35,7 +35,10 @@ export default function SelectItem({
         ? option
         : option === 'all'
           ? `All ${bulkLabel.at(0)?.toUpperCase() + bulkLabel.slice(1)}`
-          : option.replace(option[0], option[0].toUpperCase())}
+          : option
+              .split(' ')
+              .map((word) => word.replace(word[0], word[0].toUpperCase()))
+              .join(' ')}
     </button>
   );
 }
