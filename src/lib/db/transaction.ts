@@ -6,16 +6,20 @@ export async function getAllUserTransactions(
   // page: number,
 ) {
   try {
-    const transactions = await db.transaction.findMany({
-      where: { userId },
-      take: limit,
+    const [transactions, transactionCount] = await Promise.all([
+      db.transaction.findMany({
+        where: { userId },
+        take: limit,
 
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+        orderBy: {
+          createdAt: 'desc',
+        },
+      }),
 
-    return transactions;
+      db.transaction.count({ where: { userId } }),
+    ]);
+
+    return { transactions, transactionCount };
   } catch {
     return null;
   }

@@ -1,19 +1,30 @@
+import { useSearchParams } from 'next/navigation';
+import { getPageSizeOption } from '@/lib/utils/utils';
 import Select from '../selects/Select';
 
-export default function PaginationFilter() {
-  const numOfPages = ['10', '25', '50', '100'];
+interface PaginationTableProps {
+  totalCount: number;
+}
+
+export default function PaginationFilter({ totalCount }: PaginationTableProps) {
+  const searchParams = useSearchParams();
+  const limit = searchParams.get('limit');
+
+  const pageSizeOptions = getPageSizeOption(totalCount);
+
   return (
     <div className="flex items-center gap-2">
       <span>Showing</span>
       <Select
-        name="page"
-        data={numOfPages}
+        name="limit"
+        data={pageSizeOptions}
+        defaultOption={limit ? Number(limit) : pageSizeOptions[0]}
         width="sm"
-        defaultValue={numOfPages[0]}
-        contentPosition="top"
         color="blue"
+        contentPosition="top"
+        autoFetchOnChange
       />
-      <span>out of 100</span>
+      <span>out of {totalCount}</span>
     </div>
   );
 }

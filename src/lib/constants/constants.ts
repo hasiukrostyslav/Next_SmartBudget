@@ -14,4 +14,4 @@ export const toastOptions = {
 export const saltRounds = 10 as const;
 
 // Number of the displayed item on pagination filter
-export const numOfShownItem = [10, 25, 50, 100] as const;
+export const pageSizeOptions = [10, 25, 50, 100] as const;

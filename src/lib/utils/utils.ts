@@ -1,3 +1,5 @@
+import { pageSizeOptions } from '../constants/constants';
+
 export function createSearchParamsString(
   searchString: string,
   param: string,
@@ -23,11 +25,20 @@ export function createSearchParamsString(
 }
 
 export function toSlug(str: string | number) {
-  if (typeof str === 'number') return;
+  if (typeof str === 'number') return str;
   return str.toLowerCase().replace(/\s+/g, '-');
 }
 
 export function fromSlug(slug: string | number) {
-  if (typeof slug === 'number') return;
+  if (typeof slug === 'number') return slug;
   return slug.replace(/-/g, ' ');
+}
+
+export function getPageSizeOption(totalCount: number) {
+  const options = [...pageSizeOptions];
+  const index = options.findIndex((count) => count > totalCount);
+
+  if (index === -1) return options;
+
+  return options.slice(0, index + 1);
 }

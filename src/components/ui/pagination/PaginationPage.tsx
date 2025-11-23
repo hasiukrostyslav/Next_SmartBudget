@@ -1,6 +1,6 @@
 import PaginationButton from './PaginationButton';
 
-export default function Pagination() {
+export default function PaginationPage() {
   return (
     <div className="flex items-center gap-2">
       <PaginationButton href="#" page="prev" disable />

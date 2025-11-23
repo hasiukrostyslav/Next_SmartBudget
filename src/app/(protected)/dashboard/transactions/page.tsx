@@ -19,7 +19,7 @@ export default async function TransactionsPage({
 
   if (result.error || !result.data) return null;
 
-  if (result.data && result?.data?.length < 1)
+  if (result.data && result?.data?.transactions?.length < 1)
     return (
       <EmptyState>
         <TransactionsCTA buttonSize="lg" iconSize={20} />
@@ -29,8 +29,8 @@ export default async function TransactionsPage({
     return (
       <section className="grid h-full grid-rows-[auto_1fr_auto] gap-4">
         <TransactionsFilters />
-        <TransactionsList data={result.data} />
-        <PaginationTable />
+        <TransactionsList data={result.data.transactions} />
+        <PaginationTable totalCount={result.data.transactionCount} />
       </section>
     );
 }

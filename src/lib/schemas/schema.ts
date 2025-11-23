@@ -41,4 +41,7 @@ export const ForgotPasswordSchema = z.object({
 export const SearchParamsSchema = z.object({
   limit: z.string().optional().default('2'),
   page: z.string().optional().default('1'),
+  categories: z.string().optional().default('all'),
+  types: z.string().optional().default('all'),
+  accounts: z.string().optional().default('all'),
 });
