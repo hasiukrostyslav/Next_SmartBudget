@@ -13,9 +13,7 @@ export default async function TransactionsPage({
 }) {
   const params = SearchParamsSchema.safeParse(await searchParams);
 
-  const result = await getAllTransactions({
-    limit: Number(params.data?.limit),
-  });
+  const result = await getAllTransactions(params?.data);
 
   if (result.error || !result.data) return null;
 

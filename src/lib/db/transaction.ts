@@ -1,15 +1,20 @@
+import z from 'zod';
 import { db } from './db';
+import { SearchParamsSchema } from '../schemas/schema';
+
+type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 
 export async function getAllUserTransactions(
   userId: string,
-  limit: number,
-  // page: number,
+  props?: SearchParamsType,
 ) {
   try {
     const [transactions, transactionCount] = await Promise.all([
       db.transaction.findMany({
+        skip: Number(props?.limit ?? 10) * (Number(props?.page ?? 1) - 1),
+        take: Number(props?.limit ?? 10),
+
         where: { userId },
-        take: limit,
 
         orderBy: {
           createdAt: 'desc',
