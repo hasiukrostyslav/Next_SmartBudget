@@ -11,10 +11,10 @@ interface PaginationButtonProps {
 
 const styles = {
   default: 'hover:bg-blue-200/50 dark:hover:bg-slate-600/30',
-  active:
-    'bg-blue-300/50 hover:bg-blue-400/50 dark:bg-slate-600 dark:hover:bg-slate-400/50',
+  active: `bg-blue-300/50 cursor-default pointer-events-none
+  dark:bg-slate-600`,
   disable: `cursor-default dark:border-slate-700 border-slate-300 
-  text-slate-300 dark:text-slate-700`,
+  text-slate-300 dark:text-slate-700 pointer-events-none`,
 };
 
 export default function PaginationButton({
@@ -25,17 +25,17 @@ export default function PaginationButton({
 }: PaginationButtonProps) {
   return (
     <Link
-      href={href}
-      tabIndex={disable ? -1 : 0}
+      href={disable || active ? '#' : href}
+      aria-disabled={disable}
+      tabIndex={disable || active ? -1 : 0}
       className={clsx(
-        'flex h-7 w-7 items-center justify-center p-1 transition-[hover] duration-300',
-        'outline-input rounded-md border text-sm focus:border-0',
-        !disable
-          ? 'border-blue-300 text-slate-700 dark:border-slate-500 dark:text-slate-300'
-          : '',
+        'flex h-7 w-7 items-center justify-center p-1',
+        'outline-input rounded-md border text-sm select-none',
         !active && !disable && styles.default,
         active ? styles.active : '',
-        disable ? styles.disable : '',
+        disable
+          ? styles.disable
+          : 'border-blue-300 text-slate-700 dark:border-slate-500 dark:text-slate-300',
       )}
     >
       {typeof page === 'string' ? (
