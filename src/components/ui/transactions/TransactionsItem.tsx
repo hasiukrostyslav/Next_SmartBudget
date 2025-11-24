@@ -1,7 +1,5 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import getSymbolFromCurrency from 'currency-symbol-map';
 import { TransactionItem } from '@/types/types';
 import { transactionCategories } from '@/lib/constants/ui';
 import ButtonIcon from '../buttons/ButtonIcon';
@@ -32,17 +30,6 @@ export default function TransactionsItem({
     description,
     status,
   } = item;
-
-  const [formattedAmount, setFormattedAmount] = useState('');
-
-  useEffect(() => {
-    const amountString = new Intl.NumberFormat('uk', {
-      style: 'currency',
-      currency,
-    }).format(amount);
-
-    setFormattedAmount(amountString);
-  }, [amount, currency]);
 
   const category = transactionCategories.find(
     (el) => el.name === transactionCategory,
@@ -105,7 +92,8 @@ export default function TransactionsItem({
         )}
       >
         <span>{transactionType === 'Income' ? '+' : '-'}</span>
-        <span>{formattedAmount}</span>
+        <span>{amount}</span>
+        <span className="ml-1">{getSymbolFromCurrency(currency)}</span>
       </div>
       <div className="px-1.5">{description}</div>
       <div
