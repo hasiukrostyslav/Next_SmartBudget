@@ -10,6 +10,7 @@ export function createQueryString(
 
   const params = new URLSearchParams(searchParams.toString());
   params.set(name, slugValue);
+  if (name !== 'page') params.set('page', '1');
 
   return params.toString();
 }

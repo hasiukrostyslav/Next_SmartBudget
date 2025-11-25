@@ -1,6 +1,7 @@
 import z from 'zod';
 import { db } from './db';
 import { SearchParamsSchema } from '../schemas/schema';
+import { pageSizeOptions } from '../constants/constants';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 
@@ -11,8 +12,10 @@ export async function getAllUserTransactions(
   try {
     const [transactions, transactionCount] = await Promise.all([
       db.transaction.findMany({
-        skip: Number(props?.limit ?? 10) * (Number(props?.page ?? 1) - 1),
-        take: Number(props?.limit ?? 10),
+        skip:
+          Number(props?.limit ?? pageSizeOptions[0]) *
+          (Number(props?.page ?? 1) - 1),
+        take: Number(props?.limit ?? pageSizeOptions[0]),
 
         where: { userId },
 
