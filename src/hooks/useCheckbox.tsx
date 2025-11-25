@@ -1,4 +1,5 @@
 import { TransactionItem } from '@/types/types';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 type useCheckboxProps = TransactionItem[];
@@ -6,11 +7,17 @@ type useCheckboxProps = TransactionItem[];
 export function useCheckbox(list: useCheckboxProps) {
   const [isBulkSelect, setIsBulkSelect] = useState(false);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (isBulkSelect) setSelectedItems(list.map((d) => d.transactionId));
     else setSelectedItems([]);
   }, [isBulkSelect, list]);
+
+  useEffect(() => {
+    setIsBulkSelect(false);
+    setSelectedItems([]);
+  }, [searchParams]);
 
   const toggleSelect = (id: string) =>
     setSelectedItems((prev) =>
