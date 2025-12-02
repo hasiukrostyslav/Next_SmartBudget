@@ -27,6 +27,10 @@ export function useCheckbox(list: useCheckboxProps) {
     setSelectedItems([]);
   }, [searchParams]);
 
+  useEffect(() => {
+    if (!selectedItems.length) setIsBulkSelect(false);
+  }, [selectedItems.length]);
+
   const toggleSelect = (id: string, name: string) =>
     setSelectedItems((prev) =>
       prev.find((i) => i.itemId === id)

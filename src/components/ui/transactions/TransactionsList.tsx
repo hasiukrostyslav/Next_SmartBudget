@@ -52,7 +52,7 @@ export default function TransactionsGrid({
       <BulkToolbar
         selectedNumber={selectedItems.length}
         isShown={selectedItems.length > 0}
-        allSelected={selectedItems.length === data.length}
+        allSelected={selectedItems.length === data.length && isBulkSelect}
         bulkSelect={bulkSelect}
         bulkUnSelect={bulkUnSelect}
         selectedItems={selectedItems}
