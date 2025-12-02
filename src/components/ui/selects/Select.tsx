@@ -17,6 +17,7 @@ interface SelectProps {
   color?: 'transparent' | 'blue';
   contentPosition?: 'top' | 'bottom';
   autoFetchOnChange?: boolean;
+  disabled?: boolean;
 }
 
 const styles = {
@@ -27,8 +28,9 @@ const styles = {
   },
   padding: { sm: 'py-1.5', md: 'py-2', lg: 'py-2.5' },
   color: {
-    blue: 'border-blue-300 bg-blue-200/50',
-    transparent: 'border-slate-300',
+    blue: 'border-blue-300 bg-blue-200/50 text-slate-700 dark:border-slate-500 dark:bg-slate-800',
+    transparent:
+      'border-slate-300 dark:border-slate-500 dark:bg-slate-800 text-slate-700',
   },
 };
 
@@ -43,6 +45,7 @@ export default function Select({
   color = 'transparent',
   contentPosition = 'bottom',
   autoFetchOnChange = false,
+  disabled,
 }: SelectProps) {
   const {
     id,
@@ -73,13 +76,16 @@ export default function Select({
         aria-expanded={isExpanded}
         type="button"
         onClick={handleToggleExpanded}
+        disabled={disabled}
         className={clsx(
           'flex items-center justify-between px-2.5 text-sm font-medium',
-          'outline-input rounded-md border-[1px] text-slate-700',
-          'dark:border-slate-500 dark:bg-slate-800 dark:text-slate-400',
+          'outline-input rounded-md border-[1px]',
+          'dark:text-slate-400',
           styles.width[width],
-          styles.color[color],
           styles.padding[padding],
+          disabled
+            ? 'border-slate-300 bg-slate-200/50 text-slate-400 dark:border-slate-500 dark:bg-slate-600'
+            : styles.color[color],
         )}
       >
         <SelectDisplay

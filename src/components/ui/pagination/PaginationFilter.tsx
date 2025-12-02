@@ -23,6 +23,7 @@ export default function PaginationFilter({ totalCount }: PaginationTableProps) {
         color="blue"
         contentPosition="top"
         autoFetchOnChange
+        disabled={pageSizeOptions.length === 1}
       />
       <span>out of {totalCount}</span>
     </div>
