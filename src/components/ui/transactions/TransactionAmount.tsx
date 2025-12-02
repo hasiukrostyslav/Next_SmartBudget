@@ -17,7 +17,7 @@ export default function TransactionAmount({
         type === 'Income' ? 'text-green-600' : 'text-red-600',
       )}
     >
-      <span>{type === 'Income' ? '+' : '-'}</span>
+      <span>{type === 'Income' ? '+ ' : '- '}</span>
       <span>{formattedAmount}</span>
     </div>
   );
