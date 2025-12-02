@@ -5,7 +5,10 @@ export function useDialog() {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    if (isOpen) dialogRef.current?.showModal();
+    if (isOpen) {
+      dialogRef.current?.showModal();
+      dialogRef.current?.focus();
+    }
   }, [isOpen]);
 
   useEffect(() => {

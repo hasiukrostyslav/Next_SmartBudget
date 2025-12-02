@@ -22,7 +22,12 @@ export default function TransactionModal({
   handleClose,
 }: TransactionModalProps) {
   return (
-    <Dialog ref={ref} handleClose={handleClose} heading="Add new transaction">
+    <Dialog
+      ref={ref}
+      handleClose={handleClose}
+      heading="Add new transaction"
+      closeButton
+    >
       <form className="flex flex-col gap-6 text-slate-700 dark:text-slate-50">
         <div className="flex flex-col gap-1.5">
           <h3 className="font-medium">Select transaction&apos;s type:</h3>

@@ -7,7 +7,7 @@ import TransactionsSort from './TransactionsSort';
 import BulkToolbar from '../BulkToolbar';
 import { TransactionItem } from '@/types/types';
 
-export default function TransactionsList({
+export default function TransactionsGrid({
   data,
 }: {
   data: TransactionItem[];
@@ -42,8 +42,10 @@ export default function TransactionsList({
           <TransactionsItem
             key={item.transactionId}
             item={item}
-            checked={selectedItems.includes(item.transactionId)}
-            toggleSelect={() => toggleSelect(item.transactionId)}
+            checked={selectedItems.some((i) => i.itemId === item.transactionId)}
+            toggleSelect={() =>
+              toggleSelect(item.transactionId, item.transactionName)
+            }
           />
         ))}
       </div>
@@ -53,6 +55,7 @@ export default function TransactionsList({
         allSelected={selectedItems.length === data.length}
         bulkSelect={bulkSelect}
         bulkUnSelect={bulkUnSelect}
+        selectedItems={selectedItems}
       />
     </div>
   );

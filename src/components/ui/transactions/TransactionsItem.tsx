@@ -2,15 +2,15 @@ import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { TransactionItem } from '@/types/types';
 import { transactionCategories } from '@/lib/constants/ui';
-import ButtonIcon from '../buttons/ButtonIcon';
 import CheckBox from '../inputs/CheckBox';
 import IconColorful from '../IconColorful';
 import Icon from '../Icon';
+import TransactionActionButtons from './TransactionActionButtons';
 
 interface TransactionsItemProps {
   item: TransactionItem;
   checked: boolean;
-  toggleSelect: (id: string) => void;
+  toggleSelect: (id: string, name: string) => void;
 }
 
 export default function TransactionsItem({
@@ -55,7 +55,7 @@ export default function TransactionsItem({
       <CheckBox
         name={transactionName}
         checked={checked}
-        onChange={() => toggleSelect(transactionId)}
+        onChange={() => toggleSelect(transactionId, transactionName)}
       />
       <div className="flex gap-2 px-1.5">
         <span className="rounded-full bg-green-300 p-1.5 dark:bg-green-400">
@@ -106,29 +106,9 @@ export default function TransactionsItem({
       >
         {status}
       </div>
-      <div className="flex text-slate-500">
-        <ButtonIcon
-          iconName="copy"
-          shape="square"
-          variant="outline"
-          size={14}
-          className="hover:text-slate-400"
-        />
-        <ButtonIcon
-          iconName="edit"
-          shape="square"
-          variant="outline"
-          size={14}
-          className="hover:text-slate-400"
-        />
-        <ButtonIcon
-          iconName="delete"
-          shape="square"
-          variant="outline"
-          size={14}
-          className="hover:text-slate-400"
-        />
-      </div>
+      <TransactionActionButtons
+        item={{ id: transactionId, name: transactionName }}
+      />
     </div>
   );
 }

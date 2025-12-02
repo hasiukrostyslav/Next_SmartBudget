@@ -1,6 +1,11 @@
+'use client';
+
 import clsx from 'clsx';
+import { useDialog } from '@/hooks/useDialog';
 import ToolbarButton from './buttons/ToolbarButton';
 import ButtonIcon from './buttons/ButtonIcon';
+import DeleteManyModal from './modals/DeleteManyModal.tsx';
+import DeleteManyTransactionForm from '../forms/DeleteManyTransactionForm';
 
 interface BulkToolbarProps {
   isShown: boolean;
@@ -8,6 +13,7 @@ interface BulkToolbarProps {
   allSelected: boolean;
   bulkSelect: () => void;
   bulkUnSelect: () => void;
+  selectedItems: { itemId: string; itemName: string }[];
 }
 
 export default function BulkToolbar({
@@ -16,7 +22,10 @@ export default function BulkToolbar({
   allSelected,
   bulkSelect,
   bulkUnSelect,
+  selectedItems,
 }: BulkToolbarProps) {
+  const { isOpen, dialogRef, handleOpen, handleClose } = useDialog();
+
   return (
     <div
       className={clsx(
@@ -54,7 +63,7 @@ export default function BulkToolbar({
         iconName="delete"
         iconSize={16}
         label="Delete"
-        onClick={() => console.log('test')}
+        onClick={handleOpen}
       />
 
       <ButtonIcon
@@ -66,6 +75,19 @@ export default function BulkToolbar({
         onClick={bulkUnSelect}
         className="hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-800"
       />
+
+      {isOpen && (
+        <DeleteManyModal
+          ref={dialogRef}
+          handleClose={handleClose}
+          selectedItems={selectedItems.map((i) => i.itemName)}
+          type="transaction"
+        >
+          <DeleteManyTransactionForm
+            selectedItems={selectedItems.map((i) => i.itemId)}
+          />
+        </DeleteManyModal>
+      )}
     </div>
   );
 }

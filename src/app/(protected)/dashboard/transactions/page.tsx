@@ -1,10 +1,10 @@
 import { getAllTransactions } from '@/lib/actions/transactionActions';
+import { SearchParamsSchema } from '@/lib/schemas/schema';
 import TransactionsFilters from '@/components/ui/transactions/TransactionsFilters';
 import TransactionsList from '@/components/ui/transactions/TransactionsList';
 import PaginationTable from '@/components/ui/pagination/PaginationTable';
 import EmptyState from '@/components/ui/EmptyState';
 import TransactionsCTA from '@/components/ui/transactions/TransactionsCTA';
-import { SearchParamsSchema } from '@/lib/schemas/schema';
 
 export default async function TransactionsPage({
   searchParams,
