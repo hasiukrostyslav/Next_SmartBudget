@@ -67,11 +67,12 @@ export const transactionTypes: {
   { name: 'income', icon: 'income' },
   { name: 'expenses', icon: 'loan' },
 ];
-export const transactionStatus: ['pending', 'completed', 'failed'] = [
-  'pending',
-  'completed',
-  'failed',
-];
+
+export const transactionStatus = {
+  pending: 'pending',
+  completed: 'completed',
+  failed: 'failed',
+} as const;
 
 export const currency = [
   { local: 'eng', currency: 'UAH' },

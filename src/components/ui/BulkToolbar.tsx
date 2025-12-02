@@ -6,6 +6,8 @@ import ToolbarButton from './buttons/ToolbarButton';
 import ButtonIcon from './buttons/ButtonIcon';
 import DeleteManyModal from './modals/DeleteManyModal.tsx';
 import DeleteManyTransactionForm from '../forms/DeleteManyTransactionForm';
+import SelectModal from './modals/SelectModal';
+import { transactionStatus } from '@/lib/constants/ui';
 
 interface BulkToolbarProps {
   isShown: boolean;
@@ -13,7 +15,11 @@ interface BulkToolbarProps {
   allSelected: boolean;
   bulkSelect: () => void;
   bulkUnSelect: () => void;
-  selectedItems: { itemId: string; itemName: string }[];
+  selectedItems: {
+    itemId: string;
+    itemName: string;
+    status: keyof typeof transactionStatus;
+  }[];
 }
 
 export default function BulkToolbar({
@@ -25,6 +31,12 @@ export default function BulkToolbar({
   selectedItems,
 }: BulkToolbarProps) {
   const { isOpen, dialogRef, handleOpen, handleClose } = useDialog();
+  const {
+    isOpen: isOpenDeleteModal,
+    dialogRef: deleteModalRef,
+    handleOpen: openDeleteModal,
+    handleClose: closeDeleteModal,
+  } = useDialog();
 
   return (
     <div
@@ -57,13 +69,13 @@ export default function BulkToolbar({
         iconName="status"
         iconSize={16}
         label="Change status"
-        onClick={() => console.log('test')}
+        onClick={handleOpen}
       />
       <ToolbarButton
         iconName="delete"
         iconSize={16}
         label="Delete"
-        onClick={handleOpen}
+        onClick={openDeleteModal}
       />
 
       <ButtonIcon
@@ -77,14 +89,25 @@ export default function BulkToolbar({
       />
 
       {isOpen && (
-        <DeleteManyModal
+        <SelectModal
           ref={dialogRef}
           handleClose={handleClose}
-          selectedItems={selectedItems.map((i) => i.itemName)}
+          selectedItems={selectedItems.map((el) => ({
+            id: el.itemId,
+            status: el.status,
+          }))}
+        />
+      )}
+
+      {isOpenDeleteModal && (
+        <DeleteManyModal
+          ref={deleteModalRef}
+          handleClose={closeDeleteModal}
+          selectedItems={selectedItems.map((el) => el.itemName)}
           type="transaction"
         >
           <DeleteManyTransactionForm
-            selectedItems={selectedItems.map((i) => i.itemId)}
+            selectedItems={selectedItems.map((el) => el.itemId)}
           />
         </DeleteManyModal>
       )}

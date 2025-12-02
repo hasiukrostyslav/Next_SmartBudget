@@ -23,10 +23,6 @@ export function useDialog() {
         event.clientY < rect.top ||
         event.clientY > rect.bottom
       ) {
-        console.log(rect);
-        console.log(event.clientX);
-        console.log(event.clientY);
-        console.log('close 1');
         handleClose();
       }
     };

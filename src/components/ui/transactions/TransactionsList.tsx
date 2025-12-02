@@ -44,7 +44,11 @@ export default function TransactionsGrid({
             item={item}
             checked={selectedItems.some((i) => i.itemId === item.transactionId)}
             toggleSelect={() =>
-              toggleSelect(item.transactionId, item.transactionName)
+              toggleSelect(
+                item.transactionId,
+                item.transactionName,
+                item.status,
+              )
             }
           />
         ))}

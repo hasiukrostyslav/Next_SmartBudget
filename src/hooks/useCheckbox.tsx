@@ -1,13 +1,18 @@
-import { TransactionItem } from '@/types/types';
-import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { transactionStatus } from '@/lib/constants/ui';
+import { TransactionItem } from '@/types/types';
 
 type useCheckboxProps = TransactionItem[];
 
 export function useCheckbox(list: useCheckboxProps) {
   const [isBulkSelect, setIsBulkSelect] = useState(false);
   const [selectedItems, setSelectedItems] = useState<
-    { itemId: string; itemName: string }[]
+    {
+      itemId: string;
+      itemName: string;
+      status: keyof typeof transactionStatus;
+    }[]
   >([]);
   const searchParams = useSearchParams();
 
@@ -17,6 +22,7 @@ export function useCheckbox(list: useCheckboxProps) {
         list.map((d) => ({
           itemId: d.transactionId,
           itemName: d.transactionName,
+          status: d.status,
         })),
       );
     else setSelectedItems([]);
@@ -31,11 +37,15 @@ export function useCheckbox(list: useCheckboxProps) {
     if (!selectedItems.length) setIsBulkSelect(false);
   }, [selectedItems.length]);
 
-  const toggleSelect = (id: string, name: string) =>
+  const toggleSelect = (
+    id: string,
+    name: string,
+    status: keyof typeof transactionStatus,
+  ) =>
     setSelectedItems((prev) =>
       prev.find((i) => i.itemId === id)
         ? prev.filter((i) => i.itemId !== id)
-        : [...prev, { itemId: id, itemName: name }],
+        : [...prev, { itemId: id, itemName: name, status: status }],
     );
 
   const toggleBulkSelect = () => setIsBulkSelect(!isBulkSelect);
@@ -45,6 +55,7 @@ export function useCheckbox(list: useCheckboxProps) {
       list.map((d) => ({
         itemId: d.transactionId,
         itemName: d.transactionName,
+        status: d.status,
       })),
     );
   };

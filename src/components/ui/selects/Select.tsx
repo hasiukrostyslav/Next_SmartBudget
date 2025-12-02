@@ -12,7 +12,7 @@ interface SelectProps {
   defaultOption?: string | number;
   placeholder?: string;
   className?: string;
-  width?: 'sm' | 'md' | 'lg';
+  width?: 'sm' | 'md' | 'lg' | 'full';
   padding?: 'sm' | 'md' | 'lg';
   color?: 'transparent' | 'blue';
   contentPosition?: 'top' | 'bottom';
@@ -25,6 +25,7 @@ const styles = {
     sm: 'min-w-18 gap-2',
     md: 'min-w-38 gap-5',
     lg: 'min-w-44 gap-5',
+    full: 'w-full',
   },
   padding: { sm: 'py-1.5', md: 'py-2', lg: 'py-2.5' },
   color: {
