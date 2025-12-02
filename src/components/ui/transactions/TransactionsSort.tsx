@@ -24,6 +24,7 @@ export default function TransactionsSort({
       <SortButton label="Account" />
       <SortButton label="Date & Time" />
       <SortButton label="Amount" />
+      <SortButton label="Currency" />
       <SortButton label="Note" />
       <SortButton label="Status" />
     </div>

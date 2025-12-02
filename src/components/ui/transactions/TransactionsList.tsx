@@ -25,7 +25,7 @@ export default function TransactionsGrid({
     <div
       className={clsx(
         'relative grid auto-rows-min gap-x-4',
-        'grid-cols-[auto_1fr_1fr_auto_minmax(6rem,auto)_1fr_auto_auto]',
+        'grid-cols-[auto_1fr_1fr_auto_minmax(6rem,auto)_auto_1fr_auto_auto]',
       )}
     >
       <TransactionsSort

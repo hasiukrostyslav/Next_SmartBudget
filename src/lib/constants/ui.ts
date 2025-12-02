@@ -67,9 +67,10 @@ export const transactionTypes: {
   { name: 'income', icon: 'income' },
   { name: 'expenses', icon: 'loan' },
 ];
-export const transactionStatus: ['pending', 'completed'] = [
+export const transactionStatus: ['pending', 'completed', 'failed'] = [
   'pending',
   'completed',
+  'failed',
 ];
 
 export const currency = [

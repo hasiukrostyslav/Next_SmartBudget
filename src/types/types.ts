@@ -36,5 +36,5 @@ export interface TransactionItem {
   currency: string;
   amount: number;
   description: string | null;
-  status: string | null;
+  status: 'complete' | 'pending' | 'failed';
 }
