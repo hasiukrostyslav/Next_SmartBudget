@@ -5,7 +5,7 @@ import { pageSizeOptions } from '../constants/constants';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 
-export async function getAllUserTransactions(
+export async function getAllTransactions(
   userId: string,
   props?: SearchParamsType,
 ) {
@@ -28,6 +28,46 @@ export async function getAllUserTransactions(
     ]);
 
     return { transactions, transactionCount };
+  } catch {
+    return null;
+  }
+}
+
+export async function deleteTransaction(transactionId: string) {
+  try {
+    const result = await db.transaction.delete({
+      where: {
+        transactionId,
+      },
+    });
+
+    return { success: true, result };
+  } catch {
+    return null;
+  }
+}
+
+export async function deleteManyTransactions(transactionId: string[]) {
+  try {
+    const result = await db.transaction.deleteMany({
+      where: {
+        transactionId: {
+          in: transactionId,
+        },
+      },
+    });
+
+    return { success: true, result };
+  } catch {
+    return null;
+  }
+}
+
+export async function deleteAllTransactions() {
+  try {
+    const result = await db.transaction.deleteMany({});
+
+    return { success: true, result };
   } catch {
     return null;
   }
