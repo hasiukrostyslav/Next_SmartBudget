@@ -1,5 +1,5 @@
 import EmptyState from '@/components/ui/EmptyState';
 
-export default async function page() {
+export default function SavingsPage() {
   return <EmptyState />;
 }

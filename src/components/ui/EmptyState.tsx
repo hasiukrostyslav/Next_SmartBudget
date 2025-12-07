@@ -3,8 +3,10 @@ import clsx from 'clsx';
 
 export default function EmptyState({
   children,
+  message,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  message?: string;
 }) {
   return (
     <section
@@ -30,7 +32,7 @@ export default function EmptyState({
         </h2>
       </div>
       <div className="mt-2 flex flex-col items-center justify-center gap-6">
-        <p className="text-slate-500">Add your first transaction</p>
+        <p className="text-slate-500">{message}</p>
         {children}
       </div>
     </section>
