@@ -19,7 +19,7 @@ export default async function TransactionsPage({
 
   if (result.data && result?.data?.transactions?.length < 1)
     return (
-      <EmptyState>
+      <EmptyState message="Add your first transaction">
         <TransactionsCTA buttonSize="lg" iconSize={20} />
       </EmptyState>
     );
