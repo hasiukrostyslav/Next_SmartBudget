@@ -3,20 +3,21 @@
 import clsx from 'clsx';
 import { useSelect } from '@/hooks/useSelect';
 import SelectContent from './SelectContent';
-import Icon from '../Icon';
 import SelectDisplay from './SelectDisplay';
+import Icon from '../Icon';
 
 interface SelectProps {
   name: string;
-  data: string[];
-  label?: string;
-  defaultValue?: string;
+  data: (string | number)[];
+  defaultOption?: string | number;
+  placeholder?: string;
   className?: string;
-  width?: 'sm' | 'md' | 'lg';
+  width?: 'sm' | 'md' | 'lg' | 'full';
   padding?: 'sm' | 'md' | 'lg';
   color?: 'transparent' | 'blue';
   contentPosition?: 'top' | 'bottom';
-  placeholder?: string;
+  autoFetchOnChange?: boolean;
+  disabled?: boolean;
 }
 
 const styles = {
@@ -24,35 +25,38 @@ const styles = {
     sm: 'min-w-18 gap-2',
     md: 'min-w-38 gap-5',
     lg: 'min-w-44 gap-5',
+    full: 'w-full',
   },
   padding: { sm: 'py-1.5', md: 'py-2', lg: 'py-2.5' },
   color: {
-    blue: 'border-blue-300 bg-blue-200/50',
-    transparent: 'border-slate-300',
+    blue: 'border-blue-300 bg-blue-200/50 text-slate-700 dark:border-slate-500 dark:bg-slate-800',
+    transparent:
+      'border-slate-300 dark:border-slate-500 dark:bg-slate-800 text-slate-700',
   },
 };
 
 export default function Select({
   name,
-  className,
-  label,
   data,
-  defaultValue,
+  defaultOption,
+  placeholder,
+  className,
   width = 'md',
   padding = 'sm',
   color = 'transparent',
   contentPosition = 'bottom',
-  placeholder,
+  autoFetchOnChange = false,
+  disabled,
 }: SelectProps) {
   const {
     id,
-    isOpen,
-    selectedItem,
+    isExpanded,
+    selectedOption,
     selectRef,
     handleBlur,
     handleSelect,
-    handleToggle,
-  } = useSelect({ defaultValue });
+    handleToggleExpanded,
+  } = useSelect({ defaultOption, param: name, autoFetchOnChange });
 
   return (
     <div
@@ -60,7 +64,7 @@ export default function Select({
       aria-haspopup="listbox"
       aria-controls={`select-list-${id}`}
       aria-labelledby={`select-label-${id}`}
-      aria-expanded={isOpen}
+      aria-expanded={isExpanded}
       ref={selectRef}
       className={clsx('relative', className)}
       onBlur={handleBlur}
@@ -70,22 +74,24 @@ export default function Select({
         name={name}
         aria-haspopup="listbox"
         aria-controls={`select-list-${id}`}
-        aria-expanded={isOpen}
+        aria-expanded={isExpanded}
         type="button"
-        onClick={handleToggle}
+        onClick={handleToggleExpanded}
+        disabled={disabled}
         className={clsx(
           'flex items-center justify-between px-2.5 text-sm font-medium',
-          'outline-input rounded-md border-[1px] text-slate-700',
-          'dark:border-slate-500 dark:bg-slate-800 dark:text-slate-400',
+          'outline-input rounded-md border-[1px]',
+          'dark:text-slate-400',
           styles.width[width],
-          styles.color[color],
           styles.padding[padding],
+          disabled
+            ? 'border-slate-300 bg-slate-200/50 text-slate-400 dark:border-slate-500 dark:bg-slate-600'
+            : styles.color[color],
         )}
       >
         <SelectDisplay
-          selectedItem={selectedItem}
-          defaultValue={defaultValue}
-          label={label}
+          selectedOption={selectedOption}
+          bulkLabel={name}
           placeholder={placeholder}
         />
         <Icon
@@ -93,18 +99,19 @@ export default function Select({
           name="chevron-down"
           className={clsx(
             'transform transition-transform duration-400 ease-in-out',
-            isOpen ? 'rotate-180' : 'rotate-0',
+            isExpanded ? 'rotate-180' : 'rotate-0',
           )}
         />
       </button>
 
       <SelectContent
-        position={contentPosition}
         id={id}
-        isOpen={isOpen}
         data={data}
-        label={label}
-        selectedItem={selectedItem}
+        bulkLabel={name}
+        defaultOption={defaultOption}
+        selectedOption={selectedOption}
+        isSelectExpanded={isExpanded}
+        position={contentPosition}
         onSelect={handleSelect}
       />
     </div>

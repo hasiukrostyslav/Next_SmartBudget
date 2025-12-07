@@ -1,19 +1,31 @@
 import { useEffect, useId, useRef, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { createQueryString } from '@/lib/utils/utils';
 
 interface useSelectProps {
-  defaultValue: string | undefined;
+  defaultOption: string | number | undefined;
+  param: string;
+  autoFetchOnChange?: boolean;
 }
 
-export function useSelect({ defaultValue }: useSelectProps) {
-  const id = useId();
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(defaultValue || 'all');
+export function useSelect({
+  defaultOption,
+  param,
+  autoFetchOnChange,
+}: useSelectProps) {
+  const [selectedOption, setSelectedOption] = useState(defaultOption);
+  const [isExpanded, setIsExpanded] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
+  const id = useId();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
+  // Close by click outside
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
-        setIsOpen(false);
+        setIsExpanded(false);
       }
     }
 
@@ -21,33 +33,41 @@ export function useSelect({ defaultValue }: useSelectProps) {
     return () => removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Close by click Escape
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') setIsOpen(false);
+      if (e.key === 'Escape') setIsExpanded(false);
     }
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const handleSelect = (option: string) => {
-    setSelectedItem(option);
-    setIsOpen(false);
+  const handleSelect = (option: string | number) => {
+    setSelectedOption(option);
+    setIsExpanded(false);
+
+    // Make new request if autoFetchOnChange is true
+    if (autoFetchOnChange) {
+      const newSearchString = createQueryString(searchParams, param, option);
+
+      router.replace(`${pathname}?${newSearchString}`);
+    }
   };
 
   const handleBlur = (e: React.FocusEvent) => {
     if (!selectRef.current?.contains(e.relatedTarget)) {
-      setIsOpen(false);
+      setIsExpanded(false);
     }
   };
-  const handleToggle = () => setIsOpen(!isOpen);
+  const handleToggleExpanded = () => setIsExpanded(!isExpanded);
 
   return {
     id,
-    isOpen,
-    selectedItem,
     selectRef,
-    handleSelect,
+    selectedOption,
+    isExpanded,
     handleBlur,
-    handleToggle,
+    handleSelect,
+    handleToggleExpanded,
   };
 }

@@ -8,6 +8,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -47,16 +53,16 @@ model Account {
 }
 
 model Transaction {
-  transactionId       String  @id @default(cuid()) @map("transaction_id")
-  userId              String  @map("user_id")
-  transactionName     String  @map("transaction_name")
-  transactionCategory String  @map("transaction_category")
-  paymentMethod       String  @map("payment_method")
-  transactionType     String  @map("transaction_type")
+  transactionId       String            @id @default(cuid()) @map("transaction_id")
+  userId              String            @map("user_id")
+  transactionName     String            @map("transaction_name")
+  transactionCategory String            @map("transaction_category")
+  paymentMethod       String            @map("payment_method")
+  transactionType     String            @map("transaction_type")
   currency            String
   amount              Float
   description         String?
-  status              String? @default("Pending")
+  status              TransactionStatus @default(COMPLETED)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

@@ -4,24 +4,33 @@ import SelectItem from './SelectItem';
 
 interface SelectContentProps {
   id: string;
-  label?: string;
-  data: string[];
-  isOpen: boolean;
-  selectedItem: string;
+  data: (string | number)[];
+  bulkLabel: string;
+  defaultOption: string | number | undefined;
+  selectedOption: string | number | undefined;
+  isSelectExpanded: boolean;
   position: 'top' | 'bottom';
-  onSelect: (option: string) => void;
+  onSelect: (option: string | number) => void;
 }
 
 export default function SelectContent({
   id,
-  label,
   data,
-  isOpen,
-  selectedItem,
+  bulkLabel,
+  defaultOption,
+  selectedOption,
+  isSelectExpanded,
   position,
   onSelect,
 }: SelectContentProps) {
   const { theme } = useTheme();
+  const sortedData = data.every((el) => typeof el === 'string')
+    ? data.toSorted()
+    : data;
+
+  const renderData =
+    defaultOption === 'all' ? [defaultOption, ...sortedData] : sortedData;
+
   return (
     <div
       id={`select-list-${id}`}
@@ -29,7 +38,7 @@ export default function SelectContent({
       className={clsx(
         'absolute z-50 w-full text-sm',
         'transition-all duration-400 ease-in',
-        isOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0',
+        isSelectExpanded ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0',
         position === 'top'
           ? 'bottom-[calc(100%+4px)] origin-bottom'
           : 'origin-top translate-y-1',
@@ -44,23 +53,14 @@ export default function SelectContent({
           theme === 'dark' ? 'scrollbar-dark' : '',
         )}
       >
-        {label && (
+        {renderData.map((option) => (
           <SelectItem
-            key={'all'}
-            option={'all'}
-            isOpen={isOpen}
-            selectedItem={selectedItem}
+            key={option}
+            option={option}
             onSelect={onSelect}
-            label={label}
-          />
-        )}
-        {data.map((filter) => (
-          <SelectItem
-            key={filter}
-            option={filter}
-            isOpen={isOpen}
-            selectedItem={selectedItem}
-            onSelect={onSelect}
+            bulkLabel={bulkLabel}
+            selectedOption={selectedOption}
+            isSelectExpanded={isSelectExpanded}
           />
         ))}
       </div>

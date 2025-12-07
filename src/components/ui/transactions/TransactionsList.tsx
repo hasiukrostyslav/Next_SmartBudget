@@ -7,7 +7,7 @@ import TransactionsSort from './TransactionsSort';
 import BulkToolbar from '../BulkToolbar';
 import { TransactionItem } from '@/types/types';
 
-export default function TransactionsList({
+export default function TransactionsGrid({
   data,
 }: {
   data: TransactionItem[];
@@ -25,7 +25,7 @@ export default function TransactionsList({
     <div
       className={clsx(
         'relative grid auto-rows-min gap-x-4',
-        'grid-cols-[auto_1fr_1fr_auto_minmax(6rem,auto)_1fr_auto_auto]',
+        'grid-cols-[auto_1fr_1fr_auto_minmax(6rem,auto)_auto_1fr_auto_auto]',
       )}
     >
       <TransactionsSort
@@ -34,7 +34,7 @@ export default function TransactionsList({
       />
       <div
         className={clsx(
-          'col-span-full grid grid-cols-subgrid',
+          'col-span-full grid auto-rows-min grid-cols-subgrid',
           'h-55vh h-65vh scrollbar overflow-y-auto',
         )}
       >
@@ -42,17 +42,24 @@ export default function TransactionsList({
           <TransactionsItem
             key={item.transactionId}
             item={item}
-            checked={selectedItems.includes(item.transactionId)}
-            toggleSelect={() => toggleSelect(item.transactionId)}
+            checked={selectedItems.some((i) => i.itemId === item.transactionId)}
+            toggleSelect={() =>
+              toggleSelect(
+                item.transactionId,
+                item.transactionName,
+                item.status,
+              )
+            }
           />
         ))}
       </div>
       <BulkToolbar
         selectedNumber={selectedItems.length}
         isShown={selectedItems.length > 0}
-        allSelected={selectedItems.length === data.length}
+        allSelected={selectedItems.length === data.length && isBulkSelect}
         bulkSelect={bulkSelect}
         bulkUnSelect={bulkUnSelect}
+        selectedItems={selectedItems}
       />
     </div>
   );

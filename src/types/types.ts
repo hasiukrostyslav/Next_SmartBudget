@@ -1,4 +1,5 @@
 import { icons } from '@/lib/constants/icons';
+import { transactionStatus } from '@/lib/constants/ui';
 
 export type IconName = (typeof icons)[number]['role'];
 
@@ -36,5 +37,5 @@ export interface TransactionItem {
   currency: string;
   amount: number;
   description: string | null;
-  status: string | null;
+  status: keyof typeof transactionStatus;
 }
