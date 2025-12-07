@@ -72,3 +72,21 @@ export async function deleteAllTransactions() {
     return null;
   }
 }
+
+export async function updateTransactionStatus(
+  transactionId: string[],
+  status: string,
+) {
+  try {
+    const result = await db.transaction.updateMany({
+      where: {
+        transactionId: { in: transactionId },
+      },
+      data: { status },
+    });
+
+    return { success: true, result };
+  } catch {
+    return null;
+  }
+}

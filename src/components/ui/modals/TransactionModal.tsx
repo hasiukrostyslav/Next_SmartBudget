@@ -64,7 +64,7 @@ export default function TransactionModal({
             <InputLabel label="Status" margin="sm" />
             <Select
               name="status"
-              data={transactionStatus}
+              data={Object.values(transactionStatus)}
               placeholder="Chose status"
               width="lg"
             />

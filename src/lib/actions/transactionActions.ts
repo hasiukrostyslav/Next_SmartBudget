@@ -7,6 +7,7 @@ import {
   deleteTransaction as deleteOne,
   deleteManyTransactions as deleteMany,
   deleteAllTransactions as deleteAll,
+  updateTransactionStatus as updateStatus,
 } from '../db/transaction';
 import { SearchParamsSchema } from '../schemas/schema';
 
@@ -47,6 +48,19 @@ export async function deleteAllTransaction() {
   if (!session?.user?.id) return { error: 'Unauthorize user. Please sign in!' };
 
   const result = await deleteAll();
+  if (!result) return { success: false, error: 'Something went wrong' };
+
+  return { success: true, data: result };
+}
+
+export async function updateTransactionStatus(
+  transactionId: string[],
+  status: string,
+) {
+  const session = await auth();
+  if (!session?.user?.id) return { error: 'Unauthorize user. Please sign in!' };
+
+  const result = await updateStatus(transactionId, status);
   if (!result) return { success: false, error: 'Something went wrong' };
 
   return { success: true, data: result };
