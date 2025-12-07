@@ -2,6 +2,7 @@ import z from 'zod';
 import { db } from './db';
 import { SearchParamsSchema } from '../schemas/schema';
 import { pageSizeOptions } from '../constants/constants';
+import { transactionStatus } from '../constants/ui';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 
@@ -75,7 +76,7 @@ export async function deleteAllTransactions() {
 
 export async function updateTransactionStatus(
   transactionId: string[],
-  status: string,
+  status: keyof typeof transactionStatus,
 ) {
   try {
     const result = await db.transaction.updateMany({

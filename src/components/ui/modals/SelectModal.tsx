@@ -28,7 +28,7 @@ export default function SelectModal({
     startTransition(async () => {
       await updateTransactionStatus(
         selectedItems.map((el) => el.id),
-        'failed',
+        'COMPLETED',
       );
     });
   };

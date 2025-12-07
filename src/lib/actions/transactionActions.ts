@@ -10,6 +10,7 @@ import {
   updateTransactionStatus as updateStatus,
 } from '../db/transaction';
 import { SearchParamsSchema } from '../schemas/schema';
+import { transactionStatus } from '../constants/ui';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 
@@ -55,7 +56,7 @@ export async function deleteAllTransaction() {
 
 export async function updateTransactionStatus(
   transactionId: string[],
-  status: string,
+  status: keyof typeof transactionStatus,
 ) {
   const session = await auth();
   if (!session?.user?.id) return { error: 'Unauthorize user. Please sign in!' };

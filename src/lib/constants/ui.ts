@@ -69,9 +69,9 @@ export const transactionTypes: {
 ];
 
 export const transactionStatus = {
-  pending: 'pending',
-  completed: 'completed',
-  failed: 'failed',
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
 } as const;
 
 export const currency = [
