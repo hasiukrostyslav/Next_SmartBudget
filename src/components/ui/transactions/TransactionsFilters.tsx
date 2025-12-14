@@ -3,7 +3,7 @@ import Select from '../selects/Select';
 import TransactionsCTA from './TransactionsCTA';
 import { transactionCategories, transactionTypes } from '@/lib/constants/ui';
 
-export default function TransactionsFilters() {
+export default async function TransactionsFilters() {
   return (
     <div className="flex items-center gap-4 px-1">
       <SearchForm size="md" placeholder="Search Transaction" />

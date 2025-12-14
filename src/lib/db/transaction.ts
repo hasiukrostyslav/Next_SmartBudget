@@ -3,10 +3,12 @@ import { db } from './db';
 import { SearchParamsSchema } from '../schemas/schema';
 import { pageSizeOptions } from '../constants/constants';
 import { transactionStatus } from '../constants/ui';
+import { TransactionCreateInput, TransactionUpdate } from '@/types/types';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 
-export async function getAllTransactions(
+// Find Transactions
+export async function findTransactionsByUserId(
   userId: string,
   props?: SearchParamsType,
 ) {
@@ -34,7 +36,92 @@ export async function getAllTransactions(
   }
 }
 
-export async function deleteTransaction(transactionId: string) {
+export async function findTransactionById(id: string) {
+  try {
+    const result = await db.transaction.findUnique({
+      where: { transactionId: id },
+    });
+
+    return result;
+  } catch {
+    return null;
+  }
+}
+
+// Create Transaction
+export async function createTransaction(
+  userId: string,
+  transaction: TransactionCreateInput,
+) {
+  try {
+    const {
+      transactionType,
+      transactionName,
+      transactionCategory,
+      paymentMethod,
+      status,
+      amount,
+      currency,
+      description,
+    } = transaction;
+
+    const result = await db.transaction.create({
+      data: {
+        userId,
+        transactionCategory,
+        transactionName,
+        transactionType,
+        paymentMethod,
+        description,
+        status,
+        amount,
+        currency,
+      },
+    });
+
+    return result;
+  } catch {
+    return null;
+  }
+}
+
+// Edit Transactions
+export async function updateTransactionById(
+  id: string,
+  data: TransactionUpdate,
+) {
+  try {
+    const result = await db.transaction.update({
+      where: { transactionId: id },
+      data,
+    });
+
+    return result;
+  } catch {
+    return null;
+  }
+}
+
+export async function updateTransactionStatusMany(
+  transactionIds: string[],
+  status: keyof typeof transactionStatus,
+) {
+  try {
+    const result = await db.transaction.updateMany({
+      where: {
+        transactionId: { in: transactionIds },
+      },
+      data: { status },
+    });
+
+    return result;
+  } catch {
+    return null;
+  }
+}
+
+// Delete transactions
+export async function deleteTransactionById(transactionId: string) {
   try {
     const result = await db.transaction.delete({
       where: {
@@ -42,13 +129,13 @@ export async function deleteTransaction(transactionId: string) {
       },
     });
 
-    return { success: true, result };
+    return result;
   } catch {
     return null;
   }
 }
 
-export async function deleteManyTransactions(transactionId: string[]) {
+export async function deleteTransactionsMany(transactionId: string[]) {
   try {
     const result = await db.transaction.deleteMany({
       where: {
@@ -58,35 +145,17 @@ export async function deleteManyTransactions(transactionId: string[]) {
       },
     });
 
-    return { success: true, result };
+    return result;
   } catch {
     return null;
   }
 }
 
-export async function deleteAllTransactions() {
+export async function deleteTransactionsAll() {
   try {
     const result = await db.transaction.deleteMany({});
 
-    return { success: true, result };
-  } catch {
-    return null;
-  }
-}
-
-export async function updateTransactionStatus(
-  transactionId: string[],
-  status: keyof typeof transactionStatus,
-) {
-  try {
-    const result = await db.transaction.updateMany({
-      where: {
-        transactionId: { in: transactionId },
-      },
-      data: { status },
-    });
-
-    return { success: true, result };
+    return result;
   } catch {
     return null;
   }
