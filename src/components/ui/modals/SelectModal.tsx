@@ -1,6 +1,6 @@
 import { useTransition } from 'react';
 import clsx from 'clsx';
-import { updateTransactionStatus } from '@/lib/actions/transactionActions';
+import { changeTransactionStatus } from '@/lib/actions/transactionActions';
 import { transactionStatus } from '@/lib/constants/ui';
 import Dialog from '@/components/layouts/Dialog';
 import Button from '../buttons/Button';
@@ -26,7 +26,7 @@ export default function SelectModal({
 
   const handleSubmit = () => {
     startTransition(async () => {
-      await updateTransactionStatus(
+      await changeTransactionStatus(
         selectedItems.map((el) => el.id),
         'COMPLETED',
       );

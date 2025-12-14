@@ -39,3 +39,11 @@ export interface TransactionItem {
   description: string | null;
   status: keyof typeof transactionStatus;
 }
+
+export type TransactionCreateInput = Omit<
+  TransactionItem,
+  'createdAt' | 'updatedAt' | 'userId' | 'transactionId'
+>;
+export type TransactionUpdate = Partial<
+  Omit<TransactionItem, 'updatedAt' | 'userId' | 'transactionId'>
+>;

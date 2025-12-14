@@ -1,4 +1,4 @@
-import { getAllTransactions } from '@/lib/actions/transactionActions';
+import { getTransactions } from '@/lib/actions/transactionActions';
 import { SearchParamsSchema } from '@/lib/schemas/schema';
 import TransactionsFilters from '@/components/ui/transactions/TransactionsFilters';
 import TransactionsList from '@/components/ui/transactions/TransactionsList';
@@ -13,7 +13,7 @@ export default async function TransactionsPage({
 }) {
   const params = SearchParamsSchema.safeParse(await searchParams);
 
-  const result = await getAllTransactions(params?.data);
+  const result = await getTransactions(params?.data);
 
   if (result.error || !result.data) return null;
 
