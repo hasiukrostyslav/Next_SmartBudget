@@ -15,6 +15,16 @@ button {
   }
 }
 
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield; /* Для Firefox */
+}
+
 /* Color guide */
 /*
 Blue - blue(50, 400, 500, 600)
@@ -23,3 +33,14 @@ Red - red(50, 300, 400, 500, 600)
 Yellow - amber(50, 400, 500, 600)
 Green - emerald(50, 300, 400, 500, 600)
 */
+
+@layer utilities {
+  .h-55vh {
+    height: 55vh;
+  }
+  @media (min-width: 1537px) {
+    .h-65vh {
+      height: 65vh;
+    }
+  }
+}

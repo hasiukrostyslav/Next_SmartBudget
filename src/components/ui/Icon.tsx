@@ -6,10 +6,27 @@ interface IconProps {
   size?: number;
   color?: string;
   className?: string;
+  strokeWidth?: number;
 }
 
-export default function Icon({ name, className, color, size }: IconProps) {
-  const Icon = icons[name];
+export default function Icon({
+  name,
+  className,
+  color,
+  size,
+  strokeWidth,
+}: IconProps) {
+  const Icon = icons.find((icon) => icon.role === name)?.component;
 
-  return <Icon name={name} size={size} color={color} className={className} />;
+  if (!Icon) return null;
+
+  return (
+    <Icon
+      name={name}
+      strokeWidth={strokeWidth}
+      size={size}
+      color={color}
+      className={className}
+    />
+  );
 }

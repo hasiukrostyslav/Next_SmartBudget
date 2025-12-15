@@ -6,9 +6,9 @@ import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { login } from '@/lib/actions/authActions';
 import { SignInSchema } from '@/lib/schemas/schema';
-import AuthLink from '../ui/AuthLink';
-import Button from '../ui/Button';
-import Input from '../ui/Input';
+import AuthLink from '../ui/links/AuthLink';
+import Button from '../ui/buttons/Button';
+import Input from '../ui/inputs/Input';
 import Icon from '../ui/Icon';
 import FormError from '../ui/FormError';
 
@@ -49,19 +49,26 @@ export default function LoginForm() {
         placeholder="Please enter your email"
         disabled={isPending}
         error={errors.email?.message}
+        withError
+        icon="email"
       />
       <Input
         label="Password"
         {...register('password')}
         placeholder="Please enter your password"
-        isPassword
         disabled={isPending}
         error={errors.password?.message}
+        withError
+        icon="password"
+        withButton
       />
+
       <AuthLink href="/auth/forgot-password" className="mb-3 self-end">
         Forgot password
       </AuthLink>
+
       {serverError && <FormError message={serverError} />}
+
       <Button size="lg" color="black" disabled={isPending} type="submit">
         {!isPending ? (
           'Sign In'

@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Error from '@/components/ui/Error';
 import Logo from '@/components/ui/Logo';
-import ThemeButton from '@/components/ui/ThemeButton';
+import ThemeButton from '@/components/ui/buttons/ThemeButton';
 
 export const metadata: Metadata = {
   title: 'Page not Found',

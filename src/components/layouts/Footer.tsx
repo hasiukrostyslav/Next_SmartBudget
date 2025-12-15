@@ -1,6 +1,6 @@
-import clsx from 'clsx';
 import Link from 'next/link';
-import ThemeButton from '../ui/ThemeButton';
+import clsx from 'clsx';
+import ThemeButton from '../ui/buttons/ThemeButton';
 
 const links = ['Privacy Policy', 'Term and Condition', 'Contact'];
 
