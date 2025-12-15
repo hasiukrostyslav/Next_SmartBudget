@@ -7,7 +7,6 @@ import TransactionDate from './TransactionDate';
 import TransactionStatus from './TransactionStatus';
 import TransactionActionButtons from './TransactionActionButtons';
 import TransactionAmount from './TransactionAmount';
-import TransactionCurrency from './TransactionCurrency';
 
 interface TransactionsItemProps {
   item: TransactionItem;
@@ -55,8 +54,11 @@ export default function TransactionsItem({
       />
       <TransactionAccount paymentMethod={paymentMethod} />
       <TransactionDate date={createdAt} />
-      <TransactionAmount type={transactionType} amount={amount} />
-      <TransactionCurrency type={transactionType} currency={currency} />
+      <TransactionAmount
+        type={transactionType}
+        amount={amount}
+        currency={currency}
+      />
       <div className="px-1.5">{description}</div>
       <TransactionStatus status={status} />
       <TransactionActionButtons
