@@ -47,7 +47,7 @@ export default function TransactionActionButtons({
           itemName={item.name}
           type="transaction"
         >
-          <DeleteTransactionForm id={item.id} />
+          <DeleteTransactionForm id={item.id} handleClose={handleClose} />
         </DeleteOneModal>
       )}
     </>
