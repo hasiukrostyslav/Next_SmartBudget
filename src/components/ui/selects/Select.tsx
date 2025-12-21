@@ -18,7 +18,7 @@ interface SelectProps {
   contentPosition?: 'top' | 'bottom';
   autoFetchOnChange?: boolean;
   disabled?: boolean;
-  selectValue?: (value: string | number) => void;
+  onSelectValue?: (value: string | number) => void;
 }
 
 const styles = {
@@ -48,7 +48,7 @@ export default function Select({
   contentPosition = 'bottom',
   autoFetchOnChange = false,
   disabled,
-  selectValue,
+  onSelectValue,
 }: SelectProps) {
   const {
     id,
@@ -58,7 +58,12 @@ export default function Select({
     handleBlur,
     handleSelect,
     handleToggleExpanded,
-  } = useSelect({ defaultOption, param: name, autoFetchOnChange, selectValue });
+  } = useSelect({
+    defaultOption,
+    param: name,
+    autoFetchOnChange,
+    onSelectValue,
+  });
 
   return (
     <div

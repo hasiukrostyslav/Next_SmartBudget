@@ -2,6 +2,7 @@ import { useTransition } from 'react';
 import clsx from 'clsx';
 import { changeTransactionStatus } from '@/lib/actions/transactionActions';
 import { transactionStatus } from '@/lib/constants/ui';
+import { useSelectValue } from '@/hooks/useSelectValue';
 import Dialog from '@/components/layouts/Dialog';
 import Button from '../buttons/Button';
 import Select from '../selects/Select';
@@ -22,14 +23,19 @@ export default function SelectModal({
   selectedItems,
 }: SelectModalProps) {
   const [isPending, startTransition] = useTransition();
+  const { selectedValue, setSelectedValue } = useSelectValue();
   const defaultValue = [...new Set(selectedItems.map((el) => el.status))];
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
     startTransition(async () => {
-      await changeTransactionStatus(
+      const result = await changeTransactionStatus(
         selectedItems.map((el) => el.id),
-        'COMPLETED',
+        selectedValue as keyof typeof transactionStatus,
       );
+
+      if (result.success) handleClose();
     });
   };
 
@@ -47,6 +53,7 @@ export default function SelectModal({
           defaultOption={
             defaultValue.length === 1 ? defaultValue[0] : undefined
           }
+          onSelectValue={setSelectedValue}
         />
         <div className="mt-10 flex justify-end gap-4 text-base">
           <Button

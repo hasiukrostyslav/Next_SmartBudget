@@ -6,14 +6,14 @@ interface useSelectProps {
   defaultOption: string | number | undefined;
   param: string;
   autoFetchOnChange?: boolean;
-  selectValue?: (value: string | number) => void;
+  onSelectValue?: (value: string | number) => void;
 }
 
 export function useSelect({
   defaultOption,
   param,
   autoFetchOnChange,
-  selectValue,
+  onSelectValue,
 }: useSelectProps) {
   const [selectedOption, setSelectedOption] = useState(defaultOption);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -48,7 +48,7 @@ export function useSelect({
     setSelectedOption(option);
     setIsExpanded(false);
 
-    if (selectValue) selectValue(option);
+    if (onSelectValue) onSelectValue(option);
 
     // Make new request if autoFetchOnChange is true
     if (autoFetchOnChange) {

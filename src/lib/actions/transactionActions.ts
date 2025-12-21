@@ -15,6 +15,7 @@ import {
 import { SearchParamsSchema } from '../schemas/schema';
 import { transactionStatus } from '../constants/ui';
 import { TransactionUpdate, type TransactionCreateInput } from '@/types/types';
+import { revalidatePath } from 'next/cache';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 
@@ -71,6 +72,8 @@ export async function changeTransactionStatus(
   const result = await updateTransactionStatusMany(transactionIds, status);
   if (!result) return { success: false, error: 'Something went wrong' };
 
+  revalidatePath('/dashboard/transactions');
+
   return { success: true, data: result };
 }
 
@@ -82,6 +85,8 @@ export async function deleteTransaction(transactionId: string) {
   const result = await deleteTransactionById(transactionId);
   if (!result) return { success: false, error: 'Something went wrong' };
 
+  revalidatePath('/dashboard/transactions');
+
   return { success: true, data: result };
 }
 
@@ -92,6 +97,8 @@ export async function deleteManyTransaction(transactionId: string[]) {
   const result = await deleteTransactionsMany(transactionId);
   if (!result) return { success: false, error: 'Something went wrong' };
 
+  revalidatePath('/dashboard/transactions');
+
   return { success: true, data: result };
 }
 
@@ -101,6 +108,8 @@ export async function deleteAllTransaction() {
 
   const result = await deleteTransactionsAll();
   if (!result) return { success: false, error: 'Something went wrong' };
+
+  revalidatePath('/dashboard/transactions');
 
   return { success: true, data: result };
 }

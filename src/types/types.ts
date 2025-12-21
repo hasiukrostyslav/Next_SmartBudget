@@ -36,7 +36,7 @@ export interface TransactionItem {
   transactionType: string;
   currency: string;
   amount: number;
-  description: string | null;
+  description?: string | null;
   status: keyof typeof transactionStatus;
 }
 
