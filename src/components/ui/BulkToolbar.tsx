@@ -108,6 +108,7 @@ export default function BulkToolbar({
         >
           <DeleteManyTransactionForm
             selectedItems={selectedItems.map((el) => el.itemId)}
+            handleClose={closeDeleteModal}
           />
         </DeleteManyModal>
       )}
