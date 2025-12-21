@@ -4,17 +4,23 @@ import Button from '../ui/buttons/Button';
 
 interface DeleteTransactionFormProps {
   id: string;
+  handleClose: () => void;
 }
 
 export default function DeleteTransactionForm({
   id,
+  handleClose,
 }: DeleteTransactionFormProps) {
   const [isPending, startTransition] = useTransition();
 
-  const handleDelete = () => {
+  const handleDelete = (e: React.FormEvent) => {
+    e.preventDefault();
+
     startTransition(async () => {
       await deleteTransaction(id);
     });
+
+    handleClose();
   };
 
   return (
