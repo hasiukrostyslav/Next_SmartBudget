@@ -18,6 +18,7 @@ interface SelectProps {
   contentPosition?: 'top' | 'bottom';
   autoFetchOnChange?: boolean;
   disabled?: boolean;
+  selectValue?: (value: string | number) => void;
 }
 
 const styles = {
@@ -47,6 +48,7 @@ export default function Select({
   contentPosition = 'bottom',
   autoFetchOnChange = false,
   disabled,
+  selectValue,
 }: SelectProps) {
   const {
     id,
@@ -56,7 +58,7 @@ export default function Select({
     handleBlur,
     handleSelect,
     handleToggleExpanded,
-  } = useSelect({ defaultOption, param: name, autoFetchOnChange });
+  } = useSelect({ defaultOption, param: name, autoFetchOnChange, selectValue });
 
   return (
     <div
