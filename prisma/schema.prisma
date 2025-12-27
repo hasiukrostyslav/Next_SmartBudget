@@ -9,9 +9,9 @@ datasource db {
 }
 
 enum TransactionStatus {
-  PENDING
   COMPLETED
   FAILED
+  PENDING
 }
 
 model User {
