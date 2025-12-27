@@ -19,16 +19,12 @@ export function usePagination(totalItems: number) {
     },
   );
 
-  const prevPageQuery = createQueryString(
-    searchParams,
-    'page',
-    currentPage - 1,
-  );
-  const nextPageQuery = createQueryString(
-    searchParams,
-    'page',
-    currentPage + 1,
-  );
+  const prevPageQuery = createQueryString(searchParams, [
+    { name: 'page', value: currentPage - 1 },
+  ]);
+  const nextPageQuery = createQueryString(searchParams, [
+    { name: 'page', value: currentPage + 1 },
+  ]);
 
   return {
     count,

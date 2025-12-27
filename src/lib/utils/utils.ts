@@ -3,14 +3,17 @@ import { pageSizeOptions, paginationRange } from '../constants/constants';
 // Generate Search Params string
 export function createQueryString(
   searchParams: URLSearchParams,
-  name: string,
-  value: string | number,
+  query: {
+    name: string;
+    value: string | number;
+  }[],
 ) {
-  const slugValue = toSlug(value);
+  const slugQuery = query.map((q) => ({ ...q, value: toSlug(q.value) }));
 
   const params = new URLSearchParams(searchParams.toString());
-  params.set(name, slugValue);
-  if (name !== 'page') params.set('page', '1');
+  slugQuery.forEach((el) => params.set(el.name, el.value));
+
+  if (query.find((q) => q.name !== 'page')) params.set('page', '1');
 
   return params.toString();
 }
