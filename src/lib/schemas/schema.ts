@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { transactionSortOptions } from '../constants/ui';
 
 export const SignUpSchema = z.object({
   name: z
@@ -44,4 +45,9 @@ export const SearchParamsSchema = z.object({
   categories: z.string().optional().default('all'),
   types: z.string().optional().default('all'),
   accounts: z.string().optional().default('all'),
+  sort: z
+    .enum(transactionSortOptions.map((opt) => opt.label))
+    .optional()
+    .default('date'),
+  order: z.enum(['asc', 'desc']).optional().default('desc'),
 });

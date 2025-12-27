@@ -2,7 +2,7 @@ import z from 'zod';
 import { db } from './db';
 import { SearchParamsSchema } from '../schemas/schema';
 import { pageSizeOptions } from '../constants/constants';
-import { transactionStatus } from '../constants/ui';
+import { TRANSACTION_SORT_FIELD_MAP, transactionStatus } from '../constants/ui';
 import { TransactionCreateInput, TransactionUpdate } from '@/types/types';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
@@ -13,6 +13,13 @@ export async function findTransactionsByUserId(
   props?: SearchParamsType,
 ) {
   try {
+    const sortField =
+      props?.sort && TRANSACTION_SORT_FIELD_MAP[props.sort]
+        ? TRANSACTION_SORT_FIELD_MAP[props.sort]
+        : 'createdAt';
+
+    const order = props?.order ? props.order : 'desc';
+
     const [transactions, transactionCount] = await Promise.all([
       db.transaction.findMany({
         skip:
@@ -23,7 +30,7 @@ export async function findTransactionsByUserId(
         where: { userId },
 
         orderBy: {
-          createdAt: 'desc',
+          [sortField]: order,
         },
       }),
 

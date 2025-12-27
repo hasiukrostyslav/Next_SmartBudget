@@ -1,33 +1,41 @@
 'use client';
 
-import { useState } from 'react';
 import clsx from 'clsx';
 import Icon from '../Icon';
 
 interface SortItemProps {
+  name: string;
   label: string;
+  isActive: boolean;
+  order: string | null;
+  onClick: (label: string) => void;
 }
 
-export default function SortItem({ label }: SortItemProps) {
-  const [isAscending, setIsAscending] = useState(true);
-
+export default function SortItem({
+  name,
+  label,
+  isActive,
+  order,
+  onClick,
+}: SortItemProps) {
   return (
     <div className="text-xs">
       <button
-        onClick={() => setIsAscending(!isAscending)}
+        onClick={() => onClick(label)}
         type="button"
         className={clsx(
           'outline-round-sm flex items-center gap-1 rounded-md px-1.5 py-0.5',
-          'text-slate-500 hover:bg-slate-300/40 dark:hover:bg-slate-700/40',
+          'hover:bg-slate-300/40 dark:hover:bg-slate-700/40',
+          isActive ? 'text-blue-500' : 'text-slate-500',
         )}
       >
-        <span>{label}</span>
+        <span>{name}</span>
         <Icon
           name="arrow-up"
           size={12}
           className={clsx(
             'transition-all duration-300 ease-in',
-            !isAscending ? 'rotate-180' : '',
+            isActive && order === 'desc' ? 'rotate-180' : '',
           )}
         />
       </button>
