@@ -47,11 +47,7 @@ export default function TransactionsItem({
         checked={checked}
         onChange={() => toggleSelect(transactionId, transactionName)}
       />
-      <TransactionBadge
-        category={transactionCategory}
-        name={transactionName}
-        type={transactionType}
-      />
+      <TransactionBadge category={transactionCategory} name={transactionName} />
       <TransactionAccount paymentMethod={paymentMethod} />
       <TransactionDate date={createdAt} />
       <TransactionAmount

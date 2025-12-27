@@ -4,13 +4,11 @@ import Icon from '../Icon';
 interface TransactionBadgeProps {
   category: string;
   name: string;
-  type: string;
 }
 
 export default function TransactionBadge({
   category,
   name,
-  type,
 }: TransactionBadgeProps) {
   const convertedCategory = transactionCategories.find(
     (el) => el.name === category,
@@ -27,7 +25,12 @@ export default function TransactionBadge({
       </span>
       <div className="flex flex-col">
         <span className="font-medium">{name}</span>
-        <span className="text-slate-500 dark:text-slate-500">{type}</span>
+        <span className="text-slate-500 dark:text-slate-500">
+          {category
+            .split(' ')
+            .map((word) => word.replace(word[0], word[0].toUpperCase()))
+            .join(' ')}
+        </span>
       </div>
     </div>
   );
