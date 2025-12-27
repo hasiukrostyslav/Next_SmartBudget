@@ -52,7 +52,9 @@ export function useSelect({
 
     // Make new request if autoFetchOnChange is true
     if (autoFetchOnChange) {
-      const newSearchString = createQueryString(searchParams, param, option);
+      const newSearchString = createQueryString(searchParams, [
+        { name: param, value: option },
+      ]);
 
       router.replace(`${pathname}?${newSearchString}`);
     }

@@ -12,7 +12,9 @@ export default function TransactionAmount({
   amount,
   currency,
 }: TransactionAmountProps) {
-  const formattedAmount = new Intl.NumberFormat('ukr').format(amount);
+  const formattedAmount = new Intl.NumberFormat('ukr', {
+    minimumFractionDigits: 2,
+  }).format(amount);
   return (
     <div
       className={clsx(

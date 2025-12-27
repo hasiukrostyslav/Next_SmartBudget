@@ -69,9 +69,9 @@ export const transactionTypes: {
 ];
 
 export const transactionStatus = {
-  PENDING: 'PENDING',
   COMPLETED: 'COMPLETED',
   FAILED: 'FAILED',
+  PENDING: 'PENDING',
 } as const;
 
 export const currency = [
@@ -82,6 +82,24 @@ export const currency = [
   { local: 'eng', currency: 'HUF' },
   { local: 'eng', currency: 'GBP' },
 ];
+
+export const transactionSortOptions = [
+  { name: 'Transaction Name', label: 'name' },
+  { name: 'Account', label: 'account' },
+  { name: 'Date & Time', label: 'date' },
+  { name: 'Amount', label: 'amount' },
+  { name: 'Note', label: 'note' },
+  { name: 'Status', label: 'status' },
+] as const;
+
+export const TRANSACTION_SORT_FIELD_MAP = {
+  name: 'transactionName',
+  account: 'paymentMethod',
+  date: 'createdAt',
+  amount: 'amount',
+  note: 'description',
+  status: 'status',
+} as const;
 
 // Radio
 export const transactionTypesOptions = [
