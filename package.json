@@ -24,7 +24,7 @@
     "react-dom": "19.1.0",
     "react-hook-form": "^7.69.0",
     "react-toastify": "^11.0.5",
-    "zod": "^4.1.11"
+    "zod": "^4.3.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -41,6 +41,6 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "prisma": "^6.17.0",
     "tailwindcss": "^4.1.18",
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   }
 }
