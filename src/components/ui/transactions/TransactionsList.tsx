@@ -21,10 +21,6 @@ export default function TransactionsGrid({
     bulkUnSelect,
   } = useCheckbox(data);
 
-  console.log(
-    data.map((el) => el.status).toSorted((a, b) => a.localeCompare(b)),
-  );
-
   return (
     <div
       className={clsx(

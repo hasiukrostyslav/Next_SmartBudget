@@ -32,6 +32,7 @@ const eslintConfig = [
           varsIgnorePattern: '^_',
         },
       ],
+      'no-console': 'warn',
     },
   },
 ];
