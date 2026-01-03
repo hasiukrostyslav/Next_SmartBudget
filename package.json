@@ -27,14 +27,14 @@
     "zod": "^4.3.4"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
+    "@eslint/eslintrc": "^3.3.3",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/bcryptjs": "^2.4.6",
-    "@types/node": "^20.19.27",
+    "@types/node": "^25.0.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/react-toastify": "^4.0.2",
-    "eslint": "^9",
+    "eslint": "^9.39.2",
     "eslint-config-next": "15.5.2",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.7.4",
