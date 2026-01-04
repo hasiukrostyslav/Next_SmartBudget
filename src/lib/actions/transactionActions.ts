@@ -11,7 +11,7 @@ import {
   deleteTransactionById,
   deleteTransactionsMany,
   deleteTransactionsAll,
-} from '../db/transaction';
+} from '../db/transactions';
 import { SearchParamsSchema } from '../schemas/schema';
 import { transactionStatus } from '../constants/ui';
 import { TransactionUpdate, type TransactionCreateInput } from '@/types/types';
