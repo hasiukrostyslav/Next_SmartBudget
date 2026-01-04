@@ -4,7 +4,7 @@ import z from 'zod';
 import bcrypt from 'bcryptjs';
 import { SignInSchema, SignUpSchema } from '../schemas/schema';
 import { saltRounds } from '../constants/constants';
-import { createUser, getUserByEmail } from '../db/user';
+import { createUser, getUserByEmail } from '../db/users';
 import { signInUser } from '@/auth/utils';
 
 type SignUpFormData = z.infer<typeof SignUpSchema>;

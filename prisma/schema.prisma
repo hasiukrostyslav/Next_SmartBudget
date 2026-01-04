@@ -7,51 +7,42 @@ datasource db {
   provider = "postgresql"
 }
 
-enum TransactionStatus {
-  COMPLETED
-  FAILED
-  PENDING
-}
-
-model User {
-  id            String    @id @default(cuid())
+model Users {
+  id            String         @id @default(cuid())
   name          String?
-  email         String    @unique
-  emailVerified DateTime? @map("email_verified")
+  email         String         @unique
+  emailVerified DateTime?      @map("email_verified")
   image         String?
   password      String?
-  accounts      Account[]
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @default(now()) @updatedAt @map("updated_at")
+  accounts      Accounts[]
+  Transaction   Transactions[]
 
-  createdAt   DateTime      @default(now()) @map("created_at")
-  updatedAt   DateTime      @updatedAt @map("updated_at")
-  Transaction Transaction[]
-
-  @@map("user")
+  @@map("users")
 }
 
-model Account {
-  userId            String  @map("user_id")
+model Accounts {
+  userId            String   @map("user_id")
   type              String
   provider          String
-  providerAccountId String  @map("provider_account_id")
-  refreshToken      String? @map("refresh_token")
-  accessToken       String? @map("access_token")
-  expiresAt         Int?    @map("expires_at")
-  tokenType         String? @map("token_type")
+  providerAccountId String   @map("provider_account_id")
+  refreshToken      String?  @map("refresh_token")
+  accessToken       String?  @map("access_token")
+  expiresAt         Int?     @map("expires_at")
+  tokenType         String?  @map("token_type")
   scope             String?
-  idToken           String? @map("id_token")
-  sessionState      String? @map("session_state")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  idToken           String?  @map("id_token")
+  sessionState      String?  @map("session_state")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+  user              Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
-  @@map("account")
+  @@map("accounts")
 }
 
-model Transaction {
+model Transactions {
   transactionId       String            @id @default(cuid()) @map("transaction_id")
   userId              String            @map("user_id")
   transactionName     String            @map("transaction_name")
@@ -62,11 +53,15 @@ model Transaction {
   amount              Float
   description         String?
   status              TransactionStatus @default(COMPLETED)
+  createdAt           DateTime          @default(now()) @map("created_at")
+  updatedAt           DateTime          @default(now()) @updatedAt @map("updated_at")
+  user                Users             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@map("transactions")
+}
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("transaction")
+enum TransactionStatus {
+  COMPLETED
+  FAILED
+  PENDING
 }

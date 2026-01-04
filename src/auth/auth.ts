@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import authConfig from './auth.config';
 import { db } from '../lib/db/db';
-import { getUserByEmail } from '@/lib/db/user';
+import { getUserByEmail } from '@/lib/db/users';
 import { SignInSchema } from '@/lib/schemas/schema';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
