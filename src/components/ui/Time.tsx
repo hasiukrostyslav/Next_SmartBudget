@@ -3,11 +3,9 @@
 import { useEffect, useState } from 'react';
 
 export default function Time() {
-  const [date, setDate] = useState<Date | null>(null);
+  const [date, setDate] = useState<Date>(new Date());
 
   useEffect(() => {
-    setDate(new Date());
-
     const interval = setInterval(() => setDate(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
