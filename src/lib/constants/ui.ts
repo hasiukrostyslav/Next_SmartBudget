@@ -15,7 +15,7 @@ export const navLinks: {
   { type: 'main', page: 'deposits', icon: 'income' },
   { type: 'setting', page: 'profile', icon: 'user' },
   { type: 'setting', page: 'settings', icon: 'settings' },
-];
+] as const;
 
 // Selects
 export const transactionCategories: {
@@ -58,7 +58,7 @@ export const transactionCategories: {
   { type: 'expenses', name: 'travel', icon: 'travel' },
   { type: 'expenses', name: 'utilities', icon: 'utility' },
   { type: 'expenses', name: 'water', icon: 'water' },
-];
+] as const;
 
 export const transactionTypes: {
   name: 'income' | 'expenses';
@@ -66,7 +66,7 @@ export const transactionTypes: {
 }[] = [
   { name: 'income', icon: 'income' },
   { name: 'expenses', icon: 'loan' },
-];
+] as const;
 
 export const transactionStatus = {
   COMPLETED: 'COMPLETED',
@@ -81,7 +81,7 @@ export const currency = [
   { local: 'eng', currency: 'PLN' },
   { local: 'eng', currency: 'HUF' },
   { local: 'eng', currency: 'GBP' },
-];
+] as const;
 
 export const transactionSortOptions = [
   { name: 'Transaction Name', label: 'name' },
@@ -105,4 +105,4 @@ export const TRANSACTION_SORT_FIELD_MAP = {
 export const transactionTypesOptions = [
   { label: 'Income', value: 'income' },
   { label: 'Expenses', value: 'expenses' },
-];
+] as const;
