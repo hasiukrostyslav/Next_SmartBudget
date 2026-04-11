@@ -6,7 +6,7 @@ import { useRadioGroup } from '@/hooks/useRadioGroup';
 interface RadioGroupProps {
   name: string;
   disabled?: boolean;
-  options: { label: string; value: string }[];
+  options: readonly { label: string; value: string }[];
 }
 
 export default function RadioGroup({

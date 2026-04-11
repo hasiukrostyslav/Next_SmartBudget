@@ -11,7 +11,7 @@ export default function TransactionBadge({
   name,
 }: TransactionBadgeProps) {
   const convertedCategory = transactionCategories.find(
-    (el) => el.name === category,
+    (el) => el.name === category.toLowerCase(),
   )?.icon;
 
   return (
