@@ -39,6 +39,26 @@ export const ForgotPasswordSchema = z.object({
   email: z.email({ message: 'Please enter a valid email.' }).trim(),
 });
 
+export const TransactionCreateSchema = z.object({
+  transactionName: z
+    .string()
+    .min(1, { message: 'Transaction name is required.' })
+    .trim(),
+  transactionCategory: z
+    .string()
+    .min(1, { message: 'Category is required.' }),
+  transactionType: z
+    .string()
+    .min(1, { message: 'Transaction type is required.' }),
+  paymentMethod: z
+    .string()
+    .min(1, { message: 'Payment method is required.' }),
+  currency: z.string().min(1, { message: 'Currency is required.' }),
+  amount: z.number().positive({ message: 'Amount must be a positive number.' }),
+  description: z.string().optional(),
+  status: z.enum(['COMPLETED', 'FAILED', 'PENDING']).default('COMPLETED'),
+});
+
 export const SearchParamsSchema = z.object({
   limit: z.string().optional().default('10'),
   page: z.string().optional().default('1'),
