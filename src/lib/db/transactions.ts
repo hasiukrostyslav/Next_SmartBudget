@@ -43,10 +43,10 @@ export async function findTransactionsByUserId(
   }
 }
 
-export async function findTransactionById(id: string) {
+export async function findTransactionById(id: string, userId: string) {
   try {
-    const result = await db.transactions.findUnique({
-      where: { transactionId: id },
+    const result = await db.transactions.findFirst({
+      where: { transactionId: id, userId },
     });
 
     return result;
@@ -95,15 +95,16 @@ export async function createTransaction(
 // Edit Transactions
 export async function updateTransactionById(
   id: string,
+  userId: string,
   data: TransactionUpdate,
 ) {
   try {
-    const result = await db.transactions.update({
-      where: { transactionId: id },
+    const result = await db.transactions.updateMany({
+      where: { transactionId: id, userId },
       data,
     });
 
-    return result;
+    return result.count > 0 ? result : null;
   } catch {
     return null;
   }
@@ -111,12 +112,14 @@ export async function updateTransactionById(
 
 export async function updateTransactionStatusMany(
   transactionIds: string[],
+  userId: string,
   status: keyof typeof transactionStatus,
 ) {
   try {
     const result = await db.transactions.updateMany({
       where: {
         transactionId: { in: transactionIds },
+        userId,
       },
       data: { status },
     });
@@ -128,27 +131,30 @@ export async function updateTransactionStatusMany(
 }
 
 // Delete transactions
-export async function deleteTransactionById(transactionId: string) {
+export async function deleteTransactionById(
+  transactionId: string,
+  userId: string,
+) {
   try {
-    const result = await db.transactions.delete({
-      where: {
-        transactionId,
-      },
+    const result = await db.transactions.deleteMany({
+      where: { transactionId, userId },
     });
 
-    return result;
+    return result.count > 0 ? result : null;
   } catch {
     return null;
   }
 }
 
-export async function deleteTransactionsMany(transactionId: string[]) {
+export async function deleteTransactionsMany(
+  transactionId: string[],
+  userId: string,
+) {
   try {
     const result = await db.transactions.deleteMany({
       where: {
-        transactionId: {
-          in: transactionId,
-        },
+        transactionId: { in: transactionId },
+        userId,
       },
     });
 
@@ -158,9 +164,9 @@ export async function deleteTransactionsMany(transactionId: string[]) {
   }
 }
 
-export async function deleteTransactionsAll() {
+export async function deleteTransactionsAll(userId: string) {
   try {
-    const result = await db.transactions.deleteMany({});
+    const result = await db.transactions.deleteMany({ where: { userId } });
 
     return result;
   } catch {

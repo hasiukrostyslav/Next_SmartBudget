@@ -12,9 +12,9 @@ import {
   deleteTransactionsMany,
   deleteTransactionsAll,
 } from '../db/transactions';
-import { SearchParamsSchema } from '../schemas/schema';
+import { SearchParamsSchema, TransactionCreateSchema } from '../schemas/schema';
 import { transactionStatus } from '../constants/ui';
-import { TransactionUpdate, type TransactionCreateInput } from '@/types/types';
+import { TransactionUpdate } from '@/types/types';
 import { revalidatePath } from 'next/cache';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
@@ -34,18 +34,24 @@ export async function getTransaction(id: string) {
   const session = await auth();
   if (!session?.user?.id) return { error: 'Unauthorize user. Please sign in!' };
 
-  const result = await findTransactionById(id);
+  const result = await findTransactionById(id, session.user.id);
   if (!result) return { success: false, error: 'Something went wrong' };
 
   return { success: true, data: result };
 }
 
 // Create Transaction
-export async function createTransaction(transaction: TransactionCreateInput) {
+export async function createTransaction(
+  transaction: z.infer<typeof TransactionCreateSchema>,
+) {
   const session = await auth();
   if (!session?.user?.id) return { error: 'Unauthorize user. Please sign in!' };
 
-  const result = await create(session?.user?.id, transaction);
+  const parsed = TransactionCreateSchema.safeParse(transaction);
+  if (!parsed.success)
+    return { success: false, error: parsed.error.flatten().fieldErrors };
+
+  const result = await create(session.user.id, parsed.data);
   if (!result) return { success: false, error: 'Something went wrong' };
 
   return { success: true, data: result };
@@ -56,7 +62,7 @@ export async function editTransaction(id: string, data: TransactionUpdate) {
   const session = await auth();
   if (!session?.user?.id) return { error: 'Unauthorize user. Please sign in!' };
 
-  const result = await updateTransactionById(id, data);
+  const result = await updateTransactionById(id, session.user.id, data);
   if (!result) return { success: false, error: 'Something went wrong' };
 
   return { success: true, data: result };
@@ -69,7 +75,11 @@ export async function changeTransactionStatus(
   const session = await auth();
   if (!session?.user?.id) return { error: 'Unauthorize user. Please sign in!' };
 
-  const result = await updateTransactionStatusMany(transactionIds, status);
+  const result = await updateTransactionStatusMany(
+    transactionIds,
+    session.user.id,
+    status,
+  );
   if (!result) return { success: false, error: 'Something went wrong' };
 
   revalidatePath('/dashboard/transactions');
@@ -82,7 +92,7 @@ export async function deleteTransaction(transactionId: string) {
   const session = await auth();
   if (!session?.user?.id) return { error: 'Unauthorize user. Please sign in!' };
 
-  const result = await deleteTransactionById(transactionId);
+  const result = await deleteTransactionById(transactionId, session.user.id);
   if (!result) return { success: false, error: 'Something went wrong' };
 
   revalidatePath('/dashboard/transactions');
@@ -94,7 +104,7 @@ export async function deleteManyTransaction(transactionId: string[]) {
   const session = await auth();
   if (!session?.user?.id) return { error: 'Unauthorize user. Please sign in!' };
 
-  const result = await deleteTransactionsMany(transactionId);
+  const result = await deleteTransactionsMany(transactionId, session.user.id);
   if (!result) return { success: false, error: 'Something went wrong' };
 
   revalidatePath('/dashboard/transactions');
@@ -106,7 +116,7 @@ export async function deleteAllTransaction() {
   const session = await auth();
   if (!session?.user?.id) return { error: 'Unauthorize user. Please sign in!' };
 
-  const result = await deleteTransactionsAll();
+  const result = await deleteTransactionsAll(session.user.id);
   if (!result) return { success: false, error: 'Something went wrong' };
 
   revalidatePath('/dashboard/transactions');

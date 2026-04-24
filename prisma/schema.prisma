@@ -57,6 +57,7 @@ model Transactions {
   updatedAt           DateTime          @default(now()) @updatedAt @map("updated_at")
   user                Users             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
   @@map("transactions")
 }
 
