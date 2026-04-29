@@ -1,6 +1,7 @@
 import {
   Apple,
   ArrowLeftRight,
+  ArrowLeft,
   ArrowUp,
   BadgeDollarSign,
   Banknote,
@@ -80,6 +81,7 @@ export const icons = [
   { role: 'advertisement', name: 'megaphone', component: Megaphone },
   { role: 'appliance', name: 'washing-machine', component: WashingMachine },
   { role: 'arrow-up', name: 'arrow-up', component: ArrowUp },
+  { role: 'arrow-left', name: 'arrow-left', component: ArrowLeft },
   { role: 'banknote', name: 'banknote', component: Banknote },
   { role: 'books', name: 'book-open-text', component: BookOpenText },
   { role: 'cafe', name: 'utensils', component: Utensils },
