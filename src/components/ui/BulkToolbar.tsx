@@ -61,33 +61,33 @@ export default function BulkToolbar({
       <div className="mr-9 flex items-center justify-center gap-3">
         <ToolbarButton
           iconName="select"
-          iconSize={16}
+          iconSize={14}
           label="Select all"
           onClick={bulkSelect}
           disabled={allSelected}
         />
         <ToolbarButton
           iconName="arrow-right-left"
-          iconSize={16}
+          iconSize={14}
           label="Change status"
           onClick={handleOpen}
         />
         <ToolbarButton
           iconName="arrow-right-left"
-          iconSize={16}
+          iconSize={14}
           label="Change category"
           onClick={handleOpen}
         />
         <ToolbarButton
           iconName="delete"
-          iconSize={16}
+          iconSize={14}
           label="Delete"
           onClick={openDeleteModal}
         />
       </div>
       <ButtonIcon
         iconName="close"
-        size={16}
+        size={14}
         shape="square"
         variant="outline"
         padding="base"
