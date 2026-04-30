@@ -2,9 +2,10 @@ import clsx from 'clsx';
 import { transactionStatus } from '@/lib/constants/ui';
 
 const style = {
+  CANCELED: 'bg-slate-500 text-slate-100',
+  COMPLETED: 'bg-green-700 text-slate-100 dark:bg-green-900',
   FAILED: 'bg-red-500 text-slate-100 dark:bg-red-700',
   PENDING: 'bg-yellow-300 text-slate-700 dark:bg-yellow-500',
-  COMPLETED: 'bg-green-700 text-slate-100 dark:bg-green-900',
 };
 
 export default function TransactionStatus({

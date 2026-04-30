@@ -69,6 +69,7 @@ export const transactionTypes: {
 ] as const;
 
 export const transactionStatus = {
+  CANCELED: 'CANCELED',
   COMPLETED: 'COMPLETED',
   FAILED: 'FAILED',
   PENDING: 'PENDING',
