@@ -87,7 +87,7 @@ export default function Select({
         disabled={disabled}
         className={clsx(
           'flex items-center justify-between px-2.5 text-sm font-medium',
-          'outline-input rounded-md border-[1px]',
+          'outline-input rounded-md border',
           'dark:text-slate-400',
           styles.width[width],
           styles.padding[padding],

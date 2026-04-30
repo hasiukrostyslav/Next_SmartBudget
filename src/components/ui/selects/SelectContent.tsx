@@ -47,8 +47,8 @@ export default function SelectContent({
       <div
         tabIndex={-1}
         className={clsx(
-          'scrollbar grid max-h-[300px] gap-1 p-2 shadow-md',
-          'rounded-md border-[1px] border-slate-300 dark:border-slate-600',
+          'scrollbar grid max-h-75 gap-1 p-2 shadow-md',
+          'rounded-md border border-slate-300 dark:border-slate-600',
           'overflow-y-auto bg-slate-50 dark:bg-slate-800 dark:text-slate-400',
           theme === 'dark' ? 'scrollbar-dark' : '',
         )}
