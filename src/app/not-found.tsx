@@ -14,7 +14,7 @@ export default function NotFound() {
       <Link href="/">
         <Logo className="absolute top-2.5 left-6.5 h-10" type="lg" />
       </Link>
-      <Error type="route" />
+      <Error type="route" page="outer" />
       <ThemeButton className="absolute right-10 bottom-5" />
     </section>
   );

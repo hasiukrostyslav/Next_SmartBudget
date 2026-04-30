@@ -22,42 +22,43 @@ export const transactionCategories: {
   type: 'income' | 'expenses';
   name: string;
   icon: IconName;
+  color: string;
 }[] = [
-  { type: 'income', name: 'income', icon: 'income' },
-  { type: 'income', name: 'investments', icon: 'investments' },
-  { type: 'income', name: 'prize', icon: 'prize' },
-  { type: 'income', name: 'currency exchange', icon: 'currency-exchange' },
-  { type: 'expenses', name: 'advertisement', icon: 'advertisement' },
-  { type: 'expenses', name: 'appliance', icon: 'appliance' },
-  { type: 'expenses', name: 'books', icon: 'books' },
-  { type: 'expenses', name: 'cafe', icon: 'cafe' },
-  { type: 'expenses', name: 'car', icon: 'car' },
-  { type: 'expenses', name: 'clothes', icon: 'clothes' },
-  { type: 'expenses', name: 'delivery', icon: 'delivery' },
-  { type: 'expenses', name: 'donations', icon: 'donations' },
-  { type: 'expenses', name: 'electricity', icon: 'electricity' },
-  { type: 'expenses', name: 'entertainment', icon: 'entertainment' },
-  { type: 'expenses', name: 'flowers', icon: 'flowers' },
-  { type: 'expenses', name: 'gas', icon: 'gas' },
-  { type: 'expenses', name: 'groceries', icon: 'groceries' },
-  { type: 'expenses', name: 'healthcare', icon: 'healthcare' },
-  { type: 'expenses', name: 'insurance', icon: 'insurance' },
-  { type: 'expenses', name: 'internet', icon: 'internet' },
-  { type: 'expenses', name: 'jewelry', icon: 'jewelry' },
-  { type: 'expenses', name: 'loan', icon: 'loan' },
-  { type: 'expenses', name: 'mobile phone', icon: 'mobile-phone' },
-  { type: 'expenses', name: 'movies', icon: 'movies' },
-  { type: 'expenses', name: 'others', icon: 'others' },
-  { type: 'expenses', name: 'personal care', icon: 'personal-care' },
-  { type: 'expenses', name: 'pet care', icon: 'pet-care' },
-  { type: 'expenses', name: 'repair', icon: 'repair' },
-  { type: 'expenses', name: 'sport', icon: 'sport' },
-  { type: 'expenses', name: 'taxes', icon: 'taxes' },
-  { type: 'expenses', name: 'taxi', icon: 'taxi' },
-  { type: 'expenses', name: 'transfer', icon: 'transfer' },
-  { type: 'expenses', name: 'travel', icon: 'travel' },
-  { type: 'expenses', name: 'utilities', icon: 'utility' },
-  { type: 'expenses', name: 'water', icon: 'water' },
+  { type: 'income', name: 'income', icon: 'income', color: 'bg-emerald-200 text-emerald-800' },
+  { type: 'income', name: 'investments', icon: 'investments', color: 'bg-blue-300 text-blue-900' },
+  { type: 'income', name: 'prize', icon: 'prize', color: 'bg-yellow-200 text-yellow-800' },
+  { type: 'income', name: 'currency exchange', icon: 'currency-exchange', color: 'bg-amber-200 text-amber-800' },
+  { type: 'expenses', name: 'advertisement', icon: 'advertisement', color: 'bg-orange-200 text-orange-800' },
+  { type: 'expenses', name: 'appliance', icon: 'appliance', color: 'bg-cyan-300 text-cyan-900' },
+  { type: 'expenses', name: 'books', icon: 'books', color: 'bg-indigo-300 text-indigo-900' },
+  { type: 'expenses', name: 'cafe', icon: 'cafe', color: 'bg-rose-200 text-rose-800' },
+  { type: 'expenses', name: 'car', icon: 'car', color: 'bg-sky-300 text-sky-900' },
+  { type: 'expenses', name: 'clothes', icon: 'clothes', color: 'bg-pink-200 text-pink-800' },
+  { type: 'expenses', name: 'delivery', icon: 'delivery', color: 'bg-teal-200 text-teal-800' },
+  { type: 'expenses', name: 'donations', icon: 'donations', color: 'bg-violet-200 text-violet-800' },
+  { type: 'expenses', name: 'electricity', icon: 'electricity', color: 'bg-lime-200 text-lime-800' },
+  { type: 'expenses', name: 'entertainment', icon: 'entertainment', color: 'bg-purple-200 text-purple-800' },
+  { type: 'expenses', name: 'flowers', icon: 'flowers', color: 'bg-fuchsia-200 text-fuchsia-800' },
+  { type: 'expenses', name: 'gas', icon: 'gas', color: 'bg-red-200 text-red-800' },
+  { type: 'expenses', name: 'groceries', icon: 'groceries', color: 'bg-green-200 text-green-800' },
+  { type: 'expenses', name: 'healthcare', icon: 'healthcare', color: 'bg-emerald-300 text-emerald-900' },
+  { type: 'expenses', name: 'insurance', icon: 'insurance', color: 'bg-blue-400 text-blue-900' },
+  { type: 'expenses', name: 'internet', icon: 'internet', color: 'bg-cyan-400 text-cyan-900' },
+  { type: 'expenses', name: 'jewelry', icon: 'jewelry', color: 'bg-yellow-300 text-yellow-900' },
+  { type: 'expenses', name: 'loan', icon: 'loan', color: 'bg-red-300 text-red-900' },
+  { type: 'expenses', name: 'mobile phone', icon: 'mobile-phone', color: 'bg-indigo-400 text-indigo-900' },
+  { type: 'expenses', name: 'movies', icon: 'movies', color: 'bg-purple-300 text-purple-900' },
+  { type: 'expenses', name: 'others', icon: 'others', color: 'bg-amber-300 text-amber-900' },
+  { type: 'expenses', name: 'personal care', icon: 'personal-care', color: 'bg-pink-300 text-pink-900' },
+  { type: 'expenses', name: 'pet care', icon: 'pet-care', color: 'bg-orange-300 text-orange-900' },
+  { type: 'expenses', name: 'repair', icon: 'repair', color: 'bg-teal-300 text-teal-900' },
+  { type: 'expenses', name: 'sport', icon: 'sport', color: 'bg-green-300 text-green-900' },
+  { type: 'expenses', name: 'taxes', icon: 'taxes', color: 'bg-rose-300 text-rose-900' },
+  { type: 'expenses', name: 'taxi', icon: 'taxi', color: 'bg-sky-400 text-sky-900' },
+  { type: 'expenses', name: 'transfer', icon: 'transfer', color: 'bg-violet-300 text-violet-900' },
+  { type: 'expenses', name: 'travel', icon: 'travel', color: 'bg-fuchsia-300 text-fuchsia-900' },
+  { type: 'expenses', name: 'utilities', icon: 'utility', color: 'bg-lime-300 text-lime-900' },
+  { type: 'expenses', name: 'water', icon: 'water', color: 'bg-cyan-500 text-cyan-900' },
 ] as const;
 
 export const transactionTypes: {
@@ -69,6 +70,7 @@ export const transactionTypes: {
 ] as const;
 
 export const transactionStatus = {
+  CANCELED: 'CANCELED',
   COMPLETED: 'COMPLETED',
   FAILED: 'FAILED',
   PENDING: 'PENDING',
@@ -85,6 +87,7 @@ export const currency = [
 
 export const transactionSortOptions = [
   { name: 'Transaction Name', label: 'name' },
+  { name: 'Category', label: 'category' },
   { name: 'Account', label: 'account' },
   { name: 'Date & Time', label: 'date' },
   { name: 'Amount', label: 'amount' },
@@ -99,6 +102,7 @@ export const TRANSACTION_SORT_FIELD_MAP = {
   amount: 'amount',
   note: 'description',
   status: 'status',
+  category: 'transactionCategory',
 } as const;
 
 // Radio

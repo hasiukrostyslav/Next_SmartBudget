@@ -7,6 +7,7 @@ import TransactionDate from './TransactionDate';
 import TransactionStatus from './TransactionStatus';
 import TransactionActionButtons from './TransactionActionButtons';
 import TransactionAmount from './TransactionAmount';
+import TransactionCategory from './TransactionCategory';
 
 interface TransactionsItemProps {
   item: TransactionItem;
@@ -48,6 +49,7 @@ export default function TransactionsItem({
         onChange={() => toggleSelect(transactionId, transactionName)}
       />
       <TransactionBadge category={transactionCategory} name={transactionName} />
+      <TransactionCategory category={transactionCategory} />
       <TransactionAccount paymentMethod={paymentMethod} />
       <TransactionDate date={createdAt} />
       <TransactionAmount

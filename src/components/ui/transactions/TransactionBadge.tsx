@@ -1,5 +1,6 @@
 import { transactionCategories } from '@/lib/constants/ui';
 import Icon from '../Icon';
+import clsx from 'clsx';
 
 interface TransactionBadgeProps {
   category: string;
@@ -16,21 +17,20 @@ export default function TransactionBadge({
 
   return (
     <div className="flex gap-2 px-1.5">
-      <span className="rounded-full bg-green-300 p-1.5 dark:bg-green-400">
+      <span
+        className={clsx(
+          'rounded-full p-1.5',
+          `${transactionCategories.find((c) => c.name === category.toLowerCase())?.color}`,
+        )}
+      >
         <Icon
           name={convertedCategory || 'banknote'}
           size={20}
           className="dark:text-slate-800"
         />
       </span>
-      <div className="flex flex-col">
+      <div className="flex items-center">
         <span className="font-medium">{name}</span>
-        <span className="text-slate-500 dark:text-slate-500">
-          {category
-            .split(' ')
-            .map((word) => word.replace(word[0], word[0].toUpperCase()))
-            .join(' ')}
-        </span>
       </div>
     </div>
   );

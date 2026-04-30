@@ -6,16 +6,23 @@ import { ERROR_MESSAGES } from '@/lib/constants/ui';
 import ButtonLink from './buttons/ButtonLink';
 import Button from './buttons/Button';
 import Icon from './Icon';
+import clsx from 'clsx';
 
 interface ErrorProps {
   type: keyof typeof ERROR_MESSAGES;
+  page?: 'inner' | 'outer';
 }
 
-export default function Error({ type }: ErrorProps) {
+export default function Error({ type, page = 'inner' }: ErrorProps) {
   const router = useRouter();
 
   return (
-    <figure className="flex flex-col items-center justify-center gap-8">
+    <figure
+      className={clsx(
+        'flex flex-col items-center justify-center gap-8',
+        `${page === 'inner' ? 'mt-12' : ''}`,
+      )}
+    >
       <Image
         className="h-[300] w-[300]"
         alt="Error"
@@ -32,15 +39,17 @@ export default function Error({ type }: ErrorProps) {
           {ERROR_MESSAGES[type].message}
         </p>
       </figcaption>
-      <div className="flex gap-4">
-        <ButtonLink iconName="utility" color="blue" href="/">
-          Back to Home
-        </ButtonLink>
-        <Button size="lg" color="outline" onClick={() => router.back()}>
-          <Icon name="arrow-left" size={18} />
-          Go Back
-        </Button>
-      </div>
+      {page === 'outer' && (
+        <div className="flex gap-4">
+          <ButtonLink iconName="utility" color="blue" href="/">
+            Back to Home
+          </ButtonLink>
+          <Button size="lg" color="outline" onClick={() => router.back()}>
+            <Icon name="arrow-left" size={18} />
+            Go Back
+          </Button>
+        </div>
+      )}
     </figure>
   );
 }
