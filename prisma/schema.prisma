@@ -65,4 +65,5 @@ enum TransactionStatus {
   COMPLETED
   FAILED
   PENDING
+  CANCELED
 }
