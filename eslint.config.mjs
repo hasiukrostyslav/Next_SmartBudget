@@ -99,7 +99,7 @@ const eslintConfig = [
       'jsx-a11y/anchor-is-valid': 'warn',
 
       // General rules
-      'no-console': 'warn',
+      'no-console': ['warn', { allow: ['error', 'warn'] }],
     },
   },
 ];
