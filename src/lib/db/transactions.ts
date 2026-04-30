@@ -17,22 +17,30 @@ export async function findTransactionsByUserId(
       ? TRANSACTION_SORT_FIELD_MAP[props.sort]
       : 'createdAt';
 
-  const order = props?.order ? props.order : 'desc';
+  const order = props?.order ?? 'desc';
+  const limit = Number(props?.limit ?? pageSizeOptions[0]);
+  const skip = limit * (Number(props?.page ?? 1) - 1);
+
+  if (sortField === 'amount') {
+    const all = await db.transactions.findMany({ where: { userId } });
+    const sorted = all.sort((a, b) => {
+      const signedA = a.transactionType === 'Expenses' ? -a.amount : a.amount;
+      const signedB = b.transactionType === 'Expenses' ? -b.amount : b.amount;
+      return order === 'asc' ? signedA - signedB : signedB - signedA;
+    });
+    return {
+      transactions: sorted.slice(skip, skip + limit),
+      transactionCount: all.length,
+    };
+  }
 
   const [transactions, transactionCount] = await Promise.all([
     db.transactions.findMany({
-      skip:
-        Number(props?.limit ?? pageSizeOptions[0]) *
-        (Number(props?.page ?? 1) - 1),
-      take: Number(props?.limit ?? pageSizeOptions[0]),
-
+      skip,
+      take: limit,
       where: { userId },
-
-      orderBy: {
-        [sortField]: order,
-      },
+      orderBy: { [sortField]: order },
     }),
-
     db.transactions.count({ where: { userId } }),
   ]);
   return { transactions, transactionCount };

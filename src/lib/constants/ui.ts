@@ -102,6 +102,7 @@ export const TRANSACTION_SORT_FIELD_MAP = {
   amount: 'amount',
   note: 'description',
   status: 'status',
+  category: 'transactionCategory',
 } as const;
 
 // Radio
