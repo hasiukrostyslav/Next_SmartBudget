@@ -27,28 +27,47 @@ async function getUserId(): Promise<string | null> {
 // Get Transactions
 export async function getTransactions(props?: SearchParamsType) {
   const userId = await getUserId();
-  if (!userId) return { success: false, status: 401, error: 'Unauthorized. Please sign in!' };
+  if (!userId)
+    return {
+      success: false,
+      status: 401,
+      error: 'Unauthorized. Please sign in!',
+    };
 
   try {
     const data = await findTransactionsByUserId(userId, props);
     return { success: true, status: 200, data };
   } catch (error) {
     console.error('[getTransactions]', error);
-    return { success: false, status: 500, error: 'Failed to fetch transactions' };
+    return {
+      success: false,
+      status: 500,
+      error: 'Failed to fetch transactions',
+    };
   }
 }
 
 export async function getTransaction(id: string) {
   const userId = await getUserId();
-  if (!userId) return { success: false, status: 401, error: 'Unauthorized. Please sign in!' };
+  if (!userId)
+    return {
+      success: false,
+      status: 401,
+      error: 'Unauthorized. Please sign in!',
+    };
 
   try {
     const data = await findTransactionById(id, userId);
-    if (!data) return { success: false, status: 404, error: 'Transaction not found' };
+    if (!data)
+      return { success: false, status: 404, error: 'Transaction not found' };
     return { success: true, status: 200, data };
   } catch (error) {
     console.error('[getTransaction]', error);
-    return { success: false, status: 500, error: 'Failed to fetch transaction' };
+    return {
+      success: false,
+      status: 500,
+      error: 'Failed to fetch transaction',
+    };
   }
 }
 
@@ -57,32 +76,54 @@ export async function createTransaction(
   transaction: z.infer<typeof TransactionCreateSchema>,
 ) {
   const userId = await getUserId();
-  if (!userId) return { success: false, status: 401, error: 'Unauthorized. Please sign in!' };
+  if (!userId)
+    return {
+      success: false,
+      status: 401,
+      error: 'Unauthorized. Please sign in!',
+    };
 
   const parsed = TransactionCreateSchema.safeParse(transaction);
   if (!parsed.success)
-    return { success: false, status: 422, error: parsed.error.flatten().fieldErrors };
+    return {
+      success: false,
+      status: 422,
+      error: parsed.error.flatten().fieldErrors,
+    };
 
   try {
     const data = await create(userId, parsed.data);
     return { success: true, status: 201, data };
   } catch (error) {
     console.error('[createTransaction]', error);
-    return { success: false, status: 500, error: 'Failed to create transaction' };
+    return {
+      success: false,
+      status: 500,
+      error: 'Failed to create transaction',
+    };
   }
 }
 
 // Edit Transactions
 export async function editTransaction(id: string, data: TransactionUpdate) {
   const userId = await getUserId();
-  if (!userId) return { success: false, status: 401, error: 'Unauthorized. Please sign in!' };
+  if (!userId)
+    return {
+      success: false,
+      status: 401,
+      error: 'Unauthorized. Please sign in!',
+    };
 
   try {
     const result = await updateTransactionById(id, userId, data);
     return { success: true, status: 200, data: result };
   } catch (error) {
     console.error('[editTransaction]', error);
-    return { success: false, status: 500, error: 'Failed to update transaction' };
+    return {
+      success: false,
+      status: 500,
+      error: 'Failed to update transaction',
+    };
   }
 }
 
@@ -91,22 +132,40 @@ export async function changeTransactionStatus(
   status: keyof typeof transactionStatus,
 ) {
   const userId = await getUserId();
-  if (!userId) return { success: false, status: 401, error: 'Unauthorized. Please sign in!' };
+  if (!userId)
+    return {
+      success: false,
+      status: 401,
+      error: 'Unauthorized. Please sign in!',
+    };
 
   try {
-    const result = await updateTransactionStatusMany(transactionIds, userId, status);
+    const result = await updateTransactionStatusMany(
+      transactionIds,
+      userId,
+      status,
+    );
     revalidatePath('/dashboard/transactions');
     return { success: true, status: 200, data: result };
   } catch (error) {
     console.error('[changeTransactionStatus]', error);
-    return { success: false, status: 500, error: 'Failed to update transaction status' };
+    return {
+      success: false,
+      status: 500,
+      error: 'Failed to update transaction status',
+    };
   }
 }
 
 // Delete transactions
 export async function deleteTransaction(transactionId: string) {
   const userId = await getUserId();
-  if (!userId) return { success: false, status: 401, error: 'Unauthorized. Please sign in!' };
+  if (!userId)
+    return {
+      success: false,
+      status: 401,
+      error: 'Unauthorized. Please sign in!',
+    };
 
   try {
     const result = await deleteTransactionById(transactionId, userId);
@@ -114,13 +173,22 @@ export async function deleteTransaction(transactionId: string) {
     return { success: true, status: 200, data: result };
   } catch (error) {
     console.error('[deleteTransaction]', error);
-    return { success: false, status: 500, error: 'Failed to delete transaction' };
+    return {
+      success: false,
+      status: 500,
+      error: 'Failed to delete transaction',
+    };
   }
 }
 
 export async function deleteManyTransaction(transactionId: string[]) {
   const userId = await getUserId();
-  if (!userId) return { success: false, status: 401, error: 'Unauthorized. Please sign in!' };
+  if (!userId)
+    return {
+      success: false,
+      status: 401,
+      error: 'Unauthorized. Please sign in!',
+    };
 
   try {
     const result = await deleteTransactionsMany(transactionId, userId);
@@ -128,13 +196,22 @@ export async function deleteManyTransaction(transactionId: string[]) {
     return { success: true, status: 200, data: result };
   } catch (error) {
     console.error('[deleteManyTransaction]', error);
-    return { success: false, status: 500, error: 'Failed to delete transactions' };
+    return {
+      success: false,
+      status: 500,
+      error: 'Failed to delete transactions',
+    };
   }
 }
 
 export async function deleteAllTransaction() {
   const userId = await getUserId();
-  if (!userId) return { success: false, status: 401, error: 'Unauthorized. Please sign in!' };
+  if (!userId)
+    return {
+      success: false,
+      status: 401,
+      error: 'Unauthorized. Please sign in!',
+    };
 
   try {
     const result = await deleteTransactionsAll(userId);
@@ -142,6 +219,10 @@ export async function deleteAllTransaction() {
     return { success: true, status: 200, data: result };
   } catch (error) {
     console.error('[deleteAllTransaction]', error);
-    return { success: false, status: 500, error: 'Failed to delete transactions' };
+    return {
+      success: false,
+      status: 500,
+      error: 'Failed to delete transactions',
+    };
   }
 }

@@ -5,6 +5,7 @@ import TransactionsList from '@/components/ui/transactions/TransactionsList';
 import PaginationTable from '@/components/ui/pagination/PaginationTable';
 import EmptyState from '@/components/ui/EmptyState';
 import TransactionsCTA from '@/components/ui/transactions/TransactionsCTA';
+import Error from '@/components/ui/Error';
 
 export default async function TransactionsPage({
   searchParams,
@@ -15,9 +16,20 @@ export default async function TransactionsPage({
 
   const result = await getTransactions(params?.data);
 
-  if (result.error || !result.data) return null;
+  if (!result.success || !result.data)
+    return (
+      <Error
+        type={
+          result.status === 401
+            ? 'auth'
+            : result.status === 404
+              ? 'route'
+              : 'server'
+        }
+      />
+    );
 
-  if (result.data && result?.data?.transactions?.length < 1)
+  if (result.success && result?.data?.transactions?.length < 1)
     return (
       <EmptyState message="Add your first transaction">
         <TransactionsCTA buttonSize="lg" iconSize={20} />
