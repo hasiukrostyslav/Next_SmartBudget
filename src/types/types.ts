@@ -47,3 +47,11 @@ export type TransactionCreateInput = Omit<
 export type TransactionUpdate = Partial<
   Omit<TransactionItem, 'updatedAt' | 'userId' | 'transactionId'>
 >;
+
+export type ItemType =
+  | 'transaction'
+  | 'payment'
+  | 'card'
+  | 'saving'
+  | 'loan'
+  | 'deposit';

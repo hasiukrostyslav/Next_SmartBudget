@@ -2,8 +2,8 @@
 
 import { useDialog } from '@/hooks/useDialog';
 import ButtonIcon from '../buttons/ButtonIcon';
-import DeleteOneModal from '../modals/DeleteOneModal';
-import DeleteTransactionForm from '@/components/forms/DeleteTransactionForm';
+import DeleteModal from '../modals/DeleteModal';
+import { deleteTransaction } from '@/lib/actions/transactionActions';
 
 interface TransactionActionButtonsProps {
   item: { id: string; name: string };
@@ -41,14 +41,13 @@ export default function TransactionActionButtons({
         />
       </div>
       {isOpen && (
-        <DeleteOneModal
+        <DeleteModal
           ref={dialogRef}
           handleClose={handleClose}
-          itemName={item.name}
-          type="transaction"
-        >
-          <DeleteTransactionForm id={item.id} handleClose={handleClose} />
-        </DeleteOneModal>
+          itemType="transaction"
+          items={[item]}
+          handleSubmit={() => deleteTransaction(item.id)}
+        />
       )}
     </>
   );

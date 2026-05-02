@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { changeTransactionStatus } from '@/lib/actions/transactionActions';
 import { transactionStatus } from '@/lib/constants/ui';
 import { useSelectValue } from '@/hooks/useSelectValue';
-import Dialog from '@/components/layouts/Dialog';
+import Dialog from './Dialog';
 import Button from '../buttons/Button';
 import Select from '../selects/Select';
 import Icon from '../Icon';

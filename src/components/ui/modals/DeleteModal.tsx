@@ -1,0 +1,74 @@
+import { useTransition } from 'react';
+import clsx from 'clsx';
+import Dialog from './Dialog';
+import ModalHeader from './ModalHeader';
+import ModalFooter from './ModalFooter';
+import { ItemType } from '@/types/types';
+
+interface DeleteModalProps {
+  ref: React.RefObject<HTMLDialogElement | null>;
+  itemType: ItemType;
+  items: { id: string; name: string }[];
+  handleClose: () => void;
+  handleSubmit: () => Promise<{ success: boolean; status: number }>;
+}
+
+export default function DeleteModal({
+  ref,
+  itemType,
+  items,
+  handleClose,
+  handleSubmit,
+}: DeleteModalProps) {
+  const [isPending, startTransition] = useTransition();
+
+  const handleDelete = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+
+    startTransition(async () => {
+      await handleSubmit();
+    });
+
+    handleClose();
+  };
+
+  return (
+    <Dialog ref={ref} className="max-w-4/12 px-0 py-0">
+      <ModalHeader
+        itemsCount={items.length}
+        itemType={itemType}
+        handleClose={handleClose}
+      />
+
+      <form onSubmit={handleDelete}>
+        <section className="flex flex-col gap-4 px-6 py-5">
+          <div className="text-sm dark:text-slate-300">
+            You're about to permanently delete{' '}
+            <span className="font-semibold">
+              {`${items.length === 1 ? items[0].name : items.length} 
+            ${itemType}${items.length > 1 ? 's' : ''}`}
+            </span>
+            . Their amounts will be removed from your account balances and
+            category totals.
+          </div>
+          <div
+            className={clsx(
+              'flex items-center justify-between rounded-xl border',
+              'border-red-500 bg-red-200 px-4 py-4 text-sm font-semibold text-red-700',
+              'dark:border-red-300 dark:bg-red-500 dark:text-red-100',
+            )}
+          >
+            <span>Total impact on balance</span>
+            <span>−14 307,00 ₴</span>
+          </div>
+        </section>
+        <ModalFooter
+          itemsCount={items.length}
+          itemType={itemType}
+          handleClose={handleClose}
+          disabled={isPending}
+        />
+      </form>
+    </Dialog>
+  );
+}

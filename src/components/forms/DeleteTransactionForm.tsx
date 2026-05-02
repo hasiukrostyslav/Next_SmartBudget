@@ -13,7 +13,7 @@ export default function DeleteTransactionForm({
 }: DeleteTransactionFormProps) {
   const [isPending, startTransition] = useTransition();
 
-  const handleDelete = (e: React.FormEvent) => {
+  const handleDelete = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     startTransition(async () => {

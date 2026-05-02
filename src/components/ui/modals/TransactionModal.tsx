@@ -1,4 +1,4 @@
-import Dialog from '@/components/layouts/Dialog';
+import Dialog from './Dialog';
 import Button from '../buttons/Button';
 import Input from '../inputs/Input';
 import Select from '../selects/Select';

@@ -1,6 +1,6 @@
-import Dialog from '@/components/layouts/Dialog';
 import Button from '../buttons/Button';
 import Icon from '../Icon';
+import Dialog from './Dialog';
 
 interface DeleteManyModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;
