@@ -48,8 +48,8 @@ model Transactions {
   transactionName     String            @map("transaction_name")
   transactionCategory String            @map("transaction_category")
   paymentMethod       String            @map("payment_method")
-  transactionType     String            @map("transaction_type")
-  currency            String
+  transactionType     TransactionType   @map("transaction_type")
+  currency            Currency
   amount              Float
   description         String?
   status              TransactionStatus @default(COMPLETED)
@@ -66,4 +66,18 @@ enum TransactionStatus {
   FAILED
   PENDING
   CANCELED
+}
+
+enum TransactionType {
+  Income
+  Expenses
+}
+
+enum Currency {
+  UAH
+  USD
+  EUR
+  PLN
+  HUF
+  GBP
 }
