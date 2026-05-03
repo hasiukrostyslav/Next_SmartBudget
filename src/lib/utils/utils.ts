@@ -1,4 +1,5 @@
 import { pageSizeOptions, paginationRange } from '../constants/constants';
+import { currency } from '../constants/ui';
 
 // Generate Search Params string
 export function createQueryString(
@@ -74,4 +75,28 @@ export function getPaginationPattern(
 // For testing purpose
 export function wait(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+//
+export function calcDeletedBalance(
+  item: {
+    type: 'Income' | 'Expenses';
+    amount: number;
+    currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';
+  }[],
+) {
+  const grouped = Object.entries(
+    Object.groupBy(item, ({ currency }) => currency),
+  );
+
+  return grouped.map(([currency, entries]) => {
+    return {
+      currency,
+      total: entries.reduce(
+        (sum, item) =>
+          sum + (item.type === 'Income' ? item.amount : -item.amount),
+        0,
+      ),
+    };
+  });
 }

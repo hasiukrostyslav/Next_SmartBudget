@@ -3,12 +3,14 @@ import clsx from 'clsx';
 import Dialog from './Dialog';
 import ModalHeader from './ModalHeader';
 import ModalFooter from './ModalFooter';
-import { ItemType } from '@/types/types';
+import { DeleteItem, ItemType } from '@/types/types';
+import { calcDeletedBalance } from '@/lib/utils/utils';
+import getSymbolFromCurrency from 'currency-symbol-map';
 
 interface DeleteModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;
   itemType: ItemType;
-  items: { id: string; name: string }[];
+  items: DeleteItem[];
   handleClose: () => void;
   handleSubmit: () => Promise<{ success: boolean; status: number }>;
 }
@@ -31,6 +33,8 @@ export default function DeleteModal({
 
     handleClose();
   };
+
+  const balance = calcDeletedBalance(items);
 
   return (
     <Dialog ref={ref} className="max-w-4/12 px-0 py-0">
@@ -59,7 +63,30 @@ export default function DeleteModal({
             )}
           >
             <span>Total impact on balance</span>
-            <span>−14 307,00 ₴</span>
+            <div className="flex gap-2 divide-x divide-slate-400">
+              {balance.map((item) => (
+                <div
+                  key={item.currency}
+                  className={clsx(
+                    'flex gap-0.5 pr-2',
+                    item.total < 0
+                      ? 'text-green-600 dark:text-green-400'
+                      : item.total === 0
+                        ? 'text-amber-500'
+                        : '',
+                  )}
+                >
+                  <span>
+                    {item.total > 0
+                      ? -item.total
+                      : item.total < 0
+                        ? '+' + Math.abs(item.total)
+                        : Math.abs(item.total)}
+                  </span>
+                  <span>{getSymbolFromCurrency(item.currency)}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
         <ModalFooter

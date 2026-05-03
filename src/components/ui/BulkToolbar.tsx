@@ -3,11 +3,11 @@
 import clsx from 'clsx';
 import { useDialog } from '@/hooks/useDialog';
 import ToolbarButton from './buttons/ToolbarButton';
+import DeleteModal from './modals/DeleteModal';
 import ButtonIcon from './buttons/ButtonIcon';
-import DeleteManyModal from './modals/DeleteManyModal.tsx';
-import DeleteManyTransactionForm from '../forms/DeleteManyTransactionForm';
 import SelectModal from './modals/SelectModal';
 import { transactionStatus } from '@/lib/constants/ui';
+import { deleteManyTransaction } from '@/lib/actions/transactionActions';
 
 interface BulkToolbarProps {
   isShown: boolean;
@@ -19,6 +19,9 @@ interface BulkToolbarProps {
     itemId: string;
     itemName: string;
     status: keyof typeof transactionStatus;
+    type: 'Income' | 'Expenses';
+    amount: number;
+    currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';
   }[];
 }
 
@@ -107,17 +110,21 @@ export default function BulkToolbar({
       )}
 
       {isOpenDeleteModal && (
-        <DeleteManyModal
+        <DeleteModal
           ref={deleteModalRef}
+          itemType="transaction"
+          items={selectedItems.map((el) => ({
+            id: el.itemId,
+            name: el.itemName,
+            type: el.type,
+            currency: el.currency,
+            amount: el.amount,
+          }))}
           handleClose={closeDeleteModal}
-          selectedItems={selectedItems.map((el) => el.itemName)}
-          type="transaction"
-        >
-          <DeleteManyTransactionForm
-            selectedItems={selectedItems.map((el) => el.itemId)}
-            handleClose={closeDeleteModal}
-          />
-        </DeleteManyModal>
+          handleSubmit={() =>
+            deleteManyTransaction(selectedItems.map((el) => el.itemId))
+          }
+        />
       )}
     </div>
   );

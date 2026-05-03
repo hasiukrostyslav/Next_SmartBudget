@@ -60,7 +60,13 @@ export default function TransactionsItem({
       <div className="px-1.5">{description}</div>
       <TransactionStatus status={status} />
       <TransactionActionButtons
-        item={{ id: transactionId, name: transactionName }}
+        item={{
+          id: transactionId,
+          name: transactionName,
+          type: transactionType,
+          amount,
+          currency,
+        }}
       />
     </div>
   );

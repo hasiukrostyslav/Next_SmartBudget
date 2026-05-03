@@ -48,6 +48,9 @@ export default function TransactionsGrid({
                 item.transactionId,
                 item.transactionName,
                 item.status,
+                item.transactionType,
+                item.amount,
+                item.currency,
               )
             }
           />

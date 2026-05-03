@@ -12,6 +12,9 @@ export function useCheckbox(list: useCheckboxProps) {
       itemId: string;
       itemName: string;
       status: keyof typeof transactionStatus;
+      type: 'Income' | 'Expenses';
+      amount: number;
+      currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';
     }[]
   >([]);
   const searchParams = useSearchParams();
@@ -23,6 +26,9 @@ export function useCheckbox(list: useCheckboxProps) {
           itemId: d.transactionId,
           itemName: d.transactionName,
           status: d.status,
+          type: d.transactionType,
+          amount: d.amount,
+          currency: d.currency,
         })),
       );
     else setSelectedItems([]);
@@ -41,11 +47,14 @@ export function useCheckbox(list: useCheckboxProps) {
     id: string,
     name: string,
     status: keyof typeof transactionStatus,
+    type: 'Income' | 'Expenses',
+    amount: number,
+    currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP',
   ) =>
     setSelectedItems((prev) =>
       prev.find((i) => i.itemId === id)
         ? prev.filter((i) => i.itemId !== id)
-        : [...prev, { itemId: id, itemName: name, status: status }],
+        : [...prev, { itemId: id, itemName: name, status, type, amount, currency }],
     );
 
   const toggleBulkSelect = () => setIsBulkSelect(!isBulkSelect);
@@ -56,6 +65,9 @@ export function useCheckbox(list: useCheckboxProps) {
         itemId: d.transactionId,
         itemName: d.transactionName,
         status: d.status,
+        type: d.transactionType,
+        amount: d.amount,
+        currency: d.currency,
       })),
     );
   };

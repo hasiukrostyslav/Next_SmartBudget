@@ -33,8 +33,8 @@ export interface TransactionItem {
   transactionName: string;
   transactionCategory: string;
   paymentMethod: string;
-  transactionType: string;
-  currency: string;
+  transactionType: 'Income' | 'Expenses';
+  currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';
   amount: number;
   description?: string | null;
   status: keyof typeof transactionStatus;
@@ -55,3 +55,11 @@ export type ItemType =
   | 'saving'
   | 'loan'
   | 'deposit';
+
+export interface DeleteItem {
+  id: string;
+  name: string;
+  type: 'Income' | 'Expenses';
+  amount: number;
+  currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';
+}
