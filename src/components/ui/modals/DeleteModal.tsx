@@ -4,7 +4,7 @@ import Dialog from './Dialog';
 import ModalHeader from './ModalHeader';
 import ModalFooter from './ModalFooter';
 import { DeleteItem, ItemType } from '@/types/types';
-import { calcDeletedBalance } from '@/lib/utils/utils';
+import { calcDeletedBalance, getFormattedAmount } from '@/lib/utils/utils';
 import getSymbolFromCurrency from 'currency-symbol-map';
 
 interface DeleteModalProps {
@@ -35,6 +35,7 @@ export default function DeleteModal({
   };
 
   const balance = calcDeletedBalance(items);
+  console.log(balance);
 
   return (
     <Dialog ref={ref} className="max-w-4/12 px-0 py-0">
@@ -64,28 +65,34 @@ export default function DeleteModal({
           >
             <span>Total impact on balance</span>
             <div className="flex gap-2 divide-x divide-slate-400">
-              {balance.map((item) => (
-                <div
-                  key={item.currency}
-                  className={clsx(
-                    'flex gap-0.5 pr-2',
-                    item.total < 0
-                      ? 'text-green-600 dark:text-green-400'
-                      : item.total === 0
-                        ? 'text-amber-500'
-                        : '',
-                  )}
-                >
-                  <span>
-                    {item.total > 0
-                      ? -item.total
-                      : item.total < 0
-                        ? '+' + Math.abs(item.total)
-                        : Math.abs(item.total)}
-                  </span>
-                  <span>{getSymbolFromCurrency(item.currency)}</span>
-                </div>
-              ))}
+              {balance.map((item) => {
+                const formattedAmount = getFormattedAmount(
+                  Math.abs(item.total),
+                );
+
+                return (
+                  <div
+                    key={item.currency}
+                    className={clsx(
+                      'flex gap-0.5 pr-2',
+                      item.total < 0
+                        ? 'text-green-600 dark:text-green-400'
+                        : item.total === 0
+                          ? 'text-amber-500'
+                          : '',
+                    )}
+                  >
+                    <span>
+                      {item.total > 0
+                        ? '-' + formattedAmount
+                        : item.total < 0
+                          ? '+' + formattedAmount
+                          : formattedAmount}
+                    </span>
+                    <span>{getSymbolFromCurrency(item.currency)}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>

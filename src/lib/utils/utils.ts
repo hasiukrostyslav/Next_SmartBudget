@@ -1,5 +1,5 @@
+import { Amarante } from 'next/font/google';
 import { pageSizeOptions, paginationRange } from '../constants/constants';
-import { currency } from '../constants/ui';
 
 // Generate Search Params string
 export function createQueryString(
@@ -77,7 +77,7 @@ export function wait(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-//
+// Calculate sum of deleted balance
 export function calcDeletedBalance(
   item: {
     type: 'Income' | 'Expenses';
@@ -99,4 +99,11 @@ export function calcDeletedBalance(
       ),
     };
   });
+}
+
+// Format amount
+export function getFormattedAmount(amount: number) {
+  return new Intl.NumberFormat('ukr', {
+    minimumFractionDigits: 2,
+  }).format(amount);
 }
