@@ -1,4 +1,3 @@
-import { Amarante } from 'next/font/google';
 import { pageSizeOptions, paginationRange } from '../constants/constants';
 
 // Generate Search Params string

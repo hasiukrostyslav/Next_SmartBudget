@@ -35,7 +35,6 @@ export default function DeleteModal({
   };
 
   const balance = calcDeletedBalance(items);
-  console.log(balance);
 
   return (
     <Dialog ref={ref} className="max-w-4/12 px-0 py-0">
