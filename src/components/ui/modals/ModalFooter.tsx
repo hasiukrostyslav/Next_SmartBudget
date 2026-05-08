@@ -2,20 +2,30 @@ import clsx from 'clsx';
 import Icon from '../Icon';
 import Button from '../buttons/Button';
 import { ItemType } from '@/types/types';
+import { MODAL_CONFIG } from '@/lib/constants/ui';
 
 interface ModalFooterProps {
   itemType: ItemType;
-  itemsCount: number;
+  itemsCount?: number;
   disabled?: boolean;
+  operationType: keyof typeof MODAL_CONFIG.footer;
   handleClose: () => void;
 }
 
 export default function ModalFooter({
   itemsCount,
   itemType,
-  handleClose,
   disabled,
+  operationType,
+  handleClose,
 }: ModalFooterProps) {
+  const footerConfig = MODAL_CONFIG.footer[operationType];
+
+  const submitButtonText =
+    operationType !== 'edit'
+      ? ` ${itemsCount && itemsCount > 1 ? `${itemsCount} ${itemType}s` : itemType}`
+      : '';
+
   return (
     <footer
       className={clsx(
@@ -24,9 +34,9 @@ export default function ModalFooter({
         'dark:border-slate-600 dark:bg-slate-900',
       )}
     >
-      <div className="flex gap-1 text-red-600">
-        <Icon name="error" size={12} />
-        <span className="text-xs">Cannot be undone</span>
+      <div className={clsx('flex gap-1', footerConfig.infoColor)}>
+        <Icon name={footerConfig.infoIcon} size={12} />
+        <span className="text-xs">{footerConfig.infoText}</span>
       </div>
       <div className="flex items-center justify-center gap-3">
         <Button type="button" color="outline" size="md" onClick={handleClose}>
@@ -34,13 +44,13 @@ export default function ModalFooter({
         </Button>
         <Button
           type="submit"
-          color="red"
+          color={footerConfig.buttonColor}
           size="md"
           className="flex items-center gap-1"
           disabled={disabled}
         >
-          <Icon name="delete" size={16} />
-          Delete {itemsCount} {`${itemType}${itemsCount > 1 ? 's' : ''}`}
+          <Icon name={footerConfig.buttonIcon} size={16} />
+          {footerConfig.buttonText + submitButtonText}
         </Button>
       </div>
     </footer>

@@ -98,8 +98,9 @@ export default function DeleteModal({
         <ModalFooter
           itemsCount={items.length}
           itemType={itemType}
-          handleClose={handleClose}
           disabled={isPending}
+          operationType="delete"
+          handleClose={handleClose}
         />
       </form>
     </Dialog>

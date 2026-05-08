@@ -5,7 +5,7 @@ export const BUTTON_STYLES = {
     blue: 'border-blue-600 bg-blue-600 hover:border-blue-500 hover:bg-blue-500 text-slate-100',
     red: 'border-red-600 bg-red-600 hover:border-red-500 hover:bg-red-500 text-slate-100',
     transparent: `text-slate-600 border-transparent dark:text-slate-400`,
-    outline: `border-slate-500 text-slate-600 dark:border-slate-400 hover:bg-slate-100 dark:text-slate-400 focus:border-transparent dark:hover:bg-slate-800`,
+    outline: `border-slate-600 text-slate-600 dark:border-slate-400 hover:bg-slate-100 dark:text-slate-400 focus:border-transparent dark:hover:bg-slate-800`,
   },
   size: {
     xs: 'outline-round-sm px-2 ',

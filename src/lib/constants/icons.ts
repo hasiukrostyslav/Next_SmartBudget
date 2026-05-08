@@ -77,6 +77,7 @@ import {
   WashingMachine,
   X,
   Zap,
+  Undo,
 } from 'lucide-react';
 
 export const icons = [
@@ -162,6 +163,7 @@ export const icons = [
   { role: 'taxi', name: 'car-taxi-front', component: CarTaxiFront },
   { role: 'transfer', name: 'arrow-left-right', component: ArrowLeftRight },
   { role: 'travel', name: 'briefcase', component: Briefcase },
+  { role: 'undo', name: 'undo', component: Undo },
   { role: 'user', name: 'user-round', component: UserRound },
   { role: 'utility', name: 'house', component: House },
   { role: 'warning', name: 'circle-alert', component: CircleAlert },
