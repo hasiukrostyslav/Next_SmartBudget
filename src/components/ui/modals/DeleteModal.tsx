@@ -38,14 +38,14 @@ export default function DeleteModal({
 
   return (
     <Dialog ref={ref} className="max-w-4/12 px-0 py-0">
-      <ModalHeader
-        itemsCount={items.length}
-        itemType={itemType}
-        operationType="delete"
-        handleClose={handleClose}
-      />
-
       <form onSubmit={handleDelete}>
+        <ModalHeader
+          itemsCount={items.length}
+          itemType={itemType}
+          operationType="delete"
+          handleClose={handleClose}
+        />
+
         <section className="flex flex-col gap-4 px-6 py-5">
           <div className="text-sm dark:text-slate-300">
             You're about to permanently delete{' '}
@@ -96,6 +96,7 @@ export default function DeleteModal({
             </div>
           </div>
         </section>
+
         <ModalFooter
           itemsCount={items.length}
           itemType={itemType}

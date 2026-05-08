@@ -5,9 +5,9 @@ import { ItemType } from '@/types/types';
 import { MODAL_CONFIG } from '@/lib/constants/ui';
 
 interface ModalHeaderProps {
-  itemType: ItemType;
-  itemsCount: number;
   operationType: keyof typeof MODAL_CONFIG.header;
+  itemType: ItemType;
+  itemsCount?: number;
   handleClose: () => void;
 }
 

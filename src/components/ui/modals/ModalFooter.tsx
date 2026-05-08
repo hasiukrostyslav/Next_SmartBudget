@@ -5,10 +5,10 @@ import { ItemType } from '@/types/types';
 import { MODAL_CONFIG } from '@/lib/constants/ui';
 
 interface ModalFooterProps {
+  operationType: keyof typeof MODAL_CONFIG.footer;
   itemType: ItemType;
   itemsCount?: number;
   disabled?: boolean;
-  operationType: keyof typeof MODAL_CONFIG.footer;
   handleClose: () => void;
 }
 
