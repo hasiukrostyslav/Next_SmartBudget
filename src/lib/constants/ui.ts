@@ -307,6 +307,36 @@ export const ERROR_MESSAGES = {
 } as const;
 
 export const MODAL_CONFIG = {
+  header: {
+    create: {
+      icon: 'plus',
+      iconColor: 'text-blue-600 dark:text-blue-200',
+      iconBgColor: 'bg-blue-100 dark:bg-blue-500',
+      header: 'Add new',
+      infoText: 'Enter an income or expense record',
+    },
+    editStatus: {
+      icon: 'refresh',
+      iconColor: 'text-blue-600 dark:text-blue-200',
+      iconBgColor: 'bg-blue-100 dark:bg-blue-500',
+      header: 'Change status',
+      infoText: 'Update what happened with this transaction',
+    },
+    editCategory: {
+      icon: 'tag',
+      iconColor: 'text-purple-500 dark:text-purple-200',
+      iconBgColor: 'bg-purple-200 dark:bg-purple-500',
+      header: 'Change category',
+      infoText: 'Re-categorize what these transactions are for',
+    },
+    delete: {
+      icon: 'delete',
+      iconColor: 'text-red-600 dark:text-red-200',
+      iconBgColor: 'bg-red-200 dark:bg-red-500',
+      header: 'Delete',
+      infoText: 'This action cannot be undone',
+    },
+  },
   footer: {
     create: {
       infoColor: 'text-slate-600',

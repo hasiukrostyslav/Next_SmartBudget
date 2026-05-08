@@ -2,18 +2,27 @@ import clsx from 'clsx';
 import ButtonIcon from '../buttons/ButtonIcon';
 import Icon from '../Icon';
 import { ItemType } from '@/types/types';
+import { MODAL_CONFIG } from '@/lib/constants/ui';
 
 interface ModalHeaderProps {
   itemType: ItemType;
   itemsCount: number;
+  operationType: keyof typeof MODAL_CONFIG.header;
   handleClose: () => void;
 }
 
 export default function ModalHeader({
   itemsCount,
   itemType,
+  operationType,
   handleClose,
 }: ModalHeaderProps) {
+  const headerConfig = MODAL_CONFIG.header[operationType];
+
+  const headerText = !operationType.startsWith('edit')
+    ? ` ${itemsCount && itemsCount > 1 ? `${itemsCount} ${itemType}s` : itemType}`
+    : '';
+
   return (
     <header
       className={clsx(
@@ -21,19 +30,19 @@ export default function ModalHeader({
         'border-b border-slate-300 p-6 pt-3 pb-5 dark:border-slate-600',
       )}
     >
-      <div className="rounded-md bg-red-200 p-2 dark:bg-red-500">
+      <div className={clsx('rounded-md p-2', headerConfig.iconBgColor)}>
         <Icon
-          name="delete"
+          name={headerConfig.icon}
           size={22}
-          className="text-red-600 dark:text-red-200"
+          className={headerConfig.iconColor}
         />
       </div>
       <div>
         <h2 className="text-lg font-semibold dark:text-slate-300">
-          Delete {itemsCount} {`${itemType}${itemsCount > 1 ? 's' : ''}`}
+          {headerConfig.header + headerText}
         </h2>
         <p className="text-xs text-slate-500 dark:text-slate-400">
-          This action cannot be undone
+          {headerConfig.infoText}
         </p>
       </div>
       <ButtonIcon

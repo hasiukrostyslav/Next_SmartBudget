@@ -41,6 +41,7 @@ export default function DeleteModal({
       <ModalHeader
         itemsCount={items.length}
         itemType={itemType}
+        operationType="delete"
         handleClose={handleClose}
       />
 
