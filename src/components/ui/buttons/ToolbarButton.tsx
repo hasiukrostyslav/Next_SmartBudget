@@ -27,7 +27,7 @@ export default function ToolbarButton({
         'outline-input flex items-center justify-center gap-1 rounded-md px-4 py-1',
         disabled
           ? 'cursor-default text-slate-400'
-          : 'bg-blue-500 hover:bg-blue-600',
+          : `bg-blue-500 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800/10`,
       )}
     >
       <Icon name={iconName} size={iconSize} />

@@ -306,33 +306,57 @@ export const ERROR_MESSAGES = {
   },
 } as const;
 
+export const BUTTON_STYLES = {
+  color: {
+    black: `border-slate-900 bg-slate-900 hover:border-slate-800 
+    hover:bg-slate-800 dark:border-blue-600 dark:bg-blue-600 
+    dark:hover:border-blue-500 dark:hover:bg-blue-500`,
+    blue: `border-blue-600 text-slate-100 bg-blue-600 
+    hover:border-blue-700 hover:bg-blue-700
+    dark:bg-blue-800 dark:border-blue-800 dark:hover:bg-blue-900 dark:hover:border-blue-900`,
+    red: `border-red-600 bg-red-600 text-slate-100  
+    hover:bg-red-700 hover:border-red-700
+    dark:bg-red-700 dark:border-red-700 dark:hover:bg-red-800 dark:hover:border-red-800`,
+    transparent: `text-slate-600 border-transparent dark:text-slate-400`,
+    outline: `border-slate-600 text-slate-600 dark:border-slate-400 
+    hover:bg-slate-100 dark:text-slate-400 
+    focus:border-transparent dark:hover:bg-slate-800`,
+  },
+  size: {
+    xs: 'outline-round-sm px-2 ',
+    sm: 'outline-round-sm px-2 py-1',
+    md: 'outline-round-sm px-2 py-1.5',
+    lg: 'outline-round-md px-3 py-2.5',
+  },
+} as const;
+
 export const MODAL_CONFIG = {
   header: {
     create: {
       icon: 'plus',
-      iconColor: 'text-blue-600 dark:text-blue-200',
-      iconBgColor: 'bg-blue-100 dark:bg-blue-500',
+      iconColor: 'text-blue-500',
+      iconBgColor: 'bg-blue-100 dark:bg-blue-500/20',
       header: 'Add new',
       infoText: 'Enter an income or expense record',
     },
     editStatus: {
       icon: 'refresh',
-      iconColor: 'text-blue-600 dark:text-blue-200',
-      iconBgColor: 'bg-blue-100 dark:bg-blue-500',
+      iconColor: 'text-blue-500',
+      iconBgColor: 'bg-blue-100 dark:bg-blue-500/20',
       header: 'Change status',
       infoText: 'Update what happened with this transaction',
     },
     editCategory: {
       icon: 'tag',
-      iconColor: 'text-purple-500 dark:text-purple-200',
-      iconBgColor: 'bg-purple-200 dark:bg-purple-500',
+      iconColor: 'text-purple-500',
+      iconBgColor: 'bg-purple-200 dark:bg-purple-500/20',
       header: 'Change category',
       infoText: 'Re-categorize what these transactions are for',
     },
     delete: {
       icon: 'delete',
-      iconColor: 'text-red-600 dark:text-red-200',
-      iconBgColor: 'bg-red-200 dark:bg-red-500',
+      iconColor: 'text-red-500',
+      iconBgColor: 'bg-red-200 dark:bg-red-500/10',
       header: 'Delete',
       infoText: 'This action cannot be undone',
     },
@@ -362,5 +386,48 @@ export const MODAL_CONFIG = {
       buttonColor: 'red',
       buttonText: 'Delete',
     },
+  },
+} as const;
+
+export const STATUS_CONFIG = {
+  COMPLETED: {
+    badge: `bg-green-700 text-slate-100 border-green-700 
+      dark:bg-green-700/10 dark:text-green-500`,
+    card: 'border-green-600 bg-green-50 dark:bg-green-600/10',
+    description: 'Payment processed successfully',
+    header: 'Completed',
+    icon: 'circle-check',
+    iconColor: 'bg-green-200 text-green-600 dark:bg-green-500/20',
+    radio: 'border-green-600',
+  },
+  PENDING: {
+    badge: `bg-yellow-300 border-yellow-300 text-slate-700 
+      dark:text-yellow-500 dark:border-yellow-500 dark:bg-yellow-500/10`,
+    card: 'border-yellow-600 bg-yellow-50 dark:bg-yellow-600/10',
+    description: 'Waiting for payment to settle',
+    header: 'Pending',
+    icon: 'clock',
+    iconColor: 'bg-yellow-200 text-yellow-600 dark:bg-yellow-500/20',
+    radio: 'border-yellow-600',
+  },
+  FAILED: {
+    badge: `bg-red-500 text-slate-100 border-red-500 
+      dark:bg-red-500/10 dark:text-red-500`,
+    card: 'border-red-600 bg-red-50 dark:bg-red-600/10',
+    description: 'Transaction did not go through',
+    header: 'Failed',
+    icon: 'circle-x',
+    iconColor: 'bg-red-200 text-red-600 dark:bg-red-500/20',
+    radio: 'border-red-600',
+  },
+  CANCELED: {
+    badge: `bg-slate-500 text-slate-100 border-slate-500 
+      dark:bg-slate-500/10 dark:text-slate-400`,
+    card: 'border-slate-600 bg-slate-50 dark:bg-slate-600/10',
+    description: 'Manually cancelled by the user',
+    header: 'Canceled',
+    icon: 'circle-minus',
+    iconColor: 'bg-slate-200 text-slate-600 dark:bg-slate-500/20',
+    radio: 'border-slate-600',
   },
 } as const;

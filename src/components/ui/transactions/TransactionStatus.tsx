@@ -1,20 +1,18 @@
 import clsx from 'clsx';
-import { transactionStatus } from '@/lib/constants/ui';
-
-const style = {
-  CANCELED: 'bg-slate-500 text-slate-100',
-  COMPLETED: 'bg-green-700 text-slate-100 dark:bg-green-900',
-  FAILED: 'bg-red-500 text-slate-100 dark:bg-red-700',
-  PENDING: 'bg-yellow-300 text-slate-700 dark:bg-yellow-500',
-};
+import { STATUS_CONFIG } from '@/lib/constants/ui';
 
 export default function TransactionStatus({
   status,
 }: {
-  status: keyof typeof transactionStatus;
+  status: keyof typeof STATUS_CONFIG;
 }) {
   return (
-    <div className={clsx('rounded-md px-2 py-1 text-center', style[status])}>
+    <div
+      className={clsx(
+        'rounded-md border px-2 py-1 text-center',
+        STATUS_CONFIG[status].badge,
+      )}
+    >
       {status.at(0) + status.slice(1).toLowerCase()}
     </div>
   );

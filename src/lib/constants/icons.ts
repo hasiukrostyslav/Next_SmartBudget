@@ -79,6 +79,10 @@ import {
   X,
   Zap,
   Undo,
+  CircleCheck,
+  Clock,
+  CircleX,
+  CircleMinus,
 } from 'lucide-react';
 
 export const icons = [
@@ -104,7 +108,11 @@ export const icons = [
   { role: 'chevron-up', name: 'chevron-up', component: ChevronUp },
   { role: 'chevrons-left', name: 'chevrons-left', component: ChevronsLeft },
   { role: 'chevrons-right', name: 'chevrons-right', component: ChevronsRight },
+  { role: 'clock', name: 'clock', component: Clock },
   { role: 'close', name: 'x', component: X },
+  { role: 'circle-check', name: 'circle-check', component: CircleCheck },
+  { role: 'circle-minus', name: 'circle-minus', component: CircleMinus },
+  { role: 'circle-x', name: 'circle-x', component: CircleX },
   { role: 'clothes', name: 'shirt', component: Shirt },
   { role: 'copy', name: 'copy', component: Copy },
   {

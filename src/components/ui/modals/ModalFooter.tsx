@@ -9,6 +9,7 @@ interface ModalFooterProps {
   itemType: ItemType;
   itemsCount?: number;
   disabled?: boolean;
+  isSubmitting: boolean;
   handleClose: () => void;
 }
 
@@ -16,6 +17,7 @@ export default function ModalFooter({
   itemsCount,
   itemType,
   disabled,
+  isSubmitting,
   operationType,
   handleClose,
 }: ModalFooterProps) {
@@ -49,7 +51,11 @@ export default function ModalFooter({
           className="flex items-center gap-1"
           disabled={disabled}
         >
-          <Icon name={footerConfig.buttonIcon} size={16} />
+          <Icon
+            name={isSubmitting ? 'loader-circle' : footerConfig.buttonIcon}
+            className={isSubmitting ? 'animate-spin' : ''}
+            size={16}
+          />
           {footerConfig.buttonText + submitButtonText}
         </Button>
       </div>

@@ -59,8 +59,8 @@ export default function DeleteModal({
           <div
             className={clsx(
               'flex items-center justify-between rounded-xl border',
-              'border-red-500 bg-red-200 px-4 py-4 text-sm font-semibold text-red-700',
-              'dark:border-red-300 dark:bg-red-500 dark:text-red-100',
+              'px-4 py-4 text-sm font-semibold text-red-500',
+              'border-red-500 bg-red-100 dark:bg-red-500/10',
             )}
           >
             <span>Total impact on balance</span>
@@ -76,7 +76,7 @@ export default function DeleteModal({
                     className={clsx(
                       'flex gap-0.5 pr-2',
                       item.total < 0
-                        ? 'text-green-600 dark:text-green-400'
+                        ? 'text-green-600'
                         : item.total === 0
                           ? 'text-amber-500'
                           : '',
@@ -102,6 +102,7 @@ export default function DeleteModal({
           itemType={itemType}
           disabled={isPending}
           operationType="delete"
+          isSubmitting={isPending}
           handleClose={handleClose}
         />
       </form>

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import clsx from 'clsx';
 import Icon from '../Icon';
-import { BUTTON_STYLES } from '@/lib/constants/styles';
+import { BUTTON_STYLES } from '@/lib/constants/ui';
 import { IconName } from '@/types/types';
 
 interface ButtonLinkProps {
