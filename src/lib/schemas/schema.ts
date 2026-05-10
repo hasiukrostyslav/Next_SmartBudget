@@ -44,19 +44,17 @@ export const TransactionCreateSchema = z.object({
     .string()
     .min(1, { message: 'Transaction name is required.' })
     .trim(),
-  transactionCategory: z
-    .string()
-    .min(1, { message: 'Category is required.' }),
-  transactionType: z
-    .string()
-    .min(1, { message: 'Transaction type is required.' }),
-  paymentMethod: z
-    .string()
-    .min(1, { message: 'Payment method is required.' }),
-  currency: z.string().min(1, { message: 'Currency is required.' }),
+  transactionCategory: z.string().min(1, { message: 'Category is required.' }),
+  transactionType: z.enum(['Income', 'Expenses'], {
+    error: 'Transaction type is required.',
+  }),
+  paymentMethod: z.string().min(1, { message: 'Payment method is required.' }),
+  currency: z.enum(['UAH', 'USD', 'EUR', 'PLN', 'HUF', 'GBP']).default('UAH'),
   amount: z.number().positive({ message: 'Amount must be a positive number.' }),
   description: z.string().optional(),
-  status: z.enum(['COMPLETED', 'FAILED', 'PENDING']).default('COMPLETED'),
+  status: z
+    .enum(['COMPLETED', 'FAILED', 'PENDING', 'CANCELED'])
+    .default('COMPLETED'),
 });
 
 export const SearchParamsSchema = z.object({
