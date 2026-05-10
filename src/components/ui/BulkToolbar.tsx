@@ -3,9 +3,10 @@
 import clsx from 'clsx';
 import { useDialog } from '@/hooks/useDialog';
 import ToolbarButton from './buttons/ToolbarButton';
-import DeleteModal from './modals/DeleteModal';
 import ButtonIcon from './buttons/ButtonIcon';
-import SelectModal from './modals/SelectModal';
+import EditStatusModal from './modals/EditStatusModal';
+import EditCategoryModal from './modals/EditCategoryModal';
+import DeleteModal from './modals/DeleteModal';
 import { transactionStatus } from '@/lib/constants/ui';
 import { deleteManyTransaction } from '@/lib/actions/transactionActions';
 
@@ -33,7 +34,20 @@ export default function BulkToolbar({
   bulkUnSelect,
   selectedItems,
 }: BulkToolbarProps) {
-  const { isOpen, dialogRef, handleOpen, handleClose } = useDialog();
+  const {
+    isOpen: isOpenEditStatusModal,
+    dialogRef: editStatusModalRef,
+    handleOpen: openEditStatusModal,
+    handleClose: closeEditStatusModal,
+  } = useDialog();
+
+  const {
+    isOpen: isOpenEditCategoryModal,
+    dialogRef: editCategoryModalRef,
+    handleOpen: openEditCategoryModal,
+    handleClose: closeEditCategoryModal,
+  } = useDialog();
+
   const {
     isOpen: isOpenDeleteModal,
     dialogRef: deleteModalRef,
@@ -45,7 +59,7 @@ export default function BulkToolbar({
     <div
       className={clsx(
         'flex items-center rounded-md px-3 py-2.5 text-sm',
-        'bg-blue-600 text-slate-100',
+        'bg-blue-600 text-slate-100 dark:bg-blue-800/20',
         'absolute top-full left-1/5 translate-y-3',
         !isShown ? 'hidden' : '',
       )}
@@ -70,16 +84,16 @@ export default function BulkToolbar({
           disabled={allSelected}
         />
         <ToolbarButton
-          iconName="arrow-right-left"
+          iconName="refresh"
           iconSize={14}
           label="Change status"
-          onClick={handleOpen}
+          onClick={openEditStatusModal}
         />
         <ToolbarButton
-          iconName="arrow-right-left"
+          iconName="tag"
           iconSize={14}
           label="Change category"
-          onClick={handleOpen}
+          onClick={openEditCategoryModal}
         />
         <ToolbarButton
           iconName="delete"
@@ -95,13 +109,24 @@ export default function BulkToolbar({
         variant="outline"
         padding="base"
         onClick={bulkUnSelect}
-        className="bg-blue-500 hover:bg-blue-600"
+        className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800/10"
       />
 
-      {isOpen && (
-        <SelectModal
-          ref={dialogRef}
-          handleClose={handleClose}
+      {isOpenEditStatusModal && (
+        <EditStatusModal
+          ref={editStatusModalRef}
+          handleClose={closeEditStatusModal}
+          selectedItems={selectedItems.map((el) => ({
+            id: el.itemId,
+            status: el.status,
+          }))}
+        />
+      )}
+
+      {isOpenEditCategoryModal && (
+        <EditCategoryModal
+          ref={editCategoryModalRef}
+          handleClose={closeEditCategoryModal}
           selectedItems={selectedItems.map((el) => ({
             id: el.itemId,
             status: el.status,

@@ -245,10 +245,10 @@ export const transactionTypes: {
 ] as const;
 
 export const transactionStatus = {
-  CANCELED: 'CANCELED',
   COMPLETED: 'COMPLETED',
-  FAILED: 'FAILED',
   PENDING: 'PENDING',
+  FAILED: 'FAILED',
+  CANCELED: 'CANCELED',
 } as const;
 
 export const currency = [
