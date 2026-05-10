@@ -1,5 +1,5 @@
 import { icons } from '@/lib/constants/icons';
-import { transactionStatus } from '@/lib/constants/ui';
+import { TRANSACTION_CATEGORIES, transactionStatus } from '@/lib/constants/ui';
 
 export type IconName = (typeof icons)[number]['role'];
 
@@ -31,7 +31,7 @@ export interface TransactionItem {
   userId: string;
   transactionId: string;
   transactionName: string;
-  transactionCategory: string;
+  transactionCategory: keyof typeof TRANSACTION_CATEGORIES;
   paymentMethod: string;
   transactionType: 'Income' | 'Expenses';
   currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';

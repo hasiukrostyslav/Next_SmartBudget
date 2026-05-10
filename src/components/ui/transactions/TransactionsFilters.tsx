@@ -3,7 +3,7 @@ import Select from '../selects/Select';
 import TransactionsCTA from './TransactionsCTA';
 import {
   currency,
-  transactionCategories,
+  TRANSACTION_CATEGORIES,
   transactionTypes,
 } from '@/lib/constants/ui';
 
@@ -15,7 +15,7 @@ export default async function TransactionsFilters() {
       <div className="ml-2 flex items-center gap-2">
         <Select
           name="categories"
-          data={transactionCategories.map((c) => c.name)}
+          data={Object.keys(TRANSACTION_CATEGORIES)}
           autoFetchOnChange
           defaultOption="all"
           width="lg"

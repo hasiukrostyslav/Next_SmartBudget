@@ -1,6 +1,12 @@
 import { createTransaction } from '@/lib/actions/transactionActions';
-import { transactionCategories } from '@/lib/constants/ui';
+import { TRANSACTION_CATEGORIES } from '@/lib/constants/ui';
 import { NextResponse } from 'next/server';
+
+const INCOME_CATEGORIES = ['income', 'investments', 'prize', 'currency exchange'] as const;
+
+function getCategoryType(categoryKey: string): 'Income' | 'Expenses' {
+  return INCOME_CATEGORIES.includes(categoryKey as any) ? 'Income' : 'Expenses';
+}
 
 export async function GET() {
   if (process.env.NODE_ENV !== 'development') {
@@ -8,15 +14,11 @@ export async function GET() {
   }
 
   const results = await Promise.allSettled(
-    transactionCategories.map((category) =>
+    Object.entries(TRANSACTION_CATEGORIES).map(([key, category]) =>
       createTransaction({
-        transactionName: category.name
-          .split(' ')
-          .map((w) => w[0].toUpperCase() + w.slice(1))
-          .join(' '),
-        transactionCategory: category.name,
-        transactionType:
-          category.type === 'income' ? 'Income' : 'Expenses',
+        transactionName: category.header,
+        transactionCategory: key as keyof typeof TRANSACTION_CATEGORIES,
+        transactionType: getCategoryType(key),
         paymentMethod: 'Card',
         currency: 'USD',
         amount: 100,

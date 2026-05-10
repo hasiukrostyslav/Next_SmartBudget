@@ -10,7 +10,7 @@ export default function TransactionStatus({
     <div
       className={clsx(
         'rounded-md border px-2 py-1 text-center',
-        STATUS_CONFIG[status].badge,
+        STATUS_CONFIG[status].style.badge,
       )}
     >
       {status.at(0) + status.slice(1).toLowerCase()}

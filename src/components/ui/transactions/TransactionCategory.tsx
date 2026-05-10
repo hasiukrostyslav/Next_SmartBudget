@@ -1,8 +1,8 @@
-import { transactionCategories } from '@/lib/constants/ui';
 import clsx from 'clsx';
+import { TRANSACTION_CATEGORIES } from '@/lib/constants/ui';
 
 interface TransactionCategoryProps {
-  category: (typeof transactionCategories)[number]['name'];
+  category: keyof typeof TRANSACTION_CATEGORIES;
 }
 
 export default function TransactionCategory({
@@ -12,14 +12,11 @@ export default function TransactionCategory({
     <div>
       <span
         className={clsx(
-          'inline-block rounded-xl border px-2.5 py-1',
-          `${transactionCategories.find((c) => c.name === category.toLowerCase())?.color}`,
+          'inline-block rounded-xl border-2 px-2.5 py-1',
+          TRANSACTION_CATEGORIES[category].style.badge,
         )}
       >
-        {category
-          .split(' ')
-          .map((word) => word.replace(word[0], word[0].toUpperCase()))
-          .join(' ')}
+        {TRANSACTION_CATEGORIES[category].header}
       </span>
     </div>
   );
