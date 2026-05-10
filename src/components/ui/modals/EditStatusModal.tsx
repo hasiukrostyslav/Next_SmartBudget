@@ -81,7 +81,11 @@ export default function EditStatusModal({
         <ModalFooter
           operationType="edit"
           itemType="transaction"
-          disabled={isPending || !selectedValue}
+          disabled={
+            isPending ||
+            !selectedValue ||
+            (initialValue.length === 1 && initialValue[0] === selectedValue)
+          }
           isSubmitting={isPending}
           handleClose={handleClose}
         />
