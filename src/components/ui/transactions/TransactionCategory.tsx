@@ -12,7 +12,7 @@ export default function TransactionCategory({
     <div>
       <span
         className={clsx(
-          'inline-block rounded-xl px-2.5 py-1',
+          'inline-block rounded-xl border px-2.5 py-1',
           `${transactionCategories.find((c) => c.name === category.toLowerCase())?.color}`,
         )}
       >
