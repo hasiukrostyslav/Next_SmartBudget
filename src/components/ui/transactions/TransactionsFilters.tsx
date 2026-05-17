@@ -10,7 +10,7 @@ import {
 export default async function TransactionsFilters() {
   return (
     <div className="flex items-center gap-4 px-1">
-      <SearchForm size="md" placeholder="Search Transaction" />
+      <SearchForm inputPadding="sm" placeholder="Search Transaction..." />
 
       <div className="ml-2 flex items-center gap-2">
         <Select

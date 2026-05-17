@@ -643,3 +643,23 @@ export const TRANSACTION_CATEGORIES = {
     description: 'Water bills, plumbing',
   },
 } as const;
+
+export const INPUT_CONFIG = {
+  padding: {
+    xs: 'py-1',
+    sm: 'py-1.5',
+    md: 'py-2',
+    lg: 'py-2.5',
+  },
+  border: {
+    default: 'border-slate-300 dark:border-slate-500',
+    error: 'border-red-300 dark:border-red-400',
+    disabled: 'border-slate-200 dark:border-slate-500',
+  },
+  iconPadding: {
+    xs: 'pl-8',
+    sm: 'pl-8',
+    md: 'pl-8',
+    lg: 'pl-10',
+  },
+} as const;
