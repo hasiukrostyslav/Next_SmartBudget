@@ -258,7 +258,7 @@ export const TRANSACTION_CATEGORIES = {
     },
     description: 'Lottery, contests, gifts',
   },
-  'currency exchange': {
+  currency_exchange: {
     header: 'Currency Exchange',
     icon: 'currency-exchange',
     style: {
@@ -486,7 +486,7 @@ export const TRANSACTION_CATEGORIES = {
     },
     description: 'Loan payments, debt',
   },
-  'mobile phone': {
+  mobile_phone: {
     header: 'Mobile Phone',
     icon: 'mobile-phone',
     style: {
@@ -522,7 +522,7 @@ export const TRANSACTION_CATEGORIES = {
     },
     description: 'Miscellaneous expenses',
   },
-  'personal care': {
+  personal_care: {
     header: 'Personal Care',
     icon: 'personal-care',
     style: {
@@ -534,7 +534,7 @@ export const TRANSACTION_CATEGORIES = {
     },
     description: 'Haircut, beauty, hygiene',
   },
-  'pet care': {
+  pet_care: {
     header: 'Pet Care',
     icon: 'pet-care',
     style: {

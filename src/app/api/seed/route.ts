@@ -2,7 +2,12 @@ import { createTransaction } from '@/lib/actions/transactionActions';
 import { TRANSACTION_CATEGORIES } from '@/lib/constants/ui';
 import { NextResponse } from 'next/server';
 
-const INCOME_CATEGORIES = ['income', 'investments', 'prize', 'currency exchange'] as const;
+const INCOME_CATEGORIES = [
+  'income',
+  'investments',
+  'prize',
+  'currency_exchange',
+] as const;
 
 function getCategoryType(categoryKey: string): 'Income' | 'Expenses' {
   return INCOME_CATEGORIES.includes(categoryKey as any) ? 'Income' : 'Expenses';

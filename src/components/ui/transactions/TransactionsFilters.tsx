@@ -15,7 +15,9 @@ export default async function TransactionsFilters() {
       <div className="ml-2 flex items-center gap-2">
         <Select
           name="categories"
-          data={Object.keys(TRANSACTION_CATEGORIES)}
+          data={Object.keys(TRANSACTION_CATEGORIES).map((el) =>
+            el.replace('_', ' '),
+          )}
           autoFetchOnChange
           defaultOption="all"
           width="lg"
