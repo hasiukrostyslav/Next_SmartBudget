@@ -7,7 +7,7 @@ import ButtonIcon from './buttons/ButtonIcon';
 import EditStatusModal from './modals/EditStatusModal';
 import EditCategoryModal from './modals/EditCategoryModal';
 import DeleteModal from './modals/DeleteModal';
-import { transactionStatus } from '@/lib/constants/ui';
+import { TRANSACTION_CATEGORIES, transactionStatus } from '@/lib/constants/ui';
 import { deleteManyTransaction } from '@/lib/actions/transactionActions';
 
 interface BulkToolbarProps {
@@ -17,9 +17,11 @@ interface BulkToolbarProps {
   bulkSelect: () => void;
   bulkUnSelect: () => void;
   selectedItems: {
+    // NEED TO BE CHANGED
     itemId: string;
     itemName: string;
     status: keyof typeof transactionStatus;
+    category: keyof typeof TRANSACTION_CATEGORIES;
     type: 'Income' | 'Expenses';
     amount: number;
     currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';
@@ -129,7 +131,7 @@ export default function BulkToolbar({
           handleClose={closeEditCategoryModal}
           selectedItems={selectedItems.map((el) => ({
             id: el.itemId,
-            status: el.status,
+            category: el.category,
           }))}
         />
       )}

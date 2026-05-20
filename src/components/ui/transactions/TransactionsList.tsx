@@ -6,6 +6,7 @@ import TransactionsItem from './TransactionsItem';
 import TransactionsSort from './TransactionsSort';
 import BulkToolbar from '../BulkToolbar';
 import { TransactionItem } from '@/types/types';
+import { useTheme } from '@/hooks/useTheme';
 
 export default function TransactionsGrid({
   data,
@@ -20,6 +21,7 @@ export default function TransactionsGrid({
     bulkSelect,
     bulkUnSelect,
   } = useCheckbox(data);
+  const { theme } = useTheme();
 
   return (
     <div
@@ -36,6 +38,7 @@ export default function TransactionsGrid({
         className={clsx(
           'col-span-full grid auto-rows-min grid-cols-subgrid',
           'h-55vh h-65vh scrollbar overflow-y-auto',
+          theme === 'dark' ? 'scrollbar-dark' : '',
         )}
       >
         {data.map((item) => (
@@ -48,6 +51,7 @@ export default function TransactionsGrid({
                 item.transactionId,
                 item.transactionName,
                 item.status,
+                item.transactionCategory,
                 item.transactionType,
                 item.amount,
                 item.currency,

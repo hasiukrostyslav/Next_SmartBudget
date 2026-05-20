@@ -16,7 +16,7 @@ export default function TransactionCategory({
           TRANSACTION_CATEGORIES[category].style.badge,
         )}
       >
-        {TRANSACTION_CATEGORIES[category].header}
+        {TRANSACTION_CATEGORIES[category].text.header}
       </span>
     </div>
   );

@@ -1,85 +1,102 @@
+'use client';
+
 import { useTransition } from 'react';
 import clsx from 'clsx';
 import { changeTransactionStatus } from '@/lib/actions/transactionActions';
 import { useSelectValue } from '@/hooks/useSelectValue';
+import { useTheme } from '@/hooks/useTheme';
+import { TRANSACTION_CATEGORIES } from '@/lib/constants/ui';
 import Dialog from './Dialog';
 import ModalHeader from './ModalHeader';
 import ModalFooter from './ModalFooter';
 import RadioCard from '../selects/RadioCard';
-import { STATUS_CONFIG } from '@/lib/constants/ui';
+import Input from '../inputs/Input';
 
-interface EditStatusModalProps {
+interface EditCategoryModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;
   handleClose: () => void;
   selectedItems: {
     id: string;
-    status: keyof typeof STATUS_CONFIG;
+    category: keyof typeof TRANSACTION_CATEGORIES;
   }[];
 }
 
-export default function EditStatusModal({
+export default function EditCategoryModal({
   ref,
   handleClose,
   selectedItems,
-}: EditStatusModalProps) {
+}: EditCategoryModalProps) {
+  const { theme } = useTheme();
   const [isPending, startTransition] = useTransition();
   const { selectedValue, setSelectedValue } = useSelectValue();
-  const initialValue = [...new Set(selectedItems.map((el) => el.status))];
-  const STATUS = Object.keys(STATUS_CONFIG) as Array<
-    keyof typeof STATUS_CONFIG
+  const initialValue = [...new Set(selectedItems.map((el) => el.category))];
+  const categories = Object.keys(TRANSACTION_CATEGORIES) as Array<
+    keyof typeof TRANSACTION_CATEGORIES
   >;
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    startTransition(async () => {
-      const result = await changeTransactionStatus(
-        selectedItems.map((el) => el.id),
-        selectedValue as keyof typeof STATUS_CONFIG,
-      );
+    // startTransition(async () => {
+    //   const result = await changeTransactionStatus(
+    //     selectedItems.map((el) => el.id),
+    //     selectedValue as keyof typeof transactionStatus,
+    //   );
 
-      if (result.success) handleClose();
-    });
+    //   if (result.success) handleClose();
+    // });
   };
 
   return (
-    <Dialog ref={ref} className="max-w-4/12 px-0 py-0">
+    <Dialog ref={ref} className="max-w-5/12 px-0 py-0">
       <form
         onSubmit={handleSubmit}
         className={clsx('flex min-w-84 flex-col dark:text-slate-400')}
       >
         <ModalHeader
-          operationType="editStatus"
+          operationType="editCategory"
           itemType="transaction"
           handleClose={handleClose}
         />
 
         <section className="px-6 py-5">
           <p className="mb-4">
-            Update the {selectedItems.length} transaction's status to reflect
+            Update the {selectedItems.length} transaction's category to reflect
             its current state. Changes will appear in the transaction history
             and related records.
           </p>
 
           <div className="flex flex-col gap-2">
             <h4 className="text-xs">
-              NEW STATUS <span className="text-red-500">*</span>
+              NEW CATEGORY <span className="text-red-500">*</span>
             </h4>
-            <div className="flex flex-col gap-3">
-              {STATUS.map((status) => {
-                const item = STATUS_CONFIG[status];
+            <Input
+              name="search"
+              placeholder="Search categories..."
+              padding="md"
+            />
+
+            <div
+              className={clsx(
+                'grid h-72 grid-cols-2 gap-3 pr-2',
+                'scrollbar overflow-y-scroll',
+                theme === 'dark' ? 'scrollbar-dark' : '',
+              )}
+            >
+              {categories.toSorted().map((category) => {
+                const item = TRANSACTION_CATEGORIES[category];
 
                 return (
                   <RadioCard
-                    key={status}
-                    option={status}
+                    key={category}
+                    option={category}
                     selectedValue={selectedValue}
                     handleSelect={setSelectedValue}
                     icon={item.icon}
                     text={item.text}
                     styleConfig={item.style}
                     isCurrent={
-                      initialValue.length === 1 && initialValue[0] === status
+                      initialValue.length === 1 && initialValue[0] === category
                     }
                   />
                 );

@@ -21,7 +21,7 @@ export async function GET() {
   const results = await Promise.allSettled(
     Object.entries(TRANSACTION_CATEGORIES).map(([key, category]) =>
       createTransaction({
-        transactionName: category.header,
+        transactionName: category.text.header,
         transactionCategory: key as keyof typeof TRANSACTION_CATEGORIES,
         transactionType: getCategoryType(key),
         paymentMethod: 'Card',

@@ -172,11 +172,13 @@ export const MODAL_CONFIG = {
 
 export const STATUS_CONFIG = {
   COMPLETED: {
-    description: 'Payment processed successfully',
-    header: 'Completed',
+    text: {
+      header: 'Completed',
+      description: 'Payment processed successfully',
+    },
     icon: 'circle-check',
     style: {
-      badge: `bg-green-700 text-slate-100 border-green-700 
+      badge: `bg-green-700 text-slate-100 border-green-700
       dark:bg-green-700/10 dark:text-green-500`,
       card: 'border-green-600 bg-green-50 dark:bg-green-600/10',
       icon: 'bg-green-200 text-green-600 dark:bg-green-500/20',
@@ -184,11 +186,13 @@ export const STATUS_CONFIG = {
     },
   },
   PENDING: {
-    description: 'Waiting for payment to settle',
-    header: 'Pending',
+    text: {
+      header: 'Pending',
+      description: 'Waiting for payment to settle',
+    },
     icon: 'clock',
     style: {
-      badge: `bg-yellow-300 border-yellow-300 text-slate-700 
+      badge: `bg-yellow-300 border-yellow-300 text-slate-700
       dark:text-yellow-500 dark:border-yellow-500 dark:bg-yellow-500/10`,
       card: 'border-yellow-600 bg-yellow-50 dark:bg-yellow-600/10',
       icon: 'bg-yellow-200 text-yellow-600 dark:bg-yellow-500/20',
@@ -196,11 +200,13 @@ export const STATUS_CONFIG = {
     },
   },
   FAILED: {
-    description: 'Transaction did not go through',
-    header: 'Failed',
+    text: {
+      header: 'Failed',
+      description: 'Transaction did not go through',
+    },
     icon: 'circle-x',
     style: {
-      badge: `bg-red-500 text-slate-100 border-red-500 
+      badge: `bg-red-500 text-slate-100 border-red-500
       dark:bg-red-500/10 dark:text-red-500`,
       card: 'border-red-600 bg-red-50 dark:bg-red-600/10',
       icon: 'bg-red-200 text-red-600 dark:bg-red-500/20',
@@ -208,11 +214,13 @@ export const STATUS_CONFIG = {
     },
   },
   CANCELED: {
-    description: 'Manually cancelled by the user',
-    header: 'Canceled',
+    text: {
+      header: 'Canceled',
+      description: 'Manually cancelled by the user',
+    },
     icon: 'circle-minus',
     style: {
-      badge: `bg-slate-500 text-slate-100 border-slate-500 
+      badge: `bg-slate-500 text-slate-100 border-slate-500
       dark:bg-slate-500/10 dark:text-slate-400`,
       card: 'border-slate-600 bg-slate-50 dark:bg-slate-600/10',
       icon: 'bg-slate-200 text-slate-600 dark:bg-slate-500/20',
@@ -223,7 +231,7 @@ export const STATUS_CONFIG = {
 
 export const TRANSACTION_CATEGORIES = {
   income: {
-    header: 'Income',
+    text: { header: 'Income', description: 'Salary, wages, freelance' },
     icon: 'income',
     style: {
       badge: `bg-emerald-100 text-emerald-700 border-emerald-200
@@ -232,10 +240,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-emerald-200 text-emerald-600 dark:bg-emerald-500/20',
       radio: 'border-emerald-400',
     },
-    description: 'Salary, wages, freelance',
   },
   investments: {
-    header: 'Investments',
+    text: { header: 'Investments', description: 'Stocks, bonds, dividends' },
     icon: 'investments',
     style: {
       badge: `bg-blue-100 text-blue-700 border-blue-300
@@ -244,10 +251,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-blue-200 text-blue-600 dark:bg-blue-500/20',
       radio: 'border-blue-500',
     },
-    description: 'Stocks, bonds, dividends',
   },
   prize: {
-    header: 'Prize',
+    text: { header: 'Prize', description: 'Lottery, contests, gifts' },
     icon: 'prize',
     style: {
       badge: `bg-yellow-100 text-yellow-700 border-yellow-200
@@ -256,10 +262,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-yellow-200 text-yellow-600 dark:bg-yellow-500/20',
       radio: 'border-yellow-400',
     },
-    description: 'Lottery, contests, gifts',
   },
   currency_exchange: {
-    header: 'Currency Exchange',
+    text: { header: 'Currency Exchange', description: 'Forex, crypto, exchange' },
     icon: 'currency-exchange',
     style: {
       badge: `bg-amber-100 text-amber-700 border-amber-200
@@ -268,10 +273,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-amber-200 text-amber-600 dark:bg-amber-500/20',
       radio: 'border-amber-400',
     },
-    description: 'Forex, crypto, exchange',
   },
   advertisement: {
-    header: 'Advertisement',
+    text: { header: 'Advertisement', description: 'Promotions, ads, marketing' },
     icon: 'advertisement',
     style: {
       badge: `bg-orange-100 text-orange-700 border-orange-200
@@ -280,10 +284,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-orange-200 text-orange-600 dark:bg-orange-500/20',
       radio: 'border-orange-400',
     },
-    description: 'Promotions, ads, marketing',
   },
   appliance: {
-    header: 'Appliance',
+    text: { header: 'Appliance', description: 'Home devices, electronics' },
     icon: 'appliance',
     style: {
       badge: `bg-cyan-100 text-cyan-700 border-cyan-300
@@ -292,10 +295,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-cyan-200 text-cyan-600 dark:bg-cyan-500/20',
       radio: 'border-cyan-500',
     },
-    description: 'Home devices, electronics',
   },
   books: {
-    header: 'Books',
+    text: { header: 'Books', description: 'Books, e-books, magazines' },
     icon: 'books',
     style: {
       badge: `bg-indigo-100 text-indigo-700 border-indigo-300
@@ -304,10 +306,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-indigo-200 text-indigo-600 dark:bg-indigo-500/20',
       radio: 'border-indigo-500',
     },
-    description: 'Books, e-books, magazines',
   },
   cafe: {
-    header: 'Cafe',
+    text: { header: 'Cafe', description: 'Coffee, snacks, cafes' },
     icon: 'cafe',
     style: {
       badge: `bg-rose-100 text-rose-700 border-rose-200
@@ -316,10 +317,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-rose-200 text-rose-600 dark:bg-rose-500/20',
       radio: 'border-rose-400',
     },
-    description: 'Coffee, snacks, cafes',
   },
   car: {
-    header: 'Car',
+    text: { header: 'Car', description: 'Car payments, maintenance' },
     icon: 'car',
     style: {
       badge: `bg-sky-100 text-sky-700 border-sky-300
@@ -328,10 +328,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-sky-200 text-sky-600 dark:bg-sky-500/20',
       radio: 'border-sky-500',
     },
-    description: 'Car payments, maintenance',
   },
   clothes: {
-    header: 'Clothes',
+    text: { header: 'Clothes', description: 'Clothing, shoes, accessories' },
     icon: 'clothes',
     style: {
       badge: `bg-pink-100 text-pink-700 border-pink-200
@@ -340,10 +339,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-pink-200 text-pink-600 dark:bg-pink-500/20',
       radio: 'border-pink-400',
     },
-    description: 'Clothing, shoes, accessories',
   },
   delivery: {
-    header: 'Delivery',
+    text: { header: 'Delivery', description: 'Courier, shipping, postal' },
     icon: 'delivery',
     style: {
       badge: `bg-teal-100 text-teal-700 border-teal-200
@@ -352,10 +350,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-teal-200 text-teal-600 dark:bg-teal-500/20',
       radio: 'border-teal-400',
     },
-    description: 'Courier, shipping, postal',
   },
   donations: {
-    header: 'Donations',
+    text: { header: 'Donations', description: 'Charity, donations, tips' },
     icon: 'donations',
     style: {
       badge: `bg-violet-100 text-violet-700 border-violet-200
@@ -364,10 +361,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-violet-200 text-violet-600 dark:bg-violet-500/20',
       radio: 'border-violet-400',
     },
-    description: 'Charity, donations, tips',
   },
   electricity: {
-    header: 'Electricity',
+    text: { header: 'Electricity', description: 'Power bills, energy' },
     icon: 'electricity',
     style: {
       badge: `bg-lime-100 text-lime-700 border-lime-200
@@ -376,10 +372,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-lime-200 text-lime-600 dark:bg-lime-500/20',
       radio: 'border-lime-400',
     },
-    description: 'Power bills, energy',
   },
   entertainment: {
-    header: 'Entertainment',
+    text: { header: 'Entertainment', description: 'Events, games, hobbies' },
     icon: 'entertainment',
     style: {
       badge: `bg-purple-100 text-purple-700 border-purple-200
@@ -388,10 +383,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-purple-200 text-purple-600 dark:bg-purple-500/20',
       radio: 'border-purple-400',
     },
-    description: 'Events, games, hobbies',
   },
   flowers: {
-    header: 'Flowers',
+    text: { header: 'Flowers', description: 'Flowers, plants, gifts' },
     icon: 'flowers',
     style: {
       badge: `bg-fuchsia-100 text-fuchsia-700 border-fuchsia-200
@@ -400,10 +394,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-fuchsia-200 text-fuchsia-600 dark:bg-fuchsia-500/20',
       radio: 'border-fuchsia-400',
     },
-    description: 'Flowers, plants, gifts',
   },
   gas: {
-    header: 'Gas',
+    text: { header: 'Gas', description: 'Fuel, gas station' },
     icon: 'gas',
     style: {
       badge: `bg-red-100 text-red-700 border-red-200
@@ -412,10 +405,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-red-200 text-red-600 dark:bg-red-500/20',
       radio: 'border-red-400',
     },
-    description: 'Fuel, gas station',
   },
   groceries: {
-    header: 'Groceries',
+    text: { header: 'Groceries', description: 'Food and household' },
     icon: 'groceries',
     style: {
       badge: `bg-green-100 text-green-700 border-green-200
@@ -424,10 +416,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-green-200 text-green-600 dark:bg-green-500/20',
       radio: 'border-green-400',
     },
-    description: 'Food and household',
   },
   healthcare: {
-    header: 'Healthcare',
+    text: { header: 'Healthcare', description: 'Doctor, medicine, clinic' },
     icon: 'healthcare',
     style: {
       badge: `bg-emerald-100 text-emerald-700 border-emerald-300
@@ -436,10 +427,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-emerald-200 text-emerald-600 dark:bg-emerald-500/20',
       radio: 'border-emerald-500',
     },
-    description: 'Doctor, medicine, clinic',
   },
   insurance: {
-    header: 'Insurance',
+    text: { header: 'Insurance', description: 'Health, car, home insurance' },
     icon: 'insurance',
     style: {
       badge: `bg-blue-100 text-blue-700 border-blue-300
@@ -448,10 +438,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-blue-200 text-blue-600 dark:bg-blue-500/20',
       radio: 'border-blue-600',
     },
-    description: 'Health, car, home insurance',
   },
   internet: {
-    header: 'Internet',
+    text: { header: 'Internet', description: 'Internet, cable, streaming' },
     icon: 'internet',
     style: {
       badge: `bg-cyan-100 text-cyan-700 border-cyan-300
@@ -460,10 +449,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-cyan-200 text-cyan-600 dark:bg-cyan-500/20',
       radio: 'border-cyan-600',
     },
-    description: 'Internet, cable, streaming',
   },
   jewelry: {
-    header: 'Jewelry',
+    text: { header: 'Jewelry', description: 'Jewelry, watches, luxury' },
     icon: 'jewelry',
     style: {
       badge: `bg-yellow-100 text-yellow-700 border-yellow-300
@@ -472,10 +460,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-yellow-200 text-yellow-600 dark:bg-yellow-500/20',
       radio: 'border-yellow-500',
     },
-    description: 'Jewelry, watches, luxury',
   },
   loan: {
-    header: 'Loan',
+    text: { header: 'Loan', description: 'Loan payments, debt' },
     icon: 'loan',
     style: {
       badge: `bg-red-100 text-red-700 border-red-300
@@ -484,10 +471,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-red-200 text-red-600 dark:bg-red-500/20',
       radio: 'border-red-500',
     },
-    description: 'Loan payments, debt',
   },
   mobile_phone: {
-    header: 'Mobile Phone',
+    text: { header: 'Mobile Phone', description: 'Phone bills, subscriptions' },
     icon: 'mobile-phone',
     style: {
       badge: `bg-indigo-100 text-indigo-700 border-indigo-300
@@ -496,10 +482,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-indigo-200 text-indigo-600 dark:bg-indigo-500/20',
       radio: 'border-indigo-600',
     },
-    description: 'Phone bills, subscriptions',
   },
   movies: {
-    header: 'Movies',
+    text: { header: 'Movies', description: 'Cinema, streaming, shows' },
     icon: 'movies',
     style: {
       badge: `bg-purple-100 text-purple-700 border-purple-300
@@ -508,10 +493,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-purple-200 text-purple-600 dark:bg-purple-500/20',
       radio: 'border-purple-500',
     },
-    description: 'Cinema, streaming, shows',
   },
   others: {
-    header: 'Others',
+    text: { header: 'Others', description: 'Miscellaneous expenses' },
     icon: 'others',
     style: {
       badge: `bg-amber-100 text-amber-700 border-amber-300
@@ -520,10 +504,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-amber-200 text-amber-600 dark:bg-amber-500/20',
       radio: 'border-amber-500',
     },
-    description: 'Miscellaneous expenses',
   },
   personal_care: {
-    header: 'Personal Care',
+    text: { header: 'Personal Care', description: 'Haircut, beauty, hygiene' },
     icon: 'personal-care',
     style: {
       badge: `bg-pink-100 text-pink-700 border-pink-300
@@ -532,10 +515,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-pink-200 text-pink-600 dark:bg-pink-500/20',
       radio: 'border-pink-500',
     },
-    description: 'Haircut, beauty, hygiene',
   },
   pet_care: {
-    header: 'Pet Care',
+    text: { header: 'Pet Care', description: 'Vet, food, grooming' },
     icon: 'pet-care',
     style: {
       badge: `bg-orange-100 text-orange-700 border-orange-300
@@ -544,10 +526,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-orange-200 text-orange-600 dark:bg-orange-500/20',
       radio: 'border-orange-500',
     },
-    description: 'Vet, food, grooming',
   },
   repair: {
-    header: 'Repair',
+    text: { header: 'Repair', description: 'Home, car, appliance repair' },
     icon: 'repair',
     style: {
       badge: `bg-teal-100 text-teal-700 border-teal-300
@@ -556,10 +537,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-teal-200 text-teal-600 dark:bg-teal-500/20',
       radio: 'border-teal-500',
     },
-    description: 'Home, car, appliance repair',
   },
   sport: {
-    header: 'Sport',
+    text: { header: 'Sport', description: 'Gym, sports, fitness' },
     icon: 'sport',
     style: {
       badge: `bg-green-100 text-green-700 border-green-300
@@ -568,10 +548,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-green-200 text-green-600 dark:bg-green-500/20',
       radio: 'border-green-500',
     },
-    description: 'Gym, sports, fitness',
   },
   taxes: {
-    header: 'Taxes',
+    text: { header: 'Taxes', description: 'Income, property, sales tax' },
     icon: 'taxes',
     style: {
       badge: `bg-rose-100 text-rose-700 border-rose-300
@@ -580,10 +559,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-rose-200 text-rose-600 dark:bg-rose-500/20',
       radio: 'border-rose-500',
     },
-    description: 'Income, property, sales tax',
   },
   taxi: {
-    header: 'Taxi',
+    text: { header: 'Taxi', description: 'Rides, taxis, ridesharing' },
     icon: 'taxi',
     style: {
       badge: `bg-sky-100 text-sky-700 border-sky-300
@@ -592,10 +570,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-sky-200 text-sky-600 dark:bg-sky-500/20',
       radio: 'border-sky-600',
     },
-    description: 'Rides, taxis, ridesharing',
   },
   transfer: {
-    header: 'Transfer',
+    text: { header: 'Transfer', description: 'Bank transfers, fees' },
     icon: 'transfer',
     style: {
       badge: `bg-violet-100 text-violet-700 border-violet-300
@@ -604,10 +581,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-violet-200 text-violet-600 dark:bg-violet-500/20',
       radio: 'border-violet-500',
     },
-    description: 'Bank transfers, fees',
   },
   travel: {
-    header: 'Travel',
+    text: { header: 'Travel', description: 'Flights, hotels, travel' },
     icon: 'travel',
     style: {
       badge: `bg-fuchsia-100 text-fuchsia-700 border-fuchsia-300
@@ -616,10 +592,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-fuchsia-200 text-fuchsia-600 dark:bg-fuchsia-500/20',
       radio: 'border-fuchsia-500',
     },
-    description: 'Flights, hotels, travel',
   },
   utilities: {
-    header: 'Utilities',
+    text: { header: 'Utilities', description: 'Water, gas, utilities' },
     icon: 'utility',
     style: {
       badge: `bg-lime-100 text-lime-700 border-lime-300
@@ -628,10 +603,9 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-lime-200 text-lime-600 dark:bg-lime-500/20',
       radio: 'border-lime-500',
     },
-    description: 'Water, gas, utilities',
   },
   water: {
-    header: 'Water',
+    text: { header: 'Water', description: 'Water bills, plumbing' },
     icon: 'water',
     style: {
       badge: `bg-cyan-100 text-cyan-700 border-cyan-300
@@ -640,7 +614,6 @@ export const TRANSACTION_CATEGORIES = {
       icon: 'bg-cyan-200 text-cyan-600 dark:bg-cyan-500/20',
       radio: 'border-cyan-700',
     },
-    description: 'Water bills, plumbing',
   },
 } as const;
 
