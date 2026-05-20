@@ -2,7 +2,7 @@
 
 import { useTransition } from 'react';
 import clsx from 'clsx';
-import { changeTransactionStatus } from '@/lib/actions/transactionActions';
+import { changeTransactionCategory } from '@/lib/actions/transactionActions';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useTheme } from '@/hooks/useTheme';
 import { TRANSACTION_CATEGORIES } from '@/lib/constants/ui';
@@ -37,14 +37,14 @@ export default function EditCategoryModal({
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    // startTransition(async () => {
-    //   const result = await changeTransactionStatus(
-    //     selectedItems.map((el) => el.id),
-    //     selectedValue as keyof typeof transactionStatus,
-    //   );
+    startTransition(async () => {
+      const result = await changeTransactionCategory(
+        selectedItems.map((el) => el.id),
+        selectedValue as keyof typeof TRANSACTION_CATEGORIES,
+      );
 
-    //   if (result.success) handleClose();
-    // });
+      if (result.success) handleClose();
+    });
   };
 
   return (

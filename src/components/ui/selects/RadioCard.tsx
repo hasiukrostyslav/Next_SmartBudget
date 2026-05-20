@@ -46,7 +46,7 @@ export default function RadioCard({
             ? text.header.slice(0, 12) + '...'
             : text.header}
           {isCurrent && (
-            <span className="rounded-xl bg-slate-300 px-2 py-0.5 text-xs text-slate-700">
+            <span className="rounded-xl bg-slate-300 px-2 text-xs text-slate-700">
               CURRENT
             </span>
           )}
