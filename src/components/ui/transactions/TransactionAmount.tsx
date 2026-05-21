@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map';
+import { getFormattedAmount } from '@/lib/utils/utils';
 
 interface TransactionAmountProps {
   type: string;
@@ -12,9 +13,8 @@ export default function TransactionAmount({
   amount,
   currency,
 }: TransactionAmountProps) {
-  const formattedAmount = new Intl.NumberFormat('ukr', {
-    minimumFractionDigits: 2,
-  }).format(amount);
+  const formattedAmount = getFormattedAmount(amount);
+
   return (
     <div
       className={clsx(

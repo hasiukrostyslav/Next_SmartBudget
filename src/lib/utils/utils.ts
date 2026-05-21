@@ -75,3 +75,34 @@ export function getPaginationPattern(
 export function wait(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+// Calculate sum of deleted balance
+export function calcDeletedBalance(
+  item: {
+    type: 'Income' | 'Expenses';
+    amount: number;
+    currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';
+  }[],
+) {
+  const grouped = Object.entries(
+    Object.groupBy(item, ({ currency }) => currency),
+  );
+
+  return grouped.map(([currency, entries]) => {
+    return {
+      currency,
+      total: entries.reduce(
+        (sum, item) =>
+          sum + (item.type === 'Income' ? item.amount : -item.amount),
+        0,
+      ),
+    };
+  });
+}
+
+// Format amount
+export function getFormattedAmount(amount: number) {
+  return new Intl.NumberFormat('ukr', {
+    minimumFractionDigits: 2,
+  }).format(amount);
+}

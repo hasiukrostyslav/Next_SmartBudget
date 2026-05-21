@@ -11,10 +11,11 @@ import {
   deleteTransactionById,
   deleteTransactionsMany,
   deleteTransactionsAll,
+  updateTransactionCategoryMany,
 } from '../db/transactions';
 import { SearchParamsSchema, TransactionCreateSchema } from '../schemas/schema';
-import { transactionStatus } from '../constants/ui';
-import { TransactionUpdate } from '@/types/types';
+import { TRANSACTION_CATEGORIES, transactionStatus } from '../constants/ui';
+import { TransactionCreateInput, TransactionUpdate } from '@/types/types';
 import { revalidatePath } from 'next/cache';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
@@ -92,7 +93,7 @@ export async function createTransaction(
     };
 
   try {
-    const data = await create(userId, parsed.data);
+    const data = await create(userId, parsed.data as TransactionCreateInput);
     return { success: true, status: 201, data };
   } catch (error) {
     console.error('[createTransaction]', error);
@@ -153,6 +154,36 @@ export async function changeTransactionStatus(
       success: false,
       status: 500,
       error: 'Failed to update transaction status',
+    };
+  }
+}
+
+export async function changeTransactionCategory(
+  transactionIds: string[],
+  category: keyof typeof TRANSACTION_CATEGORIES,
+) {
+  const userId = await getUserId();
+  if (!userId)
+    return {
+      success: false,
+      status: 401,
+      error: 'Unauthorized. Please sign in!',
+    };
+
+  try {
+    const result = await updateTransactionCategoryMany(
+      transactionIds,
+      userId,
+      category,
+    );
+    revalidatePath('/dashboard/transactions');
+    return { success: true, status: 200, data: result };
+  } catch (error) {
+    console.error('[changeTransactionCategory]', error);
+    return {
+      success: false,
+      status: 500,
+      error: 'Failed to update transaction category',
     };
   }
 }

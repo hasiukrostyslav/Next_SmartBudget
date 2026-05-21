@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { BUTTON_STYLES } from '@/lib/constants/styles';
+import { BUTTON_STYLES } from '@/lib/constants/ui';
 
 interface ButtonProps {
   children: React.ReactNode;

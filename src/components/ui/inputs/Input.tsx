@@ -3,12 +3,12 @@
 import { useId } from 'react';
 import clsx from 'clsx';
 import { useShowPassword } from '@/hooks/useShowPassword';
-import { setBorderColor } from '@/lib/utils/ui';
 import { IconName } from '@/types/types';
 import InputError from './InputError';
 import InputButton from './InputButton';
 import InputIcon from './InputIcon';
 import InputLabel from './InputLabel';
+import { INPUT_CONFIG } from '@/lib/constants/ui';
 
 interface InputProps {
   name: string;
@@ -20,15 +20,11 @@ interface InputProps {
   icon?: IconName;
   withButton?: boolean;
   withError?: boolean;
-  padding?: 'sm' | 'md' | 'lg';
-  width?: 'sm' | 'md' | 'lg' | 'full';
+  padding?: keyof typeof INPUT_CONFIG.padding;
   type?: 'text' | 'number' | 'password';
+  value?: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
-
-const styles = {
-  width: { sm: 'min-w-18', md: 'min-w-38', lg: 'min-w-50', full: 'w-full' },
-  padding: { sm: 'py-1.5 border', md: 'py-2 border-2', lg: 'py-2.5 border-2' },
-};
 
 export default function Input({
   name,
@@ -41,14 +37,15 @@ export default function Input({
   withButton,
   withError,
   padding = 'lg',
-  width = 'full',
   type = 'text',
+  value,
+  onChange,
   ...props
 }: InputProps) {
   const id = useId();
   const { isPasswordShown, handleClick } = useShowPassword();
 
-  const borderColor = setBorderColor({ error, disabled });
+  const borderColor = INPUT_CONFIG.border;
 
   return (
     <div className={clsx('relative', withError ? 'mb-4.5' : '')}>
@@ -57,7 +54,7 @@ export default function Input({
       )}
 
       <div className="relative">
-        {icon && <InputIcon name={icon} />}
+        {icon && <InputIcon name={icon} padding={padding} />}
 
         <input
           {...props}
@@ -67,6 +64,8 @@ export default function Input({
           disabled={disabled}
           placeholder={placeholder}
           autoComplete="off"
+          value={value}
+          onChange={onChange}
           type={
             name === 'password' && !isPasswordShown
               ? 'password'
@@ -76,13 +75,17 @@ export default function Input({
           }
           min={0}
           className={clsx(
-            'outline-input text-sm tracking-wider',
-            'text-slate-700 dark:text-slate-50 dark:placeholder:text-slate-400',
+            'outline-input w-full text-sm tracking-wider',
+            'text-slate-700 dark:text-slate-300 dark:placeholder:text-slate-600',
             withButton ? 'pr-10' : 'pr-3',
-            icon ? 'pl-10' : 'pl-3',
-            styles.padding[padding],
-            styles.width[width],
-            borderColor,
+            icon ? INPUT_CONFIG.iconPadding[padding] : 'pl-3',
+            padding === 'lg' ? 'border-2' : 'border',
+            INPUT_CONFIG.padding[padding],
+            error
+              ? borderColor.error
+              : disabled
+                ? borderColor.disabled
+                : borderColor.default,
           )}
         />
 

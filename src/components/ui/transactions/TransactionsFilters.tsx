@@ -3,19 +3,21 @@ import Select from '../selects/Select';
 import TransactionsCTA from './TransactionsCTA';
 import {
   currency,
-  transactionCategories,
+  TRANSACTION_CATEGORIES,
   transactionTypes,
 } from '@/lib/constants/ui';
 
 export default async function TransactionsFilters() {
   return (
     <div className="flex items-center gap-4 px-1">
-      <SearchForm size="md" placeholder="Search Transaction" />
+      <SearchForm inputPadding="sm" placeholder="Search Transaction..." />
 
       <div className="ml-2 flex items-center gap-2">
         <Select
           name="categories"
-          data={transactionCategories.map((c) => c.name)}
+          data={Object.keys(TRANSACTION_CATEGORIES).map((el) =>
+            el.replace('_', ' '),
+          )}
           autoFetchOnChange
           defaultOption="all"
           width="lg"
