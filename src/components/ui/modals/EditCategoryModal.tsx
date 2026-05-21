@@ -4,6 +4,7 @@ import { useTransition } from 'react';
 import clsx from 'clsx';
 import { changeTransactionCategory } from '@/lib/actions/transactionActions';
 import { useSelectValue } from '@/hooks/useSelectValue';
+import { useSearch } from '@/hooks/useSearch';
 import { useTheme } from '@/hooks/useTheme';
 import { TRANSACTION_CATEGORIES } from '@/lib/constants/ui';
 import Dialog from './Dialog';
@@ -29,6 +30,8 @@ export default function EditCategoryModal({
   const { theme } = useTheme();
   const [isPending, startTransition] = useTransition();
   const { selectedValue, setSelectedValue } = useSelectValue();
+  const { searchQuery, setSearchQuery } = useSearch();
+
   const initialValue = [...new Set(selectedItems.map((el) => el.category))];
   const categories = Object.keys(TRANSACTION_CATEGORIES) as Array<
     keyof typeof TRANSACTION_CATEGORIES
@@ -74,33 +77,46 @@ export default function EditCategoryModal({
               name="search"
               placeholder="Search categories..."
               padding="md"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
 
             <div
               className={clsx(
                 'grid h-72 grid-cols-2 gap-3 pr-2',
-                'scrollbar overflow-y-scroll',
+                'scrollbar auto-rows-min overflow-y-scroll',
                 theme === 'dark' ? 'scrollbar-dark' : '',
               )}
             >
-              {categories.toSorted().map((category) => {
-                const item = TRANSACTION_CATEGORIES[category];
+              {categories
+                .filter((el) =>
+                  searchQuery.length === 0
+                    ? el
+                    : el.replace('_', ' ').includes(searchQuery.trimStart()) ||
+                      TRANSACTION_CATEGORIES[el].text.description
+                        .toLowerCase()
+                        .includes(searchQuery.trimStart()),
+                )
+                .toSorted()
+                .map((category) => {
+                  const item = TRANSACTION_CATEGORIES[category];
 
-                return (
-                  <RadioCard
-                    key={category}
-                    option={category}
-                    selectedValue={selectedValue}
-                    handleSelect={setSelectedValue}
-                    icon={item.icon}
-                    text={item.text}
-                    styleConfig={item.style}
-                    isCurrent={
-                      initialValue.length === 1 && initialValue[0] === category
-                    }
-                  />
-                );
-              })}
+                  return (
+                    <RadioCard
+                      key={category}
+                      option={category}
+                      selectedValue={selectedValue}
+                      handleSelect={setSelectedValue}
+                      icon={item.icon}
+                      text={item.text}
+                      styleConfig={item.style}
+                      isCurrent={
+                        initialValue.length === 1 &&
+                        initialValue[0] === category
+                      }
+                    />
+                  );
+                })}
             </div>
           </div>
         </section>

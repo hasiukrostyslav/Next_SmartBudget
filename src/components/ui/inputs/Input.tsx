@@ -22,6 +22,8 @@ interface InputProps {
   withError?: boolean;
   padding?: keyof typeof INPUT_CONFIG.padding;
   type?: 'text' | 'number' | 'password';
+  value?: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 export default function Input({
@@ -36,6 +38,8 @@ export default function Input({
   withError,
   padding = 'lg',
   type = 'text',
+  value,
+  onChange,
   ...props
 }: InputProps) {
   const id = useId();
@@ -60,6 +64,8 @@ export default function Input({
           disabled={disabled}
           placeholder={placeholder}
           autoComplete="off"
+          value={value}
+          onChange={onChange}
           type={
             name === 'password' && !isPasswordShown
               ? 'password'
