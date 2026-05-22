@@ -8,9 +8,7 @@ import {
   TransactionType,
 } from '@/lib/constants/enums';
 
-type useCheckboxProps = TransactionItem[];
-
-export function useCheckbox(list: useCheckboxProps) {
+export function useCheckbox(list: TransactionItem[]) {
   const [isBulkSelect, setIsBulkSelect] = useState(false);
   const [selectedItems, setSelectedItems] = useState<
     {

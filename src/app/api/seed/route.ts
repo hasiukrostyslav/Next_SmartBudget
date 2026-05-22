@@ -1,6 +1,7 @@
-import { createTransaction } from '@/lib/actions/transactionActions';
-import { TRANSACTION_CATEGORIES } from '@/lib/constants/ui';
 import { NextResponse } from 'next/server';
+import { createTransaction } from '@/lib/actions/transactionActions';
+import { TransactionCategories, TransactionType } from '@/lib/constants/enums';
+import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
 
 const INCOME_CATEGORIES = [
   'income',
@@ -9,7 +10,7 @@ const INCOME_CATEGORIES = [
   'currency_exchange',
 ] as const;
 
-function getCategoryType(categoryKey: string): 'Income' | 'Expenses' {
+function getCategoryType(categoryKey: string): TransactionType {
   return INCOME_CATEGORIES.includes(categoryKey as any) ? 'Income' : 'Expenses';
 }
 
@@ -19,10 +20,10 @@ export async function GET() {
   }
 
   const results = await Promise.allSettled(
-    Object.entries(TRANSACTION_CATEGORIES).map(([key, category]) =>
+    Object.entries(TRANSACTION_CATEGORIES_CONFIG).map(([key, category]) =>
       createTransaction({
         transactionName: category.text.header,
-        transactionCategory: key as keyof typeof TRANSACTION_CATEGORIES,
+        transactionCategory: key as TransactionCategories,
         transactionType: getCategoryType(key),
         paymentMethod: 'Card',
         currency: 'USD',
