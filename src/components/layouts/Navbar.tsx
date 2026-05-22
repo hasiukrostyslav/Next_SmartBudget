@@ -1,4 +1,4 @@
-import { navLinks } from '@/lib/constants/ui';
+import { NAV_LINKS_CONFIG } from '@/lib/constants/ui';
 import NavLink from '../ui/links/NavLink';
 
 interface NavbarProps {
@@ -8,7 +8,7 @@ interface NavbarProps {
 export default function Navbar({ isCollapsed }: NavbarProps) {
   return (
     <nav className="mt-4 flex flex-col gap-3">
-      {navLinks
+      {NAV_LINKS_CONFIG
         .filter((el) => el.type === 'main')
         .map((el) => (
           <NavLink
@@ -23,7 +23,7 @@ export default function Navbar({ isCollapsed }: NavbarProps) {
         ))}
 
       <div className="flex flex-col gap-3 border-t-2 border-blue-400 pt-3">
-        {navLinks
+        {NAV_LINKS_CONFIG
           .filter((el) => el.type === 'setting')
           .map((el) => (
             <NavLink

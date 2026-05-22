@@ -1,11 +1,8 @@
 import SearchForm from '@/components/forms/SearchForm';
 import Select from '../selects/Select';
 import TransactionsCTA from './TransactionsCTA';
-import {
-  currency,
-  TRANSACTION_CATEGORIES,
-  transactionTypes,
-} from '@/lib/constants/ui';
+import { currency, transactionTypes } from '@/lib/constants/ui';
+import { TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
 
 export default async function TransactionsFilters() {
   return (
@@ -15,9 +12,7 @@ export default async function TransactionsFilters() {
       <div className="ml-2 flex items-center gap-2">
         <Select
           name="categories"
-          data={Object.keys(TRANSACTION_CATEGORIES).map((el) =>
-            el.replace('_', ' '),
-          )}
+          data={TRANSACTION_CATEGORIES.map((el) => el.replace('_', ' '))}
           autoFetchOnChange
           defaultOption="all"
           width="lg"

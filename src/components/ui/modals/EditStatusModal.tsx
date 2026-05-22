@@ -7,13 +7,14 @@ import ModalHeader from './ModalHeader';
 import ModalFooter from './ModalFooter';
 import RadioCard from '../selects/RadioCard';
 import { STATUS_CONFIG } from '@/lib/constants/ui';
+import { Status, STATUSES } from '@/lib/constants/enums';
 
 interface EditStatusModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;
   handleClose: () => void;
   selectedItems: {
     id: string;
-    status: keyof typeof STATUS_CONFIG;
+    status: Status;
   }[];
 }
 
@@ -25,9 +26,6 @@ export default function EditStatusModal({
   const [isPending, startTransition] = useTransition();
   const { selectedValue, setSelectedValue } = useSelectValue();
   const initialValue = [...new Set(selectedItems.map((el) => el.status))];
-  const STATUS = Object.keys(STATUS_CONFIG) as Array<
-    keyof typeof STATUS_CONFIG
-  >;
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -35,7 +33,7 @@ export default function EditStatusModal({
     startTransition(async () => {
       const result = await changeTransactionStatus(
         selectedItems.map((el) => el.id),
-        selectedValue as keyof typeof STATUS_CONFIG,
+        selectedValue as Status,
       );
 
       if (result.success) handleClose();
@@ -66,7 +64,7 @@ export default function EditStatusModal({
               NEW STATUS <span className="text-red-500">*</span>
             </h4>
             <div className="flex flex-col gap-3">
-              {STATUS.map((status) => {
+              {STATUSES.map((status) => {
                 const item = STATUS_CONFIG[status];
 
                 return (

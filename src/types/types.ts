@@ -1,5 +1,10 @@
+import type {
+  Currency,
+  Status,
+  TransactionCategories,
+  TransactionType,
+} from '@/lib/constants/enums';
 import { icons } from '@/lib/constants/icons';
-import { TRANSACTION_CATEGORIES, transactionStatus } from '@/lib/constants/ui';
 
 export type IconName = (typeof icons)[number]['role'];
 
@@ -31,13 +36,13 @@ export interface TransactionItem {
   userId: string;
   transactionId: string;
   transactionName: string;
-  transactionCategory: keyof typeof TRANSACTION_CATEGORIES;
+  transactionCategory: TransactionCategories;
   paymentMethod: string;
-  transactionType: 'Income' | 'Expenses';
-  currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';
+  transactionType: TransactionType;
+  currency: Currency;
   amount: number;
   description?: string | null;
-  status: keyof typeof transactionStatus;
+  status: Status;
 }
 
 export type TransactionCreateInput = Omit<
@@ -59,7 +64,7 @@ export type ItemType =
 export interface DeleteItem {
   id: string;
   name: string;
-  type: 'Income' | 'Expenses';
+  type: TransactionType;
   amount: number;
-  currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';
+  currency: Currency;
 }

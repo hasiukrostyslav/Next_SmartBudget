@@ -1,11 +1,8 @@
 import clsx from 'clsx';
+import { Status } from '@/lib/constants/enums';
 import { STATUS_CONFIG } from '@/lib/constants/ui';
 
-export default function TransactionStatus({
-  status,
-}: {
-  status: keyof typeof STATUS_CONFIG;
-}) {
+export default function TransactionStatus({ status }: { status: Status }) {
   return (
     <div
       className={clsx(

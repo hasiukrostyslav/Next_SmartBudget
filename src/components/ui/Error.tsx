@@ -2,14 +2,15 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { ERROR_MESSAGES } from '@/lib/constants/ui';
+
 import ButtonLink from './buttons/ButtonLink';
 import Button from './buttons/Button';
 import Icon from './Icon';
 import clsx from 'clsx';
+import { ERROR_MESSAGES_CONFIG } from '@/lib/constants/ui';
 
 interface ErrorProps {
-  type: keyof typeof ERROR_MESSAGES;
+  type: keyof typeof ERROR_MESSAGES_CONFIG;
   page?: 'inner' | 'outer';
 }
 
@@ -26,17 +27,17 @@ export default function Error({ type, page = 'inner' }: ErrorProps) {
       <Image
         className="h-[300] w-[300]"
         alt="Error"
-        src={`/error-${ERROR_MESSAGES[type].code}.png`}
+        src={`/error-${ERROR_MESSAGES_CONFIG[type].code}.png`}
         width={300}
         height={300}
         loading="eager"
       />
       <figcaption className="mt-4 text-center">
         <h2 className="text-3xl leading-snug font-bold tracking-wider">
-          {ERROR_MESSAGES[type].header}
+          {ERROR_MESSAGES_CONFIG[type].header}
         </h2>
         <p className="mt-3 leading-snug font-light">
-          {ERROR_MESSAGES[type].message}
+          {ERROR_MESSAGES_CONFIG[type].message}
         </p>
       </figcaption>
       {page === 'outer' && (

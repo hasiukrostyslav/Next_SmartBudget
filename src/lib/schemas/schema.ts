@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { CURRENCIES, STATUSES, TRANSACTION_TYPES } from '../constants/enums';
 import { transactionSortOptions } from '../constants/ui';
 
 export const SignUpSchema = z.object({
@@ -45,16 +46,14 @@ export const TransactionCreateSchema = z.object({
     .min(1, { message: 'Transaction name is required.' })
     .trim(),
   transactionCategory: z.string().min(1, { message: 'Category is required.' }),
-  transactionType: z.enum(['Income', 'Expenses'], {
+  transactionType: z.enum(TRANSACTION_TYPES, {
     error: 'Transaction type is required.',
   }),
   paymentMethod: z.string().min(1, { message: 'Payment method is required.' }),
-  currency: z.enum(['UAH', 'USD', 'EUR', 'PLN', 'HUF', 'GBP']).default('UAH'),
+  currency: z.enum(CURRENCIES).default('UAH'),
   amount: z.number().positive({ message: 'Amount must be a positive number.' }),
   description: z.string().optional(),
-  status: z
-    .enum(['COMPLETED', 'FAILED', 'PENDING', 'CANCELED'])
-    .default('COMPLETED'),
+  status: z.enum(STATUSES).default('COMPLETED'),
 });
 
 export const SearchParamsSchema = z.object({

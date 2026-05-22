@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { TRANSACTION_CATEGORIES, transactionStatus } from '@/lib/constants/ui';
 import { TransactionItem } from '@/types/types';
+import {
+  Currency,
+  Status,
+  TransactionCategories,
+  TransactionType,
+} from '@/lib/constants/enums';
 
 type useCheckboxProps = TransactionItem[];
 
@@ -11,11 +16,11 @@ export function useCheckbox(list: useCheckboxProps) {
     {
       itemId: string;
       itemName: string;
-      status: keyof typeof transactionStatus;
-      category: keyof typeof TRANSACTION_CATEGORIES;
-      type: 'Income' | 'Expenses';
+      status: Status;
+      category: TransactionCategories;
+      type: TransactionType;
       amount: number;
-      currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';
+      currency: Currency;
     }[]
   >([]);
   const searchParams = useSearchParams();
@@ -48,11 +53,11 @@ export function useCheckbox(list: useCheckboxProps) {
   const toggleSelect = (
     id: string,
     name: string,
-    status: keyof typeof transactionStatus,
-    category: keyof typeof TRANSACTION_CATEGORIES,
-    type: 'Income' | 'Expenses',
+    status: Status,
+    category: TransactionCategories,
+    type: TransactionType,
     amount: number,
-    currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP',
+    currency: Currency,
   ) =>
     setSelectedItems((prev) =>
       prev.find((i) => i.itemId === id)

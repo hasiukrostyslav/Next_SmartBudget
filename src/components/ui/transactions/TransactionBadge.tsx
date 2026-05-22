@@ -1,9 +1,10 @@
-import { TRANSACTION_CATEGORIES } from '@/lib/constants/ui';
-import Icon from '../Icon';
 import clsx from 'clsx';
+import Icon from '../Icon';
+import { TransactionCategories } from '@/lib/constants/enums';
+import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
 
 interface TransactionBadgeProps {
-  category: keyof typeof TRANSACTION_CATEGORIES;
+  category: TransactionCategories;
   name: string;
 }
 
@@ -16,10 +17,13 @@ export default function TransactionBadge({
       <span
         className={clsx(
           'rounded-full border-2 p-1.5',
-          TRANSACTION_CATEGORIES[category].style.badge,
+          TRANSACTION_CATEGORIES_CONFIG[category].style.badge,
         )}
       >
-        <Icon name={TRANSACTION_CATEGORIES[category].icon || 'banknote'} size={20} />
+        <Icon
+          name={TRANSACTION_CATEGORIES_CONFIG[category].icon || 'banknote'}
+          size={20}
+        />
       </span>
       <div className="flex items-center">
         <span className="font-medium">{name}</span>

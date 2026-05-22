@@ -6,19 +6,23 @@ import { changeTransactionCategory } from '@/lib/actions/transactionActions';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useSearch } from '@/hooks/useSearch';
 import { useTheme } from '@/hooks/useTheme';
-import { TRANSACTION_CATEGORIES } from '@/lib/constants/ui';
 import Dialog from './Dialog';
 import ModalHeader from './ModalHeader';
 import ModalFooter from './ModalFooter';
 import RadioCard from '../selects/RadioCard';
 import Input from '../inputs/Input';
+import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
+import {
+  TRANSACTION_CATEGORIES,
+  TransactionCategories,
+} from '@/lib/constants/enums';
 
 interface EditCategoryModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;
   handleClose: () => void;
   selectedItems: {
     id: string;
-    category: keyof typeof TRANSACTION_CATEGORIES;
+    category: TransactionCategories;
   }[];
 }
 
@@ -33,9 +37,7 @@ export default function EditCategoryModal({
   const { searchQuery, setSearchQuery } = useSearch();
 
   const initialValue = [...new Set(selectedItems.map((el) => el.category))];
-  const categories = Object.keys(TRANSACTION_CATEGORIES) as Array<
-    keyof typeof TRANSACTION_CATEGORIES
-  >;
+  const categories = TRANSACTION_CATEGORIES;
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ export default function EditCategoryModal({
     startTransition(async () => {
       const result = await changeTransactionCategory(
         selectedItems.map((el) => el.id),
-        selectedValue as keyof typeof TRANSACTION_CATEGORIES,
+        selectedValue as TransactionCategories,
       );
 
       if (result.success) handleClose();
@@ -93,13 +95,13 @@ export default function EditCategoryModal({
                   searchQuery.length === 0
                     ? el
                     : el.replace('_', ' ').includes(searchQuery.trimStart()) ||
-                      TRANSACTION_CATEGORIES[el].text.description
+                      TRANSACTION_CATEGORIES_CONFIG[el].text.description
                         .toLowerCase()
                         .includes(searchQuery.trimStart()),
                 )
                 .toSorted()
                 .map((category) => {
-                  const item = TRANSACTION_CATEGORIES[category];
+                  const item = TRANSACTION_CATEGORIES_CONFIG[category];
 
                   return (
                     <RadioCard

@@ -1,4 +1,5 @@
 import { pageSizeOptions, paginationRange } from '../constants/constants';
+import { Currency, TransactionType } from '../constants/enums';
 
 // Generate Search Params string
 export function createQueryString(
@@ -79,9 +80,9 @@ export function wait(ms: number): Promise<void> {
 // Calculate sum of deleted balance
 export function calcDeletedBalance(
   item: {
-    type: 'Income' | 'Expenses';
+    type: TransactionType;
     amount: number;
-    currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';
+    currency: Currency;
   }[],
 ) {
   const grouped = Object.entries(
