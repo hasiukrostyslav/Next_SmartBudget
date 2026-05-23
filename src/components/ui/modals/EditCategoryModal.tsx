@@ -94,7 +94,9 @@ export default function EditCategoryModal({
                 .filter((el) =>
                   searchQuery.length === 0
                     ? el
-                    : el.replace('_', ' ').includes(searchQuery.trimStart()) ||
+                    : el
+                        .replaceAll('_', ' ')
+                        .includes(searchQuery.trimStart()) ||
                       TRANSACTION_CATEGORIES_CONFIG[el].text.description
                         .toLowerCase()
                         .includes(searchQuery.trimStart()),

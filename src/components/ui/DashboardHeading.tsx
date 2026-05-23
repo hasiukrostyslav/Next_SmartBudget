@@ -8,7 +8,7 @@ export default function DashboardHeading() {
 
   return (
     <h2 className="min-w-40 text-xl font-semibold tracking-wider">
-      {heading?.replace(heading[0], heading[0].toUpperCase())}
+      {heading ? heading[0].toUpperCase() + heading.slice(1) : ''}
     </h2>
   );
 }

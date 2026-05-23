@@ -17,7 +17,7 @@ export default function Dialog({ ref, children, className }: DialogProps) {
         `${className}`,
       )}
     >
-      <div className="mb-4 flex items-center justify-between"></div>
+      <div className="mb-4"></div>
       {children}
     </dialog>
   );

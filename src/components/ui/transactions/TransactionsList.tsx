@@ -8,7 +8,7 @@ import BulkToolbar from '../BulkToolbar';
 import { TransactionItem } from '@/types/types';
 import { useTheme } from '@/hooks/useTheme';
 
-export default function TransactionsGrid({
+export default function TransactionsList({
   data,
 }: {
   data: TransactionItem[];

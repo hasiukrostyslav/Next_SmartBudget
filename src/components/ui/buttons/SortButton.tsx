@@ -3,7 +3,7 @@
 import clsx from 'clsx';
 import Icon from '../Icon';
 
-interface SortItemProps {
+interface SortButtonProps {
   name: string;
   label: string;
   isActive: boolean;
@@ -11,13 +11,13 @@ interface SortItemProps {
   onClick: (label: string) => void;
 }
 
-export default function SortItem({
+export default function SortButton({
   name,
   label,
   isActive,
   order,
   onClick,
-}: SortItemProps) {
+}: SortButtonProps) {
   return (
     <div className="text-xs">
       <button

@@ -22,7 +22,6 @@ interface BulkToolbarProps {
   bulkSelect: () => void;
   bulkUnSelect: () => void;
   selectedItems: {
-    // NEED TO BE CHANGED
     itemId: string;
     itemName: string;
     status: Status;
