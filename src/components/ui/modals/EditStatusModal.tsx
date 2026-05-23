@@ -1,3 +1,5 @@
+'use client';
+
 import { useTransition } from 'react';
 import clsx from 'clsx';
 import { changeTransactionStatus } from '@/lib/actions/transactionActions';

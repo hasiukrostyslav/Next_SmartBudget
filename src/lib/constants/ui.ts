@@ -54,12 +54,6 @@ export const TRANSACTION_SORT_FIELD_MAP = {
   category: 'transactionCategory',
 } as const;
 
-// Radio
-export const transactionTypesOptions = [
-  { label: 'Income', value: 'income' },
-  { label: 'Expenses', value: 'expenses' },
-] as const;
-
 export const ERROR_MESSAGES_CONFIG = {
   auth: {
     code: 401,

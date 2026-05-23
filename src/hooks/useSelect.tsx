@@ -32,7 +32,7 @@ export function useSelect({
     }
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => removeEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   // Close by click Escape
