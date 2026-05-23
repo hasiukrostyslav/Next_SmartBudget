@@ -1,6 +1,4 @@
-import { icons } from '@/lib/constants/icons';
-
-export type IconName = (typeof icons)[number]['role'];
+import { IconName } from '@/types/types';
 
 // Navigation Links
 export const NAV_LINKS_CONFIG: {

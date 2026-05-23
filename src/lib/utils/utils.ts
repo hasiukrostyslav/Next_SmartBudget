@@ -14,7 +14,7 @@ export function createQueryString(
   const params = new URLSearchParams(searchParams.toString());
   slugQuery.forEach((el) => params.set(el.name, el.value));
 
-  if (query.find((q) => q.name !== 'page')) params.set('page', '1');
+  if (query.some((q) => q.name !== 'page')) params.set('page', '1');
 
   return params.toString();
 }
