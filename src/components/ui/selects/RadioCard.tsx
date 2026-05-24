@@ -1,3 +1,5 @@
+'use client';
+
 import { clsx } from 'clsx';
 import Icon from '../Icon';
 import { IconName } from '@/types/types';
@@ -36,6 +38,12 @@ export default function RadioCard({
           ? styleConfig.card
           : `border-slate-200 hover:border-slate-300 dark:border-slate-800 dark:hover:border-slate-700`,
       )}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleSelect(option);
+        }
+      }}
     >
       <div className={clsx('rounded-md p-1.5', styleConfig.icon)}>
         <Icon name={icon} size={20} />

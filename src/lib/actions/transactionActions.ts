@@ -94,6 +94,7 @@ export async function createTransaction(
 
   try {
     const data = await create(userId, parsed.data as TransactionCreateInput);
+    revalidatePath('/dashboard/transactions');
     return { success: true, status: 201, data };
   } catch (error) {
     console.error('[createTransaction]', error);
@@ -117,6 +118,7 @@ export async function editTransaction(id: string, data: TransactionUpdate) {
 
   try {
     const result = await updateTransactionById(id, userId, data);
+    revalidatePath('/dashboard/transactions');
     return { success: true, status: 200, data: result };
   } catch (error) {
     console.error('[editTransaction]', error);

@@ -46,7 +46,7 @@ export default function TransactionsList({
             key={item.transactionId}
             item={item}
             checked={selectedItems.some((i) => i.itemId === item.transactionId)}
-            toggleSelect={() =>
+            toggleSelectTransaction={() =>
               toggleSelect(
                 item.transactionId,
                 item.transactionName,

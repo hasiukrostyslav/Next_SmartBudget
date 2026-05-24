@@ -92,7 +92,7 @@ export function calcDeletedBalance(
   return grouped.map(([currency, entries]) => {
     return {
       currency,
-      total: entries.reduce(
+      total: (entries ?? []).reduce(
         (sum, item) =>
           sum + (item.type === 'Income' ? item.amount : -item.amount),
         0,
