@@ -15,7 +15,7 @@ export default function SelectDisplay({
     );
   }
 
-  if (!selectedOption) return;
+  if (!selectedOption) return null;
 
   let renderOption;
   if (typeof selectedOption === 'number') {

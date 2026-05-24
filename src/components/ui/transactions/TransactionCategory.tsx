@@ -1,8 +1,9 @@
 import clsx from 'clsx';
-import { TRANSACTION_CATEGORIES } from '@/lib/constants/ui';
+import { TransactionCategories } from '@/lib/constants/enums';
+import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
 
 interface TransactionCategoryProps {
-  category: keyof typeof TRANSACTION_CATEGORIES;
+  category: TransactionCategories;
 }
 
 export default function TransactionCategory({
@@ -13,10 +14,10 @@ export default function TransactionCategory({
       <span
         className={clsx(
           'inline-block rounded-xl border-2 px-2.5 py-1',
-          TRANSACTION_CATEGORIES[category].style.badge,
+          TRANSACTION_CATEGORIES_CONFIG[category].style.badge,
         )}
       >
-        {TRANSACTION_CATEGORIES[category].text.header}
+        {TRANSACTION_CATEGORIES_CONFIG[category].text.header}
       </span>
     </div>
   );

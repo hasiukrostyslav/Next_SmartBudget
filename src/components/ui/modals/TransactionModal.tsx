@@ -1,15 +1,4 @@
 import Dialog from './Dialog';
-import Button from '../buttons/Button';
-import Input from '../inputs/Input';
-import Select from '../selects/Select';
-import TextArea from '../inputs/TextArea';
-import RadioGroup from '../inputs/RadioGroup';
-import InputLabel from '../inputs/InputLabel';
-import {
-  currency,
-  transactionStatus,
-  transactionTypesOptions,
-} from '@/lib/constants/ui';
 
 interface TransactionModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;

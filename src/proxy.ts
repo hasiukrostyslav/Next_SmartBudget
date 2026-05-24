@@ -1,12 +1,7 @@
 import NextAuth from 'next-auth';
 import { NextResponse } from 'next/server';
 import authConfig from './auth/auth.config';
-import {
-  apiRoute,
-  authRoutes,
-  DEFAULT_LOGIN_REDIRECT,
-  // publicRoutes,
-} from './routes';
+import { apiRoute, authRoutes, DEFAULT_LOGIN_REDIRECT } from './routes';
 
 const { auth } = NextAuth(authConfig);
 
@@ -15,7 +10,7 @@ export default auth(async function proxy(req) {
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiRoute);
-  // const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   const isBaseRoute = nextUrl.pathname === '/';
 

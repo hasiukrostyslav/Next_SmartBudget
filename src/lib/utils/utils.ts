@@ -1,4 +1,5 @@
 import { pageSizeOptions, paginationRange } from '../constants/constants';
+import { Currency, TransactionType } from '../constants/enums';
 
 // Generate Search Params string
 export function createQueryString(
@@ -13,7 +14,7 @@ export function createQueryString(
   const params = new URLSearchParams(searchParams.toString());
   slugQuery.forEach((el) => params.set(el.name, el.value));
 
-  if (query.find((q) => q.name !== 'page')) params.set('page', '1');
+  if (query.some((q) => q.name !== 'page')) params.set('page', '1');
 
   return params.toString();
 }
@@ -79,9 +80,9 @@ export function wait(ms: number): Promise<void> {
 // Calculate sum of deleted balance
 export function calcDeletedBalance(
   item: {
-    type: 'Income' | 'Expenses';
+    type: TransactionType;
     amount: number;
-    currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';
+    currency: Currency;
   }[],
 ) {
   const grouped = Object.entries(
@@ -91,7 +92,7 @@ export function calcDeletedBalance(
   return grouped.map(([currency, entries]) => {
     return {
       currency,
-      total: entries.reduce(
+      total: (entries ?? []).reduce(
         (sum, item) =>
           sum + (item.type === 'Income' ? item.amount : -item.amount),
         0,

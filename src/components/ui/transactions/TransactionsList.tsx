@@ -8,7 +8,7 @@ import BulkToolbar from '../BulkToolbar';
 import { TransactionItem } from '@/types/types';
 import { useTheme } from '@/hooks/useTheme';
 
-export default function TransactionsGrid({
+export default function TransactionsList({
   data,
 }: {
   data: TransactionItem[];
@@ -46,7 +46,7 @@ export default function TransactionsGrid({
             key={item.transactionId}
             item={item}
             checked={selectedItems.some((i) => i.itemId === item.transactionId)}
-            toggleSelect={() =>
+            toggleSelectTransaction={() =>
               toggleSelect(
                 item.transactionId,
                 item.transactionName,

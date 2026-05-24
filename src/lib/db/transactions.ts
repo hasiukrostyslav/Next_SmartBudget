@@ -2,12 +2,9 @@ import z from 'zod';
 import { db } from './db';
 import { SearchParamsSchema } from '../schemas/schema';
 import { pageSizeOptions } from '../constants/constants';
-import {
-  TRANSACTION_CATEGORIES,
-  TRANSACTION_SORT_FIELD_MAP,
-  transactionStatus,
-} from '../constants/ui';
+import { TRANSACTION_SORT_FIELD_MAP } from '../constants/ui';
 import { TransactionCreateInput, TransactionUpdate } from '@/types/types';
+import { Status, TransactionCategories } from '../constants/enums';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 
@@ -102,7 +99,7 @@ export async function updateTransactionById(
 export async function updateTransactionStatusMany(
   transactionIds: string[],
   userId: string,
-  status: keyof typeof transactionStatus,
+  status: Status,
 ) {
   return db.transactions.updateMany({
     where: {
@@ -116,7 +113,7 @@ export async function updateTransactionStatusMany(
 export async function updateTransactionCategoryMany(
   transactionIds: string[],
   userId: string,
-  category: keyof typeof TRANSACTION_CATEGORIES,
+  category: TransactionCategories,
 ) {
   return db.transactions.updateMany({
     where: {

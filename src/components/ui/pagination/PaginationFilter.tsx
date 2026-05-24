@@ -2,11 +2,13 @@ import { useSearchParams } from 'next/navigation';
 import { getPageSizeOption } from '@/lib/utils/utils';
 import Select from '../selects/Select';
 
-interface PaginationTableProps {
+interface PaginationFilterProps {
   totalCount: number;
 }
 
-export default function PaginationFilter({ totalCount }: PaginationTableProps) {
+export default function PaginationFilter({
+  totalCount,
+}: PaginationFilterProps) {
   const searchParams = useSearchParams();
   const limit = searchParams.get('limit');
 

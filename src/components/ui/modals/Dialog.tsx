@@ -1,16 +1,12 @@
 import clsx from 'clsx';
 
-interface TransactionModalProps {
+interface DialogProps {
   ref: React.RefObject<HTMLDialogElement | null>;
   children: React.ReactNode;
   className?: string;
 }
 
-export default function Dialog({
-  ref,
-  children,
-  className,
-}: TransactionModalProps) {
+export default function Dialog({ ref, children, className }: DialogProps) {
   return (
     <dialog
       ref={ref}
@@ -21,7 +17,7 @@ export default function Dialog({
         `${className}`,
       )}
     >
-      <div className="mb-4 flex items-center justify-between"></div>
+      <div className="mb-4"></div>
       {children}
     </dialog>
   );

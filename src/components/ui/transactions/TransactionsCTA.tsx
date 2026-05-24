@@ -29,7 +29,7 @@ export default function TransactionsCTA({
         size={buttonSize}
       >
         <Icon name="plus" size={iconSize} />
-        <span>New Transaction{buttonSize === 'lg' ? ' Transaction' : ''}</span>
+        <span>New Transaction</span>
       </Button>
       {isOpen && <TransactionModal ref={dialogRef} handleClose={handleClose} />}
     </>

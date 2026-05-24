@@ -1,7 +1,7 @@
 import { IconName } from '@/types/types';
 
 // Navigation Links
-export const navLinks: {
+export const NAV_LINKS_CONFIG: {
   type: 'main' | 'setting';
   page: string;
   icon: IconName;
@@ -24,13 +24,6 @@ export const transactionTypes: {
   { name: 'income', icon: 'income' },
   { name: 'expenses', icon: 'loan' },
 ] as const;
-
-export const transactionStatus = {
-  COMPLETED: 'COMPLETED',
-  PENDING: 'PENDING',
-  FAILED: 'FAILED',
-  CANCELED: 'CANCELED',
-} as const;
 
 export const currency = [
   { local: 'eng', currency: 'UAH' },
@@ -61,13 +54,7 @@ export const TRANSACTION_SORT_FIELD_MAP = {
   category: 'transactionCategory',
 } as const;
 
-// Radio
-export const transactionTypesOptions = [
-  { label: 'Income', value: 'income' },
-  { label: 'Expenses', value: 'expenses' },
-] as const;
-
-export const ERROR_MESSAGES = {
+export const ERROR_MESSAGES_CONFIG = {
   auth: {
     code: 401,
     header: 'Access denied',
@@ -87,7 +74,7 @@ export const ERROR_MESSAGES = {
   },
 } as const;
 
-export const BUTTON_STYLES = {
+export const BUTTON_CONFIG = {
   color: {
     black: `border-slate-900 bg-slate-900 hover:border-slate-800 
     hover:bg-slate-800 dark:border-blue-600 dark:bg-blue-600 
@@ -229,7 +216,7 @@ export const STATUS_CONFIG = {
   },
 } as const;
 
-export const TRANSACTION_CATEGORIES = {
+export const TRANSACTION_CATEGORIES_CONFIG = {
   income: {
     text: { header: 'Income', description: 'Salary, wages, freelance' },
     icon: 'income',
@@ -264,7 +251,10 @@ export const TRANSACTION_CATEGORIES = {
     },
   },
   currency_exchange: {
-    text: { header: 'Currency Exchange', description: 'Forex, crypto, exchange' },
+    text: {
+      header: 'Currency Exchange',
+      description: 'Forex, crypto, exchange',
+    },
     icon: 'currency-exchange',
     style: {
       badge: `bg-amber-100 text-amber-700 border-amber-200
@@ -275,7 +265,10 @@ export const TRANSACTION_CATEGORIES = {
     },
   },
   advertisement: {
-    text: { header: 'Advertisement', description: 'Promotions, ads, marketing' },
+    text: {
+      header: 'Advertisement',
+      description: 'Promotions, ads, marketing',
+    },
     icon: 'advertisement',
     style: {
       badge: `bg-orange-100 text-orange-700 border-orange-200

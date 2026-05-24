@@ -1,9 +1,9 @@
-interface IconColorful {
+interface IconColorfulProps {
   name: string;
   className: string;
 }
 
-export default function IconColorful({ name, className }: IconColorful) {
+export default function IconColorful({ name, className }: IconColorfulProps) {
   let svg;
   if (name === 'Mastercard')
     svg = (

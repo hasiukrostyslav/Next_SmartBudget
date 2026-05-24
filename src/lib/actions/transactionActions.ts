@@ -1,6 +1,7 @@
 'use server';
 
 import z from 'zod';
+import { revalidatePath } from 'next/cache';
 import { auth } from '@/auth/auth';
 import {
   findTransactionsByUserId,
@@ -14,9 +15,8 @@ import {
   updateTransactionCategoryMany,
 } from '../db/transactions';
 import { SearchParamsSchema, TransactionCreateSchema } from '../schemas/schema';
-import { TRANSACTION_CATEGORIES, transactionStatus } from '../constants/ui';
 import { TransactionCreateInput, TransactionUpdate } from '@/types/types';
-import { revalidatePath } from 'next/cache';
+import { Status, TransactionCategories } from '../constants/enums';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 
@@ -94,6 +94,7 @@ export async function createTransaction(
 
   try {
     const data = await create(userId, parsed.data as TransactionCreateInput);
+    revalidatePath('/dashboard/transactions');
     return { success: true, status: 201, data };
   } catch (error) {
     console.error('[createTransaction]', error);
@@ -117,6 +118,7 @@ export async function editTransaction(id: string, data: TransactionUpdate) {
 
   try {
     const result = await updateTransactionById(id, userId, data);
+    revalidatePath('/dashboard/transactions');
     return { success: true, status: 200, data: result };
   } catch (error) {
     console.error('[editTransaction]', error);
@@ -130,7 +132,7 @@ export async function editTransaction(id: string, data: TransactionUpdate) {
 
 export async function changeTransactionStatus(
   transactionIds: string[],
-  status: keyof typeof transactionStatus,
+  status: Status,
 ) {
   const userId = await getUserId();
   if (!userId)
@@ -160,7 +162,7 @@ export async function changeTransactionStatus(
 
 export async function changeTransactionCategory(
   transactionIds: string[],
-  category: keyof typeof TRANSACTION_CATEGORIES,
+  category: TransactionCategories,
 ) {
   const userId = await getUserId();
   if (!userId)

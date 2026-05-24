@@ -7,8 +7,13 @@ import ButtonIcon from './buttons/ButtonIcon';
 import EditStatusModal from './modals/EditStatusModal';
 import EditCategoryModal from './modals/EditCategoryModal';
 import DeleteModal from './modals/DeleteModal';
-import { TRANSACTION_CATEGORIES, transactionStatus } from '@/lib/constants/ui';
 import { deleteManyTransaction } from '@/lib/actions/transactionActions';
+import {
+  Currency,
+  Status,
+  TransactionCategories,
+  TransactionType,
+} from '@/lib/constants/enums';
 
 interface BulkToolbarProps {
   isShown: boolean;
@@ -17,14 +22,13 @@ interface BulkToolbarProps {
   bulkSelect: () => void;
   bulkUnSelect: () => void;
   selectedItems: {
-    // NEED TO BE CHANGED
     itemId: string;
     itemName: string;
-    status: keyof typeof transactionStatus;
-    category: keyof typeof TRANSACTION_CATEGORIES;
-    type: 'Income' | 'Expenses';
+    status: Status;
+    category: TransactionCategories;
+    type: TransactionType;
     amount: number;
-    currency: 'UAH' | 'USD' | 'EUR' | 'PLN' | 'HUF' | 'GBP';
+    currency: Currency;
   }[];
 }
 

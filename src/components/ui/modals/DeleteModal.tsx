@@ -29,9 +29,9 @@ export default function DeleteModal({
 
     startTransition(async () => {
       await handleSubmit();
-    });
 
-    handleClose();
+      handleClose();
+    });
   };
 
   const balance = calcDeletedBalance(items);

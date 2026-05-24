@@ -5,7 +5,7 @@ export function useShowPassword() {
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    setIsPasswordShown(isPasswordShown ? false : true);
+    setIsPasswordShown((prev) => !prev);
   }
 
   return { isPasswordShown, handleClick };

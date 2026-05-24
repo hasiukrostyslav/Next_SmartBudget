@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { getFormattedAmount } from '@/lib/utils/utils';
+import { Currency, TransactionType } from '@/lib/constants/enums';
 
 interface TransactionAmountProps {
-  type: string;
+  type: TransactionType;
   amount: number;
-  currency: string;
+  currency: Currency;
 }
 
 export default function TransactionAmount({
