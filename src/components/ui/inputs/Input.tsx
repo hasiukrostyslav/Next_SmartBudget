@@ -2,53 +2,52 @@
 
 import { useId } from 'react';
 import clsx from 'clsx';
-import { useShowPassword } from '@/hooks/useShowPassword';
-import { IconName } from '@/types/types';
 import InputError from './InputError';
 import InputButton from './InputButton';
 import InputIcon from './InputIcon';
 import InputLabel from './InputLabel';
 import { INPUT_CONFIG } from '@/lib/constants/ui';
+import { IconName } from '@/types/types';
 
 interface InputProps {
   name: string;
   label?: string;
-  error?: string;
+  value?: string;
   disabled?: boolean;
   placeholder?: string;
-  ref?: React.Ref<HTMLInputElement>;
+  error?: string;
   icon?: IconName;
-  withButton?: boolean;
-  withError?: boolean;
-  padding?: keyof typeof INPUT_CONFIG.padding;
   type?: 'text' | 'number' | 'password';
-  value?: string;
+  ref?: React.Ref<HTMLInputElement>;
+  padding?: keyof typeof INPUT_CONFIG.padding;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  trailingButton?: {
+    role: keyof typeof INPUT_CONFIG.button.roleIcon;
+    onClick: () => void;
+  };
 }
 
 export default function Input({
   name,
   label,
-  error,
+  value,
   disabled,
   placeholder,
-  ref,
+  error,
   icon,
-  withButton,
-  withError,
-  padding = 'lg',
   type = 'text',
-  value,
+  ref,
+  padding = 'lg',
   onChange,
+  trailingButton,
   ...props
 }: InputProps) {
   const id = useId();
-  const { isPasswordShown, handleClick } = useShowPassword();
 
   const borderColor = INPUT_CONFIG.border;
 
   return (
-    <div className={clsx('relative', withError ? 'mb-4.5' : '')}>
+    <div className={clsx('relative', error ? 'mb-4.5' : '')}>
       {label && (
         <InputLabel label={label} htmlFor={`${name}-${id}`} margin={padding} />
       )}
@@ -67,7 +66,7 @@ export default function Input({
           value={value}
           onChange={onChange}
           type={
-            name === 'password' && !isPasswordShown
+            name === 'password' && trailingButton?.role === 'showPassword'
               ? 'password'
               : type === 'number'
                 ? 'number'
@@ -77,8 +76,8 @@ export default function Input({
           className={clsx(
             'outline-input w-full text-sm tracking-wider',
             'text-slate-700 dark:text-slate-300 dark:placeholder:text-slate-600',
-            withButton ? 'pr-10' : 'pr-3',
-            icon ? INPUT_CONFIG.iconPadding[padding] : 'pl-3',
+            trailingButton ? 'pr-10' : 'pr-3',
+            icon ? INPUT_CONFIG.icon.padding[padding] : 'pl-3',
             padding === 'lg' ? 'border-2' : 'border',
             INPUT_CONFIG.padding[padding],
             error
@@ -89,10 +88,12 @@ export default function Input({
           )}
         />
 
-        {withButton && (
+        {((trailingButton && trailingButton.role !== 'clear') ||
+          (trailingButton && trailingButton.role === 'clear' && value)) && (
           <InputButton
-            isPasswordShown={isPasswordShown}
-            onClick={handleClick}
+            positionPadding={padding}
+            role={trailingButton.role}
+            onClick={trailingButton.onClick}
           />
         )}
       </div>

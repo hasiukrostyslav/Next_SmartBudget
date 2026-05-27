@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { usePasswordVisibility } from '@/hooks/usePasswordVisibility';
 import { login } from '@/lib/actions/authActions';
 import { SignInSchema } from '@/lib/schemas/schema';
 import AuthLink from '../ui/links/AuthLink';
@@ -17,6 +18,7 @@ type FormInputs = z.infer<typeof SignInSchema>;
 export default function LoginForm() {
   const [isPending, startTransition] = useTransition();
   const [serverError, setServerError] = useState<string>();
+  const { buttonRole, toggleVisibility } = usePasswordVisibility();
 
   const {
     register,
@@ -49,7 +51,6 @@ export default function LoginForm() {
         placeholder="Please enter your email"
         disabled={isPending}
         error={errors.email?.message}
-        withError
         icon="email"
       />
       <Input
@@ -58,9 +59,11 @@ export default function LoginForm() {
         placeholder="Please enter your password"
         disabled={isPending}
         error={errors.password?.message}
-        withError
         icon="password"
-        withButton
+        trailingButton={{
+          role: buttonRole,
+          onClick: toggleVisibility,
+        }}
       />
 
       <AuthLink href="/auth/forgot-password" className="mb-3 self-end">

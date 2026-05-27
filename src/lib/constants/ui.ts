@@ -622,10 +622,31 @@ export const INPUT_CONFIG = {
     error: 'border-red-300 dark:border-red-400',
     disabled: 'border-slate-200 dark:border-slate-500',
   },
-  iconPadding: {
-    xs: 'pl-8',
-    sm: 'pl-8',
-    md: 'pl-8',
-    lg: 'pl-10',
+  icon: {
+    padding: {
+      xs: 'pl-8',
+      sm: 'pl-8',
+      md: 'pl-8',
+      lg: 'pl-10',
+    },
+    position: {
+      xs: 'bottom-2 left-2',
+      sm: 'bottom-2 left-2',
+      md: 'bottom-2.5 left-2',
+      lg: 'bottom-3.5 left-3',
+    },
+  },
+  button: {
+    position: {
+      xs: 'bottom-2',
+      sm: 'bottom-2',
+      md: 'bottom-2.5',
+      lg: 'bottom-3.5',
+    },
+    roleIcon: {
+      clear: 'close',
+      showPassword: 'hide',
+      hidePassword: 'show',
+    },
   },
 } as const;

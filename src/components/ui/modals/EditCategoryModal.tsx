@@ -4,7 +4,7 @@ import { useTransition } from 'react';
 import clsx from 'clsx';
 import { changeTransactionCategory } from '@/lib/actions/transactionActions';
 import { useSelectValue } from '@/hooks/useSelectValue';
-import { useSearch } from '@/hooks/useSearch';
+import { useSearchInput } from '@/hooks/useSearchInput';
 import { useTheme } from '@/hooks/useTheme';
 import Dialog from './Dialog';
 import ModalHeader from './ModalHeader';
@@ -34,7 +34,7 @@ export default function EditCategoryModal({
   const { theme } = useTheme();
   const [isPending, startTransition] = useTransition();
   const { selectedValue, setSelectedValue } = useSelectValue();
-  const { searchQuery, setSearchQuery } = useSearch();
+  const { searchQuery, role, onChange, onClear } = useSearchInput();
 
   const initialValue = [...new Set(selectedItems.map((el) => el.category))];
   const categories = TRANSACTION_CATEGORIES;
@@ -78,9 +78,11 @@ export default function EditCategoryModal({
             <Input
               name="search"
               placeholder="Search categories..."
+              icon="search"
               padding="md"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={onChange}
+              trailingButton={{ role, onClick: onClear }}
             />
 
             <div
