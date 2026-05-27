@@ -31,7 +31,6 @@ export default function ForgotPasswordForm() {
         label="Email address"
         placeholder="Please enter your email"
         error={errors.email?.message}
-        withError
         icon="email"
       />
 
