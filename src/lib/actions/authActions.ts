@@ -1,11 +1,14 @@
 'use server';
 
-import z from 'zod';
 import bcrypt from 'bcryptjs';
-import { SignInSchema, SignUpSchema } from '../schemas/schema';
-import { saltRounds } from '../constants/constants';
-import { createUser, getUserByEmail } from '../db/users';
+import z from 'zod';
+
 import { signInUser } from '@/auth/utils';
+
+import { SALT_ROUNDS } from '../constants/constants';
+import { ERROR_MESSAGES } from '../constants/messages';
+import { createUser, getUserByEmail } from '../db/users';
+import { SignInSchema, SignUpSchema } from '../schemas/schema';
 
 type SignUpFormData = z.infer<typeof SignUpSchema>;
 type SignInFormData = z.infer<typeof SignInSchema>;
@@ -16,7 +19,7 @@ export async function signUp(formData: SignUpFormData) {
 
   if (!validatedFields.success) {
     return {
-      error: 'Invalid credentials',
+      error: ERROR_MESSAGES.auth.INVALID_CREDENTIALS,
     };
   }
 
@@ -27,11 +30,11 @@ export async function signUp(formData: SignUpFormData) {
 
   if (existingUser)
     return {
-      error: 'An account with this email already exists.',
+      error: ERROR_MESSAGES.auth.EMAIL_EXISTS,
     };
 
   // Hash password
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
   // Create new user
   await createUser(name, email, hashedPassword);
@@ -47,7 +50,7 @@ export async function login(formData: SignInFormData) {
 
   if (!validatedFields.success) {
     return {
-      error: 'Invalid email or password!',
+      error: ERROR_MESSAGES.auth.INVALID_EMAIL_OR_PASSWORD,
     };
   }
 

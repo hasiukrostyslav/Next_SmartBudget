@@ -1,4 +1,8 @@
-import { pageSizeOptions, paginationRange } from '../constants/constants';
+import {
+  DEFAULT_LOCALE,
+  PAGE_SIZE_OPTIONS,
+  PAGINATION_RANGE,
+} from '../constants/constants';
 import { Currency, TransactionType } from '../constants/enums';
 
 // Generate Search Params string
@@ -33,7 +37,7 @@ export function fromSlug(slug: string | number) {
 
 // Select filter options for list size
 export function getPageSizeOption(totalCount: number) {
-  const options = [...pageSizeOptions];
+  const options = [...PAGE_SIZE_OPTIONS];
   const index = options.findIndex((count) => count > totalCount);
 
   if (index === -1) return options;
@@ -47,10 +51,10 @@ export function getPaginationPattern(
   index: number,
   currentPage: number,
 ) {
-  const boundary = Math.ceil(paginationRange / 2);
+  const boundary = Math.ceil(PAGINATION_RANGE / 2);
 
-  if (count <= paginationRange) return index + 1;
-  if (count > paginationRange) {
+  if (count <= PAGINATION_RANGE) return index + 1;
+  if (count > PAGINATION_RANGE) {
     if (currentPage <= boundary) {
       return index < boundary ? index + 1 : index === boundary ? null : count;
     }
@@ -64,7 +68,7 @@ export function getPaginationPattern(
 
     return index === 0
       ? 1
-      : index === paginationRange - 1
+      : index === PAGINATION_RANGE - 1
         ? count
         : index === boundary - 1
           ? currentPage
@@ -103,7 +107,7 @@ export function calcDeletedBalance(
 
 // Format amount
 export function getFormattedAmount(amount: number) {
-  return new Intl.NumberFormat('ukr', {
+  return new Intl.NumberFormat(DEFAULT_LOCALE, {
     minimumFractionDigits: 2,
   }).format(amount);
 }

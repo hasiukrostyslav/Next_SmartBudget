@@ -1,22 +1,28 @@
 'use server';
 
-import z from 'zod';
 import { revalidatePath } from 'next/cache';
+
+import z from 'zod';
+
+import { TransactionCreateInput, TransactionUpdate } from '@/types/types';
+
+import { TRANSACTIONS_PATH } from '@/routes';
 import { auth } from '@/auth/auth';
+
+import { Status, TransactionCategories } from '../constants/enums';
+import { ERROR_MESSAGES } from '../constants/messages';
 import {
-  findTransactionsByUserId,
-  findTransactionById,
   createTransaction as create,
-  updateTransactionById,
-  updateTransactionStatusMany,
   deleteTransactionById,
-  deleteTransactionsMany,
   deleteTransactionsAll,
+  deleteTransactionsMany,
+  findTransactionById,
+  findTransactionsByUserId,
+  updateTransactionById,
   updateTransactionCategoryMany,
+  updateTransactionStatusMany,
 } from '../db/transactions';
 import { SearchParamsSchema, TransactionCreateSchema } from '../schemas/schema';
-import { TransactionCreateInput, TransactionUpdate } from '@/types/types';
-import { Status, TransactionCategories } from '../constants/enums';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 
@@ -32,7 +38,7 @@ export async function getTransactions(props?: SearchParamsType) {
     return {
       success: false,
       status: 401,
-      error: 'Unauthorized. Please sign in!',
+      error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   try {
@@ -43,7 +49,7 @@ export async function getTransactions(props?: SearchParamsType) {
     return {
       success: false,
       status: 500,
-      error: 'Failed to fetch transactions',
+      error: ERROR_MESSAGES.transaction.FETCH_MANY,
     };
   }
 }
@@ -54,20 +60,24 @@ export async function getTransaction(id: string) {
     return {
       success: false,
       status: 401,
-      error: 'Unauthorized. Please sign in!',
+      error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   try {
     const data = await findTransactionById(id, userId);
     if (!data)
-      return { success: false, status: 404, error: 'Transaction not found' };
+      return {
+        success: false,
+        status: 404,
+        error: ERROR_MESSAGES.transaction.NOT_FOUND,
+      };
     return { success: true, status: 200, data };
   } catch (error) {
     console.error('[getTransaction]', error);
     return {
       success: false,
       status: 500,
-      error: 'Failed to fetch transaction',
+      error: ERROR_MESSAGES.transaction.FETCH_ONE,
     };
   }
 }
@@ -81,7 +91,7 @@ export async function createTransaction(
     return {
       success: false,
       status: 401,
-      error: 'Unauthorized. Please sign in!',
+      error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   const parsed = TransactionCreateSchema.safeParse(transaction);
@@ -94,14 +104,14 @@ export async function createTransaction(
 
   try {
     const data = await create(userId, parsed.data as TransactionCreateInput);
-    revalidatePath('/dashboard/transactions');
+    revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: 201, data };
   } catch (error) {
     console.error('[createTransaction]', error);
     return {
       success: false,
       status: 500,
-      error: 'Failed to create transaction',
+      error: ERROR_MESSAGES.transaction.CREATE,
     };
   }
 }
@@ -113,19 +123,19 @@ export async function editTransaction(id: string, data: TransactionUpdate) {
     return {
       success: false,
       status: 401,
-      error: 'Unauthorized. Please sign in!',
+      error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   try {
     const result = await updateTransactionById(id, userId, data);
-    revalidatePath('/dashboard/transactions');
+    revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: 200, data: result };
   } catch (error) {
     console.error('[editTransaction]', error);
     return {
       success: false,
       status: 500,
-      error: 'Failed to update transaction',
+      error: ERROR_MESSAGES.transaction.UPDATE,
     };
   }
 }
@@ -139,7 +149,7 @@ export async function changeTransactionStatus(
     return {
       success: false,
       status: 401,
-      error: 'Unauthorized. Please sign in!',
+      error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   try {
@@ -148,14 +158,14 @@ export async function changeTransactionStatus(
       userId,
       status,
     );
-    revalidatePath('/dashboard/transactions');
+    revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: 200, data: result };
   } catch (error) {
     console.error('[changeTransactionStatus]', error);
     return {
       success: false,
       status: 500,
-      error: 'Failed to update transaction status',
+      error: ERROR_MESSAGES.transaction.UPDATE_STATUS,
     };
   }
 }
@@ -169,7 +179,7 @@ export async function changeTransactionCategory(
     return {
       success: false,
       status: 401,
-      error: 'Unauthorized. Please sign in!',
+      error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   try {
@@ -178,14 +188,14 @@ export async function changeTransactionCategory(
       userId,
       category,
     );
-    revalidatePath('/dashboard/transactions');
+    revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: 200, data: result };
   } catch (error) {
     console.error('[changeTransactionCategory]', error);
     return {
       success: false,
       status: 500,
-      error: 'Failed to update transaction category',
+      error: ERROR_MESSAGES.transaction.UPDATE_CATEGORY,
     };
   }
 }
@@ -197,19 +207,19 @@ export async function deleteTransaction(transactionId: string) {
     return {
       success: false,
       status: 401,
-      error: 'Unauthorized. Please sign in!',
+      error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   try {
     const result = await deleteTransactionById(transactionId, userId);
-    revalidatePath('/dashboard/transactions');
+    revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: 200, data: result };
   } catch (error) {
     console.error('[deleteTransaction]', error);
     return {
       success: false,
       status: 500,
-      error: 'Failed to delete transaction',
+      error: ERROR_MESSAGES.transaction.DELETE,
     };
   }
 }
@@ -220,19 +230,19 @@ export async function deleteManyTransaction(transactionId: string[]) {
     return {
       success: false,
       status: 401,
-      error: 'Unauthorized. Please sign in!',
+      error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   try {
     const result = await deleteTransactionsMany(transactionId, userId);
-    revalidatePath('/dashboard/transactions');
+    revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: 200, data: result };
   } catch (error) {
     console.error('[deleteManyTransaction]', error);
     return {
       success: false,
       status: 500,
-      error: 'Failed to delete transactions',
+      error: ERROR_MESSAGES.transaction.DELETE_MANY,
     };
   }
 }
@@ -243,19 +253,19 @@ export async function deleteAllTransaction() {
     return {
       success: false,
       status: 401,
-      error: 'Unauthorized. Please sign in!',
+      error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   try {
     const result = await deleteTransactionsAll(userId);
-    revalidatePath('/dashboard/transactions');
+    revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: 200, data: result };
   } catch (error) {
     console.error('[deleteAllTransaction]', error);
     return {
       success: false,
       status: 500,
-      error: 'Failed to delete transactions',
+      error: ERROR_MESSAGES.transaction.DELETE_MANY,
     };
   }
 }

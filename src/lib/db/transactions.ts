@@ -1,10 +1,12 @@
 import z from 'zod';
-import { db } from './db';
-import { SearchParamsSchema } from '../schemas/schema';
-import { pageSizeOptions } from '../constants/constants';
-import { TRANSACTION_SORT_FIELD_MAP } from '../constants/ui';
+
 import { TransactionCreateInput, TransactionUpdate } from '@/types/types';
+
+import { PAGE_SIZE_OPTIONS } from '../constants/constants';
 import { Status, TransactionCategories } from '../constants/enums';
+import { TRANSACTION_SORT_FIELD_MAP } from '../constants/ui';
+import { SearchParamsSchema } from '../schemas/schema';
+import { db } from './db';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 
@@ -19,7 +21,7 @@ export async function findTransactionsByUserId(
       : 'createdAt';
 
   const order = props?.order ?? 'desc';
-  const limit = Number(props?.limit ?? pageSizeOptions[0]);
+  const limit = Number(props?.limit ?? PAGE_SIZE_OPTIONS[0]);
   const skip = limit * (Number(props?.page ?? 1) - 1);
 
   if (sortField === 'amount') {
