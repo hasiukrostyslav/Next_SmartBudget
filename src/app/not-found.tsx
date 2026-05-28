@@ -1,11 +1,14 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+
+import { METADATA_TEXT } from '@/lib/constants/messages';
+
+import ThemeButton from '@/components/ui/buttons/ThemeButton';
 import Error from '@/components/ui/Error';
 import Logo from '@/components/ui/Logo';
-import ThemeButton from '@/components/ui/buttons/ThemeButton';
 
 export const metadata: Metadata = {
-  title: 'Page not Found',
+  title: METADATA_TEXT.NOT_FOUND_PAGE,
 };
 
 export default function NotFound() {
