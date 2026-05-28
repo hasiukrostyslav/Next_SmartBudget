@@ -1,6 +1,27 @@
 {
-  "plugins": ["prettier-plugin-tailwindcss"],
+  "plugins": ["@ianvs/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
   "semi": true,
   "singleQuote": true,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "importOrder": [
+    "^react$",
+    "^react-dom(.*)$",
+    "",
+    "^next(.*)$",
+    "^next-auth(.*)$",
+    "",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^@/types/(.*)$",
+    "",
+    "^@/routes(.*)$",
+    "^@/auth/(.*)$",
+    "^@/lib/(.*)$",
+    "^@/hooks/(.*)$",
+    "^@/context/(.*)$",
+    "",
+    "^@/components/(.*)$",
+    "",
+    "^[./]"
+  ]
 }
