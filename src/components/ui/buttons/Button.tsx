@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+
 import { BUTTON_CONFIG } from '@/lib/constants/ui';
 
 interface ButtonProps {

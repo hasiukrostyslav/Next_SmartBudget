@@ -1,5 +1,7 @@
 import clsx from 'clsx';
+
 import { IconName } from '@/types/types';
+
 import Icon from '../Icon';
 
 interface ButtonIconProps {

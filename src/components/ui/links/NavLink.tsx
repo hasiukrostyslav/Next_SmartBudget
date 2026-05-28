@@ -2,9 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
 import clsx from 'clsx';
-import Icon from '../Icon';
+
 import { IconName } from '@/types/types';
+
+import Icon from '../Icon';
 
 interface NavLinkProps {
   href: string;

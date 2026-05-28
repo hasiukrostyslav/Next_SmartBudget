@@ -3,11 +3,13 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import ButtonLink from './buttons/ButtonLink';
-import Button from './buttons/Button';
-import Icon from './Icon';
 import clsx from 'clsx';
+
 import { ERROR_MESSAGES_CONFIG } from '@/lib/constants/ui';
+
+import Button from './buttons/Button';
+import ButtonLink from './buttons/ButtonLink';
+import Icon from './Icon';
 
 interface ErrorProps {
   type: keyof typeof ERROR_MESSAGES_CONFIG;

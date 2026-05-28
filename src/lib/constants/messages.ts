@@ -30,3 +30,10 @@ export const ERROR_MESSAGES = {
     DELETE_MANY: 'Failed to delete transactions',
   },
 } as const;
+
+export const INPUT_PLACEHOLDER = {
+  email: 'Please enter your email',
+  password: 'Please enter your password',
+  name: 'Please enter your full name',
+  search: 'Search',
+} as const;

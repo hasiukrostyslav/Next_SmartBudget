@@ -1,4 +1,5 @@
 import type { ToastRoles } from '@/types/types';
+
 import Icon from './Icon';
 
 const messages = {

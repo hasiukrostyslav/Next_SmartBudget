@@ -1,13 +1,17 @@
 'use client';
 
 import { useId } from 'react';
+
 import clsx from 'clsx';
-import InputError from './InputError';
+
+import { IconName } from '@/types/types';
+
+import { INPUT_CONFIG } from '@/lib/constants/ui';
+
 import InputButton from './InputButton';
+import InputError from './InputError';
 import InputIcon from './InputIcon';
 import InputLabel from './InputLabel';
-import { INPUT_CONFIG } from '@/lib/constants/ui';
-import { IconName } from '@/types/types';
 
 interface InputProps {
   name: string;
@@ -21,6 +25,7 @@ interface InputProps {
   ref?: React.Ref<HTMLInputElement>;
   padding?: keyof typeof INPUT_CONFIG.padding;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
   trailingButton?: {
     role: keyof typeof INPUT_CONFIG.button.roleIcon;
     onClick: () => void;

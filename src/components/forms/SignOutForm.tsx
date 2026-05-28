@@ -1,4 +1,5 @@
 import { signOut } from '@/auth/auth';
+
 import ButtonIcon from '../ui/buttons/ButtonIcon';
 
 export default function SignOutForm() {

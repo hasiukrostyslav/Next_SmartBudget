@@ -1,7 +1,9 @@
 'use client';
 
 import clsx from 'clsx';
+
 import { useDialog } from '@/hooks/useDialog';
+
 import Button from '../buttons/Button';
 import Icon from '../Icon';
 import TransactionModal from '../modals/TransactionModal';

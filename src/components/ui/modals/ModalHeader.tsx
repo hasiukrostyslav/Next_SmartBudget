@@ -1,8 +1,11 @@
 import clsx from 'clsx';
+
+import { ItemType } from '@/types/types';
+
+import { MODAL_CONFIG } from '@/lib/constants/ui';
+
 import ButtonIcon from '../buttons/ButtonIcon';
 import Icon from '../Icon';
-import { ItemType } from '@/types/types';
-import { MODAL_CONFIG } from '@/lib/constants/ui';
 
 interface ModalHeaderProps {
   operationType: keyof typeof MODAL_CONFIG.header;

@@ -1,5 +1,7 @@
 import Link from 'next/link';
+
 import { AnimatePresence, motion } from 'motion/react';
+
 import Logo from './Logo';
 
 interface AnimatedLogoProps {

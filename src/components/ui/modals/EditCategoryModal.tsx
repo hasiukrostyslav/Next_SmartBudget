@@ -1,21 +1,24 @@
 'use client';
 
 import { useTransition } from 'react';
+
 import clsx from 'clsx';
+
 import { changeTransactionCategory } from '@/lib/actions/transactionActions';
-import { useSelectValue } from '@/hooks/useSelectValue';
-import { useSearchInput } from '@/hooks/useSearchInput';
-import { useTheme } from '@/hooks/useTheme';
-import Dialog from './Dialog';
-import ModalHeader from './ModalHeader';
-import ModalFooter from './ModalFooter';
-import RadioCard from '../selects/RadioCard';
-import Input from '../inputs/Input';
-import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
 import {
   TRANSACTION_CATEGORIES,
   TransactionCategories,
 } from '@/lib/constants/enums';
+import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
+import { useSearchInput } from '@/hooks/useSearchInput';
+import { useSelectValue } from '@/hooks/useSelectValue';
+import { useTheme } from '@/hooks/useTheme';
+
+import Input from '../inputs/Input';
+import RadioCard from '../selects/RadioCard';
+import Dialog from './Dialog';
+import ModalFooter from './ModalFooter';
+import ModalHeader from './ModalHeader';
 
 interface EditCategoryModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;

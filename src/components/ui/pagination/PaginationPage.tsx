@@ -1,10 +1,12 @@
 'use client';
 
 import { usePathname, useSearchParams } from 'next/navigation';
+
+import { createQueryString } from '@/lib/utils/utils';
 import { usePagination } from '@/hooks/usePagination';
+
 import PaginationButton from './PaginationButton';
 import PaginationSkip from './PaginationSkip';
-import { createQueryString } from '@/lib/utils/utils';
 
 interface PaginationPageProps {
   totalCount: number;

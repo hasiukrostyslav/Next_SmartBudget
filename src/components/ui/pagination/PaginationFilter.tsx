@@ -1,5 +1,7 @@
 import { useSearchParams } from 'next/navigation';
+
 import { getPageSizeOption } from '@/lib/utils/utils';
+
 import Select from '../selects/Select';
 
 interface PaginationFilterProps {

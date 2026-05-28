@@ -1,8 +1,10 @@
+import { TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
+import { currency, transactionTypes } from '@/lib/constants/ui';
+
 import SearchForm from '@/components/forms/SearchForm';
+
 import Select from '../selects/Select';
 import TransactionsCTA from './TransactionsCTA';
-import { currency, transactionTypes } from '@/lib/constants/ui';
-import { TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
 
 export default async function TransactionsFilters() {
   return (

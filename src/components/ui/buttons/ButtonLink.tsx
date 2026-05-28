@@ -1,8 +1,12 @@
 import Link from 'next/link';
+
 import clsx from 'clsx';
-import Icon from '../Icon';
-import { BUTTON_CONFIG } from '@/lib/constants/ui';
+
 import { IconName } from '@/types/types';
+
+import { BUTTON_CONFIG } from '@/lib/constants/ui';
+
+import Icon from '../Icon';
 
 interface ButtonLinkProps {
   href: string;

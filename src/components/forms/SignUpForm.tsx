@@ -1,16 +1,20 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { usePasswordVisibility } from '@/hooks/usePasswordVisibility';
+
 import { signUp } from '@/lib/actions/authActions';
+import { INPUT_PLACEHOLDER } from '@/lib/constants/messages';
 import { SignUpSchema } from '@/lib/schemas/schema';
+import { usePasswordVisibility } from '@/hooks/usePasswordVisibility';
+
 import Button from '../ui/buttons/Button';
-import Input from '../ui/inputs/Input';
-import Icon from '../ui/Icon';
 import FormError from '../ui/FormError';
+import Icon from '../ui/Icon';
+import Input from '../ui/inputs/Input';
 
 type FormInputs = z.infer<typeof SignUpSchema>;
 
@@ -47,7 +51,7 @@ export default function SignUpForm() {
       <Input
         {...register('name')}
         label="Full name"
-        placeholder="Please enter your full name"
+        placeholder={INPUT_PLACEHOLDER.name}
         disabled={isPending}
         error={errors.name?.message}
         icon="name"
@@ -55,7 +59,7 @@ export default function SignUpForm() {
       <Input
         {...register('email')}
         label="Email address"
-        placeholder="Please enter your email"
+        placeholder={INPUT_PLACEHOLDER.email}
         disabled={isPending}
         error={errors.email?.message}
         icon="email"
@@ -63,7 +67,7 @@ export default function SignUpForm() {
       <Input
         {...register('password')}
         label="Password"
-        placeholder="Please enter your password"
+        placeholder={INPUT_PLACEHOLDER.password}
         disabled={isPending}
         error={errors.password?.message}
         icon="password"
