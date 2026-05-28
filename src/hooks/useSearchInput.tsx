@@ -1,5 +1,6 @@
-import { INPUT_CONFIG } from '@/lib/constants/ui';
 import { useState } from 'react';
+
+import { INPUT_CONFIG } from '@/lib/constants/ui';
 
 export function useSearchInput() {
   const [searchQuery, setSearchQuery] = useState('');

@@ -1,5 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
+
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 import { createQueryString } from '@/lib/utils/utils';
 
 interface useSelectProps {

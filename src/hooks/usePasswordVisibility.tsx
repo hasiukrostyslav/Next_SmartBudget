@@ -1,7 +1,6 @@
-'use client';
+import { useState } from 'react';
 
 import { INPUT_CONFIG } from '@/lib/constants/ui';
-import { useState } from 'react';
 
 export function usePasswordVisibility() {
   const [isVisible, setIsVisible] = useState(false);

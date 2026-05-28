@@ -1,4 +1,5 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 import { createQueryString } from '@/lib/utils/utils';
 
 export function useSort() {

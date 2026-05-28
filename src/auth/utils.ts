@@ -1,6 +1,6 @@
 import { AuthError } from 'next-auth';
 
-import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
+import { DEFAULT_LOGIN_PATH } from '@/routes';
 import { ERROR_MESSAGES } from '@/lib/constants/messages';
 
 import { signIn } from './auth';
@@ -10,7 +10,7 @@ export async function signInUser(email: string, password: string) {
     const res = await signIn('credentials', {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: DEFAULT_LOGIN_PATH,
     });
 
     return { success: true, data: res };
