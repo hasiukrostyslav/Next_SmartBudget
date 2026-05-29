@@ -1,4 +1,5 @@
 import { getTransactions } from '@/lib/actions/transactionActions';
+import { EMPTY_STATE_TEXT } from '@/lib/constants/messages';
 import { SearchParamsSchema } from '@/lib/schemas/schema';
 
 import EmptyState from '@/components/ui/EmptyState';
@@ -32,7 +33,7 @@ export default async function TransactionsPage({
 
   if (result.success && result?.data?.transactions?.length < 1)
     return (
-      <EmptyState message="Add your first transaction">
+      <EmptyState config={EMPTY_STATE_TEXT.transactions}>
         <TransactionsCTA buttonSize="lg" iconSize={20} />
       </EmptyState>
     );

@@ -26,6 +26,7 @@ interface InputProps {
   padding?: keyof typeof INPUT_CONFIG.padding;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
   trailingButton?: {
     role: keyof typeof INPUT_CONFIG.button.roleIcon;
     onClick: () => void;

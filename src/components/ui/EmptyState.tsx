@@ -2,38 +2,65 @@ import Image from 'next/image';
 
 import clsx from 'clsx';
 
-export default function EmptyState({
-  children,
-  message,
-}: {
+import { EMPTY_STATE_TEXT } from '@/lib/constants/messages';
+
+import Button from './buttons/Button';
+import Icon from './Icon';
+
+type EmptyStateEntry = (typeof EMPTY_STATE_TEXT)[keyof typeof EMPTY_STATE_TEXT];
+
+interface EmptyStateProps {
+  config: EmptyStateEntry;
   children?: React.ReactNode;
-  message?: string;
-}) {
+}
+
+export default function EmptyState({ config, children }: EmptyStateProps) {
   return (
     <section
       className={clsx(
         'row-span-full flex h-full flex-col items-center justify-center',
       )}
     >
-      <div className="flex flex-col items-center justify-center gap-8">
+      <div className="flex flex-col items-center justify-center gap-2">
         <Image
-          className="h-[220] w-[220]"
+          className="h-[140] w-[140]"
           alt="Error"
           src="/error-404.png"
-          width={220}
-          height={220}
+          width={140}
+          height={140}
           priority
         />
-        <h2
-          className={clsx(
-            'mt-4 text-2xl leading-snug font-bold tracking-wider',
-          )}
-        >
-          Nothing here yet
-        </h2>
+        {config?.header && (
+          <h2
+            className={clsx(
+              'mt-4 text-xl leading-snug font-bold tracking-wider',
+            )}
+          >
+            {config.header}
+          </h2>
+        )}
       </div>
-      <div className="mt-2 flex flex-col items-center justify-center gap-6">
-        <p className="text-slate-500">{message}</p>
+      <div
+        className={clsx(
+          'mt-2 flex w-1/3 flex-col items-center justify-center gap-3 text-center',
+        )}
+      >
+        {config?.description && (
+          <p className="text-slate-500">{config.description}</p>
+        )}
+        {config?.cta && (
+          <div className="flex gap-2">
+            <Button color="blue" size="sm">
+              <Icon name="plus" size={14} />
+              <span>{config.cta.primaryLabel}</span>
+            </Button>
+            {'secondaryLabel' in config.cta && config.cta.secondaryLabel && (
+              <Button color="outline" size="sm">
+                {config.cta.secondaryLabel}
+              </Button>
+            )}
+          </div>
+        )}
         {children}
       </div>
     </section>

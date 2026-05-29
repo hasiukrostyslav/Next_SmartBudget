@@ -37,3 +37,64 @@ export const INPUT_PLACEHOLDER = {
   name: 'Please enter your full name',
   search: 'Search',
 } as const;
+
+export const EMPTY_STATE_TEXT = {
+  transactions: {
+    header: 'No transactions yet',
+    description:
+      "When you add or import transactions, they'll show up here so you can search, filter and categorize them.",
+    cta: {
+      primaryLabel: 'Add transaction',
+      secondaryLabel: 'Import from CSV',
+    },
+  },
+  payments: {
+    header: 'No payments yet',
+    description:
+      'Track recurring bills, subscriptions and one-time payments all in one place.',
+    cta: {
+      primaryLabel: 'Add payment',
+      secondaryLabel: 'Import from CSV',
+    },
+  },
+  cards: {
+    header: 'No cards added',
+    description:
+      'Add your debit or credit cards to monitor balances and link transactions automatically.',
+    cta: {
+      primaryLabel: 'Add card',
+    },
+  },
+  savings: {
+    header: 'No savings goals yet',
+    description:
+      'Create a savings goal to start tracking your progress toward something that matters.',
+    cta: {
+      primaryLabel: 'Create goal',
+    },
+  },
+  loans: {
+    header: 'No loans tracked',
+    description:
+      'Add a loan to monitor your outstanding balance, interest, and repayment schedule.',
+    cta: {
+      primaryLabel: 'Add loan',
+    },
+  },
+  deposits: {
+    header: 'No deposits yet',
+    description:
+      'Record fixed deposits or term savings to keep tabs on maturity dates and earned interest.',
+    cta: {
+      primaryLabel: 'Add deposit',
+    },
+  },
+  dashboard: {
+    header: 'Your dashboard is empty',
+    description:
+      'Add a transaction, card, or savings goal to start seeing your financial overview here.',
+    cta: {
+      primaryLabel: 'Add transaction',
+    },
+  },
+} as const;

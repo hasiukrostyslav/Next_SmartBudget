@@ -35,7 +35,7 @@
 
   .outline-input {
     border-radius: 6px;
-    transition-property: all;
+    transition-property: border-color, background-color, color, box-shadow;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 100ms;
 

@@ -14,6 +14,7 @@ import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useTheme } from '@/hooks/useTheme';
 
+import EmptyState from '../EmptyState';
 import Input from '../inputs/Input';
 import RadioCard from '../selects/RadioCard';
 import Dialog from './Dialog';
@@ -40,9 +41,16 @@ export default function EditCategoryModal({
   const { searchQuery, role, onChange, onClear } = useSearchInput();
 
   const initialValue = [...new Set(selectedItems.map((el) => el.category))];
-  const categories = TRANSACTION_CATEGORIES;
+  const filteredCategories = TRANSACTION_CATEGORIES.filter((el) =>
+    searchQuery.length === 0
+      ? el
+      : el.replaceAll('_', ' ').includes(searchQuery.trimStart()) ||
+        TRANSACTION_CATEGORIES_CONFIG[el].text.description
+          .toLowerCase()
+          .includes(searchQuery.trimStart()),
+  ).toSorted();
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     startTransition(async () => {
@@ -85,6 +93,7 @@ export default function EditCategoryModal({
               padding="md"
               value={searchQuery}
               onChange={onChange}
+              onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
               trailingButton={{ role, onClick: onClear }}
             />
 
@@ -95,19 +104,10 @@ export default function EditCategoryModal({
                 theme === 'dark' ? 'scrollbar-dark' : '',
               )}
             >
-              {categories
-                .filter((el) =>
-                  searchQuery.length === 0
-                    ? el
-                    : el
-                        .replaceAll('_', ' ')
-                        .includes(searchQuery.trimStart()) ||
-                      TRANSACTION_CATEGORIES_CONFIG[el].text.description
-                        .toLowerCase()
-                        .includes(searchQuery.trimStart()),
-                )
-                .toSorted()
-                .map((category) => {
+              {filteredCategories.length === 0 ? (
+                <EmptyState />
+              ) : (
+                filteredCategories.map((category) => {
                   const item = TRANSACTION_CATEGORIES_CONFIG[category];
 
                   return (
@@ -125,7 +125,8 @@ export default function EditCategoryModal({
                       }
                     />
                   );
-                })}
+                })
+              )}
             </div>
           </div>
         </section>
