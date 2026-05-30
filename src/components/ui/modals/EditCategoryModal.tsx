@@ -14,7 +14,7 @@ import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useTheme } from '@/hooks/useTheme';
 
-import EmptySearchResult from '@/components/EmptySearchResult';
+import EmptySearchResult from '@/components/ui/feedback/EmptySearchResult';
 
 import Input from '../inputs/Input';
 import RadioCard from '../selects/RadioCard';

@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 
-import Icon from '../Icon';
+import Icon from '../icons/Icon';
 
 interface SortButtonProps {
   name: string;

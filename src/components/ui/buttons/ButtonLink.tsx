@@ -6,7 +6,7 @@ import { IconName } from '@/types/types';
 
 import { BUTTON_CONFIG } from '@/lib/constants/ui';
 
-import Icon from '../Icon';
+import Icon from '../icons/Icon';
 
 interface ButtonLinkProps {
   href: string;

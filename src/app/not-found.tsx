@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { METADATA_TEXT } from '@/lib/constants/messages';
 
 import ThemeButton from '@/components/ui/buttons/ThemeButton';
-import Error from '@/components/ui/Error';
-import Logo from '@/components/ui/Logo';
+import Error from '@/components/ui/feedback/Error';
+import Logo from '@/components/ui/logos/Logo';
 
 export const metadata: Metadata = {
   title: METADATA_TEXT.NOT_FOUND_PAGE,

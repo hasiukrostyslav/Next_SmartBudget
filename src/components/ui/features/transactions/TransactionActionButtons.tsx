@@ -5,8 +5,8 @@ import { DeleteItem } from '@/types/types';
 import { deleteTransaction } from '@/lib/actions/transactionActions';
 import { useDialog } from '@/hooks/useDialog';
 
-import ButtonIcon from '../buttons/ButtonIcon';
-import DeleteModal from '../modals/DeleteModal';
+import ButtonIcon from '../../buttons/ButtonIcon';
+import DeleteModal from '../../modals/DeleteModal';
 
 interface TransactionActionButtonsProps {
   item: DeleteItem;

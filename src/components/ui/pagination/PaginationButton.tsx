@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import clsx from 'clsx';
 
-import Icon from '../Icon';
+import Icon from '../icons/Icon';
 
 interface PaginationButtonProps {
   href: string;

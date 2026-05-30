@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { IconName } from '@/types/types';
 
-import Icon from '../Icon';
+import Icon from '../icons/Icon';
 
 interface ToolbarButtonProps {
   iconName: IconName;

@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 import clsx from 'clsx';
 
+import Copyright from '../ui/atomic/Copyright';
 import ThemeButton from '../ui/buttons/ThemeButton';
-import Copyright from '../ui/Copyright';
 
 const links = ['Privacy Policy', 'Term and Condition', 'Contact'];
 

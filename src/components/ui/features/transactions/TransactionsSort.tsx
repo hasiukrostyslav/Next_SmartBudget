@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 
-import CheckBox from '../inputs/CheckBox';
+import CheckBox from '../../inputs/CheckBox';
 import TransactionsSortList from './TransactionsSortList';
 
 interface TransactionsSortProps {

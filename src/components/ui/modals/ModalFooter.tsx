@@ -5,7 +5,7 @@ import { ItemType } from '@/types/types';
 import { MODAL_CONFIG } from '@/lib/constants/ui';
 
 import Button from '../buttons/Button';
-import Icon from '../Icon';
+import Icon from '../icons/Icon';
 
 interface ModalFooterProps {
   operationType: keyof typeof MODAL_CONFIG.footer;

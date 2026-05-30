@@ -3,7 +3,7 @@ import { currency, transactionTypes } from '@/lib/constants/ui';
 
 import SearchForm from '@/components/forms/SearchForm';
 
-import Select from '../selects/Select';
+import Select from '../../selects/Select';
 import TransactionsCTA from './TransactionsCTA';
 
 export default async function TransactionsFilters() {

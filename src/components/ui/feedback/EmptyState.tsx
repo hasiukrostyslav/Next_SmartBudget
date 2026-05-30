@@ -4,8 +4,8 @@ import clsx from 'clsx';
 
 import { EMPTY_STATE_TEXT } from '@/lib/constants/messages';
 
-import Button from './buttons/Button';
-import Icon from './Icon';
+import Button from '../buttons/Button';
+import Icon from '../icons/Icon';
 
 type EmptyStateEntry = (typeof EMPTY_STATE_TEXT)[keyof typeof EMPTY_STATE_TEXT];
 

@@ -2,12 +2,12 @@ import { getTransactions } from '@/lib/actions/transactionActions';
 import { EMPTY_STATE_TEXT } from '@/lib/constants/messages';
 import { SearchParamsSchema } from '@/lib/schemas/schema';
 
-import EmptyState from '@/components/ui/EmptyState';
-import Error from '@/components/ui/Error';
+import EmptyState from '@/components/ui/feedback/EmptyState';
+import Error from '@/components/ui/feedback/Error';
 import PaginationTable from '@/components/ui/pagination/PaginationTable';
-import TransactionsCTA from '@/components/ui/transactions/TransactionsCTA';
-import TransactionsFilters from '@/components/ui/transactions/TransactionsFilters';
-import TransactionsList from '@/components/ui/transactions/TransactionsList';
+import TransactionsCTA from '@/components/ui/features/transactions/TransactionsCTA';
+import TransactionsFilters from '@/components/ui/features/transactions/TransactionsFilters';
+import TransactionsList from '@/components/ui/features/transactions/TransactionsList';
 
 export default async function TransactionsPage({
   searchParams,
