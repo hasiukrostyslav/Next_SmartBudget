@@ -2,8 +2,8 @@ import Image from 'next/image';
 
 import { clsx } from 'clsx';
 
-import Button from './ui/buttons/Button';
-import Icon from './ui/Icon';
+import Button from './buttons/Button';
+import Icon from './Icon';
 
 interface EmptySearchResultProps {
   category: string;
