@@ -48,20 +48,20 @@ export default function EmptyState({ config, children }: EmptyStateProps) {
         {config?.description && (
           <p className="text-slate-500">{config.description}</p>
         )}
-        {config?.cta && (
-          <div className="flex gap-2">
-            <Button color="blue" size="sm">
-              <Icon name="plus" size={14} />
-              <span>{config.cta.primaryLabel}</span>
-            </Button>
-            {'secondaryLabel' in config.cta && config.cta.secondaryLabel && (
-              <Button color="outline" size="sm">
-                {config.cta.secondaryLabel}
+        {children ||
+          (config?.cta && (
+            <div className="flex gap-2">
+              <Button color="blue" size="sm">
+                <Icon name="plus" size={14} />
+                <span>{config.cta.primaryLabel}</span>
               </Button>
-            )}
-          </div>
-        )}
-        {children}
+              {'secondaryLabel' in config.cta && config.cta.secondaryLabel && (
+                <Button color="outline" size="sm">
+                  {config.cta.secondaryLabel}
+                </Button>
+              )}
+            </div>
+          ))}
       </div>
     </section>
   );

@@ -14,7 +14,8 @@ import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useTheme } from '@/hooks/useTheme';
 
-import EmptyState from '../EmptyState';
+import EmptySearchResult from '@/components/EmptySearchResult';
+
 import Input from '../inputs/Input';
 import RadioCard from '../selects/RadioCard';
 import Dialog from './Dialog';
@@ -100,12 +101,17 @@ export default function EditCategoryModal({
             <div
               className={clsx(
                 'grid h-72 grid-cols-2 gap-3 pr-2',
-                'scrollbar auto-rows-min overflow-y-scroll',
+                'scrollbar auto-rows-min overflow-y-auto',
                 theme === 'dark' ? 'scrollbar-dark' : '',
+                filteredCategories.length === 0 ? 'place-content-center' : '',
               )}
             >
               {filteredCategories.length === 0 ? (
-                <EmptyState />
+                <EmptySearchResult
+                  category="category"
+                  query={searchQuery}
+                  onClick={onClear}
+                />
               ) : (
                 filteredCategories.map((category) => {
                   const item = TRANSACTION_CATEGORIES_CONFIG[category];

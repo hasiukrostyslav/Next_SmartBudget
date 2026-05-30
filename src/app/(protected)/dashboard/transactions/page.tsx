@@ -34,7 +34,11 @@ export default async function TransactionsPage({
   if (result.success && result?.data?.transactions?.length < 1)
     return (
       <EmptyState config={EMPTY_STATE_TEXT.transactions}>
-        <TransactionsCTA buttonSize="lg" iconSize={20} />
+        <TransactionsCTA
+          buttonSize="sm"
+          iconSize={14}
+          configCTA={EMPTY_STATE_TEXT.transactions.cta}
+        />
       </EmptyState>
     );
   else
