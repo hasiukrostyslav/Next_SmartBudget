@@ -1,7 +1,7 @@
 import {
   Apple,
-  ArrowLeftRight,
   ArrowLeft,
+  ArrowLeftRight,
   ArrowRightLeft,
   ArrowUp,
   BadgeDollarSign,
@@ -23,8 +23,12 @@ import {
   ChevronsRight,
   ChevronUp,
   CircleAlert,
+  CircleCheck,
   CircleCheckBig,
+  CircleMinus,
+  CircleX,
   Clapperboard,
+  Clock,
   Copy,
   CreditCard,
   Drill,
@@ -70,6 +74,7 @@ import {
   Trophy,
   Truck,
   Umbrella,
+  Undo,
   User,
   UserRound,
   Utensils,
@@ -78,11 +83,6 @@ import {
   WashingMachine,
   X,
   Zap,
-  Undo,
-  CircleCheck,
-  Clock,
-  CircleX,
-  CircleMinus,
 } from 'lucide-react';
 
 export const icons = [

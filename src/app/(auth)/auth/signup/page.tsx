@@ -1,10 +1,13 @@
 import type { Metadata } from 'next';
-import AuthFormContainer from '@/components/layouts/AuthFormContainer';
+
+import { METADATA_TEXT } from '@/lib/constants/messages';
+
 import SignUpForm from '@/components/forms/SignUpForm';
+import AuthFormContainer from '@/components/layouts/AuthFormContainer';
 import AuthLink from '@/components/ui/links/AuthLink';
 
 export const metadata: Metadata = {
-  title: 'Sign Up',
+  title: METADATA_TEXT.SIGN_UP,
 };
 
 export default function SignUpPage() {

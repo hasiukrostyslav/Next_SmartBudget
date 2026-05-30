@@ -1,13 +1,15 @@
 import clsx from 'clsx';
+
 import { TransactionItem } from '@/types/types';
+
 import CheckBox from '../inputs/CheckBox';
-import TransactionBadge from './TransactionBadge';
 import TransactionAccount from './TransactionAccount';
-import TransactionDate from './TransactionDate';
-import TransactionStatus from './TransactionStatus';
 import TransactionActionButtons from './TransactionActionButtons';
 import TransactionAmount from './TransactionAmount';
+import TransactionBadge from './TransactionBadge';
 import TransactionCategory from './TransactionCategory';
+import TransactionDate from './TransactionDate';
+import TransactionStatus from './TransactionStatus';
 
 interface TransactionsItemProps {
   item: TransactionItem;

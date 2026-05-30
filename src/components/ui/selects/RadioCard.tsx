@@ -1,8 +1,10 @@
 'use client';
 
 import { clsx } from 'clsx';
-import Icon from '../Icon';
+
 import { IconName } from '@/types/types';
+
+import Icon from '../Icon';
 
 interface RadioCardProps {
   option: string;

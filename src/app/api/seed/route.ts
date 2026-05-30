@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { createTransaction } from '@/lib/actions/transactionActions';
 import { TransactionCategories, TransactionType } from '@/lib/constants/enums';
 import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';

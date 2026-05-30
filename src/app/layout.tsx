@@ -1,17 +1,21 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
+
 import '@/styles/globals.css';
+
 import { ToastContainer } from 'react-toastify';
+
+import { METADATA_TEXT } from '@/lib/constants/messages';
 import ThemeProvider from '@/context/ThemeContext';
 
 const roboto = Roboto({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | SmartBudget',
-    default: 'Welcome | SmartBudget',
+    template: METADATA_TEXT.GLOBAL.template,
+    default: METADATA_TEXT.GLOBAL.title,
   },
-  description: 'Smart Money, Bright Tomorrow',
+  description: METADATA_TEXT.GLOBAL.description,
 };
 
 export default function RootLayout({

@@ -1,7 +1,9 @@
 import clsx from 'clsx';
-import Icon from '../Icon';
+
 import { TransactionCategories } from '@/lib/constants/enums';
 import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
+
+import Icon from '../Icon';
 
 interface TransactionBadgeProps {
   category: TransactionCategories;

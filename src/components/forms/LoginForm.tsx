@@ -1,22 +1,29 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+
+import { FORGOT_PASSWORD_PATH } from '@/routes';
 import { login } from '@/lib/actions/authActions';
+import { INPUT_PLACEHOLDER } from '@/lib/constants/messages';
 import { SignInSchema } from '@/lib/schemas/schema';
-import AuthLink from '../ui/links/AuthLink';
+import { usePasswordVisibility } from '@/hooks/usePasswordVisibility';
+
 import Button from '../ui/buttons/Button';
-import Input from '../ui/inputs/Input';
-import Icon from '../ui/Icon';
 import FormError from '../ui/FormError';
+import Icon from '../ui/Icon';
+import Input from '../ui/inputs/Input';
+import AuthLink from '../ui/links/AuthLink';
 
 type FormInputs = z.infer<typeof SignInSchema>;
 
 export default function LoginForm() {
   const [isPending, startTransition] = useTransition();
   const [serverError, setServerError] = useState<string>();
+  const { buttonRole, toggleVisibility } = usePasswordVisibility();
 
   const {
     register,
@@ -46,24 +53,25 @@ export default function LoginForm() {
       <Input
         label="Email address"
         {...register('email')}
-        placeholder="Please enter your email"
+        placeholder={INPUT_PLACEHOLDER.email}
         disabled={isPending}
         error={errors.email?.message}
-        withError
         icon="email"
       />
       <Input
         label="Password"
         {...register('password')}
-        placeholder="Please enter your password"
+        placeholder={INPUT_PLACEHOLDER.password}
         disabled={isPending}
         error={errors.password?.message}
-        withError
         icon="password"
-        withButton
+        trailingButton={{
+          role: buttonRole,
+          onClick: toggleVisibility,
+        }}
       />
 
-      <AuthLink href="/auth/forgot-password" className="mb-3 self-end">
+      <AuthLink href={FORGOT_PASSWORD_PATH} className="mb-3 self-end">
         Forgot password
       </AuthLink>
 

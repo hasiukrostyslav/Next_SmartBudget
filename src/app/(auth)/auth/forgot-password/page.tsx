@@ -1,10 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import AuthFormContainer from '@/components/layouts/AuthFormContainer';
+
+import { METADATA_TEXT } from '@/lib/constants/messages';
+
 import ForgotPasswordForm from '@/components/forms/ForgotPasswordForm';
+import AuthFormContainer from '@/components/layouts/AuthFormContainer';
 
 export const metadata: Metadata = {
-  title: 'Forgot Password',
+  title: METADATA_TEXT.FORGOT_PASSWORD,
 };
 
 export default function ForgotPasswordPage() {

@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+
 import Icon from './Icon';
 
 export default function Spinner() {

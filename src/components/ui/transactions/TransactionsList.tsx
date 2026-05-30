@@ -1,12 +1,15 @@
 'use client';
 
 import clsx from 'clsx';
+
+import { TransactionItem } from '@/types/types';
+
 import { useCheckbox } from '@/hooks/useCheckbox';
+import { useTheme } from '@/hooks/useTheme';
+
+import BulkToolbar from '../BulkToolbar';
 import TransactionsItem from './TransactionsItem';
 import TransactionsSort from './TransactionsSort';
-import BulkToolbar from '../BulkToolbar';
-import { TransactionItem } from '@/types/types';
-import { useTheme } from '@/hooks/useTheme';
 
 export default function TransactionsList({
   data,

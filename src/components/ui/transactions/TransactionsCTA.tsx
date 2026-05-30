@@ -1,37 +1,44 @@
 'use client';
 
-import clsx from 'clsx';
+import { EMPTY_STATE_TEXT } from '@/lib/constants/messages';
 import { useDialog } from '@/hooks/useDialog';
+
 import Button from '../buttons/Button';
 import Icon from '../Icon';
 import TransactionModal from '../modals/TransactionModal';
 
 interface TransactionsCTAProps {
-  buttonSize: 'md' | 'lg';
+  buttonSize: 'sm' | 'md' | 'lg';
   iconSize: number;
+  configCTA?: typeof EMPTY_STATE_TEXT.transactions.cta;
 }
 
 export default function TransactionsCTA({
   buttonSize,
   iconSize,
+  configCTA,
 }: TransactionsCTAProps) {
   const { dialogRef, isOpen, handleOpen, handleClose } = useDialog();
 
   return (
-    <>
+    <div className="flex gap-2">
       <Button
         onClick={handleOpen}
-        className={clsx(
-          'flex items-center',
-          buttonSize === 'md' ? 'gap-0.5 text-sm' : 'gap-1.5',
-        )}
+        className="flex items-center"
         color="blue"
         size={buttonSize}
       >
         <Icon name="plus" size={iconSize} />
-        <span>New Transaction</span>
+        <span>{configCTA?.primaryLabel || 'New Transaction'}</span>
       </Button>
+      {configCTA &&
+        'secondaryLabel' in configCTA &&
+        configCTA.secondaryLabel && (
+          <Button color="outline" size="sm">
+            {configCTA.secondaryLabel}
+          </Button>
+        )}
       {isOpen && <TransactionModal ref={dialogRef} handleClose={handleClose} />}
-    </>
+    </div>
   );
 }

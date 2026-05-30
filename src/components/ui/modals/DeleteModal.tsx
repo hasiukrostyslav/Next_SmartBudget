@@ -1,11 +1,15 @@
 import { useTransition } from 'react';
+
 import clsx from 'clsx';
-import Dialog from './Dialog';
-import ModalHeader from './ModalHeader';
-import ModalFooter from './ModalFooter';
-import { DeleteItem, ItemType } from '@/types/types';
-import { calcDeletedBalance, getFormattedAmount } from '@/lib/utils/utils';
 import getSymbolFromCurrency from 'currency-symbol-map';
+
+import { DeleteItem, ItemType } from '@/types/types';
+
+import { calcDeletedBalance, getFormattedAmount } from '@/lib/utils/utils';
+
+import Dialog from './Dialog';
+import ModalFooter from './ModalFooter';
+import ModalHeader from './ModalHeader';
 
 interface DeleteModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;

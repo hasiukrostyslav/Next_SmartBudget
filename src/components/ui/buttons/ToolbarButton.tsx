@@ -1,8 +1,10 @@
 'use client';
 
-import { IconName } from '@/types/types';
-import Icon from '../Icon';
 import clsx from 'clsx';
+
+import { IconName } from '@/types/types';
+
+import Icon from '../Icon';
 
 interface ToolbarButtonProps {
   iconName: IconName;

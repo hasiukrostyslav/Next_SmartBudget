@@ -1,11 +1,14 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+
+import { INPUT_PLACEHOLDER } from '@/lib/constants/messages';
 import { ForgotPasswordSchema } from '@/lib/schemas/schema';
-import Input from '../ui/inputs/Input';
+
 import Button from '../ui/buttons/Button';
+import Input from '../ui/inputs/Input';
 
 type FormInput = z.infer<typeof ForgotPasswordSchema>;
 
@@ -29,9 +32,8 @@ export default function ForgotPasswordForm() {
       <Input
         {...register('email')}
         label="Email address"
-        placeholder="Please enter your email"
+        placeholder={INPUT_PLACEHOLDER.email}
         error={errors.email?.message}
-        withError
         icon="email"
       />
 

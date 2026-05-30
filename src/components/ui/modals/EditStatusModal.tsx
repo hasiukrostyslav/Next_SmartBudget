@@ -1,15 +1,18 @@
 'use client';
 
 import { useTransition } from 'react';
+
 import clsx from 'clsx';
+
 import { changeTransactionStatus } from '@/lib/actions/transactionActions';
-import { useSelectValue } from '@/hooks/useSelectValue';
-import Dialog from './Dialog';
-import ModalHeader from './ModalHeader';
-import ModalFooter from './ModalFooter';
-import RadioCard from '../selects/RadioCard';
-import { STATUS_CONFIG } from '@/lib/constants/ui';
 import { Status, STATUSES } from '@/lib/constants/enums';
+import { STATUS_CONFIG } from '@/lib/constants/ui';
+import { useSelectValue } from '@/hooks/useSelectValue';
+
+import RadioCard from '../selects/RadioCard';
+import Dialog from './Dialog';
+import ModalFooter from './ModalFooter';
+import ModalHeader from './ModalHeader';
 
 interface EditStatusModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;

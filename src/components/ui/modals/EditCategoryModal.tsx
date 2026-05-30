@@ -1,21 +1,26 @@
 'use client';
 
 import { useTransition } from 'react';
+
 import clsx from 'clsx';
+
 import { changeTransactionCategory } from '@/lib/actions/transactionActions';
-import { useSelectValue } from '@/hooks/useSelectValue';
-import { useSearch } from '@/hooks/useSearch';
-import { useTheme } from '@/hooks/useTheme';
-import Dialog from './Dialog';
-import ModalHeader from './ModalHeader';
-import ModalFooter from './ModalFooter';
-import RadioCard from '../selects/RadioCard';
-import Input from '../inputs/Input';
-import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
 import {
   TRANSACTION_CATEGORIES,
   TransactionCategories,
 } from '@/lib/constants/enums';
+import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
+import { useSearchInput } from '@/hooks/useSearchInput';
+import { useSelectValue } from '@/hooks/useSelectValue';
+import { useTheme } from '@/hooks/useTheme';
+
+import EmptySearchResult from '@/components/EmptySearchResult';
+
+import Input from '../inputs/Input';
+import RadioCard from '../selects/RadioCard';
+import Dialog from './Dialog';
+import ModalFooter from './ModalFooter';
+import ModalHeader from './ModalHeader';
 
 interface EditCategoryModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;
@@ -34,12 +39,19 @@ export default function EditCategoryModal({
   const { theme } = useTheme();
   const [isPending, startTransition] = useTransition();
   const { selectedValue, setSelectedValue } = useSelectValue();
-  const { searchQuery, setSearchQuery } = useSearch();
+  const { searchQuery, role, onChange, onClear } = useSearchInput();
 
   const initialValue = [...new Set(selectedItems.map((el) => el.category))];
-  const categories = TRANSACTION_CATEGORIES;
+  const filteredCategories = TRANSACTION_CATEGORIES.filter((el) =>
+    searchQuery.length === 0
+      ? el
+      : el.replaceAll('_', ' ').includes(searchQuery.trimStart()) ||
+        TRANSACTION_CATEGORIES_CONFIG[el].text.description
+          .toLowerCase()
+          .includes(searchQuery.trimStart()),
+  ).toSorted();
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     startTransition(async () => {
@@ -78,31 +90,30 @@ export default function EditCategoryModal({
             <Input
               name="search"
               placeholder="Search categories..."
+              icon="search"
               padding="md"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={onChange}
+              onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
+              trailingButton={{ role, onClick: onClear }}
             />
 
             <div
               className={clsx(
                 'grid h-72 grid-cols-2 gap-3 pr-2',
-                'scrollbar auto-rows-min overflow-y-scroll',
+                'scrollbar auto-rows-min overflow-y-auto',
                 theme === 'dark' ? 'scrollbar-dark' : '',
+                filteredCategories.length === 0 ? 'place-content-center' : '',
               )}
             >
-              {categories
-                .filter((el) =>
-                  searchQuery.length === 0
-                    ? el
-                    : el
-                        .replaceAll('_', ' ')
-                        .includes(searchQuery.trimStart()) ||
-                      TRANSACTION_CATEGORIES_CONFIG[el].text.description
-                        .toLowerCase()
-                        .includes(searchQuery.trimStart()),
-                )
-                .toSorted()
-                .map((category) => {
+              {filteredCategories.length === 0 ? (
+                <EmptySearchResult
+                  category="category"
+                  query={searchQuery}
+                  onClick={onClear}
+                />
+              ) : (
+                filteredCategories.map((category) => {
                   const item = TRANSACTION_CATEGORIES_CONFIG[category];
 
                   return (
@@ -120,7 +131,8 @@ export default function EditCategoryModal({
                       }
                     />
                   );
-                })}
+                })
+              )}
             </div>
           </div>
         </section>

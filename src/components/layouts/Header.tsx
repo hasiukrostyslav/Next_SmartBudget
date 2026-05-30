@@ -1,7 +1,7 @@
 import SearchForm from '../forms/SearchForm';
 import DashboardHeading from '../ui/DashboardHeading';
-import UserPanel from '../ui/UserPanel';
 import Time from '../ui/Time';
+import UserPanel from '../ui/UserPanel';
 
 export default function Header() {
   return (

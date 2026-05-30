@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+
 import clsx from 'clsx';
-import Navbar from './Navbar';
-import ButtonIcon from '../ui/buttons/ButtonIcon';
+
 import AnimatedLogo from '../ui/AnimatedLogo';
+import ButtonIcon from '../ui/buttons/ButtonIcon';
+import Navbar from './Navbar';
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);

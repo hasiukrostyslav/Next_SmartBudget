@@ -1,6 +1,8 @@
 import clsx from 'clsx';
-import Input from '../ui/inputs/Input';
+
 import { INPUT_CONFIG } from '@/lib/constants/ui';
+
+import Input from '../ui/inputs/Input';
 
 interface SearchFormProps {
   className?: string;

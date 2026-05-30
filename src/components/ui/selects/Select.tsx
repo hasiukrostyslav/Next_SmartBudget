@@ -1,10 +1,12 @@
 'use client';
 
 import clsx from 'clsx';
+
 import { useSelect } from '@/hooks/useSelect';
+
+import Icon from '../Icon';
 import SelectContent from './SelectContent';
 import SelectDisplay from './SelectDisplay';
-import Icon from '../Icon';
 
 interface SelectProps {
   name: string;

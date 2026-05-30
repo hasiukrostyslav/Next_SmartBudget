@@ -1,7 +1,8 @@
 'use client';
 
-import { useSort } from '@/hooks/useSort';
 import { transactionSortOptions } from '@/lib/constants/ui';
+import { useSort } from '@/hooks/useSort';
+
 import SortButton from '../buttons/SortButton';
 
 export default function TransactionsSortList() {

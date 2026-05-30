@@ -1,5 +1,7 @@
 import Link from 'next/link';
+
 import clsx from 'clsx';
+
 import ThemeButton from '../ui/buttons/ThemeButton';
 import Copyright from '../ui/Copyright';
 

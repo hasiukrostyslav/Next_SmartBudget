@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+
 import { INPUT_CONFIG } from '@/lib/constants/ui';
 
 interface InputLabelProps {

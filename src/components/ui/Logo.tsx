@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+
 import { useTheme } from '@/hooks/useTheme';
 
 interface LogoProps {
