@@ -4,7 +4,7 @@ import { TransactionCreateInput, TransactionUpdate } from '@/types/types';
 
 import { PAGE_SIZE_OPTIONS } from '../constants/constants';
 import { Status, TransactionCategories } from '../constants/enums';
-import { TRANSACTION_SORT_FIELD_MAP } from '../constants/ui';
+import { TRANSACTION_CATEGORIES_CONFIG, TRANSACTION_SORT_FIELD_MAP } from '../constants/ui';
 import { SearchParamsSchema } from '../schemas/schema';
 import { db } from './db';
 
@@ -30,6 +30,27 @@ export async function findTransactionsByUserId(
       const signedA = a.transactionType === 'Expenses' ? -a.amount : a.amount;
       const signedB = b.transactionType === 'Expenses' ? -b.amount : b.amount;
       return order === 'asc' ? signedA - signedB : signedB - signedA;
+    });
+    return {
+      transactions: sorted.slice(skip, skip + limit),
+      transactionCount: all.length,
+    };
+  }
+
+  if (sortField === 'transactionCategory') {
+    const all = await db.transactions.findMany({ where: { userId } });
+    const sorted = all.sort((a, b) => {
+      const labelA =
+        TRANSACTION_CATEGORIES_CONFIG[
+          a.transactionCategory as keyof typeof TRANSACTION_CATEGORIES_CONFIG
+        ]?.text.header ?? a.transactionCategory;
+      const labelB =
+        TRANSACTION_CATEGORIES_CONFIG[
+          b.transactionCategory as keyof typeof TRANSACTION_CATEGORIES_CONFIG
+        ]?.text.header ?? b.transactionCategory;
+      return order === 'asc'
+        ? labelA.localeCompare(labelB)
+        : labelB.localeCompare(labelA);
     });
     return {
       transactions: sorted.slice(skip, skip + limit),
