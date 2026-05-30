@@ -4,7 +4,7 @@ import { IconName } from '@/types/types';
 
 import { INPUT_CONFIG } from '@/lib/constants/ui';
 
-import Icon from '../Icon';
+import Icon from '../icons/Icon';
 
 interface InputIconProps {
   name: IconName;

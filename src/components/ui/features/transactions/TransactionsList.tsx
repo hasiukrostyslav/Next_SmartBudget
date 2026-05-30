@@ -7,7 +7,7 @@ import { TransactionItem } from '@/types/types';
 import { useCheckbox } from '@/hooks/useCheckbox';
 import { useTheme } from '@/hooks/useTheme';
 
-import BulkToolbar from '../BulkToolbar';
+import BulkToolbar from './BulkToolbar';
 import TransactionsItem from './TransactionsItem';
 import TransactionsSort from './TransactionsSort';
 

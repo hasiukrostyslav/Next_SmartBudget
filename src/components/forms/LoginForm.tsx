@@ -13,8 +13,8 @@ import { SignInSchema } from '@/lib/schemas/schema';
 import { usePasswordVisibility } from '@/hooks/usePasswordVisibility';
 
 import Button from '../ui/buttons/Button';
-import FormError from '../ui/FormError';
-import Icon from '../ui/Icon';
+import FormError from '../ui/feedback/FormError';
+import Icon from '../ui/icons/Icon';
 import Input from '../ui/inputs/Input';
 import AuthLink from '../ui/links/AuthLink';
 

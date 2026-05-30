@@ -11,11 +11,11 @@ import {
 } from '@/lib/constants/enums';
 import { useDialog } from '@/hooks/useDialog';
 
-import ButtonIcon from './buttons/ButtonIcon';
-import ToolbarButton from './buttons/ToolbarButton';
-import DeleteModal from './modals/DeleteModal';
-import EditCategoryModal from './modals/EditCategoryModal';
-import EditStatusModal from './modals/EditStatusModal';
+import ButtonIcon from '../../buttons/ButtonIcon';
+import ToolbarButton from '../../buttons/ToolbarButton';
+import DeleteModal from '../../modals/DeleteModal';
+import EditCategoryModal from '../../modals/EditCategoryModal';
+import EditStatusModal from '../../modals/EditStatusModal';
 
 interface BulkToolbarProps {
   isShown: boolean;

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { useSelect } from '@/hooks/useSelect';
 
-import Icon from '../Icon';
+import Icon from '../icons/Icon';
 import SelectContent from './SelectContent';
 import SelectDisplay from './SelectDisplay';
 

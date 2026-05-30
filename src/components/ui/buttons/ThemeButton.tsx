@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { useTheme } from '@/hooks/useTheme';
 
-import Icon from '../Icon';
+import Icon from '../icons/Icon';
 
 export default function ThemeButton({ className }: { className?: string }) {
   const [isInitial, setIsInitial] = useState(true);

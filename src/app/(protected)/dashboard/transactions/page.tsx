@@ -4,13 +4,13 @@ import { getTransactions } from '@/lib/actions/transactionActions';
 import { EMPTY_STATE_TEXT } from '@/lib/constants/messages';
 import { SearchParamsSchema } from '@/lib/schemas/schema';
 
-import EmptyState from '@/components/ui/EmptyState';
-import Error from '@/components/ui/Error';
+import TransactionsCTA from '@/components/ui/features/transactions/TransactionsCTA';
+import TransactionsFilters from '@/components/ui/features/transactions/TransactionsFilters';
+import TransactionsList from '@/components/ui/features/transactions/TransactionsList';
+import EmptyState from '@/components/ui/feedback/EmptyState';
+import Error from '@/components/ui/feedback/Error';
+import Spinner from '@/components/ui/feedback/Spinner';
 import PaginationTable from '@/components/ui/pagination/PaginationTable';
-import Spinner from '@/components/ui/Spinner';
-import TransactionsCTA from '@/components/ui/transactions/TransactionsCTA';
-import TransactionsFilters from '@/components/ui/transactions/TransactionsFilters';
-import TransactionsList from '@/components/ui/transactions/TransactionsList';
 
 type SearchParamsType = { [key: string]: string | string[] | undefined };
 

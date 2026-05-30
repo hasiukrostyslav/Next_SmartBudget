@@ -1,5 +1,5 @@
-import Icon from '../Icon';
-import IconColorful from '../IconColorful';
+import Icon from '../../icons/Icon';
+import IconColorful from '../../icons/IconColorful';
 
 export default function TransactionAccount({
   paymentMethod,

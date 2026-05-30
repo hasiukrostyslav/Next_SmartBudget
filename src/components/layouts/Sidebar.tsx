@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import clsx from 'clsx';
 
-import AnimatedLogo from '../ui/AnimatedLogo';
+import AnimatedLogo from '../ui/logos/AnimatedLogo';
 import ButtonIcon from '../ui/buttons/ButtonIcon';
 import Navbar from './Navbar';
 

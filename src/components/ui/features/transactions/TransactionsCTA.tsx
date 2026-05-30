@@ -3,9 +3,9 @@
 import { EMPTY_STATE_TEXT } from '@/lib/constants/messages';
 import { useDialog } from '@/hooks/useDialog';
 
-import Button from '../buttons/Button';
-import Icon from '../Icon';
-import TransactionModal from '../modals/TransactionModal';
+import Button from '../../buttons/Button';
+import Icon from '../../icons/Icon';
+import TransactionModal from '../../modals/TransactionModal';
 
 interface TransactionsCTAProps {
   buttonSize: 'sm' | 'md' | 'lg';

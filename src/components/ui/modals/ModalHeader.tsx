@@ -5,7 +5,7 @@ import { ItemType } from '@/types/types';
 import { MODAL_CONFIG } from '@/lib/constants/ui';
 
 import ButtonIcon from '../buttons/ButtonIcon';
-import Icon from '../Icon';
+import Icon from '../icons/Icon';
 
 interface ModalHeaderProps {
   operationType: keyof typeof MODAL_CONFIG.header;
