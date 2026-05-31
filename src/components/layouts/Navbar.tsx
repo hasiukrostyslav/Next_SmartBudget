@@ -19,7 +19,7 @@ export default function Navbar({ isCollapsed }: NavbarProps) {
               ? DEFAULT_LOGIN_PATH
               : `/dashboard/${el.page}`
           }
-          text={el.page.replace(el.page[0], el.page[0].toUpperCase())}
+          label={el.page.replace(el.page[0], el.page[0].toUpperCase())}
           isCollapsed={isCollapsed}
         />
       ))}
@@ -30,7 +30,7 @@ export default function Navbar({ isCollapsed }: NavbarProps) {
             key={el.page}
             iconName={el.icon}
             href={`/dashboard/${el.page}`}
-            text={el.page.replace(el.page[0], el.page[0].toUpperCase())}
+            label={el.page.replace(el.page[0], el.page[0].toUpperCase())}
             isCollapsed={isCollapsed}
           />
         ))}
