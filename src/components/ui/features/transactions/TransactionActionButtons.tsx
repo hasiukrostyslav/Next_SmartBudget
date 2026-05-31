@@ -26,6 +26,7 @@ export default function TransactionActionButtons({
           variant="outline"
           size={14}
           className="hover:text-slate-400"
+          tooltipLabel="Duplicate transaction"
         />
         <ButtonIcon
           iconName="edit"
@@ -33,6 +34,7 @@ export default function TransactionActionButtons({
           variant="outline"
           size={14}
           className="hover:text-slate-400"
+          tooltipLabel="Edit transaction"
         />
         <ButtonIcon
           iconName="delete"
@@ -41,6 +43,7 @@ export default function TransactionActionButtons({
           size={14}
           className="hover:text-slate-400"
           onClick={handleOpen}
+          tooltipLabel="Delete transaction"
         />
       </div>
       {isOpen && (

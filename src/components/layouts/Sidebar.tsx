@@ -4,8 +4,8 @@ import { useState } from 'react';
 
 import clsx from 'clsx';
 
-import AnimatedLogo from '../ui/logos/AnimatedLogo';
 import ButtonIcon from '../ui/buttons/ButtonIcon';
+import AnimatedLogo from '../ui/logos/AnimatedLogo';
 import Navbar from './Navbar';
 
 export default function Sidebar() {
@@ -29,6 +29,8 @@ export default function Sidebar() {
         size={24}
         shape="square"
         variant="outline"
+        tooltipLabel={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        tooltipSide="right"
         className={clsx(
           'mt-auto self-end rounded-lg',
           'text-blue-400 hover:bg-slate-200 dark:text-blue-200 dark:hover:bg-slate-700',
