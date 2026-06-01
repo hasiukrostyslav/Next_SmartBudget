@@ -6,6 +6,7 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 import { DeleteItem, ItemType } from '@/types/types';
 
 import { calcDeletedBalance, getFormattedAmount } from '@/lib/utils/utils';
+import { useToast } from '@/hooks/useToast';
 
 import Dialog from './Dialog';
 import ModalFooter from './ModalFooter';
@@ -27,6 +28,7 @@ export default function DeleteModal({
   handleSubmit,
 }: DeleteModalProps) {
   const [isPending, startTransition] = useTransition();
+  const { toastSuccess } = useToast();
 
   const handleDelete = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -35,6 +37,7 @@ export default function DeleteModal({
       await handleSubmit();
 
       handleClose();
+      toastSuccess('delete', 'Transaction');
     });
   };
 

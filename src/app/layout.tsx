@@ -28,7 +28,18 @@ export default function RootLayout({
       <body className={`${roboto.className}`}>
         <main className="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-300">
           <ThemeProvider>
-            <ToastContainer limit={1} />
+            <ToastContainer
+              limit={3}
+              closeButton={false}
+              hideProgressBar
+              toastStyle={{
+                background: 'transparent',
+                boxShadow: 'none',
+                padding: 0,
+                minHeight: 'unset',
+                overflow: 'visible',
+              }}
+            />
             {children}
           </ThemeProvider>
         </main>
