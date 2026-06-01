@@ -1,6 +1,6 @@
 import { Zoom, type ToastPosition } from 'react-toastify';
 
-// Options for Toast Component
+// Toast options
 export const toastOptions = {
   position: 'top-center' as ToastPosition,
   autoClose: 3000,

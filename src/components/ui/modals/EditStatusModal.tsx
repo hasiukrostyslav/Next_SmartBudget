@@ -8,6 +8,7 @@ import { changeTransactionStatus } from '@/lib/actions/transactionActions';
 import { Status, STATUSES } from '@/lib/constants/enums';
 import { STATUS_CONFIG } from '@/lib/constants/ui';
 import { useSelectValue } from '@/hooks/useSelectValue';
+import { useToast } from '@/hooks/useToast';
 
 import RadioCard from '../selects/RadioCard';
 import Dialog from './Dialog';
@@ -30,6 +31,7 @@ export default function EditStatusModal({
 }: EditStatusModalProps) {
   const [isPending, startTransition] = useTransition();
   const { selectedValue, setSelectedValue } = useSelectValue();
+  const { toastSuccess } = useToast();
   const initialValue = [...new Set(selectedItems.map((el) => el.status))];
 
   const handleSubmit = (e: React.SyntheticEvent) => {
@@ -41,7 +43,10 @@ export default function EditStatusModal({
         selectedValue as Status,
       );
 
-      if (result.success) handleClose();
+      if (result.success) {
+        handleClose();
+        toastSuccess('edit', 'Transaction');
+      }
     });
   };
 

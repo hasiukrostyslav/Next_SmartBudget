@@ -13,6 +13,7 @@ import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
 import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useTheme } from '@/hooks/useTheme';
+import { useToast } from '@/hooks/useToast';
 
 import EmptySearchResult from '@/components/ui/feedback/EmptySearchResult';
 
@@ -40,6 +41,7 @@ export default function EditCategoryModal({
   const [isPending, startTransition] = useTransition();
   const { selectedValue, setSelectedValue } = useSelectValue();
   const { searchQuery, role, onChange, onClear } = useSearchInput();
+  const { toastSuccess } = useToast();
 
   const initialValue = [...new Set(selectedItems.map((el) => el.category))];
   const filteredCategories = TRANSACTION_CATEGORIES.filter((el) =>
@@ -60,7 +62,10 @@ export default function EditCategoryModal({
         selectedValue as TransactionCategories,
       );
 
-      if (result.success) handleClose();
+      if (result.success) {
+        handleClose();
+        toastSuccess('edit', 'Transaction');
+      }
     });
   };
 
