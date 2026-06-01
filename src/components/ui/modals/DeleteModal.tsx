@@ -44,7 +44,7 @@ export default function DeleteModal({
   const balance = calcDeletedBalance(items);
 
   return (
-    <Dialog ref={ref} className="max-w-4/12 px-0 py-0">
+    <Dialog ref={ref} className="max-w-4/12">
       <form onSubmit={handleDelete}>
         <ModalHeader
           itemsCount={items.length}

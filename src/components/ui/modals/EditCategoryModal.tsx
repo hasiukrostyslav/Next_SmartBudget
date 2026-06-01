@@ -20,6 +20,8 @@ import EmptySearchResult from '@/components/ui/feedback/EmptySearchResult';
 import Input from '../inputs/Input';
 import RadioCard from '../selects/RadioCard';
 import Dialog from './Dialog';
+import ModalFieldLabel from './ModalFieldLabel';
+import ModalFieldWrapper from './ModalFieldWrapper';
 import ModalFooter from './ModalFooter';
 import ModalHeader from './ModalHeader';
 
@@ -70,7 +72,7 @@ export default function EditCategoryModal({
   };
 
   return (
-    <Dialog ref={ref} className="max-w-5/12 px-0 py-0">
+    <Dialog ref={ref} className="max-w-5/12">
       <form
         onSubmit={handleSubmit}
         className={clsx('flex min-w-84 flex-col dark:text-slate-400')}
@@ -88,10 +90,8 @@ export default function EditCategoryModal({
             and related records.
           </p>
 
-          <div className="flex flex-col gap-2">
-            <h4 className="text-xs">
-              NEW CATEGORY <span className="text-red-500">*</span>
-            </h4>
+          <ModalFieldWrapper>
+            <ModalFieldLabel label="New category" />
             <Input
               name="search"
               placeholder="Search categories..."
@@ -139,7 +139,7 @@ export default function EditCategoryModal({
                 })
               )}
             </div>
-          </div>
+          </ModalFieldWrapper>
         </section>
 
         <ModalFooter

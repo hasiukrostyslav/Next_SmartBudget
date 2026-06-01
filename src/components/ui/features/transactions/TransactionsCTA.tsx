@@ -5,7 +5,7 @@ import { useDialog } from '@/hooks/useDialog';
 
 import Button from '../../buttons/Button';
 import Icon from '../../icons/Icon';
-import TransactionModal from '../../modals/TransactionModal';
+import CreateTransactionModal from '../../modals/CreateTransactionModal';
 
 interface TransactionsCTAProps {
   buttonSize: 'sm' | 'md' | 'lg';
@@ -38,7 +38,9 @@ export default function TransactionsCTA({
             {configCTA.secondaryLabel}
           </Button>
         )}
-      {isOpen && <TransactionModal ref={dialogRef} handleClose={handleClose} />}
+      {isOpen && (
+        <CreateTransactionModal ref={dialogRef} handleClose={handleClose} />
+      )}
     </div>
   );
 }

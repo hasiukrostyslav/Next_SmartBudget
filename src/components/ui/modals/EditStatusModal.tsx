@@ -12,6 +12,8 @@ import { useToast } from '@/hooks/useToast';
 
 import RadioCard from '../selects/RadioCard';
 import Dialog from './Dialog';
+import ModalFieldLabel from './ModalFieldLabel';
+import ModalFieldWrapper from './ModalFieldWrapper';
 import ModalFooter from './ModalFooter';
 import ModalHeader from './ModalHeader';
 
@@ -51,7 +53,7 @@ export default function EditStatusModal({
   };
 
   return (
-    <Dialog ref={ref} className="max-w-4/12 px-0 py-0">
+    <Dialog ref={ref} className="max-w-4/12">
       <form
         onSubmit={handleSubmit}
         className={clsx('flex min-w-84 flex-col dark:text-slate-400')}
@@ -69,10 +71,8 @@ export default function EditStatusModal({
             and related records.
           </p>
 
-          <div className="flex flex-col gap-2">
-            <h4 className="text-xs">
-              NEW STATUS <span className="text-red-500">*</span>
-            </h4>
+          <ModalFieldWrapper>
+            <ModalFieldLabel label="New status" />
             <div className="flex flex-col gap-3">
               {STATUSES.map((status) => {
                 const item = STATUS_CONFIG[status];
@@ -93,7 +93,7 @@ export default function EditStatusModal({
                 );
               })}
             </div>
-          </div>
+          </ModalFieldWrapper>
         </section>
 
         <ModalFooter
