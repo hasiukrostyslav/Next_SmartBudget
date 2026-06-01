@@ -19,7 +19,8 @@ export default function Toast({ role, operation, entity }: ToastProps) {
   return (
     <div
       className={clsx(
-        'flex w-full items-center gap-3 rounded-md border border-l-4',
+        'flex w-full items-center gap-3 rounded-md border-l-4 px-4 py-2',
+        'bg-slate-50 shadow-slate-800 dark:bg-slate-800',
         config.style.border,
       )}
     >
@@ -27,7 +28,9 @@ export default function Toast({ role, operation, entity }: ToastProps) {
         <Icon name={config.icon} size={16} />
       </div>
       <div>
-        <h2 className="flex items-center gap-2 font-semibold">{header}</h2>
+        <h2 className="flex items-center gap-2 font-semibold dark:text-slate-400">
+          {header}
+        </h2>
         <p className="text-xs text-slate-500">{description}</p>
       </div>
     </div>

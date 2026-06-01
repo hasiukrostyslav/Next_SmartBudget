@@ -4,19 +4,21 @@ import { TOAST_CONFIG } from '@/lib/constants/ui';
 
 import Toast from '@/components/ui/feedback/Toast';
 
-import { useTheme } from './useTheme';
-
 export function useToast() {
-  const { theme } = useTheme();
   const config = {
     position: 'bottom-center' as ToastPosition,
-    autoClose: 10000,
+    autoClose: 2000,
     hideProgressBar: true,
     closeOnClick: false,
     pauseOnHover: true,
     draggable: true,
-    theme,
     transition: Zoom,
+    style: {
+      background: 'transparent',
+      padding: 0,
+      minHeight: 'unset',
+      overflow: 'visible',
+    },
   };
 
   const toastSuccess = (
