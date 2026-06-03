@@ -24,7 +24,7 @@ export default function SegmentedControlRadioItem({
       tabIndex={0}
       role="radio"
       className={clsx(
-        'outline-input w-1/2 cursor-pointer rounded-md px-4 py-2',
+        'outline-input w-1/2 cursor-pointer rounded-md px-4 py-1.5',
         selectedValue === option
           ? `bg-slate-50 dark:bg-slate-700 ${color}`
           : 'text-slate-500',

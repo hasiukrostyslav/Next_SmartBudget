@@ -1,10 +1,16 @@
 'use client';
 
+import { clsx } from 'clsx';
+
+import { TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
+import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
 import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
+import { useTheme } from '@/hooks/useTheme';
 
 import Input from '../inputs/Input';
 import TextArea from '../inputs/TextArea';
+import RadioCard from '../selects/RadioCard';
 import SegmentedControl from '../selects/SegmentedControl';
 import Dialog from './Dialog';
 import ModalFieldLabel from './ModalFieldLabel';
@@ -26,11 +32,12 @@ export default function CreateTransactionModal({
   ref,
   handleClose,
 }: CreateTransactionModalProps) {
+  const { theme } = useTheme();
   const { selectedValue, setSelectedValue } = useSelectValue();
   const { searchQuery, role, onChange, onClear } = useSearchInput();
 
   return (
-    <Dialog ref={ref} className="max-w-5/12">
+    <Dialog ref={ref} className="min-w-2/5">
       <form className="flex flex-col dark:text-slate-400">
         <ModalHeader
           operationType="create"
@@ -38,17 +45,24 @@ export default function CreateTransactionModal({
           handleClose={handleClose}
         />
 
-        <section className="flex flex-col gap-4 px-6 py-5">
-          <ModalFieldWrapper>
-            <ModalFieldLabel label="Transaction type" />
-            <SegmentedControl
-              options={TYPE_CONFIG}
-              selectedValue={selectedValue}
-              handleSelect={setSelectedValue}
-            />
-          </ModalFieldWrapper>
+        <section className="flex flex-col gap-2 px-6 py-4">
+          <div className="flex items-center justify-between gap-4">
+            <ModalFieldWrapper>
+              <ModalFieldLabel label="Transaction type" />
+              <SegmentedControl
+                options={TYPE_CONFIG}
+                selectedValue={selectedValue}
+                handleSelect={setSelectedValue}
+              />
+            </ModalFieldWrapper>
 
-          <div className="flex items-center justify-between">
+            <ModalFieldWrapper>
+              <ModalFieldLabel label="Status" />
+              <Input name="amount" padding="md" />
+            </ModalFieldWrapper>
+          </div>
+
+          <div className="flex items-center justify-between gap-4">
             <ModalFieldWrapper>
               <ModalFieldLabel label="Transaction name" />
               <Input
@@ -75,7 +89,43 @@ export default function CreateTransactionModal({
               onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
               trailingButton={{ role, onClick: onClear }}
             />
+            <div
+              className={clsx(
+                'grid h-24 grid-cols-3 gap-2 overflow-auto',
+                'scrollbar mt-2',
+                theme === 'dark' ? 'scrollbar-dark' : '',
+              )}
+            >
+              {TRANSACTION_CATEGORIES.map((category) => {
+                const item = TRANSACTION_CATEGORIES_CONFIG[category];
+
+                return (
+                  <RadioCard
+                    key={category}
+                    option={category}
+                    icon={item.icon}
+                    text={item.text}
+                    styleConfig={item.style}
+                    isCurrent={false}
+                    withExtraContent={false}
+                    selectedValue={selectedValue}
+                    handleSelect={setSelectedValue}
+                  />
+                );
+              })}
+            </div>
           </ModalFieldWrapper>
+
+          <div className="flex items-center justify-between gap-4">
+            <ModalFieldWrapper>
+              <ModalFieldLabel label="Date" />
+              <Input name="name" padding="md" />
+            </ModalFieldWrapper>
+            <ModalFieldWrapper>
+              <ModalFieldLabel label="Payment method" />
+              <Input name="amount" padding="md" />
+            </ModalFieldWrapper>
+          </div>
 
           <ModalFieldWrapper>
             <ModalFieldLabel label="note" isOptional />

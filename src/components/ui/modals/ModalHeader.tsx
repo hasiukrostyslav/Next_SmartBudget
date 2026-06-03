@@ -30,7 +30,7 @@ export default function ModalHeader({
     <header
       className={clsx(
         'flex items-center gap-3',
-        'border-b border-slate-300 p-6 pt-3 pb-5 dark:border-slate-600',
+        'border-b border-slate-300 px-6 py-4 dark:border-slate-600',
       )}
     >
       <div className={clsx('rounded-md p-2', headerConfig.iconBgColor)}>

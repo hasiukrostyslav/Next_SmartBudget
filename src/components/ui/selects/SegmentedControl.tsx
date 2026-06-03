@@ -22,7 +22,7 @@ export default function SegmentedControl({
   return (
     <div
       className={clsx(
-        'flex items-center justify-between gap-2 rounded-md p-2',
+        'flex items-center justify-between gap-2 rounded-md p-1',
         'w-full bg-slate-500/10',
       )}
     >

@@ -91,10 +91,10 @@ export const BUTTON_CONFIG = {
     focus-visible:border-transparent dark:hover:bg-slate-800`,
   },
   size: {
-    xs: 'outline-round-sm px-2 ',
-    sm: 'outline-round-sm px-2 py-1',
-    md: 'outline-round-sm px-2 py-1.5',
-    lg: 'outline-round-md px-3 py-2.5',
+    xs: 'outline-round-sm px-3 py-1 text-sm',
+    sm: 'outline-round-sm px-3 py-1',
+    md: 'outline-round-sm px-3 py-1.5',
+    lg: 'outline-round-md px-3.5 py-2.5',
   },
 } as const;
 

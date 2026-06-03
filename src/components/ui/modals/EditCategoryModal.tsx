@@ -129,6 +129,7 @@ export default function EditCategoryModal({
                       handleSelect={setSelectedValue}
                       icon={item.icon}
                       text={item.text}
+                      withExtraContent
                       styleConfig={item.style}
                       isCurrent={
                         initialValue.length === 1 &&
