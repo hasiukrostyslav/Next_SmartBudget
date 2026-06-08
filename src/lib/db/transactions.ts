@@ -1,6 +1,6 @@
 import z from 'zod';
 
-import { TransactionCreateInput, TransactionUpdate } from '@/types/types';
+import { CreateTransactionData, UpdateTransactionData } from '@/types/types';
 
 import { PAGE_SIZE_OPTIONS } from '../constants/constants';
 import { Status, TransactionCategories } from '../constants/enums';
@@ -82,7 +82,7 @@ export async function findTransactionById(id: string, userId: string) {
 // Create Transaction
 export async function createTransaction(
   userId: string,
-  transaction: TransactionCreateInput,
+  transaction: CreateTransactionData,
 ) {
   const {
     transactionType,
@@ -114,7 +114,7 @@ export async function createTransaction(
 export async function updateTransactionById(
   id: string,
   userId: string,
-  data: TransactionUpdate,
+  data: UpdateTransactionData,
 ) {
   return db.transactions.updateMany({
     where: { transactionId: id, userId },

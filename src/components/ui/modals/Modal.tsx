@@ -6,7 +6,7 @@ interface DialogProps {
   className?: string;
 }
 
-export default function Dialog({ ref, children, className }: DialogProps) {
+export default function Modal({ ref, children, className }: DialogProps) {
   return (
     <dialog
       ref={ref}

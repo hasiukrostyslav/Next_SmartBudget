@@ -13,7 +13,7 @@ import Input from '../inputs/Input';
 import TextArea from '../inputs/TextArea';
 import RadioCard from '../selects/RadioCard';
 import SegmentedControl from '../selects/SegmentedControl';
-import Dialog from './Dialog';
+import Modal from './Modal';
 import ModalFieldLabel from './ModalFieldLabel';
 import ModalFieldWrapper from './ModalFieldWrapper';
 import ModalFooter from './ModalFooter';
@@ -39,7 +39,7 @@ export default function CreateTransactionModal({
   const { register, handleSubmit } = useForm();
 
   return (
-    <Dialog ref={ref} className="min-w-2/5">
+    <Modal ref={ref} className="min-w-2/5">
       <form className="flex flex-col dark:text-slate-400">
         <ModalHeader
           operationType="create"
@@ -142,6 +142,6 @@ export default function CreateTransactionModal({
           handleClose={handleClose}
         />
       </form>
-    </Dialog>
+    </Modal>
   );
 }

@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 
 import z from 'zod';
 
-import { TransactionCreateInput, TransactionUpdate } from '@/types/types';
+import { CreateTransactionData, UpdateTransactionData } from '@/types/types';
 
 import { TRANSACTIONS_PATH } from '@/routes';
 import { auth } from '@/auth/auth';
@@ -107,7 +107,7 @@ export async function createTransaction(
     };
 
   try {
-    const data = await create(userId, parsed.data as TransactionCreateInput);
+    const data = await create(userId, parsed.data as CreateTransactionData);
     revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: HTTP_STATUS.CREATED, data };
   } catch (error) {
@@ -121,7 +121,7 @@ export async function createTransaction(
 }
 
 // Edit Transactions
-export async function editTransaction(id: string, data: TransactionUpdate) {
+export async function editTransaction(id: string, data: UpdateTransactionData) {
   const userId = await getUserId();
   if (!userId)
     return {

@@ -5,8 +5,10 @@ import { DeleteItem } from '@/types/types';
 import { deleteTransaction } from '@/lib/actions/transactionActions';
 import { useDialog } from '@/hooks/useDialog';
 
+import DeleteForm from '@/components/forms/DeleteForm';
+
 import ButtonIcon from '../../buttons/ButtonIcon';
-import DeleteModal from '../../modals/DeleteModal';
+import Modal from '../../modals/Modal';
 
 interface TransactionActionButtonsProps {
   item: DeleteItem;
@@ -47,13 +49,14 @@ export default function TransactionActionButtons({
         />
       </div>
       {isOpen && (
-        <DeleteModal
-          ref={dialogRef}
-          handleClose={handleClose}
-          itemType="transaction"
-          items={[item]}
-          handleSubmit={() => deleteTransaction(item.id)}
-        />
+        <Modal ref={dialogRef} className="max-w-4/12">
+          <DeleteForm
+            handleClose={handleClose}
+            itemType="transaction"
+            items={[item]}
+            handleSubmit={() => deleteTransaction(item.id)}
+          />
+        </Modal>
       )}
     </>
   );

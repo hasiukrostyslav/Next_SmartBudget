@@ -8,13 +8,6 @@ import { icons } from '@/lib/constants/icons';
 
 export type IconName = (typeof icons)[number]['role'];
 
-// Auth input with icons types
-export interface InputIcons {
-  name: Extract<IconName, 'name'>;
-  email: Extract<IconName, 'email'>;
-  password: Extract<IconName, 'password'>;
-}
-
 export interface TransactionItem {
   createdAt: Date;
   updatedAt: Date;
@@ -30,11 +23,11 @@ export interface TransactionItem {
   status: Status;
 }
 
-export type TransactionCreateInput = Omit<
+export type CreateTransactionData = Omit<
   TransactionItem,
-  'createdAt' | 'updatedAt' | 'userId' | 'transactionId'
+  'updatedAt' | 'userId' | 'transactionId'
 >;
-export type TransactionUpdate = Partial<
+export type UpdateTransactionData = Partial<
   Omit<TransactionItem, 'updatedAt' | 'userId' | 'transactionId'>
 >;
 

@@ -11,11 +11,13 @@ import {
 } from '@/lib/constants/enums';
 import { useDialog } from '@/hooks/useDialog';
 
+import DeleteForm from '@/components/forms/DeleteForm';
+
+import EditItemStatusForm from '../../../forms/EditItemStatusForm';
+import EditTransactionCategoryForm from '../../../forms/EditTransactionCategoryForm';
 import ButtonIcon from '../../buttons/ButtonIcon';
 import ToolbarButton from '../../buttons/ToolbarButton';
-import DeleteModal from '../../modals/DeleteModal';
-import EditCategoryModal from '../../modals/EditCategoryModal';
-import EditStatusModal from '../../modals/EditStatusModal';
+import Modal from '../../modals/Modal';
 
 interface BulkToolbarProps {
   isShown: boolean;
@@ -121,43 +123,46 @@ export default function BulkToolbar({
       />
 
       {isOpenEditStatusModal && (
-        <EditStatusModal
-          ref={editStatusModalRef}
-          handleClose={closeEditStatusModal}
-          selectedItems={selectedItems.map((el) => ({
-            id: el.itemId,
-            status: el.status,
-          }))}
-        />
+        <Modal ref={editStatusModalRef} className="max-w-4/12">
+          <EditItemStatusForm
+            handleClose={closeEditStatusModal}
+            selectedItems={selectedItems.map((el) => ({
+              id: el.itemId,
+              status: el.status,
+            }))}
+          />
+        </Modal>
       )}
 
       {isOpenEditCategoryModal && (
-        <EditCategoryModal
-          ref={editCategoryModalRef}
-          handleClose={closeEditCategoryModal}
-          selectedItems={selectedItems.map((el) => ({
-            id: el.itemId,
-            category: el.category,
-          }))}
-        />
+        <Modal ref={editCategoryModalRef} className="max-w-5/12">
+          <EditTransactionCategoryForm
+            handleClose={closeEditCategoryModal}
+            selectedItems={selectedItems.map((el) => ({
+              id: el.itemId,
+              category: el.category,
+            }))}
+          />
+        </Modal>
       )}
 
       {isOpenDeleteModal && (
-        <DeleteModal
-          ref={deleteModalRef}
-          itemType="transaction"
-          items={selectedItems.map((el) => ({
-            id: el.itemId,
-            name: el.itemName,
-            type: el.type,
-            currency: el.currency,
-            amount: el.amount,
-          }))}
-          handleClose={closeDeleteModal}
-          handleSubmit={() =>
-            deleteManyTransaction(selectedItems.map((el) => el.itemId))
-          }
-        />
+        <Modal ref={deleteModalRef} className="max-w-4/12">
+          <DeleteForm
+            itemType="transaction"
+            items={selectedItems.map((el) => ({
+              id: el.itemId,
+              name: el.itemName,
+              type: el.type,
+              currency: el.currency,
+              amount: el.amount,
+            }))}
+            handleClose={closeDeleteModal}
+            handleSubmit={() =>
+              deleteManyTransaction(selectedItems.map((el) => el.itemId))
+            }
+          />
+        </Modal>
       )}
     </div>
   );
