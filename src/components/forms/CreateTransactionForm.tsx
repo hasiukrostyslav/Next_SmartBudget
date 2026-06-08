@@ -1,13 +1,16 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { clsx } from 'clsx';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
+import { OperationType, TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
 import {
   TRANSACTION_CATEGORIES_CONFIG,
   TRANSACTION_TYPE_CONFIG,
 } from '@/lib/constants/transactions';
+import { CreateTransactionSchema } from '@/lib/schemas/transaction.schema';
 import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useTheme } from '@/hooks/useTheme';
@@ -21,6 +24,8 @@ import ModalHeader from '../ui/modals/ModalHeader';
 import RadioCard from '../ui/selects/RadioCard';
 import SegmentedControl from '../ui/selects/SegmentedControl';
 
+type FormData = z.infer<typeof CreateTransactionSchema>;
+
 interface CreateTransactionFormProps {
   onClose: () => void;
 }
@@ -31,12 +36,22 @@ export default function CreateTransactionForm({
   const { theme } = useTheme();
   const { selectedValue, setSelectedValue } = useSelectValue();
   const { searchQuery, role, onChange, onClear } = useSearchInput();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm({
+    resolver: zodResolver(CreateTransactionSchema),
+  });
+
+  async function onSubmit(data: FormData) {
+    console.log(data);
+  }
 
   return (
-    <form className="flex flex-col dark:text-slate-400">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      autoComplete="off"
+      className="flex flex-col dark:text-slate-400"
+    >
       <ModalHeader
-        operationType="create"
+        operationType={OperationType.CREATE}
         itemType="transaction"
         onClose={onClose}
       />
@@ -130,7 +145,7 @@ export default function CreateTransactionForm({
       </section>
 
       <ModalFooter
-        operationType="create"
+        operationType={OperationType.CREATE}
         itemType="transaction"
         isSubmitting={false}
         onClose={onClose}

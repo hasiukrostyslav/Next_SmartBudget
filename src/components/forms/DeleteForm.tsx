@@ -5,6 +5,7 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 
 import { DeleteItem, ItemType } from '@/types/types';
 
+import { OperationType } from '@/lib/constants/enums';
 import { calcDeletedBalance, getFormattedAmount } from '@/lib/utils/utils';
 import { useToast } from '@/hooks/useToast';
 
@@ -34,7 +35,7 @@ export default function DeleteForm({
       await onSubmit();
 
       onClose();
-      toastSuccess('delete', 'Transaction');
+      toastSuccess(OperationType.DELETE, 'Transaction');
     });
   };
 
@@ -45,7 +46,7 @@ export default function DeleteForm({
       <ModalHeader
         itemsCount={items.length}
         itemType={itemType}
-        operationType="delete"
+        operationType={OperationType.DELETE}
         onClose={onClose}
       />
 
@@ -102,7 +103,7 @@ export default function DeleteForm({
         itemsCount={items.length}
         itemType={itemType}
         disabled={isPending}
-        operationType="delete"
+        operationType={OperationType.DELETE}
         isSubmitting={isPending}
         onClose={onClose}
       />

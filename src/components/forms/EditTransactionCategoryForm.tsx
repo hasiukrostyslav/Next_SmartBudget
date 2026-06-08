@@ -6,6 +6,7 @@ import clsx from 'clsx';
 
 import { changeTransactionCategory } from '@/lib/actions/transactionActions';
 import {
+    OperationType,
   TRANSACTION_CATEGORIES,
   TransactionCategories,
 } from '@/lib/constants/enums';
@@ -63,7 +64,7 @@ export default function EditTransactionCategoryForm({
 
       if (result.success) {
         onClose();
-        toastSuccess('edit', 'Transaction');
+        toastSuccess(OperationType.EDIT, 'Transaction');
       }
     });
   };
@@ -139,7 +140,7 @@ export default function EditTransactionCategoryForm({
       </section>
 
       <ModalFooter
-        operationType="edit"
+        operationType={OperationType.EDIT}
         itemType="transaction"
         disabled={
           isPending ||

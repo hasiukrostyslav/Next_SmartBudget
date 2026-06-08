@@ -5,7 +5,7 @@ import { useTransition } from 'react';
 import clsx from 'clsx';
 
 import { changeTransactionStatus } from '@/lib/actions/transactionActions';
-import { Status, STATUSES } from '@/lib/constants/enums';
+import { OperationType, Status, STATUSES } from '@/lib/constants/enums';
 import { STATUS_CONFIG } from '@/lib/constants/transactions';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useToast } from '@/hooks/useToast';
@@ -44,7 +44,7 @@ export default function EditItemStatusForm({
 
       if (result.success) {
         onClose();
-        toastSuccess('edit', 'Transaction');
+        toastSuccess(OperationType.EDIT, 'Transaction');
       }
     });
   };
@@ -94,7 +94,7 @@ export default function EditItemStatusForm({
       </section>
 
       <ModalFooter
-        operationType="edit"
+        operationType={OperationType.EDIT}
         itemType="transaction"
         disabled={
           isPending ||

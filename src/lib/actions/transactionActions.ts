@@ -24,11 +24,12 @@ import {
   updateTransactionStatusMany,
 } from '../db/transactions';
 import {
+  CreateTransactionSchema,
   SearchParamsSchema,
-  TransactionCreateSchema,
 } from '../schemas/transaction.schema';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
+type CreateTransactionDataType = z.infer<typeof CreateTransactionSchema>;
 
 async function getUserId(): Promise<string | null> {
   const session = await auth();
@@ -107,7 +108,7 @@ export async function createTransaction(
     };
 
   try {
-    const data = await create(userId, parsed.data as CreateTransactionData);
+    const data = await create(userId, parsed.data as CreateTransactionDataType);
     revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: HTTP_STATUS.CREATED, data };
   } catch (error) {
