@@ -8,7 +8,7 @@ import { signInUser } from '@/auth/utils';
 import { SALT_ROUNDS } from '../constants/constants';
 import { ERROR_MESSAGES } from '../constants/messages';
 import { createUser, getUserByEmail } from '../db/users';
-import { SignInSchema, SignUpSchema } from '../schemas/schema';
+import { SignInSchema, SignUpSchema } from '../schemas/auth.schema';
 
 type SignUpFormData = z.infer<typeof SignUpSchema>;
 type SignInFormData = z.infer<typeof SignInSchema>;

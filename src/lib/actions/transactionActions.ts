@@ -10,6 +10,7 @@ import { TRANSACTIONS_PATH } from '@/routes';
 import { auth } from '@/auth/auth';
 
 import { Status, TransactionCategories } from '../constants/enums';
+import { HTTP_STATUS } from '../constants/http';
 import { ERROR_MESSAGES } from '../constants/messages';
 import {
   createTransaction as create,
@@ -22,7 +23,10 @@ import {
   updateTransactionCategoryMany,
   updateTransactionStatusMany,
 } from '../db/transactions';
-import { SearchParamsSchema, TransactionCreateSchema } from '../schemas/schema';
+import {
+  SearchParamsSchema,
+  TransactionCreateSchema,
+} from '../schemas/transaction.schema';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 
@@ -37,18 +41,18 @@ export async function getTransactions(props?: SearchParamsType) {
   if (!userId)
     return {
       success: false,
-      status: 401,
+      status: HTTP_STATUS.UNAUTHORIZED,
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   try {
     const data = await findTransactionsByUserId(userId, props);
-    return { success: true, status: 200, data };
+    return { success: true, status: HTTP_STATUS.OK, data };
   } catch (error) {
     console.error('[getTransactions]', error);
     return {
       success: false,
-      status: 500,
+      status: HTTP_STATUS.SERVER_ERROR,
       error: ERROR_MESSAGES.transaction.FETCH_MANY,
     };
   }
@@ -59,7 +63,7 @@ export async function getTransaction(id: string) {
   if (!userId)
     return {
       success: false,
-      status: 401,
+      status: HTTP_STATUS.UNAUTHORIZED,
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
@@ -68,15 +72,15 @@ export async function getTransaction(id: string) {
     if (!data)
       return {
         success: false,
-        status: 404,
+        status: HTTP_STATUS.NOT_FOUND,
         error: ERROR_MESSAGES.transaction.NOT_FOUND,
       };
-    return { success: true, status: 200, data };
+    return { success: true, status: HTTP_STATUS.OK, data };
   } catch (error) {
     console.error('[getTransaction]', error);
     return {
       success: false,
-      status: 500,
+      status: HTTP_STATUS.SERVER_ERROR,
       error: ERROR_MESSAGES.transaction.FETCH_ONE,
     };
   }
@@ -90,7 +94,7 @@ export async function createTransaction(
   if (!userId)
     return {
       success: false,
-      status: 401,
+      status: HTTP_STATUS.UNAUTHORIZED,
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
@@ -98,19 +102,19 @@ export async function createTransaction(
   if (!parsed.success)
     return {
       success: false,
-      status: 422,
+      status: HTTP_STATUS.UNPROCESSABLE_ENTITY,
       error: parsed.error.flatten().fieldErrors,
     };
 
   try {
     const data = await create(userId, parsed.data as TransactionCreateInput);
     revalidatePath(TRANSACTIONS_PATH);
-    return { success: true, status: 201, data };
+    return { success: true, status: HTTP_STATUS.CREATED, data };
   } catch (error) {
     console.error('[createTransaction]', error);
     return {
       success: false,
-      status: 500,
+      status: HTTP_STATUS.SERVER_ERROR,
       error: ERROR_MESSAGES.transaction.CREATE,
     };
   }
@@ -122,19 +126,19 @@ export async function editTransaction(id: string, data: TransactionUpdate) {
   if (!userId)
     return {
       success: false,
-      status: 401,
+      status: HTTP_STATUS.UNAUTHORIZED,
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   try {
     const result = await updateTransactionById(id, userId, data);
     revalidatePath(TRANSACTIONS_PATH);
-    return { success: true, status: 200, data: result };
+    return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
     console.error('[editTransaction]', error);
     return {
       success: false,
-      status: 500,
+      status: HTTP_STATUS.SERVER_ERROR,
       error: ERROR_MESSAGES.transaction.UPDATE,
     };
   }
@@ -148,7 +152,7 @@ export async function changeTransactionStatus(
   if (!userId)
     return {
       success: false,
-      status: 401,
+      status: HTTP_STATUS.UNAUTHORIZED,
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
@@ -159,12 +163,12 @@ export async function changeTransactionStatus(
       status,
     );
     revalidatePath(TRANSACTIONS_PATH);
-    return { success: true, status: 200, data: result };
+    return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
     console.error('[changeTransactionStatus]', error);
     return {
       success: false,
-      status: 500,
+      status: HTTP_STATUS.SERVER_ERROR,
       error: ERROR_MESSAGES.transaction.UPDATE_STATUS,
     };
   }
@@ -178,7 +182,7 @@ export async function changeTransactionCategory(
   if (!userId)
     return {
       success: false,
-      status: 401,
+      status: HTTP_STATUS.UNAUTHORIZED,
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
@@ -189,12 +193,12 @@ export async function changeTransactionCategory(
       category,
     );
     revalidatePath(TRANSACTIONS_PATH);
-    return { success: true, status: 200, data: result };
+    return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
     console.error('[changeTransactionCategory]', error);
     return {
       success: false,
-      status: 500,
+      status: HTTP_STATUS.SERVER_ERROR,
       error: ERROR_MESSAGES.transaction.UPDATE_CATEGORY,
     };
   }
@@ -206,19 +210,19 @@ export async function deleteTransaction(transactionId: string) {
   if (!userId)
     return {
       success: false,
-      status: 401,
+      status: HTTP_STATUS.UNAUTHORIZED,
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   try {
     const result = await deleteTransactionById(transactionId, userId);
     revalidatePath(TRANSACTIONS_PATH);
-    return { success: true, status: 200, data: result };
+    return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
     console.error('[deleteTransaction]', error);
     return {
       success: false,
-      status: 500,
+      status: HTTP_STATUS.SERVER_ERROR,
       error: ERROR_MESSAGES.transaction.DELETE,
     };
   }
@@ -229,19 +233,19 @@ export async function deleteManyTransaction(transactionId: string[]) {
   if (!userId)
     return {
       success: false,
-      status: 401,
+      status: HTTP_STATUS.UNAUTHORIZED,
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   try {
     const result = await deleteTransactionsMany(transactionId, userId);
     revalidatePath(TRANSACTIONS_PATH);
-    return { success: true, status: 200, data: result };
+    return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
     console.error('[deleteManyTransaction]', error);
     return {
       success: false,
-      status: 500,
+      status: HTTP_STATUS.SERVER_ERROR,
       error: ERROR_MESSAGES.transaction.DELETE_MANY,
     };
   }
@@ -252,19 +256,19 @@ export async function deleteAllTransaction() {
   if (!userId)
     return {
       success: false,
-      status: 401,
+      status: HTTP_STATUS.UNAUTHORIZED,
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
   try {
     const result = await deleteTransactionsAll(userId);
     revalidatePath(TRANSACTIONS_PATH);
-    return { success: true, status: 200, data: result };
+    return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
     console.error('[deleteAllTransaction]', error);
     return {
       success: false,
-      status: 500,
+      status: HTTP_STATUS.SERVER_ERROR,
       error: ERROR_MESSAGES.transaction.DELETE_MANY,
     };
   }

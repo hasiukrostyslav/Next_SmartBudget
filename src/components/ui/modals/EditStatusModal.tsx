@@ -83,6 +83,7 @@ export default function EditStatusModal({
                     option={status}
                     selectedValue={selectedValue}
                     handleSelect={setSelectedValue}
+                    withExtraContent
                     icon={item.icon}
                     text={item.text}
                     styleConfig={item.style}

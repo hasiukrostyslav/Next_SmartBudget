@@ -4,8 +4,11 @@ import { TransactionCreateInput, TransactionUpdate } from '@/types/types';
 
 import { PAGE_SIZE_OPTIONS } from '../constants/constants';
 import { Status, TransactionCategories } from '../constants/enums';
-import { TRANSACTION_CATEGORIES_CONFIG, TRANSACTION_SORT_FIELD_MAP } from '../constants/ui';
-import { SearchParamsSchema } from '../schemas/schema';
+import {
+  TRANSACTION_CATEGORIES_CONFIG,
+  TRANSACTION_SORT_FIELD_MAP,
+} from '../constants/transactions';
+import { SearchParamsSchema } from '../schemas/transaction.schema';
 import { db } from './db';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
