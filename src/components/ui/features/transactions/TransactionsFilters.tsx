@@ -1,5 +1,8 @@
 import { TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
-import { currency, transactionTypes } from '@/lib/constants/transactions';
+import {
+  CURRENCY,
+  TRANSACTION_TYPE_CONFIG,
+} from '@/lib/constants/transactions';
 
 import SearchForm from '@/components/forms/SearchForm';
 
@@ -27,13 +30,13 @@ export default async function TransactionsFilters() {
         />
         <Select
           name="types"
-          data={transactionTypes.map((c) => c.name)}
+          data={TRANSACTION_TYPE_CONFIG.map((c) => c.option)}
           autoFetchOnChange
           defaultOption="all"
         />
         <Select
           name="currency"
-          data={currency.map((c) => c.currency)}
+          data={CURRENCY.map((c) => c.currency)}
           autoFetchOnChange
           defaultOption="all"
         />

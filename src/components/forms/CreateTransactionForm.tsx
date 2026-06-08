@@ -4,7 +4,10 @@ import { clsx } from 'clsx';
 import { useForm } from 'react-hook-form';
 
 import { TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
-import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/transactions';
+import {
+  TRANSACTION_CATEGORIES_CONFIG,
+  TRANSACTION_TYPE_CONFIG,
+} from '@/lib/constants/transactions';
 import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useTheme } from '@/hooks/useTheme';
@@ -21,11 +24,6 @@ import SegmentedControl from '../ui/selects/SegmentedControl';
 interface CreateTransactionFormProps {
   handleClose: () => void;
 }
-
-const TYPE_CONFIG = [
-  { option: 'Income', icon: 'arrow-up', color: 'text-green-500' },
-  { option: 'Expenses', icon: 'arrow-down', color: 'text-red-500' },
-];
 
 export default function CreateTransactionForm({
   handleClose,
@@ -48,7 +46,7 @@ export default function CreateTransactionForm({
           <ModalFieldWrapper>
             <ModalFieldLabel label="Type" />
             <SegmentedControl
-              options={TYPE_CONFIG}
+              options={TRANSACTION_TYPE_CONFIG}
               selectedValue={selectedValue}
               handleSelect={setSelectedValue}
             />

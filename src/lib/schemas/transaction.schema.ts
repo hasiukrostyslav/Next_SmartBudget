@@ -6,7 +6,7 @@ import {
   TRANSACTION_CATEGORIES,
   TRANSACTION_TYPES,
 } from '../constants/enums';
-import { transactionSortOptions } from '../constants/transactions';
+import { TRANSACTION_SORT_OPTIONS } from '../constants/transactions';
 
 export const TransactionCreateSchema = z.object({
   transactionName: z
@@ -33,7 +33,7 @@ export const SearchParamsSchema = z.object({
   types: z.string().optional().default('all'),
   accounts: z.string().optional().default('all'),
   sort: z
-    .enum(transactionSortOptions.map((opt) => opt.label))
+    .enum(TRANSACTION_SORT_OPTIONS.map((opt) => opt.label))
     .optional()
     .default('date'),
   order: z.enum(['asc', 'desc']).optional().default('desc'),

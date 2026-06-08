@@ -1,6 +1,6 @@
 'use client';
 
-import { transactionSortOptions } from '@/lib/constants/transactions';
+import { TRANSACTION_SORT_OPTIONS } from '@/lib/constants/transactions';
 import { useSort } from '@/hooks/useSort';
 
 import SortButton from '../../buttons/SortButton';
@@ -10,7 +10,7 @@ export default function TransactionsSortList() {
 
   return (
     <>
-      {transactionSortOptions.map((el) => (
+      {TRANSACTION_SORT_OPTIONS.map((el) => (
         <SortButton
           key={el.label}
           name={el.name}

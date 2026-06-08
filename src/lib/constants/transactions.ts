@@ -1,14 +1,9 @@
-import { IconName } from '@/types/types';
-
-export const transactionTypes: {
-  name: 'income' | 'expenses';
-  icon: IconName;
-}[] = [
-  { name: 'income', icon: 'income' },
-  { name: 'expenses', icon: 'loan' },
+export const TRANSACTION_TYPE_CONFIG = [
+  { option: 'Income', icon: 'arrow-up', color: 'text-green-500' },
+  { option: 'Expenses', icon: 'arrow-down', color: 'text-red-500' },
 ] as const;
 
-export const currency = [
+export const CURRENCY = [
   { local: 'eng', currency: 'UAH' },
   { local: 'eng', currency: 'USD' },
   { local: 'eng', currency: 'EUR' },
@@ -17,7 +12,7 @@ export const currency = [
   { local: 'eng', currency: 'GBP' },
 ] as const;
 
-export const transactionSortOptions = [
+export const TRANSACTION_SORT_OPTIONS = [
   { name: 'Transaction Name', label: 'name' },
   { name: 'Category', label: 'category' },
   { name: 'Account', label: 'account' },
