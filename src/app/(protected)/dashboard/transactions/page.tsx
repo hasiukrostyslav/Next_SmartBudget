@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import { getTransactions } from '@/lib/actions/transactionActions';
 import { EMPTY_STATE_TEXT } from '@/lib/constants/messages';
-import { SearchParamsSchema } from '@/lib/schemas/schema';
+import { SearchParamsSchema } from '@/lib/schemas/transaction.schema';
 
 import TransactionsCTA from '@/components/ui/features/transactions/TransactionsCTA';
 import TransactionsFilters from '@/components/ui/features/transactions/TransactionsFilters';

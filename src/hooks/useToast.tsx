@@ -1,6 +1,6 @@
 import { toast, ToastPosition, Zoom } from 'react-toastify';
 
-import { TOAST_CONFIG } from '@/lib/constants/ui';
+import { TOAST_CONFIG } from '@/lib/constants/components';
 
 import Toast from '@/components/ui/feedback/Toast';
 

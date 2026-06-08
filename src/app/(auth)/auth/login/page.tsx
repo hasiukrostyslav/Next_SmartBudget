@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { SIGN_UP_PATH } from '@/routes';
 import { METADATA_TEXT } from '@/lib/constants/messages';
 
 import LoginForm from '@/components/forms/LoginForm';
@@ -16,7 +17,7 @@ export default function LoginPage() {
       <LoginForm />
       <p className="mt-3 text-xs text-slate-400">
         Don&apos;t have an account?{' '}
-        <AuthLink href="/auth/signup">Sign Up</AuthLink>
+        <AuthLink href={SIGN_UP_PATH}>Sign Up</AuthLink>
       </p>
     </AuthFormContainer>
   );

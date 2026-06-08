@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
+import { LOGIN_PATH } from '@/routes';
 import { METADATA_TEXT } from '@/lib/constants/messages';
 
 import ForgotPasswordForm from '@/components/forms/ForgotPasswordForm';
@@ -19,7 +20,7 @@ export default function ForgotPasswordPage() {
       <ForgotPasswordForm />
       <Link
         className="outline-round-sm mt-3 text-sm text-blue-600 hover:text-blue-500 dark:text-slate-300 hover:dark:text-slate-400"
-        href="/auth/login"
+        href={LOGIN_PATH}
       >
         Back to Login
       </Link>
