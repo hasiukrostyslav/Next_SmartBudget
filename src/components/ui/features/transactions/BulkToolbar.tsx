@@ -23,8 +23,8 @@ interface BulkToolbarProps {
   isShown: boolean;
   selectedNumber: number;
   allSelected: boolean;
-  bulkSelect: () => void;
-  bulkUnSelect: () => void;
+  onBulkSelect: () => void;
+  onBulkUnSelect: () => void;
   selectedItems: {
     itemId: string;
     itemName: string;
@@ -40,8 +40,8 @@ export default function BulkToolbar({
   isShown,
   selectedNumber,
   allSelected,
-  bulkSelect,
-  bulkUnSelect,
+  onBulkSelect,
+  onBulkUnSelect,
   selectedItems,
 }: BulkToolbarProps) {
   const {
@@ -90,7 +90,7 @@ export default function BulkToolbar({
           iconName="select"
           iconSize={14}
           label="Select all"
-          onClick={bulkSelect}
+          onClick={onBulkSelect}
           disabled={allSelected}
         />
         <ToolbarButton
@@ -118,14 +118,14 @@ export default function BulkToolbar({
         shape="square"
         variant="outline"
         padding="base"
-        onClick={bulkUnSelect}
+        onClick={onBulkUnSelect}
         className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800/10"
       />
 
       {isOpenEditStatusModal && (
         <Modal ref={editStatusModalRef} className="max-w-4/12">
           <EditItemStatusForm
-            handleClose={closeEditStatusModal}
+            onClose={closeEditStatusModal}
             selectedItems={selectedItems.map((el) => ({
               id: el.itemId,
               status: el.status,
@@ -137,7 +137,7 @@ export default function BulkToolbar({
       {isOpenEditCategoryModal && (
         <Modal ref={editCategoryModalRef} className="max-w-5/12">
           <EditTransactionCategoryForm
-            handleClose={closeEditCategoryModal}
+            onClose={closeEditCategoryModal}
             selectedItems={selectedItems.map((el) => ({
               id: el.itemId,
               category: el.category,
@@ -157,8 +157,8 @@ export default function BulkToolbar({
               currency: el.currency,
               amount: el.amount,
             }))}
-            handleClose={closeDeleteModal}
-            handleSubmit={() =>
+            onClose={closeDeleteModal}
+            onSubmit={() =>
               deleteManyTransaction(selectedItems.map((el) => el.itemId))
             }
           />

@@ -22,11 +22,11 @@ import RadioCard from '../ui/selects/RadioCard';
 import SegmentedControl from '../ui/selects/SegmentedControl';
 
 interface CreateTransactionFormProps {
-  handleClose: () => void;
+  onClose: () => void;
 }
 
 export default function CreateTransactionForm({
-  handleClose,
+  onClose,
 }: CreateTransactionFormProps) {
   const { theme } = useTheme();
   const { selectedValue, setSelectedValue } = useSelectValue();
@@ -38,7 +38,7 @@ export default function CreateTransactionForm({
       <ModalHeader
         operationType="create"
         itemType="transaction"
-        handleClose={handleClose}
+        onClose={onClose}
       />
 
       <section className="flex flex-col gap-2 px-6 py-4">
@@ -48,7 +48,7 @@ export default function CreateTransactionForm({
             <SegmentedControl
               options={TRANSACTION_TYPE_CONFIG}
               selectedValue={selectedValue}
-              handleSelect={setSelectedValue}
+              onSelect={setSelectedValue}
             />
           </ModalFieldWrapper>
 
@@ -78,7 +78,7 @@ export default function CreateTransactionForm({
           <Input
             name="search"
             placeholder="Search categories..."
-            icon="search"
+            iconName="search"
             padding="md"
             value={searchQuery}
             onChange={onChange}
@@ -99,13 +99,13 @@ export default function CreateTransactionForm({
                 <RadioCard
                   key={category}
                   option={category}
-                  icon={item.icon}
+                  iconName={item.icon}
                   text={item.text}
                   styleConfig={item.style}
                   isCurrent={false}
                   withExtraContent={false}
                   selectedValue={selectedValue}
-                  handleSelect={setSelectedValue}
+                  onSelect={setSelectedValue}
                 />
               );
             })}
@@ -133,7 +133,7 @@ export default function CreateTransactionForm({
         operationType="create"
         itemType="transaction"
         isSubmitting={false}
-        handleClose={handleClose}
+        onClose={onClose}
       />
     </form>
   );

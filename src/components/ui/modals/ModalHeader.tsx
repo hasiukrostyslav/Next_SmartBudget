@@ -11,14 +11,14 @@ interface ModalHeaderProps {
   operationType: keyof typeof MODAL_CONFIG.header;
   itemType: ItemType;
   itemsCount?: number;
-  handleClose: () => void;
+  onClose: () => void;
 }
 
 export default function ModalHeader({
   itemsCount,
   itemType,
   operationType,
-  handleClose,
+  onClose,
 }: ModalHeaderProps) {
   const headerConfig = MODAL_CONFIG.header[operationType];
 
@@ -57,7 +57,7 @@ export default function ModalHeader({
           'ml-auto text-slate-500 hover:bg-slate-200',
           'dark:text-slate-400 dark:hover:bg-slate-700',
         )}
-        onClick={handleClose}
+        onClick={onClose}
       />
     </header>
   );

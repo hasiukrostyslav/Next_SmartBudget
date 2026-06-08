@@ -10,7 +10,7 @@ interface RadioCardProps {
   option: string;
   selectedValue: string;
   isCurrent: boolean;
-  icon: IconName;
+  iconName: IconName;
   withExtraContent: boolean;
   text: { header: string; description: string };
   styleConfig: {
@@ -19,18 +19,18 @@ interface RadioCardProps {
     icon: string;
     radio: string;
   };
-  handleSelect: (option: string) => void;
+  onSelect: (option: string) => void;
 }
 
 export default function RadioCard({
   option,
   selectedValue,
   isCurrent,
-  icon,
+  iconName,
   withExtraContent,
   text,
   styleConfig,
-  handleSelect,
+  onSelect,
 }: RadioCardProps) {
   return (
     <label
@@ -46,7 +46,7 @@ export default function RadioCard({
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
-          handleSelect(option);
+          onSelect(option);
         }
       }}
     >
@@ -57,7 +57,7 @@ export default function RadioCard({
           withExtraContent ? 'p-1.5' : 'p-1',
         )}
       >
-        <Icon name={icon} size={withExtraContent ? 20 : 16} />
+        <Icon name={iconName} size={withExtraContent ? 20 : 16} />
       </div>
       <div>
         <h2
@@ -92,7 +92,7 @@ export default function RadioCard({
       <input
         type="radio"
         className="peer hidden"
-        onChange={() => handleSelect(option)}
+        onChange={() => onSelect(option)}
         name={option}
         value={option}
         checked={selectedValue === option}

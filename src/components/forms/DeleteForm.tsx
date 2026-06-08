@@ -14,15 +14,15 @@ import ModalHeader from '../ui/modals/ModalHeader';
 interface DeleteFormProps {
   itemType: ItemType;
   items: DeleteItem[];
-  handleClose: () => void;
-  handleSubmit: () => Promise<{ success: boolean; status: number }>;
+  onClose: () => void;
+  onSubmit: () => Promise<{ success: boolean; status: number }>;
 }
 
 export default function DeleteForm({
   itemType,
   items,
-  handleClose,
-  handleSubmit,
+  onClose,
+  onSubmit,
 }: DeleteFormProps) {
   const [isPending, startTransition] = useTransition();
   const { toastSuccess } = useToast();
@@ -31,9 +31,9 @@ export default function DeleteForm({
     e.preventDefault();
 
     startTransition(async () => {
-      await handleSubmit();
+      await onSubmit();
 
-      handleClose();
+      onClose();
       toastSuccess('delete', 'Transaction');
     });
   };
@@ -46,7 +46,7 @@ export default function DeleteForm({
         itemsCount={items.length}
         itemType={itemType}
         operationType="delete"
-        handleClose={handleClose}
+        onClose={onClose}
       />
 
       <section className="flex flex-col gap-4 px-6 py-5">
@@ -104,7 +104,7 @@ export default function DeleteForm({
         disabled={isPending}
         operationType="delete"
         isSubmitting={isPending}
-        handleClose={handleClose}
+        onClose={onClose}
       />
     </form>
   );

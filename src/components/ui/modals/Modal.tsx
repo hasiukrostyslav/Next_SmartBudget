@@ -1,12 +1,12 @@
 import clsx from 'clsx';
 
-interface DialogProps {
+interface ModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;
   children: React.ReactNode;
   className?: string;
 }
 
-export default function Modal({ ref, children, className }: DialogProps) {
+export default function Modal({ ref, children, className }: ModalProps) {
   return (
     <dialog
       ref={ref}

@@ -35,7 +35,7 @@ export default function TransactionsList({
     >
       <TransactionsSort
         isBulkSelect={isBulkSelect}
-        toggleBulkSelect={toggleBulkSelect}
+        onToggleBulkSelect={toggleBulkSelect}
       />
       <div
         className={clsx(
@@ -49,7 +49,7 @@ export default function TransactionsList({
             key={item.transactionId}
             item={item}
             checked={selectedItems.some((i) => i.itemId === item.transactionId)}
-            toggleSelectTransaction={() =>
+            onToggleSelect={() =>
               toggleSelect(
                 item.transactionId,
                 item.transactionName,
@@ -67,8 +67,8 @@ export default function TransactionsList({
         selectedNumber={selectedItems.length}
         isShown={selectedItems.length > 0}
         allSelected={selectedItems.length === data.length && isBulkSelect}
-        bulkSelect={bulkSelect}
-        bulkUnSelect={bulkUnSelect}
+        onBulkSelect={bulkSelect}
+        onBulkUnSelect={bulkUnSelect}
         selectedItems={selectedItems}
       />
     </div>

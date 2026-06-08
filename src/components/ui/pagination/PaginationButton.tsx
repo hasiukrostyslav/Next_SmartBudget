@@ -8,7 +8,7 @@ interface PaginationButtonProps {
   href: string;
   page: 'prev' | 'next' | number;
   active?: boolean;
-  disable?: boolean;
+  disabled?: boolean;
 }
 
 const styles = {
@@ -23,19 +23,19 @@ export default function PaginationButton({
   href,
   page,
   active,
-  disable,
+  disabled,
 }: PaginationButtonProps) {
   return (
     <Link
-      href={disable || active ? '#' : href}
-      aria-disabled={disable}
-      tabIndex={disable || active ? -1 : 0}
+      href={disabled || active ? '#' : href}
+      aria-disabled={disabled}
+      tabIndex={disabled || active ? -1 : 0}
       className={clsx(
         'flex h-7 w-7 items-center justify-center p-1',
         'outline-input rounded-md border text-sm select-none',
-        !active && !disable && styles.default,
+        !active && !disabled && styles.default,
         active ? styles.active : '',
-        disable
+        disabled
           ? styles.disable
           : 'border-blue-300 text-slate-700 dark:border-slate-500 dark:text-slate-300',
       )}

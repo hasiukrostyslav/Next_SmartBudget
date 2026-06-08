@@ -25,7 +25,7 @@ import ModalHeader from '../ui/modals/ModalHeader';
 import RadioCard from '../ui/selects/RadioCard';
 
 interface EditTransactionCategoryFormProps {
-  handleClose: () => void;
+  onClose: () => void;
   selectedItems: {
     id: string;
     category: TransactionCategories;
@@ -33,7 +33,7 @@ interface EditTransactionCategoryFormProps {
 }
 
 export default function EditTransactionCategoryForm({
-  handleClose,
+  onClose,
   selectedItems,
 }: EditTransactionCategoryFormProps) {
   const { theme } = useTheme();
@@ -62,7 +62,7 @@ export default function EditTransactionCategoryForm({
       );
 
       if (result.success) {
-        handleClose();
+        onClose();
         toastSuccess('edit', 'Transaction');
       }
     });
@@ -76,7 +76,7 @@ export default function EditTransactionCategoryForm({
       <ModalHeader
         operationType="editCategory"
         itemType="transaction"
-        handleClose={handleClose}
+        onClose={onClose}
       />
 
       <section className="px-6 py-5">
@@ -91,7 +91,7 @@ export default function EditTransactionCategoryForm({
           <Input
             name="search"
             placeholder="Search categories..."
-            icon="search"
+            iconName="search"
             padding="md"
             value={searchQuery}
             onChange={onChange}
@@ -122,8 +122,8 @@ export default function EditTransactionCategoryForm({
                     key={category}
                     option={category}
                     selectedValue={selectedValue}
-                    handleSelect={setSelectedValue}
-                    icon={item.icon}
+                    onSelect={setSelectedValue}
+                    iconName={item.icon}
                     text={item.text}
                     withExtraContent
                     styleConfig={item.style}
@@ -147,7 +147,7 @@ export default function EditTransactionCategoryForm({
           (initialValue.length === 1 && initialValue[0] === selectedValue)
         }
         isSubmitting={isPending}
-        handleClose={handleClose}
+        onClose={onClose}
       />
     </form>
   );

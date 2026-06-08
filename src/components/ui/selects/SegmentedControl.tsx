@@ -6,8 +6,8 @@ import SegmentedControlRadioItem from './SegmentedControlRadioItem';
 
 interface SegmentedControlProps {
   selectedValue: string;
-  handleSelect: () => void;
-  options: {
+  onSelect: (option: string) => void;
+  options: readonly {
     option: string;
     icon: IconName;
     color: string;
@@ -17,7 +17,7 @@ interface SegmentedControlProps {
 export default function SegmentedControl({
   selectedValue,
   options,
-  handleSelect,
+  onSelect,
 }: SegmentedControlProps) {
   return (
     <div
@@ -30,10 +30,10 @@ export default function SegmentedControl({
         <SegmentedControlRadioItem
           key={el.option}
           option={el.option}
-          icon={el.icon}
+          iconName={el.icon}
           color={el.color}
           selectedValue={selectedValue}
-          handleSelect={handleSelect}
+          onSelect={onSelect}
         />
       ))}
     </div>

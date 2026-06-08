@@ -42,7 +42,7 @@ export default function TransactionsCTA({
         )}
       {isOpen && (
         <Modal ref={dialogRef} className="min-w-2/5">
-          <CreateTransactionForm handleClose={handleClose} />
+          <CreateTransactionForm onClose={handleClose} />
         </Modal>
       )}
     </div>

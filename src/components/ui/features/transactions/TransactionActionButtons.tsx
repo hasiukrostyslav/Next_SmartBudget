@@ -51,10 +51,10 @@ export default function TransactionActionButtons({
       {isOpen && (
         <Modal ref={dialogRef} className="max-w-4/12">
           <DeleteForm
-            handleClose={handleClose}
+            onClose={handleClose}
             itemType="transaction"
             items={[item]}
-            handleSubmit={() => deleteTransaction(item.id)}
+            onSubmit={() => deleteTransaction(item.id)}
           />
         </Modal>
       )}

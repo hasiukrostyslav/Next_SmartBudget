@@ -23,7 +23,7 @@ export default function PaginationPage({ totalCount }: PaginationPageProps) {
       <PaginationButton
         href={`${pathname}?${prevPageQuery}`}
         page="prev"
-        disable={count === 1 || currentPage === 1}
+        disabled={count === 1 || currentPage === 1}
       />
 
       {stack.map((page, i) =>
@@ -41,7 +41,7 @@ export default function PaginationPage({ totalCount }: PaginationPageProps) {
       <PaginationButton
         href={`${pathname}?${nextPageQuery}`}
         page="next"
-        disable={count === 1 || currentPage === count}
+        disabled={count === 1 || currentPage === count}
       />
     </div>
   );

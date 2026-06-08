@@ -7,12 +7,12 @@ import TransactionsSortList from './TransactionsSortList';
 
 interface TransactionsSortProps {
   isBulkSelect: boolean;
-  toggleBulkSelect: () => void;
+  onToggleBulkSelect: () => void;
 }
 
 export default function TransactionsSort({
   isBulkSelect,
-  toggleBulkSelect,
+  onToggleBulkSelect,
 }: TransactionsSortProps) {
   return (
     <div
@@ -20,7 +20,7 @@ export default function TransactionsSort({
         'col-span-full mb-4 grid grid-cols-subgrid items-center px-1',
       )}
     >
-      <CheckBox name="all" checked={isBulkSelect} onChange={toggleBulkSelect} />
+      <CheckBox name="all" checked={isBulkSelect} onChange={onToggleBulkSelect} />
 
       <TransactionsSortList />
     </div>

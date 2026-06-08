@@ -20,7 +20,7 @@ interface InputProps {
   disabled?: boolean;
   placeholder?: string;
   error?: string;
-  icon?: IconName;
+  iconName?: IconName;
   type?: 'text' | 'number' | 'password';
   ref?: React.Ref<HTMLInputElement>;
   padding?: keyof typeof INPUT_CONFIG.padding;
@@ -40,7 +40,7 @@ export default function Input({
   disabled,
   placeholder,
   error,
-  icon,
+  iconName,
   type = 'text',
   ref,
   padding = 'lg',
@@ -59,7 +59,7 @@ export default function Input({
       )}
 
       <div className="relative">
-        {icon && <InputIcon name={icon} padding={padding} />}
+        {iconName && <InputIcon name={iconName} padding={padding} />}
 
         <input
           {...props}
@@ -83,7 +83,7 @@ export default function Input({
             'outline-input w-full text-sm tracking-wider',
             'text-slate-700 dark:text-slate-300 dark:placeholder:text-slate-600',
             trailingButton ? 'pr-10' : 'pr-3',
-            icon ? INPUT_CONFIG.icon.padding[padding] : 'pl-3',
+            iconName ? INPUT_CONFIG.icon.padding[padding] : 'pl-3',
             padding === 'lg' ? 'border-2' : 'border',
             INPUT_CONFIG.padding[padding],
             error

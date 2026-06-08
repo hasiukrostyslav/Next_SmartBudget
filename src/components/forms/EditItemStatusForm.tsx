@@ -17,7 +17,7 @@ import ModalHeader from '../ui/modals/ModalHeader';
 import RadioCard from '../ui/selects/RadioCard';
 
 interface EditItemStatusFormProps {
-  handleClose: () => void;
+  onClose: () => void;
   selectedItems: {
     id: string;
     status: Status;
@@ -25,7 +25,7 @@ interface EditItemStatusFormProps {
 }
 
 export default function EditItemStatusForm({
-  handleClose,
+  onClose,
   selectedItems,
 }: EditItemStatusFormProps) {
   const [isPending, startTransition] = useTransition();
@@ -43,7 +43,7 @@ export default function EditItemStatusForm({
       );
 
       if (result.success) {
-        handleClose();
+        onClose();
         toastSuccess('edit', 'Transaction');
       }
     });
@@ -57,7 +57,7 @@ export default function EditItemStatusForm({
       <ModalHeader
         operationType="editStatus"
         itemType="transaction"
-        handleClose={handleClose}
+        onClose={onClose}
       />
 
       <section className="px-6 py-5">
@@ -78,9 +78,9 @@ export default function EditItemStatusForm({
                   key={status}
                   option={status}
                   selectedValue={selectedValue}
-                  handleSelect={setSelectedValue}
+                  onSelect={setSelectedValue}
                   withExtraContent
-                  icon={item.icon}
+                  iconName={item.icon}
                   text={item.text}
                   styleConfig={item.style}
                   isCurrent={
@@ -102,7 +102,7 @@ export default function EditItemStatusForm({
           (initialValue.length === 1 && initialValue[0] === selectedValue)
         }
         isSubmitting={isPending}
-        handleClose={handleClose}
+        onClose={onClose}
       />
     </form>
   );

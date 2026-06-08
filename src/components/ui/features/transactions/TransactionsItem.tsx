@@ -14,13 +14,13 @@ import TransactionStatus from './TransactionStatus';
 interface TransactionsItemProps {
   item: TransactionItem;
   checked: boolean;
-  toggleSelectTransaction: () => void;
+  onToggleSelect: () => void;
 }
 
 export default function TransactionsItem({
   item,
   checked,
-  toggleSelectTransaction,
+  onToggleSelect,
 }: TransactionsItemProps) {
   const {
     transactionId,
@@ -48,7 +48,7 @@ export default function TransactionsItem({
       <CheckBox
         name={transactionName}
         checked={checked}
-        onChange={toggleSelectTransaction}
+        onChange={onToggleSelect}
       />
       <TransactionBadge category={transactionCategory} name={transactionName} />
       <TransactionCategory category={transactionCategory} />

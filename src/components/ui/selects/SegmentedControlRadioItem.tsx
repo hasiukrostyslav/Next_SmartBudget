@@ -6,18 +6,18 @@ import Icon from '../icons/Icon';
 
 interface SegmentedControlRadioItemProps {
   option: string;
-  icon: IconName;
+  iconName: IconName;
   color: string;
   selectedValue: string;
-  handleSelect: (option: string) => void;
+  onSelect: (option: string) => void;
 }
 
 export default function SegmentedControlRadioItem({
   option,
-  icon,
+  iconName,
   color,
   selectedValue,
-  handleSelect,
+  onSelect,
 }: SegmentedControlRadioItemProps) {
   return (
     <label
@@ -31,13 +31,13 @@ export default function SegmentedControlRadioItem({
       )}
     >
       <div className={clsx('flex items-center justify-center gap-1 text-sm')}>
-        <Icon name={icon} size={16} />
+        <Icon name={iconName} size={16} />
         <span>{option}</span>
       </div>
       <input
         type="radio"
         className="peer hidden"
-        onChange={() => handleSelect(option)}
+        onChange={() => onSelect(option)}
         name={option}
         value={option}
         checked={selectedValue === option}

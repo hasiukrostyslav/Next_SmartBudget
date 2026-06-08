@@ -54,7 +54,7 @@ export default function SignUpForm() {
         placeholder={INPUT_PLACEHOLDER.name}
         disabled={isPending}
         error={errors.name?.message}
-        icon="name"
+        iconName="name"
       />
       <Input
         {...register('email')}
@@ -62,7 +62,7 @@ export default function SignUpForm() {
         placeholder={INPUT_PLACEHOLDER.email}
         disabled={isPending}
         error={errors.email?.message}
-        icon="email"
+        iconName="email"
       />
       <Input
         {...register('password')}
@@ -70,7 +70,7 @@ export default function SignUpForm() {
         placeholder={INPUT_PLACEHOLDER.password}
         disabled={isPending}
         error={errors.password?.message}
-        icon="password"
+        iconName="password"
         trailingButton={{
           role: buttonRole,
           onClick: toggleVisibility,
