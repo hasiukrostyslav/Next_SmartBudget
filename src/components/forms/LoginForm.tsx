@@ -9,7 +9,7 @@ import z from 'zod';
 import { FORGOT_PASSWORD_PATH } from '@/routes';
 import { login } from '@/lib/actions/authActions';
 import { INPUT_PLACEHOLDER } from '@/lib/constants/messages';
-import { SignInSchema } from '@/lib/schemas/schema';
+import { SignInSchema } from '@/lib/schemas/auth.schema';
 import { usePasswordVisibility } from '@/hooks/usePasswordVisibility';
 
 import Button from '../ui/buttons/Button';

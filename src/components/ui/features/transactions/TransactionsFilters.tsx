@@ -1,5 +1,5 @@
 import { TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
-import { currency, transactionTypes } from '@/lib/constants/ui';
+import { currency, transactionTypes } from '@/lib/constants/transactions';
 
 import SearchForm from '@/components/forms/SearchForm';
 

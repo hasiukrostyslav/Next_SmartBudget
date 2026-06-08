@@ -1,9 +1,10 @@
 'use client';
 
 import { clsx } from 'clsx';
+import { useForm } from 'react-hook-form';
 
 import { TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
-import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
+import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/transactions';
 import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useTheme } from '@/hooks/useTheme';
@@ -35,6 +36,7 @@ export default function CreateTransactionModal({
   const { theme } = useTheme();
   const { selectedValue, setSelectedValue } = useSelectValue();
   const { searchQuery, role, onChange, onClear } = useSearchInput();
+  const { register, handleSubmit } = useForm();
 
   return (
     <Dialog ref={ref} className="min-w-2/5">
@@ -48,7 +50,7 @@ export default function CreateTransactionModal({
         <section className="flex flex-col gap-2 px-6 py-4">
           <div className="flex items-center justify-between gap-4">
             <ModalFieldWrapper>
-              <ModalFieldLabel label="Transaction type" />
+              <ModalFieldLabel label="Type" />
               <SegmentedControl
                 options={TYPE_CONFIG}
                 selectedValue={selectedValue}
@@ -64,7 +66,7 @@ export default function CreateTransactionModal({
 
           <div className="flex items-center justify-between gap-4">
             <ModalFieldWrapper>
-              <ModalFieldLabel label="Transaction name" />
+              <ModalFieldLabel label="Name" />
               <Input
                 name="name"
                 padding="md"

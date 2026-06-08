@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import clsx from 'clsx';
 
-import { ERROR_MESSAGES_CONFIG } from '@/lib/constants/ui';
+import { ERROR_MESSAGES_CONFIG } from '@/lib/constants/components';
 
 import Button from '../buttons/Button';
 import ButtonLink from '../buttons/ButtonLink';

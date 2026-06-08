@@ -6,7 +6,7 @@ import clsx from 'clsx';
 
 import { changeTransactionStatus } from '@/lib/actions/transactionActions';
 import { Status, STATUSES } from '@/lib/constants/enums';
-import { STATUS_CONFIG } from '@/lib/constants/ui';
+import { STATUS_CONFIG } from '@/lib/constants/transactions';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useToast } from '@/hooks/useToast';
 

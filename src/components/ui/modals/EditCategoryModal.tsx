@@ -9,7 +9,7 @@ import {
   TRANSACTION_CATEGORIES,
   TransactionCategories,
 } from '@/lib/constants/enums';
-import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
+import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/transactions';
 import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useTheme } from '@/hooks/useTheme';

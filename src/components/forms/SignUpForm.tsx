@@ -8,7 +8,7 @@ import z from 'zod';
 
 import { signUp } from '@/lib/actions/authActions';
 import { INPUT_PLACEHOLDER } from '@/lib/constants/messages';
-import { SignUpSchema } from '@/lib/schemas/schema';
+import { SignUpSchema } from '@/lib/schemas/auth.schema';
 import { usePasswordVisibility } from '@/hooks/usePasswordVisibility';
 
 import Button from '../ui/buttons/Button';

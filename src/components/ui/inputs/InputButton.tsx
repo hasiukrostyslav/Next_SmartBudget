@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 
-import { INPUT_CONFIG } from '@/lib/constants/ui';
+import { INPUT_CONFIG } from '@/lib/constants/components';
 
 import Icon from '../icons/Icon';
 
