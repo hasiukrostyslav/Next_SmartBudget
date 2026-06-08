@@ -9,7 +9,7 @@ import {
   TransactionCategories,
   TransactionType,
 } from '@/lib/constants/enums';
-import { useDialog } from '@/hooks/useDialog';
+import { useModal } from '@/hooks/useModal';
 
 import DeleteForm from '@/components/forms/DeleteForm';
 
@@ -49,21 +49,21 @@ export default function BulkToolbar({
     dialogRef: editStatusModalRef,
     handleOpen: openEditStatusModal,
     handleClose: closeEditStatusModal,
-  } = useDialog();
+  } = useModal();
 
   const {
     isOpen: isOpenEditCategoryModal,
     dialogRef: editCategoryModalRef,
     handleOpen: openEditCategoryModal,
     handleClose: closeEditCategoryModal,
-  } = useDialog();
+  } = useModal();
 
   const {
     isOpen: isOpenDeleteModal,
     dialogRef: deleteModalRef,
     handleOpen: openDeleteModal,
     handleClose: closeDeleteModal,
-  } = useDialog();
+  } = useModal();
 
   return (
     <div

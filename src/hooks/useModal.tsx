@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export function useDialog() {
+export function useModal() {
   const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -10,6 +10,18 @@ export function useDialog() {
       dialogRef.current?.focus();
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const handleCloseOnKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') handleClose();
+    };
+
+    dialog.addEventListener('keydown', handleCloseOnKey);
+    return () => dialog.removeEventListener('keydown', handleCloseOnKey);
+  });
 
   useEffect(() => {
     const dialog = dialogRef.current;

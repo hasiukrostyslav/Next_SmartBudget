@@ -3,7 +3,7 @@
 import { DeleteItem } from '@/types/types';
 
 import { deleteTransaction } from '@/lib/actions/transactionActions';
-import { useDialog } from '@/hooks/useDialog';
+import { useModal } from '@/hooks/useModal';
 
 import DeleteForm from '@/components/forms/DeleteForm';
 
@@ -17,7 +17,7 @@ interface TransactionActionButtonsProps {
 export default function TransactionActionButtons({
   item,
 }: TransactionActionButtonsProps) {
-  const { isOpen, dialogRef, handleOpen, handleClose } = useDialog();
+  const { isOpen, dialogRef, handleOpen, handleClose } = useModal();
 
   return (
     <>

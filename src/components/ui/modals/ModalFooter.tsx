@@ -34,7 +34,7 @@ export default function ModalFooter({
   return (
     <footer
       className={clsx(
-        'flex items-center justify-between gap-8 rounded-b-md px-6 py-4 text-base',
+        'flex items-center justify-between gap-8 rounded-b-xl px-6 py-4 text-base',
         'border-t border-slate-300 bg-slate-100',
         'dark:border-slate-600 dark:bg-slate-900',
       )}
