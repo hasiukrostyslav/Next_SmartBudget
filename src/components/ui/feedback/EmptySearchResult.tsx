@@ -8,12 +8,14 @@ import Icon from '../icons/Icon';
 interface EmptySearchResultProps {
   category: string;
   query: string;
-  onClick: () => void;
+  variant: 'simple' | 'full';
+  onClick?: () => void;
 }
 
 export default function EmptySearchResult({
   category,
   query,
+  variant,
   onClick,
 }: EmptySearchResultProps) {
   return (
@@ -23,14 +25,16 @@ export default function EmptySearchResult({
       )}
     >
       <div className="flex flex-col items-center justify-center gap-2">
-        <Image
-          className="h-[120] w-[120]"
-          alt="Error"
-          src="/error-404.png"
-          width={120}
-          height={120}
-          priority
-        />
+        {variant === 'full' && (
+          <Image
+            className="h-[120] w-[120]"
+            alt="Error"
+            src="/error-404.png"
+            width={120}
+            height={120}
+            priority
+          />
+        )}
 
         <h2
           className={clsx(
@@ -50,12 +54,14 @@ export default function EmptySearchResult({
           or clear the search to see them all.
         </p>
 
-        <div className="flex gap-2">
-          <Button color="blue" size="sm" onClick={onClick}>
-            <Icon name="undo" size={14} />
-            <span>Clear search</span>
-          </Button>
-        </div>
+        {variant === 'full' && (
+          <div className="flex gap-2">
+            <Button color="blue" size="sm" onClick={onClick}>
+              <Icon name="undo" size={14} />
+              <span>Clear search</span>
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );

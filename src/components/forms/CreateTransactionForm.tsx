@@ -15,6 +15,7 @@ import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useTheme } from '@/hooks/useTheme';
 
+import EmptySearchResult from '../ui/feedback/EmptySearchResult';
 import Input from '../ui/inputs/Input';
 import TextArea from '../ui/inputs/TextArea';
 import ModalFieldLabel from '../ui/modals/ModalFieldLabel';
@@ -36,17 +37,24 @@ export default function CreateTransactionForm({
   const { theme } = useTheme();
   const { selectedValue, setSelectedValue } = useSelectValue();
   const { searchQuery, role, onChange, onClear } = useSearchInput();
-  const { register, handleSubmit } = useForm({
-    resolver: zodResolver(CreateTransactionSchema),
-  });
+  const { register, handleSubmit, control } = useForm();
 
-  async function onSubmit(data: FormData) {
+  const filteredCategories = TRANSACTION_CATEGORIES.filter((el) =>
+    searchQuery.length === 0
+      ? el
+      : el.replaceAll('_', ' ').includes(searchQuery.trimStart()) ||
+        TRANSACTION_CATEGORIES_CONFIG[el].text.description
+          .toLowerCase()
+          .includes(searchQuery.trimStart()),
+  ).toSorted();
+
+  function onSubmit(data: FormData) {
     console.log(data);
   }
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit, (errors) => console.log(errors))}
       autoComplete="off"
       className="flex flex-col dark:text-slate-400"
     >
@@ -60,10 +68,16 @@ export default function CreateTransactionForm({
         <div className="flex items-center justify-between gap-4">
           <ModalFieldWrapper>
             <ModalFieldLabel label="Type" />
-            <SegmentedControl
-              options={TRANSACTION_TYPE_CONFIG}
-              selectedValue={selectedValue}
-              onSelect={setSelectedValue}
+            <Controller
+              control={control}
+              name="transactionType"
+              render={({ field }) => (
+                <SegmentedControl
+                  options={TRANSACTION_TYPE_CONFIG}
+                  selectedValue={field.value}
+                  onSelect={field.onChange}
+                />
+              )}
             />
           </ModalFieldWrapper>
 
@@ -77,7 +91,7 @@ export default function CreateTransactionForm({
           <ModalFieldWrapper>
             <ModalFieldLabel label="Name" />
             <Input
-              name="name"
+              {...register('transactionName')}
               padding="md"
               placeholder="e.g. Grocery shopping"
             />
@@ -102,28 +116,37 @@ export default function CreateTransactionForm({
           />
           <div
             className={clsx(
-              'grid h-24 grid-cols-3 gap-2 overflow-auto',
-              'scrollbar mt-2',
+              'mt-2 grid h-24 auto-rows-min grid-cols-3 gap-2 pr-2',
+              'scrollbar overflow-y-auto',
               theme === 'dark' ? 'scrollbar-dark' : '',
+              filteredCategories.length === 0 ? 'place-content-center' : '',
             )}
           >
-            {TRANSACTION_CATEGORIES.map((category) => {
-              const item = TRANSACTION_CATEGORIES_CONFIG[category];
+            {filteredCategories.length === 0 ? (
+              <EmptySearchResult
+                category="category"
+                variant="simple"
+                query={searchQuery}
+              />
+            ) : (
+              filteredCategories.map((category) => {
+                const item = TRANSACTION_CATEGORIES_CONFIG[category];
 
-              return (
-                <RadioCard
-                  key={category}
-                  option={category}
-                  iconName={item.icon}
-                  text={item.text}
-                  styleConfig={item.style}
-                  isCurrent={false}
-                  withExtraContent={false}
-                  selectedValue={selectedValue}
-                  onSelect={setSelectedValue}
-                />
-              );
-            })}
+                return (
+                  <RadioCard
+                    key={category}
+                    option={category}
+                    iconName={item.icon}
+                    text={item.text}
+                    styleConfig={item.style}
+                    isCurrent={false}
+                    withExtraContent={false}
+                    selectedValue={selectedValue}
+                    onSelect={setSelectedValue}
+                  />
+                );
+              })
+            )}
           </div>
         </ModalFieldWrapper>
 
@@ -140,7 +163,10 @@ export default function CreateTransactionForm({
 
         <ModalFieldWrapper>
           <ModalFieldLabel label="note" isOptional />
-          <TextArea placeholder="Add a note for context, receipt number, etc." />
+          <TextArea
+            {...register('description')}
+            placeholder="Add a note for context, receipt number, etc."
+          />
         </ModalFieldWrapper>
       </section>
 

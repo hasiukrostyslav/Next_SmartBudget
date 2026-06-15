@@ -123,7 +123,7 @@ export default function BulkToolbar({
       />
 
       {isOpenEditStatusModal && (
-        <Modal ref={editStatusModalRef} className="max-w-4/12">
+        <Modal ref={editStatusModalRef} className="w-4/12">
           <EditItemStatusForm
             onClose={closeEditStatusModal}
             selectedItems={selectedItems.map((el) => ({
@@ -135,7 +135,7 @@ export default function BulkToolbar({
       )}
 
       {isOpenEditCategoryModal && (
-        <Modal ref={editCategoryModalRef} className="max-w-5/12">
+        <Modal ref={editCategoryModalRef} className="w-5/12">
           <EditTransactionCategoryForm
             onClose={closeEditCategoryModal}
             selectedItems={selectedItems.map((el) => ({
@@ -147,7 +147,7 @@ export default function BulkToolbar({
       )}
 
       {isOpenDeleteModal && (
-        <Modal ref={deleteModalRef} className="max-w-4/12">
+        <Modal ref={deleteModalRef} className="w-4/12">
           <DeleteForm
             itemType="transaction"
             items={selectedItems.map((el) => ({

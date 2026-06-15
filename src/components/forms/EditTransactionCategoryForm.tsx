@@ -6,7 +6,7 @@ import clsx from 'clsx';
 
 import { changeTransactionCategory } from '@/lib/actions/transactionActions';
 import {
-    OperationType,
+  OperationType,
   TRANSACTION_CATEGORIES,
   TransactionCategories,
 } from '@/lib/constants/enums';
@@ -111,6 +111,7 @@ export default function EditTransactionCategoryForm({
             {filteredCategories.length === 0 ? (
               <EmptySearchResult
                 category="category"
+                variant="full"
                 query={searchQuery}
                 onClick={onClear}
               />

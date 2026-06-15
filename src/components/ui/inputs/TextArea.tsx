@@ -1,12 +1,19 @@
 import clsx from 'clsx';
 
 interface TextAreaProps {
+  name: string;
   placeholder?: string;
 }
 
-export default function TextArea({ placeholder }: TextAreaProps) {
+export default function TextArea({
+  name,
+  placeholder,
+  ...props
+}: TextAreaProps) {
   return (
     <textarea
+      {...props}
+      name={name}
       placeholder={placeholder}
       className={clsx(
         'outline-input w-full text-slate-700 dark:text-slate-50',
