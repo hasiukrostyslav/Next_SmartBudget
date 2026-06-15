@@ -49,7 +49,12 @@ export default function EmptySearchResult({
           'flex w-2/3 flex-col items-center justify-center gap-3 text-center',
         )}
       >
-        <p className="text-slate-500">
+        <p
+          className={clsx(
+            'text-slate-500',
+            variant === 'full' ? '' : 'text-sm',
+          )}
+        >
           Nothing in your {category} list matches that. Try a different keyword,
           or clear the search to see them all.
         </p>
