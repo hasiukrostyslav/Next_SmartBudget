@@ -14,6 +14,7 @@ import { usePasswordVisibility } from '@/hooks/usePasswordVisibility';
 
 import Button from '../ui/buttons/Button';
 import FormError from '../ui/feedback/FormError';
+import Spinner from '../ui/feedback/Spinner';
 import Icon from '../ui/icons/Icon';
 import Input from '../ui/inputs/Input';
 import AuthLink from '../ui/links/AuthLink';
@@ -82,7 +83,7 @@ export default function LoginForm() {
           'Sign In'
         ) : (
           <span className="flex items-center justify-center gap-2">
-            <Icon size={24} name="loader-circle" className="animate-spin" />
+            <Spinner size={24} />
             Submit
           </span>
         )}
