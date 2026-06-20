@@ -20,13 +20,13 @@ export default function PaginationFilter({
     <div className="flex items-center gap-2">
       <span>Showing</span>
       <Select
-        name="limit"
-        data={pageSizeOptions}
-        defaultOption={limit ? Number(limit) : pageSizeOptions[0]}
+        label="limit"
+        param="limit"
+        options={pageSizeOptions}
+        defaultValue={limit ? Number(limit) : pageSizeOptions[0]}
         width="sm"
-        color="blue"
+        variant="secondary"
         contentPosition="top"
-        autoFetchOnChange
         disabled={pageSizeOptions.length === 1}
       />
       <span>out of {totalCount}</span>

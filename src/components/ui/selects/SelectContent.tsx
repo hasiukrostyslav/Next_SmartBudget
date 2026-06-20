@@ -6,32 +6,32 @@ import SelectItem from './SelectItem';
 
 interface SelectContentProps {
   id: string;
-  data: (string | number)[];
+  options: (string | number)[];
   bulkLabel: string;
-  defaultOption: string | number | undefined;
-  selectedOption: string | number | undefined;
-  isSelectExpanded: boolean;
+  defaultValue: string | number | undefined;
+  selectedValue: string | number | undefined;
+  isContentExpanded: boolean;
   position: 'top' | 'bottom';
   onSelect: (option: string | number) => void;
 }
 
 export default function SelectContent({
   id,
-  data,
+  options,
   bulkLabel,
-  defaultOption,
-  selectedOption,
-  isSelectExpanded,
+  defaultValue,
+  selectedValue,
+  isContentExpanded,
   position,
   onSelect,
 }: SelectContentProps) {
   const { theme } = useTheme();
-  const sortedData = data.every((el) => typeof el === 'string')
-    ? data.toSorted()
-    : data;
+  const sortedData = options.every((el) => typeof el === 'string')
+    ? options.toSorted()
+    : options;
 
   const renderData =
-    defaultOption === 'all' ? [defaultOption, ...sortedData] : sortedData;
+    defaultValue === 'all' ? [defaultValue, ...sortedData] : sortedData;
 
   return (
     <div
@@ -40,7 +40,7 @@ export default function SelectContent({
       className={clsx(
         'absolute z-50 w-full text-sm',
         'transition-all duration-400 ease-in',
-        isSelectExpanded ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0',
+        isContentExpanded ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0',
         position === 'top'
           ? 'bottom-[calc(100%+4px)] origin-bottom'
           : 'origin-top translate-y-1',
@@ -61,8 +61,8 @@ export default function SelectContent({
             option={option}
             onSelect={onSelect}
             bulkLabel={bulkLabel}
-            selectedOption={selectedOption}
-            isSelectExpanded={isSelectExpanded}
+            selectedValue={selectedValue}
+            isContentExpanded={isContentExpanded}
           />
         ))}
       </div>
