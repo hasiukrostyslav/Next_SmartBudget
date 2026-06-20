@@ -9,7 +9,7 @@ import TransactionsFilters from '@/components/ui/features/transactions/Transacti
 import TransactionsList from '@/components/ui/features/transactions/TransactionsList';
 import EmptyState from '@/components/ui/feedback/EmptyState';
 import Error from '@/components/ui/feedback/Error';
-import Spinner from '@/components/ui/feedback/Spinner';
+import LoadingOverlay from '@/components/ui/feedback/LoadingOverlay';
 import PaginationTable from '@/components/ui/pagination/PaginationTable';
 
 type SearchParamsType = { [key: string]: string | string[] | undefined };
@@ -67,7 +67,7 @@ export default async function TransactionsPage({
       <Suspense
         key={suspenseKey}
         fallback={
-          <Spinner
+          <LoadingOverlay
             title="Loading your transactions"
             subtitle="Fetching balances and recent activity..."
           />

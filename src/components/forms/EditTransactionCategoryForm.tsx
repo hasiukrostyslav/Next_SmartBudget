@@ -18,12 +18,12 @@ import { useToast } from '@/hooks/useToast';
 
 import EmptySearchResult from '@/components/ui/feedback/EmptySearchResult';
 
+import RadioCard from '../ui/controls/RadioCard';
 import Input from '../ui/inputs/Input';
 import ModalFieldLabel from '../ui/modals/ModalFieldLabel';
 import ModalFieldWrapper from '../ui/modals/ModalFieldWrapper';
 import ModalFooter from '../ui/modals/ModalFooter';
 import ModalHeader from '../ui/modals/ModalHeader';
-import RadioCard from '../ui/selects/RadioCard';
 
 interface EditTransactionCategoryFormProps {
   onClose: () => void;
@@ -102,7 +102,7 @@ export default function EditTransactionCategoryForm({
 
           <div
             className={clsx(
-              'grid h-72 grid-cols-2 gap-3 pr-2',
+              'mt-2 grid h-72 grid-cols-2 gap-3 pr-2',
               'scrollbar auto-rows-min overflow-y-auto',
               theme === 'dark' ? 'scrollbar-dark' : '',
               filteredCategories.length === 0 ? 'place-content-center' : '',

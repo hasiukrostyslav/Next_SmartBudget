@@ -7,6 +7,7 @@ import { z } from 'zod';
 
 import { OperationType, TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
 import {
+  CREATE_TRANSACTION_FIELDS,
   TRANSACTION_CATEGORIES_CONFIG,
   TRANSACTION_TYPE_CONFIG,
 } from '@/lib/constants/transactions';
@@ -14,15 +15,17 @@ import { CreateTransactionSchema } from '@/lib/schemas/transaction.schema';
 import { useSearchInput } from '@/hooks/useSearchInput';
 import { useTheme } from '@/hooks/useTheme';
 
+import RadioCard from '../ui/controls/RadioCard';
+import SegmentedControl from '../ui/controls/SegmentedControl';
 import EmptySearchResult from '../ui/feedback/EmptySearchResult';
 import Input from '../ui/inputs/Input';
 import TextArea from '../ui/inputs/TextArea';
 import ModalFieldLabel from '../ui/modals/ModalFieldLabel';
+import ModalFieldRow from '../ui/modals/ModalFieldRow';
 import ModalFieldWrapper from '../ui/modals/ModalFieldWrapper';
 import ModalFooter from '../ui/modals/ModalFooter';
 import ModalHeader from '../ui/modals/ModalHeader';
-import RadioCard from '../ui/selects/RadioCard';
-import SegmentedControl from '../ui/selects/SegmentedControl';
+import Select from '../ui/selects/Select';
 
 type FormData = z.infer<typeof CreateTransactionSchema>;
 
@@ -63,12 +66,12 @@ export default function CreateTransactionForm({
       />
 
       <section className="flex flex-col gap-2 px-6 py-4">
-        <div className="flex items-center justify-between gap-4">
+        <ModalFieldRow>
           <ModalFieldWrapper>
-            <ModalFieldLabel label="Type" />
+            <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.TYPE.label} />
             <Controller
               control={control}
-              name="transactionType"
+              name={CREATE_TRANSACTION_FIELDS.TYPE.name}
               render={({ field }) => (
                 <SegmentedControl
                   options={TRANSACTION_TYPE_CONFIG}
@@ -80,31 +83,37 @@ export default function CreateTransactionForm({
           </ModalFieldWrapper>
 
           <ModalFieldWrapper>
-            <ModalFieldLabel label="Status" />
-            <Input name="amount" padding="md" />
-          </ModalFieldWrapper>
-        </div>
-
-        <div className="flex items-center justify-between gap-4">
-          <ModalFieldWrapper>
-            <ModalFieldLabel label="Name" />
-            <Input
-              {...register('transactionName')}
+            <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.STATUS.label} />
+            <Select
+              name={CREATE_TRANSACTION_FIELDS.STATUS.name}
+              data={['Completed', 'Pending']}
               padding="md"
-              placeholder="e.g. Grocery shopping"
+              placeholder="Select Status"
             />
           </ModalFieldWrapper>
+        </ModalFieldRow>
+
+        <ModalFieldRow>
+          <ModalFieldWrapper>
+            <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.NAME.label} />
+            <Input
+              {...register(CREATE_TRANSACTION_FIELDS.NAME.name)}
+              padding="md"
+              placeholder={CREATE_TRANSACTION_FIELDS.NAME.placeholder}
+            />
+          </ModalFieldWrapper>
+
           <ModalFieldWrapper>
             <ModalFieldLabel label="Amount & currency" />
             <Input name="amount" padding="md" />
           </ModalFieldWrapper>
-        </div>
+        </ModalFieldRow>
 
         <ModalFieldWrapper>
-          <ModalFieldLabel label="Category" />
+          <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.CATEGORY.label} />
           <Input
             name="search"
-            placeholder="Search categories..."
+            placeholder={CREATE_TRANSACTION_FIELDS.CATEGORY.placeholder}
             iconName="search"
             padding="md"
             value={searchQuery}
@@ -114,7 +123,7 @@ export default function CreateTransactionForm({
           />
           <Controller
             control={control}
-            name="transactionCategory"
+            name={CREATE_TRANSACTION_FIELDS.CATEGORY.name}
             render={({ field }) => (
               <div
                 className={clsx(
@@ -154,22 +163,26 @@ export default function CreateTransactionForm({
           />
         </ModalFieldWrapper>
 
-        <div className="flex items-center justify-between gap-4">
+        <ModalFieldRow>
           <ModalFieldWrapper>
             <ModalFieldLabel label="Date" />
             <Input name="name" padding="md" />
           </ModalFieldWrapper>
+
           <ModalFieldWrapper>
             <ModalFieldLabel label="Payment method" />
             <Input name="amount" padding="md" />
           </ModalFieldWrapper>
-        </div>
+        </ModalFieldRow>
 
         <ModalFieldWrapper>
-          <ModalFieldLabel label="note" isOptional />
+          <ModalFieldLabel
+            label={CREATE_TRANSACTION_FIELDS.DESCRIPTION.label}
+            isOptional
+          />
           <TextArea
-            {...register('description')}
-            placeholder="Add a note for context, receipt number, etc."
+            {...register(CREATE_TRANSACTION_FIELDS.DESCRIPTION.name)}
+            placeholder={CREATE_TRANSACTION_FIELDS.DESCRIPTION.placeholder}
           />
         </ModalFieldWrapper>
       </section>

@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import { TransactionItem } from '@/types/types';
 
-import CheckBox from '../../inputs/CheckBox';
+import CheckBox from '../../controls/CheckBox';
 import TransactionAccount from './TransactionAccount';
 import TransactionActionButtons from './TransactionActionButtons';
 import TransactionAmount from './TransactionAmount';

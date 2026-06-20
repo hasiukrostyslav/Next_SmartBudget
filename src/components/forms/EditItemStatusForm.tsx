@@ -10,11 +10,11 @@ import { STATUS_CONFIG } from '@/lib/constants/transactions';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useToast } from '@/hooks/useToast';
 
+import RadioCard from '../ui/controls/RadioCard';
 import ModalFieldLabel from '../ui/modals/ModalFieldLabel';
 import ModalFieldWrapper from '../ui/modals/ModalFieldWrapper';
 import ModalFooter from '../ui/modals/ModalFooter';
 import ModalHeader from '../ui/modals/ModalHeader';
-import RadioCard from '../ui/selects/RadioCard';
 
 interface EditItemStatusFormProps {
   onClose: () => void;

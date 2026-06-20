@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 
-import CheckBox from '../../inputs/CheckBox';
+import CheckBox from '../../controls/CheckBox';
 import TransactionsSortList from './TransactionsSortList';
 
 interface TransactionsSortProps {
@@ -20,7 +20,11 @@ export default function TransactionsSort({
         'col-span-full mb-4 grid grid-cols-subgrid items-center px-1',
       )}
     >
-      <CheckBox name="all" checked={isBulkSelect} onChange={onToggleBulkSelect} />
+      <CheckBox
+        name="all"
+        checked={isBulkSelect}
+        onChange={onToggleBulkSelect}
+      />
 
       <TransactionsSortList />
     </div>
