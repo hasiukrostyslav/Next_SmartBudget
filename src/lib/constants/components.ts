@@ -49,6 +49,8 @@ export const MODAL_CONFIG = {
     create: {
       icon: 'plus',
       iconColor: 'text-blue-500',
+      button:
+        'border border-blue-500 text-blue-500 bg-blue-100 dark:bg-blue-500/10',
       iconBgColor: 'bg-blue-100 dark:bg-blue-500/20',
       header: 'Add new',
       infoText: 'Enter an income or expense record',
@@ -56,6 +58,8 @@ export const MODAL_CONFIG = {
     editStatus: {
       icon: 'refresh',
       iconColor: 'text-blue-500',
+      button:
+        'border border-blue-500 text-blue-500 bg-blue-100 dark:bg-blue-500/10 dark:border-blue-400 dark:text-blue-400',
       iconBgColor: 'bg-blue-100 dark:bg-blue-500/20',
       header: 'Change status',
       infoText: 'Update what happened with this transaction',
@@ -63,6 +67,8 @@ export const MODAL_CONFIG = {
     editCategory: {
       icon: 'tag',
       iconColor: 'text-purple-500',
+      button:
+        'border border-purple-500 text-purple-500 bg-purple-100 dark:bg-purple-500/10 dark:border-purple-400 dark:text-purple-400',
       iconBgColor: 'bg-purple-200 dark:bg-purple-500/20',
       header: 'Change category',
       infoText: 'Re-categorize what these transactions are for',
@@ -70,6 +76,8 @@ export const MODAL_CONFIG = {
     delete: {
       icon: 'delete',
       iconColor: 'text-red-500',
+      button:
+        'border border-red-500 text-red-500 bg-red-100 dark:bg-red-500/10 dark:border-red-400 dark:text-red-400',
       iconBgColor: 'bg-red-200 dark:bg-red-500/10',
       header: 'Delete',
       infoText: 'This action cannot be undone',

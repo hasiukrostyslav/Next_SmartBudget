@@ -12,6 +12,7 @@ import {
 import { useModal } from '@/hooks/useModal';
 
 import DeleteForm from '@/components/forms/DeleteForm';
+import SectionWrapper from '@/components/layouts/SectionWrapper';
 
 import EditItemStatusForm from '../../../forms/EditItemStatusForm';
 import EditTransactionCategoryForm from '../../../forms/EditTransactionCategoryForm';
@@ -66,26 +67,30 @@ export default function BulkToolbar({
   } = useModal();
 
   return (
-    <div
+    <SectionWrapper
       className={clsx(
-        'flex items-center rounded-md px-3 py-2.5 text-sm',
-        'bg-blue-600 text-slate-100 dark:bg-blue-800/20',
-        'absolute top-full left-1/5 translate-y-3',
+        'flex items-center text-sm',
+        'absolute top-full left-1/5 translate-y-6',
         !isShown ? 'hidden' : '',
       )}
     >
-      <div className="mr-3 flex gap-1 border-r pr-3">
+      <div
+        className={clsx(
+          'mr-3 flex gap-1 bg-blue-300/40 px-4 py-1 pr-3 dark:bg-blue-800/70',
+          'rounded-md',
+        )}
+      >
         <span
           className={clsx(
             'grid h-5 min-w-5 place-content-center rounded-md px-2',
-            'bg-blue-500',
+            'bg-blue-500 text-slate-100',
           )}
         >
           {selectedNumber}
         </span>
-        <span>selected</span>
+        <span className="text-blue-700 dark:text-blue-200">selected</span>
       </div>
-      <div className="mr-9 flex items-center justify-center gap-3">
+      <div className="mr-5 flex items-center justify-center gap-3">
         <ToolbarButton
           iconName="select"
           iconSize={14}
@@ -97,18 +102,21 @@ export default function BulkToolbar({
           iconName="refresh"
           iconSize={14}
           label="Change status"
+          modalCategory="editStatus"
           onClick={openEditStatusModal}
         />
         <ToolbarButton
           iconName="tag"
           iconSize={14}
           label="Change category"
+          modalCategory="editCategory"
           onClick={openEditCategoryModal}
         />
         <ToolbarButton
           iconName="delete"
           iconSize={14}
           label="Delete"
+          modalCategory="delete"
           onClick={openDeleteModal}
         />
       </div>
@@ -119,7 +127,7 @@ export default function BulkToolbar({
         variant="outline"
         padding="base"
         onClick={onBulkUnSelect}
-        className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800/10"
+        className="hover:bg-slate-300 dark:hover:bg-slate-700"
       />
 
       {isOpenEditStatusModal && (
@@ -164,6 +172,6 @@ export default function BulkToolbar({
           />
         </Modal>
       )}
-    </div>
+    </SectionWrapper>
   );
 }
