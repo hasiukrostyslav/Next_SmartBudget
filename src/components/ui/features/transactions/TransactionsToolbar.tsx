@@ -10,7 +10,7 @@ export default async function TransactionsToolbar() {
         <TransactionsFilters />
 
         <div className="ml-auto flex items-center gap-4">
-          <TransactionsCTA buttonSize="md" iconSize={16} />
+          <TransactionsCTA buttonSize="sm" iconSize={16} />
         </div>
       </div>
     </SectionWrapper>
