@@ -12,7 +12,8 @@ export default function Footer() {
     <footer
       className={clsx(
         'col-start-2 flex items-center justify-between gap-20 px-10 py-5 text-xs',
-        'text-slate-500 dark:text-slate-400',
+        'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400',
+        'border-t border-blue-400',
       )}
     >
       <Copyright />
