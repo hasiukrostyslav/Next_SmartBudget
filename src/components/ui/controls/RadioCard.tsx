@@ -41,7 +41,7 @@ export default function RadioCard({
         withExtraContent ? 'px-4 py-2' : 'px-2 py-2',
         selectedValue === option || (!selectedValue && isCurrent)
           ? styleConfig.card
-          : `border-slate-200 hover:border-slate-300 dark:border-slate-800 dark:hover:border-slate-700`,
+          : `border-slate-200 hover:border-slate-300 dark:border-slate-700 dark:hover:border-slate-500`,
       )}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
