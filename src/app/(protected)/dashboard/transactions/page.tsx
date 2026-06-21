@@ -5,8 +5,8 @@ import { EMPTY_STATE_TEXT } from '@/lib/constants/messages';
 import { SearchParamsSchema } from '@/lib/schemas/transaction.schema';
 
 import TransactionsCTA from '@/components/ui/features/transactions/TransactionsCTA';
-import TransactionsFilters from '@/components/ui/features/transactions/TransactionsFilters';
 import TransactionsList from '@/components/ui/features/transactions/TransactionsList';
+import TransactionsToolbar from '@/components/ui/features/transactions/TransactionsToolbar';
 import EmptyState from '@/components/ui/feedback/EmptyState';
 import Error from '@/components/ui/feedback/Error';
 import LoadingOverlay from '@/components/ui/feedback/LoadingOverlay';
@@ -63,7 +63,7 @@ export default async function TransactionsPage({
 
   return (
     <section className="grid h-full grid-rows-[auto_1fr_auto] gap-4">
-      <TransactionsFilters />
+      <TransactionsToolbar />
       <Suspense
         key={suspenseKey}
         fallback={

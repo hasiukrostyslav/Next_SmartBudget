@@ -5,7 +5,7 @@ import clsx from 'clsx';
 interface SelectItemProps {
   isContentExpanded: boolean;
   selectedValue: string | number | undefined;
-  bulkLabel: string;
+  label: string;
   option: string | number;
   onSelect: (option: string | number) => void;
 }
@@ -13,7 +13,7 @@ interface SelectItemProps {
 export default function SelectItem({
   isContentExpanded,
   selectedValue,
-  bulkLabel,
+  label,
   option,
   onSelect,
 }: SelectItemProps) {
@@ -34,7 +34,7 @@ export default function SelectItem({
       {typeof option === 'number'
         ? option
         : option === 'all'
-          ? `All ${bulkLabel.at(0)?.toUpperCase() + bulkLabel.slice(1)}`
+          ? `All ${label.at(0)?.toUpperCase() + label.slice(1)}`
           : option
               .split(' ')
               .map((word) => word.replace(word[0], word[0].toUpperCase()))

@@ -17,17 +17,17 @@ export default function SelectDisplay({
 
   if (!selectedValue) return null;
 
-  let renderOption;
+  let visibleOption;
   if (typeof selectedValue === 'number') {
-    renderOption = selectedValue;
+    visibleOption = selectedValue;
   } else if (selectedValue === 'all') {
-    renderOption = `All ${bulkLabel.at(0)?.toUpperCase() + bulkLabel.slice(1)}`;
+    visibleOption = `All ${bulkLabel.at(0)?.toUpperCase() + bulkLabel.slice(1)}`;
   } else {
-    renderOption = selectedValue
+    visibleOption = selectedValue
       .split(' ')
       .map((word) => word.replace(word[0], word[0].toUpperCase()))
       .join(' ');
   }
 
-  return <span>{renderOption}</span>;
+  return <span>{visibleOption}</span>;
 }

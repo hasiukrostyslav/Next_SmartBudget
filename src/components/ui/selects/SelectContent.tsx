@@ -7,7 +7,7 @@ import SelectItem from './SelectItem';
 interface SelectContentProps {
   id: string;
   options: (string | number)[];
-  bulkLabel: string;
+  label: string;
   defaultValue: string | number | undefined;
   selectedValue: string | number | undefined;
   isContentExpanded: boolean;
@@ -18,7 +18,7 @@ interface SelectContentProps {
 export default function SelectContent({
   id,
   options,
-  bulkLabel,
+  label,
   defaultValue,
   selectedValue,
   isContentExpanded,
@@ -26,12 +26,12 @@ export default function SelectContent({
   onSelect,
 }: SelectContentProps) {
   const { theme } = useTheme();
-  const sortedData = options.every((el) => typeof el === 'string')
+  const sortedOptions = options.every((el) => typeof el === 'string')
     ? options.toSorted()
     : options;
 
-  const renderData =
-    defaultValue === 'all' ? [defaultValue, ...sortedData] : sortedData;
+  const visibleOptions =
+    defaultValue === 'all' ? [defaultValue, ...sortedOptions] : sortedOptions;
 
   return (
     <div
@@ -55,12 +55,12 @@ export default function SelectContent({
           theme === 'dark' ? 'scrollbar-dark' : '',
         )}
       >
-        {renderData.map((option) => (
+        {visibleOptions.map((option) => (
           <SelectItem
             key={option}
             option={option}
             onSelect={onSelect}
-            bulkLabel={bulkLabel}
+            label={label}
             selectedValue={selectedValue}
             isContentExpanded={isContentExpanded}
           />

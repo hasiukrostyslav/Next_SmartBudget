@@ -7,3 +7,13 @@ export const HTTP_STATUS = {
   UNPROCESSABLE_ENTITY: 422,
   SERVER_ERROR: 500,
 };
+
+export const TRANSACTION_SEARCH_PARAMS = {
+  LIMIT: 'limit',
+  PAGE: 'page',
+  CATEGORIES: 'categories',
+  TYPES: 'types',
+  ACCOUNTS: 'accounts',
+  SORT: 'sort',
+  ORDER: 'order',
+} as const;

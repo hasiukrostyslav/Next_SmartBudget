@@ -83,7 +83,7 @@ export default function Select({
       <SelectContent
         id={id}
         options={options}
-        bulkLabel={label}
+        label={label}
         defaultValue={defaultValue}
         selectedValue={selectedValue}
         isContentExpanded={isContentExpanded}

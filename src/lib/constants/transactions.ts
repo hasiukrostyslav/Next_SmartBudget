@@ -486,37 +486,37 @@ export const TRANSACTION_CATEGORIES_CONFIG = {
 } as const;
 
 export const CREATE_TRANSACTION_FIELDS = {
-  type: {
+  TYPE: {
     label: 'Type',
     name: 'transactionType',
   },
-  status: {
+  STATUS: {
     label: 'Status',
     name: 'status',
   },
-  name: {
+  NAME: {
     label: 'Name',
     name: 'transactionName',
     placeholder: 'e.g. Grocery shopping',
   },
-  amount: {
+  AMOUNT: {
     label: 'Amount & currency',
     name: 'transactionType',
   },
-  category: {
+  CATEGORY: {
     label: 'Category',
     name: 'transactionCategory',
     placeholder: 'Search categories...',
   },
-  date: {
+  DATE: {
     label: 'Date',
     name: 'transactionType',
   },
-  paymentMethod: {
+  PAYMENT_METHOD: {
     label: 'Payment method',
     name: 'paymentMethod',
   },
-  description: {
+  DESCRIPTION: {
     label: 'Description',
     name: 'description',
     placeholder: 'Add a note for context, receipt number, etc.',
