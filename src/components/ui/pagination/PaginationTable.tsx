@@ -9,7 +9,7 @@ interface PaginationTableProps {
 
 export default function PaginationTable({ totalCount }: PaginationTableProps) {
   return (
-    <section className="flex items-center justify-between px-1 py-1">
+    <section className="flex items-center justify-between px-1 py-0.5">
       <PaginationFilter totalCount={totalCount} />
       <PaginationPage totalCount={totalCount} />
     </section>

@@ -5,14 +5,14 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --tooltip-bg: #e2e8f0;    /* slate-200 */
-  --tooltip-fg: #1e293b;    /* slate-800 */
+  --tooltip-bg: #e2e8f0; /* slate-200 */
+  --tooltip-fg: #1e293b; /* slate-800 */
   --tooltip-arrow: #94a3b8; /* slate-400 — visible against light page bg */
 }
 
 .dark {
-  --tooltip-bg: #1d4ed8;    /* blue-700 */
-  --tooltip-fg: #f1f5f9;    /* slate-100 */
+  --tooltip-bg: #1d4ed8; /* blue-700 */
+  --tooltip-fg: #f1f5f9; /* slate-100 */
   --tooltip-arrow: #1d4ed8; /* matches bg */
 }
 
@@ -47,12 +47,12 @@ Green - emerald(50, 300, 400, 500, 600)
 */
 
 @layer utilities {
-  .h-55vh {
-    height: 55vh;
+  .h-50vh {
+    height: 50vh;
   }
   @media (min-width: 1537px) {
-    .h-65vh {
-      height: 65vh;
+    .h-61vh {
+      height: 61vh;
     }
   }
 }

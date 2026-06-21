@@ -17,7 +17,7 @@ export default function TransactionsSort({
   return (
     <div
       className={clsx(
-        'col-span-full mb-4 grid grid-cols-subgrid items-center px-1',
+        'col-span-full mb-4 grid grid-cols-subgrid items-center px-2',
       )}
     >
       <CheckBox
