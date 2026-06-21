@@ -21,7 +21,7 @@ export default function TransactionActionButtons({
 
   return (
     <>
-      <div className="flex text-slate-500">
+      <div className="flex text-slate-500 dark:text-slate-300">
         <ButtonIcon
           iconName="copy"
           shape="square"
