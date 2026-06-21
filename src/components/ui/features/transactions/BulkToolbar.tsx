@@ -127,7 +127,7 @@ export default function BulkToolbar({
         variant="outline"
         padding="base"
         onClick={onBulkUnSelect}
-        className="hover:bg-slate-300 dark:hover:bg-slate-700"
+        className="text-slate-500 hover:bg-slate-300 dark:text-slate-400 dark:hover:bg-slate-700"
       />
 
       {isOpenEditStatusModal && (
