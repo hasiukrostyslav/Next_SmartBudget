@@ -1,12 +1,10 @@
 interface SelectDisplayProps {
   selectedValue: string | number | undefined;
-  bulkLabel: string;
   placeholder?: string;
 }
 
 export default function SelectDisplay({
   selectedValue,
-  bulkLabel,
   placeholder,
 }: SelectDisplayProps) {
   if (placeholder && !selectedValue) {
@@ -20,8 +18,6 @@ export default function SelectDisplay({
   let visibleOption;
   if (typeof selectedValue === 'number') {
     visibleOption = selectedValue;
-  } else if (selectedValue === 'all') {
-    visibleOption = `All ${bulkLabel.at(0)?.toUpperCase() + bulkLabel.slice(1)}`;
   } else {
     visibleOption = selectedValue
       .split(' ')

@@ -73,18 +73,12 @@ export default function Select({
         isContentExpanded={isContentExpanded}
         onClick={handleToggleExpanded}
       >
-        <SelectValue
-          selectedValue={selectedValue}
-          bulkLabel={label}
-          placeholder={placeholder}
-        />
+        <SelectValue selectedValue={selectedValue} placeholder={placeholder} />
       </SelectTrigger>
 
       <SelectContent
         id={id}
         options={options}
-        label={label}
-        defaultValue={defaultValue}
         selectedValue={selectedValue}
         isContentExpanded={isContentExpanded}
         position={contentPosition}

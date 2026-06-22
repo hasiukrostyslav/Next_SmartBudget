@@ -5,7 +5,6 @@ import clsx from 'clsx';
 interface SelectItemProps {
   isContentExpanded: boolean;
   selectedValue: string | number | undefined;
-  label: string;
   option: string | number;
   onSelect: (option: string | number) => void;
 }
@@ -13,7 +12,6 @@ interface SelectItemProps {
 export default function SelectItem({
   isContentExpanded,
   selectedValue,
-  label,
   option,
   onSelect,
 }: SelectItemProps) {
@@ -33,12 +31,10 @@ export default function SelectItem({
     >
       {typeof option === 'number'
         ? option
-        : option === 'all'
-          ? `All ${label.at(0)?.toUpperCase() + label.slice(1)}`
-          : option
-              .split(' ')
-              .map((word) => word.replace(word[0], word[0].toUpperCase()))
-              .join(' ')}
+        : option
+            .split(' ')
+            .map((word) => word.replace(word[0], word[0].toUpperCase()))
+            .join(' ')}
     </button>
   );
 }

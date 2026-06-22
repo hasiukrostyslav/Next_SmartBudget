@@ -18,26 +18,18 @@ export default function TransactionsFilters() {
           label="categories"
           param="categories"
           options={TRANSACTION_CATEGORIES.map((el) => el.replace('_', ' '))}
-          defaultValue="all"
           width="lg"
         />
-        <Select
-          label="accounts"
-          param="accounts"
-          options={[]}
-          defaultValue="all"
-        />
+        <Select label="accounts" param="accounts" options={[]} />
         <Select
           label="types"
           param="types"
           options={TRANSACTION_TYPE_CONFIG.map((c) => c.option)}
-          defaultValue="all"
         />
         <Select
           label="currency"
           param="currency"
           options={CURRENCY.map((c) => c.currency)}
-          defaultValue="all"
         />
       </div>
     </>

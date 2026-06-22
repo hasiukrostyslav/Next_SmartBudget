@@ -493,6 +493,7 @@ export const CREATE_TRANSACTION_FIELDS = {
   STATUS: {
     label: 'Status',
     name: 'status',
+    placeholder: 'Select Status',
   },
   NAME: {
     label: 'Name',

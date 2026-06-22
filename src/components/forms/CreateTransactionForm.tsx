@@ -85,10 +85,10 @@ export default function CreateTransactionForm({
           <ModalFieldWrapper>
             <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.STATUS.label} />
             <Select
-              name={CREATE_TRANSACTION_FIELDS.STATUS.name}
-              data={['Completed', 'Pending']}
+              label={CREATE_TRANSACTION_FIELDS.STATUS.name}
+              options={['Completed', 'Pending']}
               padding="md"
-              placeholder="Select Status"
+              placeholder={CREATE_TRANSACTION_FIELDS.STATUS.placeholder}
             />
           </ModalFieldWrapper>
         </ModalFieldRow>

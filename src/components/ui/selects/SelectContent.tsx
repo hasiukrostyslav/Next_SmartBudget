@@ -7,8 +7,6 @@ import SelectItem from './SelectItem';
 interface SelectContentProps {
   id: string;
   options: (string | number)[];
-  label: string;
-  defaultValue: string | number | undefined;
   selectedValue: string | number | undefined;
   isContentExpanded: boolean;
   position: 'top' | 'bottom';
@@ -18,20 +16,16 @@ interface SelectContentProps {
 export default function SelectContent({
   id,
   options,
-  label,
-  defaultValue,
   selectedValue,
   isContentExpanded,
   position,
   onSelect,
 }: SelectContentProps) {
   const { theme } = useTheme();
+
   const sortedOptions = options.every((el) => typeof el === 'string')
     ? options.toSorted()
     : options;
-
-  const visibleOptions =
-    defaultValue === 'all' ? [defaultValue, ...sortedOptions] : sortedOptions;
 
   return (
     <div
@@ -55,12 +49,11 @@ export default function SelectContent({
           theme === 'dark' ? 'scrollbar-dark' : '',
         )}
       >
-        {visibleOptions.map((option) => (
+        {sortedOptions.map((option) => (
           <SelectItem
             key={option}
             option={option}
             onSelect={onSelect}
-            label={label}
             selectedValue={selectedValue}
             isContentExpanded={isContentExpanded}
           />
