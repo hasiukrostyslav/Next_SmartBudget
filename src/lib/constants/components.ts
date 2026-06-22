@@ -164,7 +164,7 @@ export const SELECT_CONFIG = {
     primary:
       'border-slate-300 dark:border-slate-500 dark:bg-slate-800 text-slate-700',
     secondary:
-      'border-blue-300 bg-blue-200/50 text-slate-700 dark:border-slate-500 dark:bg-slate-800',
+      'border-slate-300 bg-slate-50 text-slate-700 dark:border-slate-500 dark:bg-slate-800',
   },
 } as const;
 

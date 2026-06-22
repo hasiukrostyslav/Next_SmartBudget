@@ -3,27 +3,34 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 
 import { createQueryString } from '@/lib/utils/utils';
-import { usePagination } from '@/hooks/usePagination';
 
 import PaginationButton from './PaginationButton';
 import PaginationSkip from './PaginationSkip';
 
 interface PaginationPageProps {
-  totalCount: number;
+  pageCount: number;
+  currentPage: number;
+  stack: (number | null | undefined)[];
+  prevPageQuery: string;
+  nextPageQuery: string;
 }
 
-export default function PaginationPage({ totalCount }: PaginationPageProps) {
+export default function PaginationPage({
+  pageCount,
+  currentPage,
+  stack,
+  prevPageQuery,
+  nextPageQuery,
+}: PaginationPageProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { count, currentPage, stack, prevPageQuery, nextPageQuery } =
-    usePagination(totalCount);
 
   return (
     <div className="flex items-center gap-2">
       <PaginationButton
         href={`${pathname}?${prevPageQuery}`}
         page="prev"
-        disabled={count === 1 || currentPage === 1}
+        disabled={pageCount === 1 || currentPage === 1}
       />
 
       {stack.map((page, i) =>
@@ -41,7 +48,7 @@ export default function PaginationPage({ totalCount }: PaginationPageProps) {
       <PaginationButton
         href={`${pathname}?${nextPageQuery}`}
         page="next"
-        disabled={count === 1 || currentPage === count}
+        disabled={pageCount === 1 || currentPage === pageCount}
       />
     </div>
   );
