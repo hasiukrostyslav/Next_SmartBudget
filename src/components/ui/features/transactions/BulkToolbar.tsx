@@ -70,13 +70,13 @@ export default function BulkToolbar({
     <SectionWrapper
       className={clsx(
         'flex items-center text-sm',
-        'absolute top-full left-1/5 translate-y-6',
+        'absolute top-full right-1/5 translate-y-6',
         !isShown ? 'hidden' : '',
       )}
     >
       <div
         className={clsx(
-          'mr-3 flex gap-1 bg-blue-300/40 px-4 py-1 pr-3 dark:bg-blue-800/70',
+          'mr-2 flex gap-1 bg-blue-300/40 px-4 py-1 pr-3 dark:bg-blue-800/70',
           'rounded-md',
         )}
       >
@@ -90,7 +90,7 @@ export default function BulkToolbar({
         </span>
         <span className="text-blue-700 dark:text-blue-200">selected</span>
       </div>
-      <div className="mr-5 flex items-center justify-center gap-3">
+      <div className="mr-3 flex items-center justify-center gap-3">
         <ToolbarButton
           iconName="select"
           iconSize={14}

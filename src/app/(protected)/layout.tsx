@@ -14,7 +14,7 @@ export default function DashboardLayout({
       <TooltipProvider>
         <Sidebar />
         <Header />
-        <section className="relative bg-slate-200 px-6 py-4 dark:bg-slate-900">
+        <section className="relative bg-slate-50 px-6 py-4 dark:bg-slate-900">
           {children}
         </section>
         <Footer />

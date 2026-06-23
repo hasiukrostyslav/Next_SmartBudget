@@ -21,7 +21,7 @@ export default function PaginationTable({ totalCount }: PaginationTableProps) {
   } = usePagination(totalCount);
 
   return (
-    <section className="flex items-center justify-between px-1 py-0.5">
+    <section className="flex items-center justify-between py-0.5">
       <PaginationFilter
         totalCount={totalCount}
         limit={limit}

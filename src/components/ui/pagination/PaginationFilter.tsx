@@ -21,14 +21,14 @@ export default function PaginationFilter({
 
   return (
     <div className="flex items-center text-sm text-slate-500">
-      <div className="border-r border-slate-300 px-3 dark:border-slate-700">
+      <div className="border-r border-slate-300 pr-2 dark:border-slate-700">
         <span className="font-semibold text-slate-600 dark:text-slate-300">
           {itemsRange.min}-{itemsRange.max}
         </span>{' '}
         of {totalCount}
       </div>
 
-      <div className="flex items-center gap-2 px-3">
+      <div className="flex items-center gap-2 pl-2">
         <span>Rows per page</span>
         <Select
           label={TRANSACTION_SEARCH_PARAMS.LIMIT}
