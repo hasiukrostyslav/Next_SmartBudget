@@ -8,11 +8,12 @@ import z from 'zod';
 
 import { signUp } from '@/lib/actions/authActions';
 import { INPUT_PLACEHOLDER } from '@/lib/constants/messages';
-import { SignUpSchema } from '@/lib/schemas/schema';
+import { SignUpSchema } from '@/lib/schemas/auth.schema';
 import { usePasswordVisibility } from '@/hooks/usePasswordVisibility';
 
 import Button from '../ui/buttons/Button';
 import FormError from '../ui/feedback/FormError';
+import Spinner from '../ui/feedback/Spinner';
 import Icon from '../ui/icons/Icon';
 import Input from '../ui/inputs/Input';
 
@@ -54,7 +55,7 @@ export default function SignUpForm() {
         placeholder={INPUT_PLACEHOLDER.name}
         disabled={isPending}
         error={errors.name?.message}
-        icon="name"
+        iconName="name"
       />
       <Input
         {...register('email')}
@@ -62,7 +63,7 @@ export default function SignUpForm() {
         placeholder={INPUT_PLACEHOLDER.email}
         disabled={isPending}
         error={errors.email?.message}
-        icon="email"
+        iconName="email"
       />
       <Input
         {...register('password')}
@@ -70,7 +71,7 @@ export default function SignUpForm() {
         placeholder={INPUT_PLACEHOLDER.password}
         disabled={isPending}
         error={errors.password?.message}
-        icon="password"
+        iconName="password"
         trailingButton={{
           role: buttonRole,
           onClick: toggleVisibility,
@@ -90,7 +91,7 @@ export default function SignUpForm() {
           'Sign Up'
         ) : (
           <span className="flex items-center justify-center gap-2">
-            <Icon name="loader-circle" className="animate-spin" />
+            <Spinner size={24} />
             Submit
           </span>
         )}

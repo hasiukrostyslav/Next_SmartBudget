@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 import { TransactionCategories } from '@/lib/constants/enums';
-import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/ui';
+import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/transactions';
 
 import Icon from '../../icons/Icon';
 
@@ -24,7 +24,7 @@ export default function TransactionBadge({
       >
         <Icon
           name={TRANSACTION_CATEGORIES_CONFIG[category].icon || 'banknote'}
-          size={20}
+          size={18}
         />
       </span>
       <div className="flex items-center">

@@ -6,32 +6,26 @@ import SelectItem from './SelectItem';
 
 interface SelectContentProps {
   id: string;
-  data: (string | number)[];
-  bulkLabel: string;
-  defaultOption: string | number | undefined;
-  selectedOption: string | number | undefined;
-  isSelectExpanded: boolean;
+  options: (string | number)[];
+  selectedValue: string | number | undefined;
+  isContentExpanded: boolean;
   position: 'top' | 'bottom';
   onSelect: (option: string | number) => void;
 }
 
 export default function SelectContent({
   id,
-  data,
-  bulkLabel,
-  defaultOption,
-  selectedOption,
-  isSelectExpanded,
+  options,
+  selectedValue,
+  isContentExpanded,
   position,
   onSelect,
 }: SelectContentProps) {
   const { theme } = useTheme();
-  const sortedData = data.every((el) => typeof el === 'string')
-    ? data.toSorted()
-    : data;
 
-  const renderData =
-    defaultOption === 'all' ? [defaultOption, ...sortedData] : sortedData;
+  const sortedOptions = options.every((el) => typeof el === 'string')
+    ? options.toSorted()
+    : options;
 
   return (
     <div
@@ -40,7 +34,7 @@ export default function SelectContent({
       className={clsx(
         'absolute z-50 w-full text-sm',
         'transition-all duration-400 ease-in',
-        isSelectExpanded ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0',
+        isContentExpanded ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0',
         position === 'top'
           ? 'bottom-[calc(100%+4px)] origin-bottom'
           : 'origin-top translate-y-1',
@@ -55,14 +49,13 @@ export default function SelectContent({
           theme === 'dark' ? 'scrollbar-dark' : '',
         )}
       >
-        {renderData.map((option) => (
+        {sortedOptions.map((option) => (
           <SelectItem
             key={option}
             option={option}
             onSelect={onSelect}
-            bulkLabel={bulkLabel}
-            selectedOption={selectedOption}
-            isSelectExpanded={isSelectExpanded}
+            selectedValue={selectedValue}
+            isContentExpanded={isContentExpanded}
           />
         ))}
       </div>

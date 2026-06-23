@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { INPUT_PLACEHOLDER } from '@/lib/constants/messages';
-import { ForgotPasswordSchema } from '@/lib/schemas/schema';
+import { ForgotPasswordSchema } from '@/lib/schemas/auth.schema';
 
 import Button from '../ui/buttons/Button';
 import Input from '../ui/inputs/Input';
@@ -34,7 +34,7 @@ export default function ForgotPasswordForm() {
         label="Email address"
         placeholder={INPUT_PLACEHOLDER.email}
         error={errors.email?.message}
-        icon="email"
+        iconName="email"
       />
 
       <Button size="lg" color="black" type="submit">

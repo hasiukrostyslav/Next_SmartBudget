@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 
 import { IconName } from '@/types/types';
 
-import { INPUT_CONFIG } from '@/lib/constants/ui';
+import { INPUT_CONFIG } from '@/lib/constants/components';
 
 import Icon from '../icons/Icon';
 

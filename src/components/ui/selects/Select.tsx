@@ -2,69 +2,54 @@
 
 import clsx from 'clsx';
 
+import { SELECT_CONFIG } from '@/lib/constants/components';
 import { useSelect } from '@/hooks/useSelect';
 
-import Icon from '../icons/Icon';
 import SelectContent from './SelectContent';
-import SelectDisplay from './SelectDisplay';
+import SelectTrigger from './SelectTrigger';
+import SelectValue from './SelectValue';
 
 interface SelectProps {
-  name: string;
-  data: (string | number)[];
-  defaultOption?: string | number;
+  label: string;
+  param?: string;
+  options: (string | number)[];
+  defaultValue?: string | number;
   placeholder?: string;
   className?: string;
-  width?: 'sm' | 'md' | 'lg' | 'full';
-  padding?: 'sm' | 'md' | 'lg';
-  color?: 'transparent' | 'blue';
+  width?: keyof typeof SELECT_CONFIG.width;
+  padding?: keyof typeof SELECT_CONFIG.padding;
+  variant?: keyof typeof SELECT_CONFIG.variant;
   contentPosition?: 'top' | 'bottom';
-  autoFetchOnChange?: boolean;
   disabled?: boolean;
-  onSelectValue?: (value: string | number) => void;
+  onValueChange?: (value: string | number) => void;
 }
 
-const styles = {
-  width: {
-    sm: 'min-w-18 gap-2',
-    md: 'min-w-38 gap-5',
-    lg: 'min-w-44 gap-5',
-    full: 'w-full',
-  },
-  padding: { sm: 'py-1.5', md: 'py-2', lg: 'py-2.5' },
-  color: {
-    blue: 'border-blue-300 bg-blue-200/50 text-slate-700 dark:border-slate-500 dark:bg-slate-800',
-    transparent:
-      'border-slate-300 dark:border-slate-500 dark:bg-slate-800 text-slate-700',
-  },
-};
-
 export default function Select({
-  name,
-  data,
-  defaultOption,
+  label,
+  param,
+  options,
+  defaultValue,
   placeholder,
   className,
   width = 'md',
   padding = 'sm',
-  color = 'transparent',
+  variant = 'primary',
   contentPosition = 'bottom',
-  autoFetchOnChange = false,
   disabled,
-  onSelectValue,
+  onValueChange,
 }: SelectProps) {
   const {
     id,
-    isExpanded,
-    selectedOption,
+    isContentExpanded,
+    selectedValue,
     selectRef,
     handleBlur,
     handleSelect,
     handleToggleExpanded,
   } = useSelect({
-    defaultOption,
-    param: name,
-    autoFetchOnChange,
-    onSelectValue,
+    defaultValue,
+    param,
+    onValueChange,
   });
 
   return (
@@ -73,53 +58,29 @@ export default function Select({
       aria-haspopup="listbox"
       aria-controls={`select-list-${id}`}
       aria-labelledby={`select-label-${id}`}
-      aria-expanded={isExpanded}
+      aria-expanded={isContentExpanded}
       ref={selectRef}
       className={clsx('relative', className)}
       onBlur={handleBlur}
     >
-      <button
-        id={`select-label-${id}`}
-        name={name}
-        aria-haspopup="listbox"
-        aria-controls={`select-list-${id}`}
-        aria-expanded={isExpanded}
-        type="button"
-        onClick={handleToggleExpanded}
+      <SelectTrigger
+        id={id}
+        label={label}
+        width={width}
+        padding={padding}
+        variant={variant}
         disabled={disabled}
-        className={clsx(
-          'flex items-center justify-between px-2.5 text-sm font-medium',
-          'outline-input rounded-md border',
-          'dark:text-slate-400',
-          styles.width[width],
-          styles.padding[padding],
-          disabled
-            ? 'border-slate-300 bg-slate-200/50 text-slate-400 dark:border-slate-500 dark:bg-slate-600'
-            : styles.color[color],
-        )}
+        isContentExpanded={isContentExpanded}
+        onClick={handleToggleExpanded}
       >
-        <SelectDisplay
-          selectedOption={selectedOption}
-          bulkLabel={name}
-          placeholder={placeholder}
-        />
-        <Icon
-          size={16}
-          name="chevron-down"
-          className={clsx(
-            'transform transition-transform duration-400 ease-in-out',
-            isExpanded ? 'rotate-180' : 'rotate-0',
-          )}
-        />
-      </button>
+        <SelectValue selectedValue={selectedValue} placeholder={placeholder} />
+      </SelectTrigger>
 
       <SelectContent
         id={id}
-        data={data}
-        bulkLabel={name}
-        defaultOption={defaultOption}
-        selectedOption={selectedOption}
-        isSelectExpanded={isExpanded}
+        options={options}
+        selectedValue={selectedValue}
+        isContentExpanded={isContentExpanded}
         position={contentPosition}
         onSelect={handleSelect}
       />

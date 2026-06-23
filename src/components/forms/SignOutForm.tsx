@@ -1,3 +1,4 @@
+import { LOGIN_PATH } from '@/routes';
 import { signOut } from '@/auth/auth';
 
 import ButtonIcon from '../ui/buttons/ButtonIcon';
@@ -7,7 +8,7 @@ export default function SignOutForm() {
     <form
       action={async () => {
         'use server';
-        await signOut({ redirectTo: '/auth/login' });
+        await signOut({ redirectTo: LOGIN_PATH });
       }}
     >
       <ButtonIcon

@@ -3,10 +3,12 @@
 import { DeleteItem } from '@/types/types';
 
 import { deleteTransaction } from '@/lib/actions/transactionActions';
-import { useDialog } from '@/hooks/useDialog';
+import { useModal } from '@/hooks/useModal';
+
+import DeleteForm from '@/components/forms/DeleteForm';
 
 import ButtonIcon from '../../buttons/ButtonIcon';
-import DeleteModal from '../../modals/DeleteModal';
+import Modal from '../../modals/Modal';
 
 interface TransactionActionButtonsProps {
   item: DeleteItem;
@@ -15,11 +17,11 @@ interface TransactionActionButtonsProps {
 export default function TransactionActionButtons({
   item,
 }: TransactionActionButtonsProps) {
-  const { isOpen, dialogRef, handleOpen, handleClose } = useDialog();
+  const { isOpen, dialogRef, handleOpen, handleClose } = useModal();
 
   return (
     <>
-      <div className="flex text-slate-500">
+      <div className="flex text-slate-500 dark:text-slate-300">
         <ButtonIcon
           iconName="copy"
           shape="square"
@@ -47,13 +49,14 @@ export default function TransactionActionButtons({
         />
       </div>
       {isOpen && (
-        <DeleteModal
-          ref={dialogRef}
-          handleClose={handleClose}
-          itemType="transaction"
-          items={[item]}
-          handleSubmit={() => deleteTransaction(item.id)}
-        />
+        <Modal ref={dialogRef} className="max-w-4/12">
+          <DeleteForm
+            onClose={handleClose}
+            itemType="transaction"
+            items={[item]}
+            onSubmit={() => deleteTransaction(item.id)}
+          />
+        </Modal>
       )}
     </>
   );

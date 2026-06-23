@@ -4,7 +4,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import bcrypt from 'bcryptjs';
 
 import { getUserByEmail } from '@/lib/db/users';
-import { SignInSchema } from '@/lib/schemas/schema';
+import { SignInSchema } from '@/lib/schemas/auth.schema';
 
 import { db } from '../lib/db/db';
 import authConfig from './auth.config';

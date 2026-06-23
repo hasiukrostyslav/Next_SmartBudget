@@ -1,11 +1,13 @@
 'use client';
 
 import { EMPTY_STATE_TEXT } from '@/lib/constants/messages';
-import { useDialog } from '@/hooks/useDialog';
+import { useModal } from '@/hooks/useModal';
+
+import CreateTransactionForm from '@/components/forms/CreateTransactionForm';
 
 import Button from '../../buttons/Button';
 import Icon from '../../icons/Icon';
-import CreateTransactionModal from '../../modals/CreateTransactionModal';
+import Modal from '../../modals/Modal';
 
 interface TransactionsCTAProps {
   buttonSize: 'sm' | 'md' | 'lg';
@@ -18,7 +20,7 @@ export default function TransactionsCTA({
   iconSize,
   configCTA,
 }: TransactionsCTAProps) {
-  const { dialogRef, isOpen, handleOpen, handleClose } = useDialog();
+  const { dialogRef, isOpen, handleOpen, handleClose } = useModal();
 
   return (
     <div className="flex gap-2">
@@ -39,7 +41,9 @@ export default function TransactionsCTA({
           </Button>
         )}
       {isOpen && (
-        <CreateTransactionModal ref={dialogRef} handleClose={handleClose} />
+        <Modal ref={dialogRef} className="w-2/5">
+          <CreateTransactionForm onClose={handleClose} />
+        </Modal>
       )}
     </div>
   );

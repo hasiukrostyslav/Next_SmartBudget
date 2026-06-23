@@ -45,3 +45,9 @@ export const TRANSACTION_CATEGORIES = [
   'water',
 ] as const;
 export type TransactionCategories = (typeof TRANSACTION_CATEGORIES)[number];
+
+export enum OperationType {
+  CREATE = 'create',
+  EDIT = 'edit',
+  DELETE = 'delete',
+}

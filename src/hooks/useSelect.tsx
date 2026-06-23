@@ -5,20 +5,18 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { createQueryString } from '@/lib/utils/utils';
 
 interface useSelectProps {
-  defaultOption: string | number | undefined;
-  param: string;
-  autoFetchOnChange?: boolean;
-  onSelectValue?: (value: string | number) => void;
+  defaultValue: string | number | undefined;
+  param?: string;
+  onValueChange?: (value: string | number) => void;
 }
 
 export function useSelect({
-  defaultOption,
+  defaultValue,
   param,
-  autoFetchOnChange,
-  onSelectValue,
+  onValueChange,
 }: useSelectProps) {
-  const [selectedOption, setSelectedOption] = useState(defaultOption);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(defaultValue);
+  const [isContentExpanded, setIsContentExpanded] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
   const id = useId();
   const searchParams = useSearchParams();
@@ -29,7 +27,7 @@ export function useSelect({
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
-        setIsExpanded(false);
+        setIsContentExpanded(false);
       }
     }
 
@@ -40,22 +38,22 @@ export function useSelect({
   // Close by click Escape
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') setIsExpanded(false);
+      if (e.key === 'Escape') setIsContentExpanded(false);
     }
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const handleSelect = (option: string | number) => {
-    setSelectedOption(option);
-    setIsExpanded(false);
+    setSelectedValue(option);
+    setIsContentExpanded(false);
 
-    if (onSelectValue) onSelectValue(option);
+    if (onValueChange) onValueChange(option);
 
     // Make new request if autoFetchOnChange is true
-    if (autoFetchOnChange) {
+    if (param) {
       const newSearchString = createQueryString(searchParams, [
-        { name: param, value: option },
+        { param, value: option },
       ]);
 
       router.replace(`${pathname}?${newSearchString}`);
@@ -64,16 +62,16 @@ export function useSelect({
 
   const handleBlur = (e: React.FocusEvent) => {
     if (!selectRef.current?.contains(e.relatedTarget)) {
-      setIsExpanded(false);
+      setIsContentExpanded(false);
     }
   };
-  const handleToggleExpanded = () => setIsExpanded(!isExpanded);
+  const handleToggleExpanded = () => setIsContentExpanded(!isContentExpanded);
 
   return {
     id,
     selectRef,
-    selectedOption,
-    isExpanded,
+    selectedValue,
+    isContentExpanded,
     handleBlur,
     handleSelect,
     handleToggleExpanded,

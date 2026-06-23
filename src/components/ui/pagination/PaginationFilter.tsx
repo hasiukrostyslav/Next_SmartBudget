@@ -1,35 +1,47 @@
-import { useSearchParams } from 'next/navigation';
-
+import { TRANSACTION_SEARCH_PARAMS } from '@/lib/constants/http';
 import { getPageSizeOption } from '@/lib/utils/utils';
 
 import Select from '../selects/Select';
 
 interface PaginationFilterProps {
   totalCount: number;
+  limit: number;
+  itemsRange: {
+    min: number;
+    max: number;
+  };
 }
 
 export default function PaginationFilter({
   totalCount,
+  limit,
+  itemsRange,
 }: PaginationFilterProps) {
-  const searchParams = useSearchParams();
-  const limit = searchParams.get('limit');
-
   const pageSizeOptions = getPageSizeOption(totalCount);
 
   return (
-    <div className="flex items-center gap-2">
-      <span>Showing</span>
-      <Select
-        name="limit"
-        data={pageSizeOptions}
-        defaultOption={limit ? Number(limit) : pageSizeOptions[0]}
-        width="sm"
-        color="blue"
-        contentPosition="top"
-        autoFetchOnChange
-        disabled={pageSizeOptions.length === 1}
-      />
-      <span>out of {totalCount}</span>
+    <div className="flex items-center text-sm text-slate-500">
+      <div className="border-r border-slate-300 pr-2 dark:border-slate-700">
+        <span className="font-semibold text-slate-600 dark:text-slate-300">
+          {itemsRange.min}-{itemsRange.max}
+        </span>{' '}
+        of {totalCount}
+      </div>
+
+      <div className="flex items-center gap-2 pl-2">
+        <span>Rows per page</span>
+        <Select
+          label={TRANSACTION_SEARCH_PARAMS.LIMIT}
+          param={TRANSACTION_SEARCH_PARAMS.LIMIT}
+          options={pageSizeOptions}
+          defaultValue={limit ? Number(limit) : pageSizeOptions[0]}
+          width="sm"
+          padding="xs"
+          variant="secondary"
+          contentPosition="top"
+          disabled={pageSizeOptions.length === 1}
+        />
+      </div>
     </div>
   );
 }
