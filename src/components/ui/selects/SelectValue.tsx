@@ -2,15 +2,15 @@ import { SelectOption } from '@/types/types';
 
 import SelectOptionItem from './SelectOptionItem';
 
-interface SelectDisplayProps {
+interface SelectValueProps {
   selectedValue?: SelectOption;
   placeholder?: string;
 }
 
-export default function SelectDisplay({
+export default function SelectValue({
   selectedValue,
   placeholder,
-}: SelectDisplayProps) {
+}: SelectValueProps) {
   if (placeholder && !selectedValue) {
     return (
       <span className="text-slate-300 dark:text-slate-700">{placeholder}</span>

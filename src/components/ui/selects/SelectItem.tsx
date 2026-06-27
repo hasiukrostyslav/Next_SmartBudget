@@ -31,9 +31,10 @@ export default function SelectItem({
       type="button"
       className={clsx(
         'outline-input flex w-full rounded-md px-1.5 py-1',
-        'hover:bg-blue-200/50 dark:hover:bg-slate-600/40',
         selectedValue === option.value && !showSelectedOption ? 'hidden' : '',
-        selectedValue === option.value && 'bg-blue-400/50 dark:bg-slate-900/50',
+        selectedValue === option.value
+          ? 'bg-blue-400/50 dark:bg-slate-900/50'
+          : 'hover:bg-blue-200/50 dark:hover:bg-slate-600/40',
       )}
     >
       <SelectOptionItem

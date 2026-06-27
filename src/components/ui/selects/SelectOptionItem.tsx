@@ -4,19 +4,18 @@ import { SelectOption } from '@/types/types';
 
 import Icon from '../icons/Icon';
 
-interface SelectOptionProps {
-  option: SelectOption;
-  context: 'list' | 'value';
-  showSelectedOption?: boolean;
-  selectedValue?: string | number | undefined;
-}
+type SelectOptionItemProps =
+  | { option: SelectOption; context: 'value' }
+  | {
+      option: SelectOption;
+      context: 'list';
+      showSelectedOption: boolean;
+      selectedValue: string | number | undefined;
+    };
 
-export default function SelectOptionItem({
-  option,
-  context,
-  showSelectedOption,
-  selectedValue,
-}: SelectOptionProps) {
+export default function SelectOptionItem(props: SelectOptionItemProps) {
+  const { option, context } = props;
+
   return (
     <div className="flex w-full items-center gap-1.5">
       {option.color && (
@@ -29,9 +28,10 @@ export default function SelectOptionItem({
 
       <span>{option.label}</span>
 
-      {showSelectedOption &&
+      {context === 'list' &&
+        props.showSelectedOption &&
         context === 'list' &&
-        selectedValue === option.value && (
+        props.selectedValue === option.value && (
           <div className="ml-auto">
             <Icon
               name="check"
