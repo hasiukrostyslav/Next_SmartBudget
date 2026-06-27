@@ -2,16 +2,19 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { clsx } from 'clsx';
+import getSymbolFromCurrency from 'currency-symbol-map';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import {
+  CURRENCIES,
   OperationType,
   STATUSES,
   TRANSACTION_CATEGORIES,
 } from '@/lib/constants/enums';
 import {
   CREATE_TRANSACTION_FIELDS,
+  CURRENCY_CONFIG,
   STATUS_CONFIG,
   TRANSACTION_CATEGORIES_CONFIG,
   TRANSACTION_TYPE_CONFIG,
@@ -98,6 +101,7 @@ export default function CreateTransactionForm({
                   options={[...STATUSES].map((status) => ({
                     value: status,
                     label: STATUS_CONFIG[status].text.header,
+                    description: STATUS_CONFIG[status].text.description,
                     icon: STATUS_CONFIG[status].icon,
                     color: STATUS_CONFIG[status].style.icon,
                   }))}
@@ -123,8 +127,43 @@ export default function CreateTransactionForm({
           </ModalFieldWrapper>
 
           <ModalFieldWrapper>
-            <ModalFieldLabel label="Amount & currency" />
-            <Input name="amount" padding="md" />
+            <ModalFieldLabel
+              label={`${CREATE_TRANSACTION_FIELDS.AMOUNT.label} & ${CREATE_TRANSACTION_FIELDS.CURRENCY.label}`}
+            />
+            <div className="flex items-center">
+              <div className="flex-1">
+                <Input
+                  {...register(CREATE_TRANSACTION_FIELDS.AMOUNT.name)}
+                  padding="md"
+                  type="number"
+                  placeholder={CREATE_TRANSACTION_FIELDS.AMOUNT.placeholder}
+                  groupPosition="end"
+                />
+              </div>
+              <div className="">
+                <Controller
+                  control={control}
+                  name={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
+                  render={({ field }) => (
+                    <Select
+                      label={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
+                      options={CURRENCY_CONFIG.map((el) => ({
+                        value: el.currency,
+                        label: el.currency,
+                        description: el.description,
+                        symbol: getSymbolFromCurrency(el.currency),
+                      }))}
+                      padding="md"
+                      showSelectedOption
+                      selectedValue={field.value}
+                      onSelect={field.onChange}
+                      groupPosition="start"
+                      contentWidthExpandedTo="left"
+                    />
+                  )}
+                />
+              </div>
+            </div>
           </ModalFieldWrapper>
         </ModalFieldRow>
 

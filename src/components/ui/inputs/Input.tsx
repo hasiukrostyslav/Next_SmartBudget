@@ -21,6 +21,7 @@ interface InputProps {
   placeholder?: string;
   error?: string;
   iconName?: IconName;
+  groupPosition?: 'start' | 'end';
   type?: 'text' | 'number' | 'password';
   ref?: React.Ref<HTMLInputElement>;
   padding?: keyof typeof INPUT_CONFIG.padding;
@@ -41,6 +42,7 @@ export default function Input({
   placeholder,
   error,
   iconName,
+  groupPosition,
   type = 'text',
   ref,
   padding = 'lg',
@@ -86,6 +88,8 @@ export default function Input({
             iconName ? INPUT_CONFIG.icon.padding[padding] : 'pl-3',
             padding === 'lg' ? 'border-2' : 'border',
             INPUT_CONFIG.padding[padding],
+            groupPosition === 'start' && 'rounded-l-none',
+            groupPosition === 'end' && 'rounded-r-none',
             error
               ? borderColor.error
               : disabled

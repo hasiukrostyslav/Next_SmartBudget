@@ -17,7 +17,9 @@ interface SelectProps {
   padding?: keyof typeof SELECT_CONFIG.padding;
   variant?: keyof typeof SELECT_CONFIG.variant;
   showSelectedOption: boolean;
+  groupPosition?: 'start' | 'end';
   contentPosition?: 'top' | 'bottom';
+  contentWidthExpandedTo?: 'left' | 'right';
   disabled?: boolean;
   onSelect: (value: string | number) => void;
 }
@@ -30,7 +32,9 @@ export default function Select({
   padding = 'sm',
   variant = 'primary',
   showSelectedOption,
+  groupPosition,
   contentPosition = 'bottom',
+  contentWidthExpandedTo = 'left',
   disabled,
   onSelect,
 }: SelectProps) {
@@ -61,6 +65,7 @@ export default function Select({
         variant={variant}
         disabled={disabled}
         isContentExpanded={isContentExpanded}
+        groupPosition={groupPosition}
         onClick={handleToggleExpanded}
       >
         <SelectValue
@@ -76,6 +81,7 @@ export default function Select({
         isContentExpanded={isContentExpanded}
         showSelectedOption={showSelectedOption}
         position={contentPosition}
+        widthExpandedTo={contentWidthExpandedTo}
         onSelect={handleSelect}
       />
     </div>

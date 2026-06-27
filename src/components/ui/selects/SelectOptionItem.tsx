@@ -15,32 +15,51 @@ type SelectOptionItemProps =
 
 export default function SelectOptionItem(props: SelectOptionItemProps) {
   const { option, context } = props;
+
   return (
     <div
       className={clsx(
-        'flex items-center gap-1.5',
+        'flex items-center gap-2',
         context === 'list' && 'w-full',
       )}
     >
-      {option.color && (
+      {(option.color || option.symbol || option.icon) && (
         <div
-          className={clsx('rounded-full', option.color, !option.icon && 'p-2')}
+          className={clsx(
+            'rounded-full',
+            option.color,
+            !option.icon && !option.symbol && 'p-2',
+          )}
         >
           {option.icon && <Icon size={16} name={option.icon}></Icon>}
+          {option.symbol && context !== 'value' && (
+            <span className="rounded-md border px-2.5 py-1 text-lg">
+              {option.symbol}
+            </span>
+          )}
         </div>
       )}
-      <span>{option.label}</span>
-      {context === 'list' &&
-        props.showSelectedOption &&
-        props.selectedValue === option.value && (
-          <div className="ml-auto">
+
+      <div className="flex flex-col items-start justify-center">
+        <h4 className="">{option.label}</h4>
+        {option.description && context === 'list' && (
+          <p className={clsx('text-xs text-slate-500 dark:text-slate-500')}>
+            {option.description}
+          </p>
+        )}
+      </div>
+
+      {context === 'list' && props.showSelectedOption && (
+        <div className="ml-auto flex w-10 justify-end">
+          {props.selectedValue === option.value && (
             <Icon
               name="check"
               size={16}
               className="text-blue-700 dark:text-blue-400"
             />
-          </div>
-        )}
+          )}
+        </div>
+      )}
     </div>
   );
 }

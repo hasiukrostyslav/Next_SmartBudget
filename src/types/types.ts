@@ -50,6 +50,8 @@ export interface DeleteItem {
 export interface SelectOption {
   value: string | number;
   label: string;
+  description?: string;
   icon?: IconName;
+  symbol?: string;
   color?: string;
 }

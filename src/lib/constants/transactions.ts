@@ -3,13 +3,31 @@ export const TRANSACTION_TYPE_CONFIG = [
   { option: 'Expenses', icon: 'arrow-down', color: 'text-red-500' },
 ] as const;
 
-export const CURRENCY = [
-  { local: 'eng', currency: 'UAH' },
-  { local: 'eng', currency: 'USD' },
-  { local: 'eng', currency: 'EUR' },
-  { local: 'eng', currency: 'PLN' },
-  { local: 'eng', currency: 'HUF' },
-  { local: 'eng', currency: 'GBP' },
+export const CURRENCY_CONFIG = [
+  {
+    currency: 'UAH',
+    description: 'Ukrainian Hryvnia',
+  },
+  {
+    currency: 'USD',
+    description: 'US Dollar',
+  },
+  {
+    currency: 'EUR',
+    description: 'Euro',
+  },
+  {
+    currency: 'PLN',
+    description: 'Polish Złoty',
+  },
+  {
+    currency: 'GBP',
+    description: 'British Pound',
+  },
+  {
+    currency: 'HUF',
+    description: 'Hungarian Forint',
+  },
 ] as const;
 
 export const TRANSACTION_SORT_OPTIONS = [
@@ -501,8 +519,13 @@ export const CREATE_TRANSACTION_FIELDS = {
     placeholder: 'e.g. Grocery shopping',
   },
   AMOUNT: {
-    label: 'Amount & currency',
-    name: 'transactionType',
+    label: 'Amount',
+    name: 'amount',
+    placeholder: '0.00',
+  },
+  CURRENCY: {
+    label: 'Currency',
+    name: 'currency',
   },
   CATEGORY: {
     label: 'Category',

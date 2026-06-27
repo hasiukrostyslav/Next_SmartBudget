@@ -13,6 +13,7 @@ interface SelectTriggerProps {
   padding?: keyof typeof SELECT_CONFIG.padding;
   variant?: keyof typeof SELECT_CONFIG.variant;
   isContentExpanded: boolean;
+  groupPosition?: 'start' | 'end';
   disabled?: boolean;
   onClick: () => void;
 }
@@ -24,6 +25,7 @@ export default function SelectTrigger({
   padding = 'sm',
   variant = 'primary',
   isContentExpanded,
+  groupPosition,
   disabled,
   onClick,
 }: SelectTriggerProps) {
@@ -41,6 +43,8 @@ export default function SelectTrigger({
         'flex items-center justify-between gap-2 px-2.5 text-sm font-medium',
         'outline-input w-full rounded-md border dark:text-slate-400',
         SELECT_CONFIG.padding[padding],
+        groupPosition === 'start' && 'rounded-l-none',
+        groupPosition === 'end' && 'rounded-r-none',
         disabled
           ? 'border-slate-300 bg-slate-200/50 text-slate-400 dark:border-slate-500 dark:bg-slate-600'
           : SELECT_CONFIG.variant[variant],
