@@ -8,7 +8,7 @@ import Icon from '../icons/Icon';
 
 interface RadioCardProps {
   option: string;
-  selectedValue: string;
+  selectedValue?: string | number;
   isCurrent: boolean;
   iconName: IconName;
   withExtraContent: boolean;

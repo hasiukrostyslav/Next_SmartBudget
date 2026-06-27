@@ -15,9 +15,13 @@ type SelectOptionItemProps =
 
 export default function SelectOptionItem(props: SelectOptionItemProps) {
   const { option, context } = props;
-
   return (
-    <div className="flex w-full items-center gap-1.5">
+    <div
+      className={clsx(
+        'flex items-center gap-1.5',
+        context === 'list' && 'w-full',
+      )}
+    >
       {option.color && (
         <div
           className={clsx('rounded-full', option.color, !option.icon && 'p-2')}
@@ -25,12 +29,9 @@ export default function SelectOptionItem(props: SelectOptionItemProps) {
           {option.icon && <Icon size={16} name={option.icon}></Icon>}
         </div>
       )}
-
       <span>{option.label}</span>
-
       {context === 'list' &&
         props.showSelectedOption &&
-        context === 'list' &&
         props.selectedValue === option.value && (
           <div className="ml-auto">
             <Icon

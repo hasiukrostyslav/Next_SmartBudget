@@ -39,7 +39,7 @@ export default function EditTransactionCategoryForm({
 }: EditTransactionCategoryFormProps) {
   const { theme } = useTheme();
   const [isPending, startTransition] = useTransition();
-  const { selectedValue, setSelectedValue } = useSelectValue();
+  const { selectedValue, handleSelect } = useSelectValue({});
   const { searchQuery, role, onChange, onClear } = useSearchInput();
   const { toastSuccess } = useToast();
 
@@ -124,7 +124,7 @@ export default function EditTransactionCategoryForm({
                     key={category}
                     option={category}
                     selectedValue={selectedValue}
-                    onSelect={setSelectedValue}
+                    onSelect={handleSelect}
                     iconName={item.icon}
                     text={item.text}
                     withExtraContent

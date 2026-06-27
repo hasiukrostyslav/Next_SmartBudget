@@ -3,7 +3,7 @@
 import { SelectOption } from '@/types/types';
 
 import { SELECT_CONFIG } from '@/lib/constants/components';
-import { useSelect } from '@/hooks/useSelect';
+import { useSelectDropdown } from '@/hooks/useSelectDropdown';
 
 import SelectContent from './SelectContent';
 import SelectTrigger from './SelectTrigger';
@@ -11,44 +11,37 @@ import SelectValue from './SelectValue';
 
 interface SelectProps {
   label: string;
-  param?: string;
   options: SelectOption[];
-  defaultValue?: string | number;
+  selectedValue: string | number | undefined;
   placeholder?: string;
   padding?: keyof typeof SELECT_CONFIG.padding;
   variant?: keyof typeof SELECT_CONFIG.variant;
   showSelectedOption: boolean;
   contentPosition?: 'top' | 'bottom';
   disabled?: boolean;
-  onValueChange?: (value: string | number) => void;
+  onSelect: (value: string | number) => void;
 }
 
 export default function Select({
   label,
-  param,
   options,
-  defaultValue,
+  selectedValue,
   placeholder,
   padding = 'sm',
   variant = 'primary',
   showSelectedOption,
   contentPosition = 'bottom',
   disabled,
-  onValueChange,
+  onSelect,
 }: SelectProps) {
   const {
     id,
     isContentExpanded,
-    selectedValue,
     selectRef,
     handleBlur,
     handleSelect,
     handleToggleExpanded,
-  } = useSelect({
-    defaultValue,
-    param,
-    onValueChange,
-  });
+  } = useSelectDropdown({ onSelect });
 
   return (
     <div

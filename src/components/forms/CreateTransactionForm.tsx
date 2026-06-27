@@ -89,17 +89,25 @@ export default function CreateTransactionForm({
 
           <ModalFieldWrapper>
             <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.STATUS.label} />
-            <Select
-              label={CREATE_TRANSACTION_FIELDS.STATUS.name}
-              options={[...STATUSES].map((status) => ({
-                value: status,
-                label: STATUS_CONFIG[status].text.header,
-                icon: STATUS_CONFIG[status].icon,
-                color: STATUS_CONFIG[status].style.icon,
-              }))}
-              padding="md"
-              showSelectedOption
-              placeholder={CREATE_TRANSACTION_FIELDS.STATUS.placeholder}
+            <Controller
+              control={control}
+              name={CREATE_TRANSACTION_FIELDS.STATUS.name}
+              render={({ field }) => (
+                <Select
+                  label={CREATE_TRANSACTION_FIELDS.STATUS.name}
+                  options={[...STATUSES].map((status) => ({
+                    value: status,
+                    label: STATUS_CONFIG[status].text.header,
+                    icon: STATUS_CONFIG[status].icon,
+                    color: STATUS_CONFIG[status].style.icon,
+                  }))}
+                  padding="md"
+                  showSelectedOption
+                  selectedValue={field.value}
+                  onSelect={field.onChange}
+                  placeholder={CREATE_TRANSACTION_FIELDS.STATUS.placeholder}
+                />
+              )}
             />
           </ModalFieldWrapper>
         </ModalFieldRow>
