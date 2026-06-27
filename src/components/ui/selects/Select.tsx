@@ -1,6 +1,6 @@
 'use client';
 
-import clsx from 'clsx';
+import { SelectOption } from '@/types/types';
 
 import { SELECT_CONFIG } from '@/lib/constants/components';
 import { useSelect } from '@/hooks/useSelect';
@@ -12,13 +12,12 @@ import SelectValue from './SelectValue';
 interface SelectProps {
   label: string;
   param?: string;
-  options: (string | number)[];
+  options: SelectOption[];
   defaultValue?: string | number;
   placeholder?: string;
-  className?: string;
-  width?: keyof typeof SELECT_CONFIG.width;
   padding?: keyof typeof SELECT_CONFIG.padding;
   variant?: keyof typeof SELECT_CONFIG.variant;
+  showSelectedOption: boolean;
   contentPosition?: 'top' | 'bottom';
   disabled?: boolean;
   onValueChange?: (value: string | number) => void;
@@ -30,10 +29,9 @@ export default function Select({
   options,
   defaultValue,
   placeholder,
-  className,
-  width = 'md',
   padding = 'sm',
   variant = 'primary',
+  showSelectedOption,
   contentPosition = 'bottom',
   disabled,
   onValueChange,
@@ -60,20 +58,22 @@ export default function Select({
       aria-labelledby={`select-label-${id}`}
       aria-expanded={isContentExpanded}
       ref={selectRef}
-      className={clsx('relative', className)}
+      className="relative"
       onBlur={handleBlur}
     >
       <SelectTrigger
         id={id}
         label={label}
-        width={width}
         padding={padding}
         variant={variant}
         disabled={disabled}
         isContentExpanded={isContentExpanded}
         onClick={handleToggleExpanded}
       >
-        <SelectValue selectedValue={selectedValue} placeholder={placeholder} />
+        <SelectValue
+          selectedValue={options.find((el) => el.value === selectedValue)}
+          placeholder={placeholder}
+        />
       </SelectTrigger>
 
       <SelectContent
@@ -81,6 +81,7 @@ export default function Select({
         options={options}
         selectedValue={selectedValue}
         isContentExpanded={isContentExpanded}
+        showSelectedOption={showSelectedOption}
         position={contentPosition}
         onSelect={handleSelect}
       />

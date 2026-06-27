@@ -1,5 +1,9 @@
+import { SelectOption } from '@/types/types';
+
+import SelectOptionItem from './SelectOptionItem';
+
 interface SelectDisplayProps {
-  selectedValue: string | number | undefined;
+  selectedValue?: SelectOption;
   placeholder?: string;
 }
 
@@ -15,15 +19,5 @@ export default function SelectDisplay({
 
   if (!selectedValue) return null;
 
-  let visibleOption;
-  if (typeof selectedValue === 'number') {
-    visibleOption = selectedValue;
-  } else {
-    visibleOption = selectedValue
-      .split(' ')
-      .map((word) => word.replace(word[0], word[0].toUpperCase()))
-      .join(' ');
-  }
-
-  return <span>{visibleOption}</span>;
+  return <SelectOptionItem option={selectedValue} context="value" />;
 }

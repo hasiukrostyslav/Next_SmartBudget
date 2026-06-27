@@ -34,11 +34,11 @@ export default function PaginationFilter({
           label={TRANSACTION_SEARCH_PARAMS.LIMIT}
           param={TRANSACTION_SEARCH_PARAMS.LIMIT}
           options={pageSizeOptions}
-          defaultValue={limit ? Number(limit) : pageSizeOptions[0]}
-          width="sm"
+          defaultValue={limit ? Number(limit) : pageSizeOptions[0].value}
           padding="xs"
           variant="secondary"
           contentPosition="top"
+          showSelectedOption={false}
           disabled={pageSizeOptions.length === 1}
         />
       </div>

@@ -10,7 +10,6 @@ interface SelectTriggerProps {
   children: React.ReactNode;
   label: string;
   id: string;
-  width?: keyof typeof SELECT_CONFIG.width;
   padding?: keyof typeof SELECT_CONFIG.padding;
   variant?: keyof typeof SELECT_CONFIG.variant;
   isContentExpanded: boolean;
@@ -22,7 +21,6 @@ export default function SelectTrigger({
   children,
   label,
   id,
-  width = 'md',
   padding = 'sm',
   variant = 'primary',
   isContentExpanded,
@@ -40,10 +38,8 @@ export default function SelectTrigger({
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        'flex items-center justify-between px-2.5 text-sm font-medium',
-        'outline-input rounded-md border',
-        'dark:text-slate-400',
-        SELECT_CONFIG.width[width],
+        'flex items-center justify-between gap-2 px-2.5 text-sm font-medium',
+        'outline-input w-full rounded-md border dark:text-slate-400',
         SELECT_CONFIG.padding[padding],
         disabled
           ? 'border-slate-300 bg-slate-200/50 text-slate-400 dark:border-slate-500 dark:bg-slate-600'

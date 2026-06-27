@@ -1,14 +1,17 @@
 import clsx from 'clsx';
 
+import { SelectOption } from '@/types/types';
+
 import { useTheme } from '@/hooks/useTheme';
 
 import SelectItem from './SelectItem';
 
 interface SelectContentProps {
   id: string;
-  options: (string | number)[];
+  options: SelectOption[];
   selectedValue: string | number | undefined;
   isContentExpanded: boolean;
+  showSelectedOption: boolean;
   position: 'top' | 'bottom';
   onSelect: (option: string | number) => void;
 }
@@ -18,14 +21,15 @@ export default function SelectContent({
   options,
   selectedValue,
   isContentExpanded,
+  showSelectedOption,
   position,
   onSelect,
 }: SelectContentProps) {
   const { theme } = useTheme();
 
-  const sortedOptions = options.every((el) => typeof el === 'string')
-    ? options.toSorted()
-    : options;
+  const sortedOptions = options.toSorted((a, b) =>
+    a.label.localeCompare(b.label, undefined, { numeric: true }),
+  );
 
   return (
     <div
@@ -51,10 +55,11 @@ export default function SelectContent({
       >
         {sortedOptions.map((option) => (
           <SelectItem
-            key={option}
+            key={option.value}
             option={option}
             onSelect={onSelect}
             selectedValue={selectedValue}
+            showSelectedOption={showSelectedOption}
             isContentExpanded={isContentExpanded}
           />
         ))}

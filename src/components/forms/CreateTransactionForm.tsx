@@ -5,9 +5,14 @@ import { clsx } from 'clsx';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { OperationType, TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
+import {
+  OperationType,
+  STATUSES,
+  TRANSACTION_CATEGORIES,
+} from '@/lib/constants/enums';
 import {
   CREATE_TRANSACTION_FIELDS,
+  STATUS_CONFIG,
   TRANSACTION_CATEGORIES_CONFIG,
   TRANSACTION_TYPE_CONFIG,
 } from '@/lib/constants/transactions';
@@ -86,8 +91,14 @@ export default function CreateTransactionForm({
             <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.STATUS.label} />
             <Select
               label={CREATE_TRANSACTION_FIELDS.STATUS.name}
-              options={['Completed', 'Pending']}
+              options={[...STATUSES].map((status) => ({
+                value: status,
+                label: STATUS_CONFIG[status].text.header,
+                icon: STATUS_CONFIG[status].icon,
+                color: STATUS_CONFIG[status].style.icon,
+              }))}
               padding="md"
+              showSelectedOption
               placeholder={CREATE_TRANSACTION_FIELDS.STATUS.placeholder}
             />
           </ModalFieldWrapper>

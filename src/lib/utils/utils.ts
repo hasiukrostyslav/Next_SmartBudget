@@ -37,8 +37,11 @@ export function fromSlug(slug: string | number) {
 
 // Select filter options for list size
 export function getPageSizeOption(totalCount: number) {
-  const options = [...PAGE_SIZE_OPTIONS];
-  const index = options.findIndex((count) => count > totalCount);
+  const options = [...PAGE_SIZE_OPTIONS].map((num) => ({
+    value: num,
+    label: String(num),
+  }));
+  const index = options.findIndex((count) => count.value > totalCount);
 
   if (index === -1) return options;
 

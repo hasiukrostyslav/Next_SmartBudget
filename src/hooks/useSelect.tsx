@@ -50,7 +50,7 @@ export function useSelect({
 
     if (onValueChange) onValueChange(option);
 
-    // Make new request if autoFetchOnChange is true
+    // Make new request if param is true
     if (param) {
       const newSearchString = createQueryString(searchParams, [
         { param, value: option },

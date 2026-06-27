@@ -14,7 +14,7 @@ export default function TransactionsFilters() {
       <SearchForm inputPadding="sm" placeholder="Search Transaction..." />
 
       <div className="ml-2 flex items-center gap-2">
-        <Select
+        {/* <Select
           label="categories"
           param="categories"
           options={TRANSACTION_CATEGORIES.map((el) => el.replace('_', ' '))}
@@ -30,7 +30,7 @@ export default function TransactionsFilters() {
           label="currency"
           param="currency"
           options={CURRENCY.map((c) => c.currency)}
-        />
+        /> */}
       </div>
     </>
   );

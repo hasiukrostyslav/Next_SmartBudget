@@ -46,3 +46,10 @@ export interface DeleteItem {
   amount: number;
   currency: Currency;
 }
+
+export interface SelectOption {
+  value: string | number;
+  label: string;
+  icon?: IconName;
+  color?: string;
+}
