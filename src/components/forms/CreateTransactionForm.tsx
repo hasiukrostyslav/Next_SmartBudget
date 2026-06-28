@@ -1,8 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { clsx } from 'clsx';
-import getSymbolFromCurrency from 'currency-symbol-map';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -21,9 +19,7 @@ import {
 } from '@/lib/constants/transactions';
 import { CreateTransactionSchema } from '@/lib/schemas/transaction.schema';
 import { useSearchInput } from '@/hooks/useSearchInput';
-import { useTheme } from '@/hooks/useTheme';
 
-import RadioCard from '../ui/controls/RadioCard';
 import SegmentedControl from '../ui/controls/SegmentedControl';
 import EmptySearchResult from '../ui/feedback/EmptySearchResult';
 import Input from '../ui/inputs/Input';
@@ -44,7 +40,6 @@ interface CreateTransactionFormProps {
 export default function CreateTransactionForm({
   onClose,
 }: CreateTransactionFormProps) {
-  const { theme } = useTheme();
   const { searchQuery, role, onChange, onClear } = useSearchInput();
   const { register, handleSubmit, control } = useForm({
     resolver: zodResolver(CreateTransactionSchema),
@@ -130,7 +125,6 @@ export default function CreateTransactionForm({
                         value: el.currency,
                         label: el.currency,
                         description: el.description,
-                        symbol: getSymbolFromCurrency(el.currency),
                       }))}
                       padding="md"
                       showSelectedOption

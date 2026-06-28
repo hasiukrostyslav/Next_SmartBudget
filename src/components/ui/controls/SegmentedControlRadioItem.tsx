@@ -29,6 +29,12 @@ export default function SegmentedControlRadioItem({
           ? `bg-slate-50 dark:bg-slate-700 ${color}`
           : 'text-slate-500',
       )}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          onSelect(option);
+        }
+      }}
     >
       <div className={clsx('flex items-center justify-center gap-1 text-sm')}>
         <Icon name={iconName} size={16} />

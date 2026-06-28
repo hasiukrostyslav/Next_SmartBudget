@@ -16,6 +16,7 @@ interface ButtonIconProps {
   padding?: 'sm' | 'base';
   className?: string;
   iconClassName?: string;
+  type?: 'button' | 'submit';
   onClick?: () => void;
 }
 
@@ -29,12 +30,14 @@ export default function ButtonIcon({
   tooltipContainer,
   className,
   iconClassName,
+  type = 'button',
   onClick,
   padding = 'base',
 }: ButtonIconProps) {
   return (
     <Tooltip label={tooltipLabel} side={tooltipSide} container={tooltipContainer}>
       <button
+        type={type}
         onClick={onClick}
         className={clsx(
           padding === 'base' ? 'p-1.5' : 'p-0.5',
