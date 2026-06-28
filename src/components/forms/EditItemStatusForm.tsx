@@ -79,7 +79,6 @@ export default function EditItemStatusForm({
                   option={status}
                   selectedValue={selectedValue}
                   onSelect={handleSelect}
-                  withExtraContent
                   iconName={item.icon}
                   text={item.text}
                   styleConfig={item.style}

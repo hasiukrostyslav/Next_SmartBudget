@@ -127,7 +127,6 @@ export default function EditTransactionCategoryForm({
                     onSelect={handleSelect}
                     iconName={item.icon}
                     text={item.text}
-                    withExtraContent
                     styleConfig={item.style}
                     isCurrent={
                       initialValue.length === 1 && initialValue[0] === category

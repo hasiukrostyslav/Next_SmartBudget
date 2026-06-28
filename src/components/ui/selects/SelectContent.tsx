@@ -13,7 +13,8 @@ interface SelectContentProps {
   isContentExpanded: boolean;
   showSelectedOption: boolean;
   position: 'top' | 'bottom';
-  widthExpandedTo: 'left' | 'right';
+  widthExpandedTo?: string;
+  expandedAlign?: 'left' | 'right';
   onSelect: (option: string | number) => void;
 }
 
@@ -25,6 +26,7 @@ export default function SelectContent({
   showSelectedOption,
   position,
   widthExpandedTo,
+  expandedAlign = 'left',
   onSelect,
 }: SelectContentProps) {
   const { theme } = useTheme();
@@ -38,11 +40,11 @@ export default function SelectContent({
       id={`select-list-${id}`}
       role="listbox"
       className={clsx(
-        'absolute z-50 w-full text-sm',
+        'absolute z-50 text-sm',
         'transition-all duration-400 ease-in',
         isContentExpanded ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0',
-        widthExpandedTo === 'left' && 'w-24 min-w-max -translate-x-7/12',
-        widthExpandedTo === 'right' && 'w-24 min-w-max translate-x-3',
+        widthExpandedTo ?? 'w-full',
+        expandedAlign === 'left' ? 'left-0' : 'right-0',
         position === 'top'
           ? 'bottom-[calc(100%+4px)] origin-bottom'
           : 'origin-top translate-y-1',

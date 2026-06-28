@@ -6,8 +6,8 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { DEFAULT_CURRENCY } from '@/lib/constants/constants';
 import {
-  CURRENCIES,
   OperationType,
   STATUSES,
   TRANSACTION_CATEGORIES,
@@ -46,7 +46,10 @@ export default function CreateTransactionForm({
 }: CreateTransactionFormProps) {
   const { theme } = useTheme();
   const { searchQuery, role, onChange, onClear } = useSearchInput();
-  const { register, handleSubmit, control } = useForm();
+  const { register, handleSubmit, control } = useForm({
+    resolver: zodResolver(CreateTransactionSchema),
+    defaultValues: { currency: DEFAULT_CURRENCY },
+  });
 
   const filteredCategories = TRANSACTION_CATEGORIES.filter((el) =>
     searchQuery.length === 0
@@ -73,7 +76,7 @@ export default function CreateTransactionForm({
         onClose={onClose}
       />
 
-      <section className="flex flex-col gap-2 px-6 py-4">
+      <section className="flex flex-col gap-4 px-6 py-4">
         <ModalFieldRow>
           <ModalFieldWrapper>
             <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.TYPE.label} />
@@ -89,7 +92,62 @@ export default function CreateTransactionForm({
               )}
             />
           </ModalFieldWrapper>
+        </ModalFieldRow>
 
+        <ModalFieldRow>
+          <ModalFieldWrapper>
+            <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.NAME.label} />
+            <Input
+              {...register(CREATE_TRANSACTION_FIELDS.NAME.name)}
+              padding="md"
+              placeholder={CREATE_TRANSACTION_FIELDS.NAME.placeholder}
+            />
+          </ModalFieldWrapper>
+
+          <ModalFieldWrapper>
+            <ModalFieldLabel
+              label={`${CREATE_TRANSACTION_FIELDS.AMOUNT.label} & ${CREATE_TRANSACTION_FIELDS.CURRENCY.label}`}
+            />
+            <div className="flex items-center">
+              <div className="flex-2">
+                <Input
+                  {...register(CREATE_TRANSACTION_FIELDS.AMOUNT.name)}
+                  padding="md"
+                  type="number"
+                  step="any"
+                  placeholder={CREATE_TRANSACTION_FIELDS.AMOUNT.placeholder}
+                  groupPosition="end"
+                />
+              </div>
+              <div className="flex-1">
+                <Controller
+                  control={control}
+                  name={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
+                  render={({ field }) => (
+                    <Select
+                      label={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
+                      options={CURRENCY_CONFIG.map((el) => ({
+                        value: el.currency,
+                        label: el.currency,
+                        description: el.description,
+                        symbol: getSymbolFromCurrency(el.currency),
+                      }))}
+                      padding="md"
+                      showSelectedOption
+                      selectedValue={field.value}
+                      onSelect={field.onChange}
+                      groupPosition="start"
+                      contentExpandedAlign="right"
+                      contentWidthExpandedTo="min-w-max"
+                    />
+                  )}
+                />
+              </div>
+            </div>
+          </ModalFieldWrapper>
+        </ModalFieldRow>
+
+        <ModalFieldRow>
           <ModalFieldWrapper>
             <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.STATUS.label} />
             <Controller
@@ -114,112 +172,33 @@ export default function CreateTransactionForm({
               )}
             />
           </ModalFieldWrapper>
-        </ModalFieldRow>
-
-        <ModalFieldRow>
-          <ModalFieldWrapper>
-            <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.NAME.label} />
-            <Input
-              {...register(CREATE_TRANSACTION_FIELDS.NAME.name)}
-              padding="md"
-              placeholder={CREATE_TRANSACTION_FIELDS.NAME.placeholder}
-            />
-          </ModalFieldWrapper>
 
           <ModalFieldWrapper>
-            <ModalFieldLabel
-              label={`${CREATE_TRANSACTION_FIELDS.AMOUNT.label} & ${CREATE_TRANSACTION_FIELDS.CURRENCY.label}`}
-            />
-            <div className="flex items-center">
-              <div className="flex-1">
-                <Input
-                  {...register(CREATE_TRANSACTION_FIELDS.AMOUNT.name)}
+            <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.CATEGORY.label} />
+            <Controller
+              control={control}
+              name={CREATE_TRANSACTION_FIELDS.CATEGORY.name}
+              render={({ field }) => (
+                <Select
+                  label={CREATE_TRANSACTION_FIELDS.CATEGORY.name}
+                  options={[...TRANSACTION_CATEGORIES].map((category) => ({
+                    value: category,
+                    label: TRANSACTION_CATEGORIES_CONFIG[category].text.header,
+                    description:
+                      TRANSACTION_CATEGORIES_CONFIG[category].text.description,
+                    icon: TRANSACTION_CATEGORIES_CONFIG[category].icon,
+                    color: TRANSACTION_CATEGORIES_CONFIG[category].style.icon,
+                  }))}
                   padding="md"
-                  type="number"
-                  placeholder={CREATE_TRANSACTION_FIELDS.AMOUNT.placeholder}
-                  groupPosition="end"
+                  showSelectedOption
+                  selectedValue={field.value}
+                  onSelect={field.onChange}
+                  placeholder={CREATE_TRANSACTION_FIELDS.CATEGORY.placeholder}
                 />
-              </div>
-              <div className="">
-                <Controller
-                  control={control}
-                  name={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
-                  render={({ field }) => (
-                    <Select
-                      label={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
-                      options={CURRENCY_CONFIG.map((el) => ({
-                        value: el.currency,
-                        label: el.currency,
-                        description: el.description,
-                        symbol: getSymbolFromCurrency(el.currency),
-                      }))}
-                      padding="md"
-                      showSelectedOption
-                      selectedValue={field.value}
-                      onSelect={field.onChange}
-                      groupPosition="start"
-                      contentWidthExpandedTo="left"
-                    />
-                  )}
-                />
-              </div>
-            </div>
+              )}
+            />
           </ModalFieldWrapper>
         </ModalFieldRow>
-
-        <ModalFieldWrapper>
-          <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.CATEGORY.label} />
-          <Input
-            name="search"
-            placeholder={CREATE_TRANSACTION_FIELDS.CATEGORY.placeholder}
-            iconName="search"
-            padding="md"
-            value={searchQuery}
-            onChange={onChange}
-            onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
-            trailingButton={{ role, onClick: onClear }}
-          />
-          <Controller
-            control={control}
-            name={CREATE_TRANSACTION_FIELDS.CATEGORY.name}
-            render={({ field }) => (
-              <div
-                className={clsx(
-                  'mt-2 grid h-24 auto-rows-min grid-cols-3 gap-2 pr-2',
-                  'scrollbar overflow-y-auto',
-                  theme === 'dark' ? 'scrollbar-dark' : '',
-                  filteredCategories.length === 0 ? 'place-content-center' : '',
-                )}
-              >
-                {filteredCategories.length === 0 ? (
-                  <EmptySearchResult
-                    category="category"
-                    variant="simple"
-                    query={searchQuery}
-                  />
-                ) : (
-                  filteredCategories.map((category) => {
-                    const item = TRANSACTION_CATEGORIES_CONFIG[category];
-
-                    return (
-                      <RadioCard
-                        key={category}
-                        option={category}
-                        iconName={item.icon}
-                        text={item.text}
-                        styleConfig={item.style}
-                        isCurrent={false}
-                        withExtraContent={false}
-                        selectedValue={field.value}
-                        onSelect={field.onChange}
-                      />
-                    );
-                  })
-                )}
-              </div>
-            )}
-          />
-        </ModalFieldWrapper>
 
         <ModalFieldRow>
           <ModalFieldWrapper>

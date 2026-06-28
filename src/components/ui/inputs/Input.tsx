@@ -23,6 +23,7 @@ interface InputProps {
   iconName?: IconName;
   groupPosition?: 'start' | 'end';
   type?: 'text' | 'number' | 'password';
+  step?: number | 'any';
   ref?: React.Ref<HTMLInputElement>;
   padding?: keyof typeof INPUT_CONFIG.padding;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
@@ -44,6 +45,7 @@ export default function Input({
   iconName,
   groupPosition,
   type = 'text',
+  step,
   ref,
   padding = 'lg',
   onChange,
@@ -81,6 +83,7 @@ export default function Input({
                 : 'text'
           }
           min={0}
+          step={step}
           className={clsx(
             'outline-input w-full text-sm tracking-wider',
             'text-slate-700 dark:text-slate-300 dark:placeholder:text-slate-600',

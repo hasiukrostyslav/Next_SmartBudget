@@ -3,5 +3,5 @@ export default function ModalFieldWrapper({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="flex w-full flex-col gap-1">{children}</div>;
+  return <div className="flex w-full flex-col gap-2">{children}</div>;
 }

@@ -26,14 +26,14 @@ export default function SelectOptionItem(props: SelectOptionItemProps) {
       {(option.color || option.symbol || option.icon) && (
         <div
           className={clsx(
-            'rounded-full',
+            'rounded-md p-0.5',
             option.color,
             !option.icon && !option.symbol && 'p-2',
           )}
         >
           {option.icon && <Icon size={16} name={option.icon}></Icon>}
           {option.symbol && context !== 'value' && (
-            <span className="rounded-md border px-2.5 py-1 text-lg">
+            <span className="rounded-md border px-2.5 py-0.5 text-lg">
               {option.symbol}
             </span>
           )}
@@ -50,7 +50,7 @@ export default function SelectOptionItem(props: SelectOptionItemProps) {
       </div>
 
       {context === 'list' && props.showSelectedOption && (
-        <div className="ml-auto flex w-10 justify-end">
+        <div className="ml-auto flex w-8 justify-end">
           {props.selectedValue === option.value && (
             <Icon
               name="check"

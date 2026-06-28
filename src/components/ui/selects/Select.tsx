@@ -19,7 +19,8 @@ interface SelectProps {
   showSelectedOption: boolean;
   groupPosition?: 'start' | 'end';
   contentPosition?: 'top' | 'bottom';
-  contentWidthExpandedTo?: 'left' | 'right';
+  contentExpandedAlign?: 'left' | 'right';
+  contentWidthExpandedTo?: string;
   disabled?: boolean;
   onSelect: (value: string | number) => void;
 }
@@ -34,7 +35,8 @@ export default function Select({
   showSelectedOption,
   groupPosition,
   contentPosition = 'bottom',
-  contentWidthExpandedTo = 'left',
+  contentWidthExpandedTo,
+  contentExpandedAlign,
   disabled,
   onSelect,
 }: SelectProps) {
@@ -82,6 +84,7 @@ export default function Select({
         showSelectedOption={showSelectedOption}
         position={contentPosition}
         widthExpandedTo={contentWidthExpandedTo}
+        expandedAlign={contentExpandedAlign}
         onSelect={handleSelect}
       />
     </div>
