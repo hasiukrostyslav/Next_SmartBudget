@@ -185,6 +185,7 @@ export default function CreateTransactionForm({
                   }))}
                   padding="md"
                   showSelectedOption
+                  withSearch
                   selectedValue={field.value}
                   onSelect={field.onChange}
                   placeholder={CREATE_TRANSACTION_FIELDS.CATEGORY.placeholder}

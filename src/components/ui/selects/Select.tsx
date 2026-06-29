@@ -21,6 +21,7 @@ interface SelectProps {
   contentPosition?: 'top' | 'bottom';
   contentExpandedAlign?: 'left' | 'right';
   contentWidthExpandedTo?: string;
+  withSearch?: boolean;
   disabled?: boolean;
   onSelect: (value: string | number) => void;
 }
@@ -37,6 +38,7 @@ export default function Select({
   contentPosition = 'bottom',
   contentWidthExpandedTo,
   contentExpandedAlign,
+  withSearch,
   disabled,
   onSelect,
 }: SelectProps) {
@@ -85,6 +87,7 @@ export default function Select({
         position={contentPosition}
         widthExpandedTo={contentWidthExpandedTo}
         expandedAlign={contentExpandedAlign}
+        withSearch={withSearch}
         onSelect={handleSelect}
       />
     </div>

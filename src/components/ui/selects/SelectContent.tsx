@@ -4,6 +4,7 @@ import { SelectOption } from '@/types/types';
 
 import { useTheme } from '@/hooks/useTheme';
 
+import Input from '../inputs/Input';
 import SelectItem from './SelectItem';
 
 interface SelectContentProps {
@@ -15,6 +16,7 @@ interface SelectContentProps {
   position: 'top' | 'bottom';
   widthExpandedTo?: string;
   expandedAlign?: 'left' | 'right';
+  withSearch?: boolean;
   onSelect: (option: string | number) => void;
 }
 
@@ -27,6 +29,7 @@ export default function SelectContent({
   position,
   widthExpandedTo,
   expandedAlign = 'left',
+  withSearch,
   onSelect,
 }: SelectContentProps) {
   const { theme } = useTheme();
@@ -53,22 +56,39 @@ export default function SelectContent({
       <div
         tabIndex={-1}
         className={clsx(
-          'scrollbar grid max-h-75 gap-1 p-2 shadow-md',
+          'shadow-md',
           'rounded-md border border-slate-300 dark:border-slate-600',
-          'overflow-y-auto bg-slate-50 dark:bg-slate-800 dark:text-slate-400',
-          theme === 'dark' ? 'scrollbar-dark' : '',
+          'bg-slate-50 dark:bg-slate-800 dark:text-slate-400',
         )}
       >
-        {sortedOptions.map((option) => (
-          <SelectItem
-            key={option.value}
-            option={option}
-            onSelect={onSelect}
-            selectedValue={selectedValue}
-            showSelectedOption={showSelectedOption}
-            isContentExpanded={isContentExpanded}
-          />
-        ))}
+        {withSearch && (
+          <div className="mb-2 border-b border-slate-300 p-2 dark:border-slate-600">
+            <Input
+              name="search"
+              placeholder="Search categories..."
+              iconName="search"
+              padding="sm"
+            />
+          </div>
+        )}
+        <div
+          className={clsx(
+            withSearch ? 'max-h-60' : 'max-h-75',
+            'scrollbar grid gap-1 overflow-y-auto p-2',
+            theme === 'dark' ? 'scrollbar-dark' : '',
+          )}
+        >
+          {sortedOptions.map((option) => (
+            <SelectItem
+              key={option.value}
+              option={option}
+              onSelect={onSelect}
+              selectedValue={selectedValue}
+              showSelectedOption={showSelectedOption}
+              isContentExpanded={isContentExpanded}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
