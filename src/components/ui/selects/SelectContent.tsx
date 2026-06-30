@@ -2,8 +2,10 @@ import clsx from 'clsx';
 
 import { SelectOption } from '@/types/types';
 
+import { useSearchInput } from '@/hooks/useSearchInput';
 import { useTheme } from '@/hooks/useTheme';
 
+import EmptySearchResult from '../feedback/EmptySearchResult';
 import Input from '../inputs/Input';
 import SelectItem from './SelectItem';
 
@@ -33,10 +35,22 @@ export default function SelectContent({
   onSelect,
 }: SelectContentProps) {
   const { theme } = useTheme();
+  const { searchQuery, role, handleChange, handleClear } = useSearchInput({
+    isContentExpanded,
+  });
 
-  const sortedOptions = options.toSorted((a, b) =>
-    a.label.localeCompare(b.label, undefined, { numeric: true }),
-  );
+  const filteredOptions = options
+    .toSorted((a, b) =>
+      a.label.localeCompare(b.label, undefined, { numeric: true }),
+    )
+    .filter((el) =>
+      searchQuery.length === 0
+        ? el
+        : el.label.includes(searchQuery.trimStart()) ||
+          (el.description &&
+            el.description.toLowerCase().includes(searchQuery.trimStart())),
+    )
+    .toSorted();
 
   return (
     <div
@@ -68,6 +82,10 @@ export default function SelectContent({
               placeholder="Search categories..."
               iconName="search"
               padding="sm"
+              value={searchQuery}
+              onChange={handleChange}
+              onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
+              trailingButton={{ role, onClick: handleClear }}
             />
           </div>
         )}
@@ -78,16 +96,20 @@ export default function SelectContent({
             theme === 'dark' ? 'scrollbar-dark' : '',
           )}
         >
-          {sortedOptions.map((option) => (
-            <SelectItem
-              key={option.value}
-              option={option}
-              onSelect={onSelect}
-              selectedValue={selectedValue}
-              showSelectedOption={showSelectedOption}
-              isContentExpanded={isContentExpanded}
-            />
-          ))}
+          {withSearch && filteredOptions.length === 0 ? (
+            <EmptySearchResult query={searchQuery} onClick={handleClear} />
+          ) : (
+            filteredOptions.map((option) => (
+              <SelectItem
+                key={option.value}
+                option={option}
+                onSelect={onSelect}
+                selectedValue={selectedValue}
+                showSelectedOption={showSelectedOption}
+                isContentExpanded={isContentExpanded}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>

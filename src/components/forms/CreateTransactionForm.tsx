@@ -18,10 +18,8 @@ import {
   TRANSACTION_TYPE_CONFIG,
 } from '@/lib/constants/transactions';
 import { CreateTransactionSchema } from '@/lib/schemas/transaction.schema';
-import { useSearchInput } from '@/hooks/useSearchInput';
 
 import SegmentedControl from '../ui/controls/SegmentedControl';
-import EmptySearchResult from '../ui/feedback/EmptySearchResult';
 import Input from '../ui/inputs/Input';
 import TextArea from '../ui/inputs/TextArea';
 import ModalFieldLabel from '../ui/modals/ModalFieldLabel';
@@ -40,20 +38,10 @@ interface CreateTransactionFormProps {
 export default function CreateTransactionForm({
   onClose,
 }: CreateTransactionFormProps) {
-  const { searchQuery, role, onChange, onClear } = useSearchInput();
   const { register, handleSubmit, control } = useForm({
     resolver: zodResolver(CreateTransactionSchema),
     defaultValues: { currency: DEFAULT_CURRENCY },
   });
-
-  const filteredCategories = TRANSACTION_CATEGORIES.filter((el) =>
-    searchQuery.length === 0
-      ? el
-      : el.replaceAll('_', ' ').includes(searchQuery.trimStart()) ||
-        TRANSACTION_CATEGORIES_CONFIG[el].text.description
-          .toLowerCase()
-          .includes(searchQuery.trimStart()),
-  ).toSorted();
 
   function onSubmit(data: FormData) {
     console.log(data);

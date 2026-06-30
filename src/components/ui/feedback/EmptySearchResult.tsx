@@ -6,16 +6,14 @@ import Button from '../buttons/Button';
 import Icon from '../icons/Icon';
 
 interface EmptySearchResultProps {
-  category: string;
+  category?: string;
   query: string;
-  variant: 'simple' | 'full';
   onClick?: () => void;
 }
 
 export default function EmptySearchResult({
   category,
   query,
-  variant,
   onClick,
 }: EmptySearchResultProps) {
   return (
@@ -25,7 +23,7 @@ export default function EmptySearchResult({
       )}
     >
       <div className="flex flex-col items-center justify-center gap-2">
-        {variant === 'full' && (
+        {category && (
           <Image
             className="h-[120] w-[120]"
             alt="Error"
@@ -38,35 +36,33 @@ export default function EmptySearchResult({
 
         <h2
           className={clsx(
-            'my-2 text-base leading-snug font-semibold tracking-wider',
+            'my-2 leading-snug font-semibold tracking-wider',
+            category ? 'text-base' : 'text-sm',
           )}
         >
           No matches for <span className="text-purple-500">"{query}"</span>
         </h2>
       </div>
+
       <div
         className={clsx(
           'flex w-2/3 flex-col items-center justify-center gap-3 text-center',
+          !category && 'mb-2',
         )}
       >
-        <p
-          className={clsx(
-            'text-slate-500',
-            variant === 'full' ? '' : 'text-sm',
-          )}
-        >
-          Nothing in your {category} list matches that. Try a different keyword,
-          or clear the search to see them all.
-        </p>
-
-        {variant === 'full' && (
-          <div className="flex gap-2">
-            <Button color="blue" size="sm" onClick={onClick}>
-              <Icon name="undo" size={14} />
-              <span>Clear search</span>
-            </Button>
-          </div>
+        {category && (
+          <p className="text-slate-500">
+            Nothing in your {category} list matches that. Try a different
+            keyword, or clear the search to see them all.
+          </p>
         )}
+
+        <div className="flex gap-2">
+          <Button color="blue" size="xs" onClick={onClick}>
+            <Icon name="undo" size={14} />
+            <span>Clear search</span>
+          </Button>
+        </div>
       </div>
     </section>
   );
