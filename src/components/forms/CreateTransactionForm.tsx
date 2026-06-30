@@ -190,8 +190,30 @@ export default function CreateTransactionForm({
           </ModalFieldWrapper>
 
           <ModalFieldWrapper>
-            <ModalFieldLabel label="Payment method" />
-            <Input name="amount" padding="md" />
+            <ModalFieldLabel
+              label={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.label}
+            />
+            <Controller
+              control={control}
+              name={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.name}
+              render={({ field }) => (
+                // Should be fixed in the future!!!
+                <Select
+                  label={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.name}
+                  options={['Cash', 'Card'].map((payment) => ({
+                    value: payment,
+                    label: payment,
+                  }))}
+                  padding="md"
+                  showSelectedOption
+                  selectedValue={field.value}
+                  onSelect={field.onChange}
+                  placeholder={
+                    CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.placeholder
+                  }
+                />
+              )}
+            />
           </ModalFieldWrapper>
         </ModalFieldRow>
 

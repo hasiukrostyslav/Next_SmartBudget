@@ -539,6 +539,7 @@ export const CREATE_TRANSACTION_FIELDS = {
   PAYMENT_METHOD: {
     label: 'Payment method',
     name: 'paymentMethod',
+    placeholder: 'Select Payment method',
   },
   DESCRIPTION: {
     label: 'Description',

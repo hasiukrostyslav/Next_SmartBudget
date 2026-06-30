@@ -23,7 +23,5 @@ export function useSearchInput({ isContentExpanded }: useSearchInputProps) {
 
   const handleClear = () => setSearchQuery('');
 
-  const filterSearchedOptions = () => {};
-
   return { searchQuery, role, handleChange, handleClear };
 }
