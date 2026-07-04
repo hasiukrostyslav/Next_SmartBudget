@@ -20,13 +20,7 @@ export default async function UserPanel() {
       </div>
       <div className="mr-6 flex items-center gap-2">
         <span>{userName}</span>
-        <ButtonIcon
-          size={16}
-          iconName="user"
-          shape="round"
-          variant="outline"
-          className="outline-input border border-slate-700"
-        />
+        <ButtonIcon size={16} iconName="user" shape="round" variant="outline" />
       </div>
       <SignOutForm />
     </div>

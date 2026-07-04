@@ -25,25 +25,22 @@ export default function TransactionActionButtons({
         <ButtonIcon
           iconName="copy"
           shape="square"
-          variant="outline"
+          variant="ghost"
           size={14}
-          className="hover:text-slate-400"
           tooltipLabel="Duplicate transaction"
         />
         <ButtonIcon
           iconName="edit"
           shape="square"
-          variant="outline"
+          variant="ghost"
           size={14}
-          className="hover:text-slate-400"
           tooltipLabel="Edit transaction"
         />
         <ButtonIcon
           iconName="delete"
           shape="square"
-          variant="outline"
+          variant="ghost"
           size={14}
-          className="hover:text-slate-400"
           onClick={handleOpen}
           tooltipLabel="Delete transaction"
         />

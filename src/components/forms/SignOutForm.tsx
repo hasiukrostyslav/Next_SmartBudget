@@ -15,9 +15,8 @@ export default function SignOutForm() {
         size={18}
         iconName="log-out"
         shape="square"
-        variant="outline"
+        variant="ghost"
         type="submit"
-        className="rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700"
       />
     </form>
   );

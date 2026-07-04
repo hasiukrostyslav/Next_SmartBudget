@@ -52,11 +52,8 @@ export default function ModalHeader({
         iconName="close"
         size={18}
         shape="square"
-        variant="outline"
-        className={clsx(
-          'ml-auto text-slate-500 hover:bg-slate-200',
-          'dark:text-slate-400 dark:hover:bg-slate-700',
-        )}
+        variant="ghost"
+        className="ml-auto"
         onClick={onClose}
       />
     </header>

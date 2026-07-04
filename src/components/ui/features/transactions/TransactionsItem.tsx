@@ -41,7 +41,7 @@ export default function TransactionsItem({
         'col-span-full grid grid-cols-subgrid items-center text-xs',
         'border-t tracking-wide text-slate-800 dark:text-slate-400',
         'border-slate-300 px-2 py-1.5 dark:border-slate-700',
-        'visible-hover-show visible-hide hover:bg-blue-200 dark:hover:bg-blue-900/50',
+        'visible-hover-show visible-hide hover:bg-green-100 dark:hover:bg-blue-900/50',
         'next-sibling hover:rounded-md',
       )}
     >
