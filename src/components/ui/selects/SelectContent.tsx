@@ -7,6 +7,7 @@ import { useTheme } from '@/hooks/useTheme';
 
 import EmptySearchResult from '../feedback/EmptySearchResult';
 import Input from '../inputs/Input';
+import PopoverPanel from './PopoverPanel';
 import SelectItem from './SelectItem';
 
 interface SelectContentProps {
@@ -53,65 +54,49 @@ export default function SelectContent({
     .toSorted();
 
   return (
-    <div
-      id={`select-list-${id}`}
-      role="listbox"
-      className={clsx(
-        'absolute z-50 text-sm',
-        'transition-all duration-400 ease-in',
-        isContentExpanded ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0',
-        widthExpandedTo ?? 'w-full',
-        expandedAlign === 'left' ? 'left-0' : 'right-0',
-        position === 'top'
-          ? 'bottom-[calc(100%+4px)] origin-bottom'
-          : 'origin-top translate-y-1',
-      )}
+    <PopoverPanel
+      id={id}
+      isContentExpanded={isContentExpanded}
+      position={position}
+      widthExpandedTo={widthExpandedTo}
+      expandedAlign={expandedAlign}
     >
+      {withSearch && (
+        <div className="mb-2 border-b border-slate-300 p-2 dark:border-slate-600">
+          <Input
+            name="search"
+            placeholder="Search categories..."
+            iconName="search"
+            padding="sm"
+            value={searchQuery}
+            onChange={handleChange}
+            onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
+            trailingButton={{ role, onClick: handleClear }}
+          />
+        </div>
+      )}
       <div
-        tabIndex={-1}
         className={clsx(
-          'shadow-md',
-          'rounded-md border border-slate-300 dark:border-slate-600',
-          'bg-slate-50 dark:bg-slate-800 dark:text-slate-400',
+          withSearch ? 'max-h-60' : 'max-h-75',
+          'scrollbar grid gap-1 overflow-y-auto p-2',
+          theme === 'dark' ? 'scrollbar-dark' : '',
         )}
       >
-        {withSearch && (
-          <div className="mb-2 border-b border-slate-300 p-2 dark:border-slate-600">
-            <Input
-              name="search"
-              placeholder="Search categories..."
-              iconName="search"
-              padding="sm"
-              value={searchQuery}
-              onChange={handleChange}
-              onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
-              trailingButton={{ role, onClick: handleClear }}
+        {withSearch && filteredOptions.length === 0 ? (
+          <EmptySearchResult query={searchQuery} onClick={handleClear} />
+        ) : (
+          filteredOptions.map((option) => (
+            <SelectItem
+              key={option.value}
+              option={option}
+              onSelect={onSelect}
+              selectedValue={selectedValue}
+              showSelectedOption={showSelectedOption}
+              isContentExpanded={isContentExpanded}
             />
-          </div>
+          ))
         )}
-        <div
-          className={clsx(
-            withSearch ? 'max-h-60' : 'max-h-75',
-            'scrollbar grid gap-1 overflow-y-auto p-2',
-            theme === 'dark' ? 'scrollbar-dark' : '',
-          )}
-        >
-          {withSearch && filteredOptions.length === 0 ? (
-            <EmptySearchResult query={searchQuery} onClick={handleClear} />
-          ) : (
-            filteredOptions.map((option) => (
-              <SelectItem
-                key={option.value}
-                option={option}
-                onSelect={onSelect}
-                selectedValue={selectedValue}
-                showSelectedOption={showSelectedOption}
-                isContentExpanded={isContentExpanded}
-              />
-            ))
-          )}
-        </div>
       </div>
-    </div>
+    </PopoverPanel>
   );
 }

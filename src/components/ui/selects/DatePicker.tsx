@@ -1,19 +1,16 @@
-'use client';
-
-import { SelectOption } from '@/types/types';
-
 import { SELECT_CONFIG } from '@/lib/constants/components';
+import { useCalendar } from '@/hooks/useCalendar';
 import { useSelectDropdown } from '@/hooks/useSelectDropdown';
 
-import SelectContent from './SelectContent';
+import Calendar from './Calendar';
+import PopoverPanel from './PopoverPanel';
 import SelectTrigger from './SelectTrigger';
 import SelectValue from './SelectValue';
 import SelectWrapper from './SelectWrapper';
 
-interface SelectProps {
+interface DatePickerProps {
   label: string;
-  options: SelectOption[];
-  selectedValue: string | number | undefined;
+  selectedValue: Date;
   placeholder?: string;
   padding?: keyof typeof SELECT_CONFIG.padding;
   variant?: keyof typeof SELECT_CONFIG.variant;
@@ -24,33 +21,23 @@ interface SelectProps {
   contentWidthExpandedTo?: string;
   withSearch?: boolean;
   disabled?: boolean;
-  onSelect: (value: string | number) => void;
+  onSelect: (value: Date) => void;
 }
 
-export default function Select({
+export default function DatePicker({
   label,
-  options,
   selectedValue,
   placeholder,
   padding = 'sm',
   variant = 'primary',
-  showSelectedOption,
   groupPosition,
-  contentPosition = 'bottom',
-  contentWidthExpandedTo,
-  contentExpandedAlign,
-  withSearch,
   disabled,
   onSelect,
-}: SelectProps) {
-  const {
-    id,
-    isContentExpanded,
-    selectRef,
-    handleBlur,
-    handleSelect,
-    handleToggleExpanded,
-  } = useSelectDropdown(onSelect);
+}: DatePickerProps) {
+  const { days, cursor, toNextMonth, toPrevMonth, formattedDate } =
+    useCalendar(selectedValue);
+  const { id, isContentExpanded, selectRef, handleBlur, handleToggleExpanded } =
+    useSelectDropdown();
 
   return (
     <SelectWrapper
@@ -58,7 +45,7 @@ export default function Select({
       isContentExpanded={isContentExpanded}
       ref={selectRef}
       onBlur={handleBlur}
-      ariaHasPopup="listbox"
+      ariaHasPopup="dialog"
     >
       <SelectTrigger
         id={id}
@@ -69,26 +56,28 @@ export default function Select({
         isContentExpanded={isContentExpanded}
         groupPosition={groupPosition}
         onClick={handleToggleExpanded}
-        ariaHasPopup="listbox"
+        ariaHasPopup="dialog"
+        iconName="calendar"
       >
         <SelectValue
-          selectedValue={options.find((el) => el.value === selectedValue)}
+          selectedValue={{ label: formattedDate, value: formattedDate }}
           placeholder={placeholder}
         />
       </SelectTrigger>
 
-      <SelectContent
+      <PopoverPanel
         id={id}
-        options={options}
-        selectedValue={selectedValue}
         isContentExpanded={isContentExpanded}
-        showSelectedOption={showSelectedOption}
-        position={contentPosition}
-        widthExpandedTo={contentWidthExpandedTo}
-        expandedAlign={contentExpandedAlign}
-        withSearch={withSearch}
-        onSelect={handleSelect}
-      />
+        position="top"
+      >
+        <Calendar
+          onSelect={onSelect}
+          cursor={cursor}
+          days={days}
+          toNextMonth={toNextMonth}
+          toPrevMonth={toPrevMonth}
+        />
+      </PopoverPanel>
     </SelectWrapper>
   );
 }

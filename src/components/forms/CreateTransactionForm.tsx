@@ -27,6 +27,7 @@ import ModalFieldRow from '../ui/modals/ModalFieldRow';
 import ModalFieldWrapper from '../ui/modals/ModalFieldWrapper';
 import ModalFooter from '../ui/modals/ModalFooter';
 import ModalHeader from '../ui/modals/ModalHeader';
+import DatePicker from '../ui/selects/DatePicker';
 import Select from '../ui/selects/Select';
 
 type FormData = z.infer<typeof CreateTransactionSchema>;
@@ -40,7 +41,12 @@ export default function CreateTransactionForm({
 }: CreateTransactionFormProps) {
   const { register, handleSubmit, control } = useForm({
     resolver: zodResolver(CreateTransactionSchema),
-    defaultValues: { currency: DEFAULT_CURRENCY },
+    defaultValues: {
+      transactionType: 'Expenses',
+      currency: DEFAULT_CURRENCY,
+      status: 'COMPLETED',
+      createdAt: new Date(),
+    },
   });
 
   function onSubmit(data: FormData) {
@@ -49,7 +55,7 @@ export default function CreateTransactionForm({
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit, (errors) => console.log(errors))}
+      onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
       className="flex flex-col dark:text-slate-400"
     >
@@ -185,8 +191,19 @@ export default function CreateTransactionForm({
 
         <ModalFieldRow>
           <ModalFieldWrapper>
-            <ModalFieldLabel label="Date" />
-            <Input name="name" padding="md" />
+            <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.DATE.label} />
+            <Controller
+              control={control}
+              name={CREATE_TRANSACTION_FIELDS.DATE.name}
+              render={({ field }) => (
+                <DatePicker
+                  label={CREATE_TRANSACTION_FIELDS.DATE.label}
+                  selectedValue={field.value}
+                  onSelect={field.onChange}
+                  showSelectedOption
+                />
+              )}
+            />
           </ModalFieldWrapper>
 
           <ModalFieldWrapper>

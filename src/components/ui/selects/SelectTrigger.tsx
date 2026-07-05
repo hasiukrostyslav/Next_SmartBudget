@@ -2,6 +2,8 @@ import React from 'react';
 
 import { clsx } from 'clsx';
 
+import { IconName } from '@/types/types';
+
 import { SELECT_CONFIG } from '@/lib/constants/components';
 
 import Icon from '../icons/Icon';
@@ -16,6 +18,8 @@ interface SelectTriggerProps {
   groupPosition?: 'start' | 'end';
   disabled?: boolean;
   onClick: () => void;
+  ariaHasPopup: 'menu' | 'dialog' | 'grid' | 'listbox' | 'tree';
+  iconName?: IconName;
 }
 
 export default function SelectTrigger({
@@ -28,13 +32,15 @@ export default function SelectTrigger({
   groupPosition,
   disabled,
   onClick,
+  ariaHasPopup,
+  iconName,
 }: SelectTriggerProps) {
   return (
     <button
       id={`select-label-${id}`}
       name={label}
-      aria-haspopup="listbox"
-      aria-controls={`select-list-${id}`}
+      aria-haspopup={ariaHasPopup}
+      aria-controls={`select-control-${id}`}
       aria-expanded={isContentExpanded}
       type="button"
       onClick={onClick}
@@ -50,7 +56,12 @@ export default function SelectTrigger({
           : SELECT_CONFIG.variant[variant],
       )}
     >
-      {children}
+      <div className="flex items-center gap-2">
+        {iconName && (
+          <Icon name={iconName} size={16} className="text-slate-500" />
+        )}
+        {children}
+      </div>
       <Icon
         size={16}
         name="chevron-down"

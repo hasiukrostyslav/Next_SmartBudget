@@ -1,10 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react';
 
-interface useSelectDropdownProps {
-  onSelect: (value: string | number) => void;
-}
-
-export function useSelectDropdown({ onSelect }: useSelectDropdownProps) {
+export function useSelectDropdown(onSelect?: (value: string | number) => void) {
   const [isContentExpanded, setIsContentExpanded] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
   const id = useId();
@@ -37,7 +33,8 @@ export function useSelectDropdown({ onSelect }: useSelectDropdownProps) {
   };
   const handleSelect = (value: string | number) => {
     setIsContentExpanded(false);
-    onSelect(value);
+
+    if (onSelect) onSelect(value);
   };
   const handleToggleExpanded = () => setIsContentExpanded(!isContentExpanded);
 

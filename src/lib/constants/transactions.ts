@@ -533,8 +533,8 @@ export const CREATE_TRANSACTION_FIELDS = {
     placeholder: 'Search categories...',
   },
   DATE: {
-    label: 'Date',
-    name: 'transactionType',
+    label: 'Date & Time',
+    name: 'createdAt',
   },
   PAYMENT_METHOD: {
     label: 'Payment method',
