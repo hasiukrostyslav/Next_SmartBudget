@@ -1,9 +1,12 @@
 'use client';
 
+import { useTransition } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { createTransaction } from '@/lib/actions/transactionActions';
 import { DEFAULT_CURRENCY } from '@/lib/constants/constants';
 import {
   OperationType,
@@ -39,6 +42,7 @@ interface CreateTransactionFormProps {
 export default function CreateTransactionForm({
   onClose,
 }: CreateTransactionFormProps) {
+  const [isPending, startTransition] = useTransition();
   const { register, handleSubmit, control } = useForm({
     resolver: zodResolver(CreateTransactionSchema),
     defaultValues: {
@@ -49,8 +53,12 @@ export default function CreateTransactionForm({
     },
   });
 
-  function onSubmit(data: FormData) {
-    console.log(data);
+  async function onSubmit(data: FormData) {
+    startTransition(async () => {
+      const result = await createTransaction(data);
+
+      if (result.success) onClose();
+    });
   }
 
   return (
@@ -250,7 +258,7 @@ export default function CreateTransactionForm({
       <ModalFooter
         operationType={OperationType.CREATE}
         itemType="transaction"
-        isSubmitting={false}
+        isSubmitting={isPending}
         onClose={onClose}
       />
     </form>
