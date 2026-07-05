@@ -12,6 +12,7 @@ import InputButton from './InputButton';
 import InputError from './InputError';
 import InputIcon from './InputIcon';
 import InputLabel from './InputLabel';
+import InputRangeButtons from './InputRangeButtons';
 
 interface InputProps {
   name: string;
@@ -33,6 +34,7 @@ interface InputProps {
     role: keyof typeof INPUT_CONFIG.button.roleIcon;
     onClick: () => void;
   };
+  rangeButtons?: { increaseValue: () => void; decreaseValue: () => void };
 }
 
 export default function Input({
@@ -50,6 +52,7 @@ export default function Input({
   padding = 'lg',
   onChange,
   trailingButton,
+  rangeButtons,
   ...props
 }: InputProps) {
   const id = useId();
@@ -107,6 +110,13 @@ export default function Input({
             positionPadding={padding}
             role={trailingButton.role}
             onClick={trailingButton.onClick}
+          />
+        )}
+
+        {rangeButtons && (
+          <InputRangeButtons
+            increaseValue={rangeButtons.increaseValue}
+            decreaseValue={rangeButtons.decreaseValue}
           />
         )}
       </div>

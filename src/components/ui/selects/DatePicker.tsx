@@ -77,7 +77,10 @@ export default function DatePicker({
         disabled={disabled}
         isContentExpanded={isContentExpanded}
         groupPosition={groupPosition}
-        onClick={handleToggleExpanded}
+        onClick={() => {
+          handleToggleExpanded();
+          setDraft(selectedValue);
+        }}
         ariaHasPopup="dialog"
         iconName="calendar"
       >
@@ -100,8 +103,13 @@ export default function DatePicker({
           toNextMonth={toNextMonth}
           toPrevMonth={toPrevMonth}
         />
-        <TimeSelect selectedValue={draft}>
-          <Button color="blue" size="xs" onClick={handleDone}>
+        <TimeSelect selectedValue={draft} onChange={setDraft}>
+          <Button
+            color="blue"
+            size="sm"
+            onClick={handleDone}
+            disabled={draft === selectedValue}
+          >
             Done
           </Button>
         </TimeSelect>

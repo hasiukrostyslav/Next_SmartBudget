@@ -148,6 +148,8 @@ export const INPUT_CONFIG = {
       clear: 'close',
       showPassword: 'hide',
       hidePassword: 'show',
+      increaseValue: 'chevron-up',
+      decreaseValue: 'chevron-down',
     },
   },
 } as const;
