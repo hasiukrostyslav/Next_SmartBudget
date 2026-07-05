@@ -1,12 +1,16 @@
+import { useState } from 'react';
+
 import { SELECT_CONFIG } from '@/lib/constants/components';
 import { useCalendar } from '@/hooks/useCalendar';
 import { useSelectDropdown } from '@/hooks/useSelectDropdown';
 
+import Button from '../buttons/Button';
 import Calendar from './Calendar';
 import PopoverPanel from './PopoverPanel';
 import SelectTrigger from './SelectTrigger';
 import SelectValue from './SelectValue';
 import SelectWrapper from './SelectWrapper';
+import TimeSelect from './TimeSelect';
 
 interface DatePickerProps {
   label: string;
@@ -34,10 +38,28 @@ export default function DatePicker({
   disabled,
   onSelect,
 }: DatePickerProps) {
-  const { days, cursor, toNextMonth, toPrevMonth, formattedDate } =
+  const { days, cursor, toNextMonth, toPrevMonth, goToMonth, formattedDate } =
     useCalendar(selectedValue);
-  const { id, isContentExpanded, selectRef, handleBlur, handleToggleExpanded } =
-    useSelectDropdown();
+  const {
+    id,
+    isContentExpanded,
+    selectRef,
+    handleBlur,
+    handleToggleExpanded,
+    handleClose,
+  } = useSelectDropdown();
+
+  const [draft, setDraft] = useState(selectedValue);
+
+  const handleSelectDay = (day: Date) => {
+    goToMonth(day);
+    setDraft(day);
+  };
+
+  const handleDone = () => {
+    onSelect(draft);
+    handleClose();
+  };
 
   return (
     <SelectWrapper
@@ -71,12 +93,18 @@ export default function DatePicker({
         position="top"
       >
         <Calendar
-          onSelect={onSelect}
+          onSelect={handleSelectDay}
           cursor={cursor}
+          selected={draft}
           days={days}
           toNextMonth={toNextMonth}
           toPrevMonth={toPrevMonth}
         />
+        <TimeSelect selectedValue={draft}>
+          <Button color="blue" size="xs" onClick={handleDone}>
+            Done
+          </Button>
+        </TimeSelect>
       </PopoverPanel>
     </SelectWrapper>
   );

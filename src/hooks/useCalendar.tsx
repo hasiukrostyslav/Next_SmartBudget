@@ -23,6 +23,7 @@ export function useCalendar(selected: Date) {
 
   const toPrevMonth = () => setCursor((c) => subMonths(c, 1));
   const toNextMonth = () => setCursor((c) => addMonths(c, 1));
+  const goToMonth = (date: Date) => setCursor(date);
 
-  return { formattedDate, days, cursor, toPrevMonth, toNextMonth };
+  return { formattedDate, days, cursor, toPrevMonth, toNextMonth, goToMonth };
 }

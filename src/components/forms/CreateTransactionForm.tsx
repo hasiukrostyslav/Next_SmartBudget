@@ -201,6 +201,7 @@ export default function CreateTransactionForm({
                   selectedValue={field.value}
                   onSelect={field.onChange}
                   showSelectedOption
+                  padding="md"
                 />
               )}
             />

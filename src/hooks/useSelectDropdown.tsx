@@ -37,6 +37,7 @@ export function useSelectDropdown(onSelect?: (value: string | number) => void) {
     if (onSelect) onSelect(value);
   };
   const handleToggleExpanded = () => setIsContentExpanded(!isContentExpanded);
+  const handleClose = () => setIsContentExpanded(false);
 
   return {
     id,
@@ -45,5 +46,6 @@ export function useSelectDropdown(onSelect?: (value: string | number) => void) {
     handleBlur,
     handleSelect,
     handleToggleExpanded,
+    handleClose,
   };
 }
