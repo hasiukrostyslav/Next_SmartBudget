@@ -28,13 +28,10 @@ export default function Sidebar() {
         iconName="chevrons-left"
         size={24}
         shape="square"
-        variant="outline"
+        variant="ghost"
         tooltipLabel={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         tooltipSide="right"
-        className={clsx(
-          'mt-auto self-end rounded-lg',
-          'text-blue-400 hover:bg-slate-200 dark:text-blue-200 dark:hover:bg-slate-700',
-        )}
+        className="mt-auto self-end text-blue-400 dark:text-blue-200"
         iconClassName={clsx(
           'transform transition-transform duration-500 ease-in-out',
           isCollapsed ? 'rotate-180' : 'rotate-0',

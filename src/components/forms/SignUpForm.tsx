@@ -14,7 +14,6 @@ import { usePasswordVisibility } from '@/hooks/usePasswordVisibility';
 import Button from '../ui/buttons/Button';
 import FormError from '../ui/feedback/FormError';
 import Spinner from '../ui/feedback/Spinner';
-import Icon from '../ui/icons/Icon';
 import Input from '../ui/inputs/Input';
 
 type FormInputs = z.infer<typeof SignUpSchema>;

@@ -29,7 +29,7 @@ export default function EditItemStatusForm({
   selectedItems,
 }: EditItemStatusFormProps) {
   const [isPending, startTransition] = useTransition();
-  const { selectedValue, setSelectedValue } = useSelectValue();
+  const { selectedValue, handleSelect } = useSelectValue({});
   const { toastSuccess } = useToast();
   const initialValue = [...new Set(selectedItems.map((el) => el.status))];
 
@@ -78,8 +78,7 @@ export default function EditItemStatusForm({
                   key={status}
                   option={status}
                   selectedValue={selectedValue}
-                  onSelect={setSelectedValue}
-                  withExtraContent
+                  onSelect={handleSelect}
                   iconName={item.icon}
                   text={item.text}
                   styleConfig={item.style}

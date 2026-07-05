@@ -28,6 +28,8 @@ export function useModal() {
     if (!dialog) return;
 
     const handleClickOutside = (event: MouseEvent) => {
+      if (event.target !== dialog && dialog.contains(event.target as Node)) return;
+
       const rect = dialog.getBoundingClientRect();
       if (
         event.clientX < rect.left ||

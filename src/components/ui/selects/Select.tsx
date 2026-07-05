@@ -1,79 +1,80 @@
 'use client';
 
-import clsx from 'clsx';
+import { SelectOption } from '@/types/types';
 
 import { SELECT_CONFIG } from '@/lib/constants/components';
-import { useSelect } from '@/hooks/useSelect';
+import { useSelectDropdown } from '@/hooks/useSelectDropdown';
 
 import SelectContent from './SelectContent';
 import SelectTrigger from './SelectTrigger';
 import SelectValue from './SelectValue';
+import SelectWrapper from './SelectWrapper';
 
 interface SelectProps {
   label: string;
-  param?: string;
-  options: (string | number)[];
-  defaultValue?: string | number;
+  options: SelectOption[];
+  selectedValue: string | number | undefined;
   placeholder?: string;
-  className?: string;
-  width?: keyof typeof SELECT_CONFIG.width;
   padding?: keyof typeof SELECT_CONFIG.padding;
   variant?: keyof typeof SELECT_CONFIG.variant;
+  showSelectedOption: boolean;
+  groupPosition?: 'start' | 'end';
   contentPosition?: 'top' | 'bottom';
+  contentExpandedAlign?: 'left' | 'right';
+  contentWidthExpandedTo?: string;
+  withSearch?: boolean;
   disabled?: boolean;
-  onValueChange?: (value: string | number) => void;
+  onSelect: (value: string | number) => void;
 }
 
 export default function Select({
   label,
-  param,
   options,
-  defaultValue,
+  selectedValue,
   placeholder,
-  className,
-  width = 'md',
   padding = 'sm',
   variant = 'primary',
+  showSelectedOption,
+  groupPosition,
   contentPosition = 'bottom',
+  contentWidthExpandedTo,
+  contentExpandedAlign,
+  withSearch,
   disabled,
-  onValueChange,
+  onSelect,
 }: SelectProps) {
   const {
     id,
     isContentExpanded,
-    selectedValue,
     selectRef,
     handleBlur,
     handleSelect,
     handleToggleExpanded,
-  } = useSelect({
-    defaultValue,
-    param,
-    onValueChange,
-  });
+  } = useSelectDropdown(onSelect);
 
   return (
-    <div
-      role="combobox"
-      aria-haspopup="listbox"
-      aria-controls={`select-list-${id}`}
-      aria-labelledby={`select-label-${id}`}
-      aria-expanded={isContentExpanded}
+    <SelectWrapper
+      id={id}
+      isContentExpanded={isContentExpanded}
       ref={selectRef}
-      className={clsx('relative', className)}
       onBlur={handleBlur}
+      ariaHasPopup="listbox"
     >
       <SelectTrigger
         id={id}
         label={label}
-        width={width}
         padding={padding}
         variant={variant}
         disabled={disabled}
         isContentExpanded={isContentExpanded}
+        groupPosition={groupPosition}
         onClick={handleToggleExpanded}
+        ariaHasPopup="listbox"
       >
-        <SelectValue selectedValue={selectedValue} placeholder={placeholder} />
+        <SelectValue
+          selectedValue={options.find((el) => el.value === selectedValue)}
+          placeholder={placeholder}
+        />
       </SelectTrigger>
 
       <SelectContent
@@ -81,9 +82,13 @@ export default function Select({
         options={options}
         selectedValue={selectedValue}
         isContentExpanded={isContentExpanded}
+        showSelectedOption={showSelectedOption}
         position={contentPosition}
+        widthExpandedTo={contentWidthExpandedTo}
+        expandedAlign={contentExpandedAlign}
+        withSearch={withSearch}
         onSelect={handleSelect}
       />
-    </div>
+    </SelectWrapper>
   );
 }

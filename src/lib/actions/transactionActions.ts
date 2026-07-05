@@ -89,7 +89,7 @@ export async function getTransaction(id: string) {
 
 // Create Transaction
 export async function createTransaction(
-  transaction: z.infer<typeof TransactionCreateSchema>,
+  transaction: z.infer<typeof CreateTransactionSchema>,
 ) {
   const userId = await getUserId();
   if (!userId)
@@ -99,7 +99,7 @@ export async function createTransaction(
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
-  const parsed = TransactionCreateSchema.safeParse(transaction);
+  const parsed = CreateTransactionSchema.safeParse(transaction);
   if (!parsed.success)
     return {
       success: false,

@@ -52,7 +52,7 @@ export default function ModalFooter({
           color={footerConfig.buttonColor}
           size="sm"
           className="flex items-center gap-1"
-          disabled={disabled}
+          disabled={disabled || isSubmitting}
         >
           <Icon
             name={isSubmitting ? 'loader-circle' : footerConfig.buttonIcon}

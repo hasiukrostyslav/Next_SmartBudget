@@ -1,16 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { INPUT_CONFIG } from '@/lib/constants/components';
 
-export function useSearchInput() {
+interface useSearchInputProps {
+  isContentExpanded?: boolean;
+}
+
+export function useSearchInput({ isContentExpanded }: useSearchInputProps) {
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    if (isContentExpanded) {
+      handleClear();
+    }
+  }, [isContentExpanded]);
+
   const role: keyof typeof INPUT_CONFIG.button.roleIcon = 'clear';
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  const onClear = () => setSearchQuery('');
+  const handleClear = () => setSearchQuery('');
 
-  return { searchQuery, role, onChange, onClear };
+  return { searchQuery, role, handleChange, handleClear };
 }

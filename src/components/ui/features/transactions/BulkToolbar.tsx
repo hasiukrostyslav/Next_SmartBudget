@@ -124,10 +124,8 @@ export default function BulkToolbar({
         iconName="close"
         size={14}
         shape="square"
-        variant="outline"
-        padding="base"
+        variant="ghost"
         onClick={onBulkUnSelect}
-        className="text-slate-500 hover:bg-slate-300 dark:text-slate-400 dark:hover:bg-slate-700"
       />
 
       {isOpenEditStatusModal && (

@@ -39,8 +39,8 @@ export default function EditTransactionCategoryForm({
 }: EditTransactionCategoryFormProps) {
   const { theme } = useTheme();
   const [isPending, startTransition] = useTransition();
-  const { selectedValue, setSelectedValue } = useSelectValue();
-  const { searchQuery, role, onChange, onClear } = useSearchInput();
+  const { selectedValue, handleSelect } = useSelectValue({});
+  const { searchQuery, role, handleChange, handleClear } = useSearchInput({});
   const { toastSuccess } = useToast();
 
   const initialValue = [...new Set(selectedItems.map((el) => el.category))];
@@ -95,9 +95,9 @@ export default function EditTransactionCategoryForm({
             iconName="search"
             padding="md"
             value={searchQuery}
-            onChange={onChange}
+            onChange={handleChange}
             onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
-            trailingButton={{ role, onClick: onClear }}
+            trailingButton={{ role, onClick: handleClear }}
           />
 
           <div
@@ -111,9 +111,8 @@ export default function EditTransactionCategoryForm({
             {filteredCategories.length === 0 ? (
               <EmptySearchResult
                 category="category"
-                variant="full"
                 query={searchQuery}
-                onClick={onClear}
+                onClick={handleClear}
               />
             ) : (
               filteredCategories.map((category) => {
@@ -124,10 +123,9 @@ export default function EditTransactionCategoryForm({
                     key={category}
                     option={category}
                     selectedValue={selectedValue}
-                    onSelect={setSelectedValue}
+                    onSelect={handleSelect}
                     iconName={item.icon}
                     text={item.text}
-                    withExtraContent
                     styleConfig={item.style}
                     isCurrent={
                       initialValue.length === 1 && initialValue[0] === category

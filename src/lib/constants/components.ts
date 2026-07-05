@@ -148,17 +148,13 @@ export const INPUT_CONFIG = {
       clear: 'close',
       showPassword: 'hide',
       hidePassword: 'show',
+      increaseValue: 'chevron-up',
+      decreaseValue: 'chevron-down',
     },
   },
 } as const;
 
 export const SELECT_CONFIG = {
-  width: {
-    sm: 'min-w-18',
-    md: 'min-w-38',
-    lg: 'min-w-44',
-    full: 'w-full',
-  },
   padding: { xs: 'py-1', sm: 'py-1.5', md: 'py-2', lg: 'py-2.5' },
   variant: {
     primary:

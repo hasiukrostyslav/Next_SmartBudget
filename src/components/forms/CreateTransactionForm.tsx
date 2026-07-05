@@ -1,23 +1,28 @@
 'use client';
 
+import { useTransition } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
-import { clsx } from 'clsx';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { OperationType, TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
+import { createTransaction } from '@/lib/actions/transactionActions';
+import { DEFAULT_CURRENCY } from '@/lib/constants/constants';
+import {
+  OperationType,
+  STATUSES,
+  TRANSACTION_CATEGORIES,
+} from '@/lib/constants/enums';
 import {
   CREATE_TRANSACTION_FIELDS,
+  CURRENCY_CONFIG,
+  STATUS_CONFIG,
   TRANSACTION_CATEGORIES_CONFIG,
   TRANSACTION_TYPE_CONFIG,
 } from '@/lib/constants/transactions';
 import { CreateTransactionSchema } from '@/lib/schemas/transaction.schema';
-import { useSearchInput } from '@/hooks/useSearchInput';
-import { useTheme } from '@/hooks/useTheme';
 
-import RadioCard from '../ui/controls/RadioCard';
 import SegmentedControl from '../ui/controls/SegmentedControl';
-import EmptySearchResult from '../ui/feedback/EmptySearchResult';
 import Input from '../ui/inputs/Input';
 import TextArea from '../ui/inputs/TextArea';
 import ModalFieldLabel from '../ui/modals/ModalFieldLabel';
@@ -25,6 +30,7 @@ import ModalFieldRow from '../ui/modals/ModalFieldRow';
 import ModalFieldWrapper from '../ui/modals/ModalFieldWrapper';
 import ModalFooter from '../ui/modals/ModalFooter';
 import ModalHeader from '../ui/modals/ModalHeader';
+import DatePicker from '../ui/selects/DatePicker';
 import Select from '../ui/selects/Select';
 
 type FormData = z.infer<typeof CreateTransactionSchema>;
@@ -36,26 +42,28 @@ interface CreateTransactionFormProps {
 export default function CreateTransactionForm({
   onClose,
 }: CreateTransactionFormProps) {
-  const { theme } = useTheme();
-  const { searchQuery, role, onChange, onClear } = useSearchInput();
-  const { register, handleSubmit, control } = useForm();
+  const [isPending, startTransition] = useTransition();
+  const { register, handleSubmit, control } = useForm({
+    resolver: zodResolver(CreateTransactionSchema),
+    defaultValues: {
+      transactionType: 'Expenses',
+      currency: DEFAULT_CURRENCY,
+      status: 'COMPLETED',
+      createdAt: new Date(),
+    },
+  });
 
-  const filteredCategories = TRANSACTION_CATEGORIES.filter((el) =>
-    searchQuery.length === 0
-      ? el
-      : el.replaceAll('_', ' ').includes(searchQuery.trimStart()) ||
-        TRANSACTION_CATEGORIES_CONFIG[el].text.description
-          .toLowerCase()
-          .includes(searchQuery.trimStart()),
-  ).toSorted();
+  async function onSubmit(data: FormData) {
+    startTransition(async () => {
+      const result = await createTransaction(data);
 
-  function onSubmit(data: FormData) {
-    console.log(data);
+      if (result.success) onClose();
+    });
   }
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit, (errors) => console.log(errors))}
+      onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
       className="flex flex-col dark:text-slate-400"
     >
@@ -65,7 +73,7 @@ export default function CreateTransactionForm({
         onClose={onClose}
       />
 
-      <section className="flex flex-col gap-2 px-6 py-4">
+      <section className="flex flex-col gap-4 px-6 py-4">
         <ModalFieldRow>
           <ModalFieldWrapper>
             <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.TYPE.label} />
@@ -81,16 +89,6 @@ export default function CreateTransactionForm({
               )}
             />
           </ModalFieldWrapper>
-
-          <ModalFieldWrapper>
-            <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.STATUS.label} />
-            <Select
-              label={CREATE_TRANSACTION_FIELDS.STATUS.name}
-              options={['Completed', 'Pending']}
-              padding="md"
-              placeholder={CREATE_TRANSACTION_FIELDS.STATUS.placeholder}
-            />
-          </ModalFieldWrapper>
         </ModalFieldRow>
 
         <ModalFieldRow>
@@ -104,74 +102,144 @@ export default function CreateTransactionForm({
           </ModalFieldWrapper>
 
           <ModalFieldWrapper>
-            <ModalFieldLabel label="Amount & currency" />
-            <Input name="amount" padding="md" />
+            <ModalFieldLabel
+              label={`${CREATE_TRANSACTION_FIELDS.AMOUNT.label} & ${CREATE_TRANSACTION_FIELDS.CURRENCY.label}`}
+            />
+            <div className="flex items-center">
+              <div className="flex-2">
+                <Input
+                  {...register(CREATE_TRANSACTION_FIELDS.AMOUNT.name)}
+                  padding="md"
+                  type="number"
+                  step="any"
+                  placeholder={CREATE_TRANSACTION_FIELDS.AMOUNT.placeholder}
+                  groupPosition="end"
+                />
+              </div>
+              <div className="flex-1">
+                <Controller
+                  control={control}
+                  name={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
+                  render={({ field }) => (
+                    <Select
+                      label={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
+                      options={CURRENCY_CONFIG.map((el) => ({
+                        value: el.currency,
+                        label: el.currency,
+                        description: el.description,
+                      }))}
+                      padding="md"
+                      showSelectedOption
+                      selectedValue={field.value}
+                      onSelect={field.onChange}
+                      groupPosition="start"
+                      contentExpandedAlign="right"
+                      contentWidthExpandedTo="min-w-max"
+                    />
+                  )}
+                />
+              </div>
+            </div>
           </ModalFieldWrapper>
         </ModalFieldRow>
 
-        <ModalFieldWrapper>
-          <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.CATEGORY.label} />
-          <Input
-            name="search"
-            placeholder={CREATE_TRANSACTION_FIELDS.CATEGORY.placeholder}
-            iconName="search"
-            padding="md"
-            value={searchQuery}
-            onChange={onChange}
-            onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
-            trailingButton={{ role, onClick: onClear }}
-          />
-          <Controller
-            control={control}
-            name={CREATE_TRANSACTION_FIELDS.CATEGORY.name}
-            render={({ field }) => (
-              <div
-                className={clsx(
-                  'mt-2 grid h-24 auto-rows-min grid-cols-3 gap-2 pr-2',
-                  'scrollbar overflow-y-auto',
-                  theme === 'dark' ? 'scrollbar-dark' : '',
-                  filteredCategories.length === 0 ? 'place-content-center' : '',
-                )}
-              >
-                {filteredCategories.length === 0 ? (
-                  <EmptySearchResult
-                    category="category"
-                    variant="simple"
-                    query={searchQuery}
-                  />
-                ) : (
-                  filteredCategories.map((category) => {
-                    const item = TRANSACTION_CATEGORIES_CONFIG[category];
-
-                    return (
-                      <RadioCard
-                        key={category}
-                        option={category}
-                        iconName={item.icon}
-                        text={item.text}
-                        styleConfig={item.style}
-                        isCurrent={false}
-                        withExtraContent={false}
-                        selectedValue={field.value}
-                        onSelect={field.onChange}
-                      />
-                    );
-                  })
-                )}
-              </div>
-            )}
-          />
-        </ModalFieldWrapper>
-
         <ModalFieldRow>
           <ModalFieldWrapper>
-            <ModalFieldLabel label="Date" />
-            <Input name="name" padding="md" />
+            <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.STATUS.label} />
+            <Controller
+              control={control}
+              name={CREATE_TRANSACTION_FIELDS.STATUS.name}
+              render={({ field }) => (
+                <Select
+                  label={CREATE_TRANSACTION_FIELDS.STATUS.name}
+                  options={[...STATUSES].map((status) => ({
+                    value: status,
+                    label: STATUS_CONFIG[status].text.header,
+                    description: STATUS_CONFIG[status].text.description,
+                    icon: STATUS_CONFIG[status].icon,
+                    color: STATUS_CONFIG[status].style.icon,
+                  }))}
+                  padding="md"
+                  showSelectedOption
+                  selectedValue={field.value}
+                  onSelect={field.onChange}
+                  placeholder={CREATE_TRANSACTION_FIELDS.STATUS.placeholder}
+                />
+              )}
+            />
           </ModalFieldWrapper>
 
           <ModalFieldWrapper>
-            <ModalFieldLabel label="Payment method" />
-            <Input name="amount" padding="md" />
+            <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.CATEGORY.label} />
+            <Controller
+              control={control}
+              name={CREATE_TRANSACTION_FIELDS.CATEGORY.name}
+              render={({ field }) => (
+                <Select
+                  label={CREATE_TRANSACTION_FIELDS.CATEGORY.name}
+                  options={[...TRANSACTION_CATEGORIES].map((category) => ({
+                    value: category,
+                    label: TRANSACTION_CATEGORIES_CONFIG[category].text.header,
+                    description:
+                      TRANSACTION_CATEGORIES_CONFIG[category].text.description,
+                    icon: TRANSACTION_CATEGORIES_CONFIG[category].icon,
+                    color: TRANSACTION_CATEGORIES_CONFIG[category].style.icon,
+                  }))}
+                  padding="md"
+                  showSelectedOption
+                  withSearch
+                  selectedValue={field.value}
+                  onSelect={field.onChange}
+                  placeholder={CREATE_TRANSACTION_FIELDS.CATEGORY.placeholder}
+                />
+              )}
+            />
+          </ModalFieldWrapper>
+        </ModalFieldRow>
+
+        <ModalFieldRow>
+          <ModalFieldWrapper>
+            <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.DATE.label} />
+            <Controller
+              control={control}
+              name={CREATE_TRANSACTION_FIELDS.DATE.name}
+              render={({ field }) => (
+                <DatePicker
+                  label={CREATE_TRANSACTION_FIELDS.DATE.label}
+                  selectedValue={field.value}
+                  onSelect={field.onChange}
+                  showSelectedOption
+                  padding="md"
+                />
+              )}
+            />
+          </ModalFieldWrapper>
+
+          <ModalFieldWrapper>
+            <ModalFieldLabel
+              label={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.label}
+            />
+            <Controller
+              control={control}
+              name={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.name}
+              render={({ field }) => (
+                // Should be fixed in the future!!!
+                <Select
+                  label={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.name}
+                  options={['Cash', 'Card'].map((payment) => ({
+                    value: payment,
+                    label: payment,
+                  }))}
+                  padding="md"
+                  showSelectedOption
+                  selectedValue={field.value}
+                  onSelect={field.onChange}
+                  placeholder={
+                    CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.placeholder
+                  }
+                />
+              )}
+            />
           </ModalFieldWrapper>
         </ModalFieldRow>
 
@@ -190,7 +258,7 @@ export default function CreateTransactionForm({
       <ModalFooter
         operationType={OperationType.CREATE}
         itemType="transaction"
-        isSubmitting={false}
+        isSubmitting={isPending}
         onClose={onClose}
       />
     </form>

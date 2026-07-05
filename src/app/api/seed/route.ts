@@ -30,6 +30,7 @@ export async function GET() {
         currency: 'USD',
         amount: 100,
         status: 'COMPLETED',
+        createdAt: new Date(),
       }),
     ),
   );

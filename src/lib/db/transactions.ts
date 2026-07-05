@@ -97,6 +97,7 @@ export async function createTransaction(
     amount,
     currency,
     description,
+    createdAt,
   } = transaction;
 
   return db.transactions.create({
@@ -110,6 +111,7 @@ export async function createTransaction(
       status,
       amount,
       currency,
+      createdAt,
     },
   });
 }
