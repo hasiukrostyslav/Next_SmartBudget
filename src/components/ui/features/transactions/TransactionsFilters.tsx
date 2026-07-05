@@ -1,12 +1,4 @@
-import { TRANSACTION_CATEGORIES } from '@/lib/constants/enums';
-import {
-  CURRENCY,
-  TRANSACTION_TYPE_CONFIG,
-} from '@/lib/constants/transactions';
-
 import SearchForm from '@/components/forms/SearchForm';
-
-import Select from '../../selects/Select';
 
 export default function TransactionsFilters() {
   return (
