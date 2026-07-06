@@ -23,6 +23,7 @@ export default function PopoverPanel({
     <div
       id={`select-list-${id}`}
       role="listbox"
+      inert={!isContentExpanded}
       className={clsx(
         'absolute z-50 text-sm',
         'transition-all duration-400 ease-in',
