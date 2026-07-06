@@ -47,10 +47,12 @@ export default function EditTransactionCategoryForm({
   const filteredCategories = TRANSACTION_CATEGORIES.filter((el) =>
     searchQuery.length === 0
       ? el
-      : el.replaceAll('_', ' ').includes(searchQuery.trimStart()) ||
+      : el
+          .replaceAll('_', ' ')
+          .includes(searchQuery.trimStart().toLowerCase()) ||
         TRANSACTION_CATEGORIES_CONFIG[el].text.description
           .toLowerCase()
-          .includes(searchQuery.trimStart()),
+          .includes(searchQuery.trimStart().toLowerCase()),
   ).toSorted();
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
