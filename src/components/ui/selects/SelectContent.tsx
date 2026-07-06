@@ -47,9 +47,13 @@ export default function SelectContent({
     .filter((el) =>
       searchQuery.length === 0
         ? el
-        : el.label.includes(searchQuery.trimStart()) ||
+        : el.label
+            .toLowerCase()
+            .includes(searchQuery.trimStart().toLowerCase()) ||
           (el.description &&
-            el.description.toLowerCase().includes(searchQuery.trimStart())),
+            el.description
+              .toLowerCase()
+              .includes(searchQuery.trimStart().toLowerCase())),
     )
     .toSorted();
 
