@@ -18,15 +18,15 @@ export default function TransactionsList({
 }: {
   data: TransactionItem[];
 }) {
+  const { theme } = useTheme();
   const {
     selectedItems,
-    isBulkSelect,
+    isAllSelected,
     toggleSelect,
-    toggleBulkSelect,
-    bulkSelect,
-    bulkUnSelect,
+    toggleSelectAll,
+    selectAll,
+    deselectAll,
   } = useCheckbox(data);
-  const { theme } = useTheme();
 
   return (
     <SectionWrapper>
@@ -37,8 +37,8 @@ export default function TransactionsList({
         )}
       >
         <TransactionsSort
-          isBulkSelect={isBulkSelect}
-          onToggleBulkSelect={toggleBulkSelect}
+          isAllSelected={isAllSelected}
+          onToggleSelectAll={toggleSelectAll}
         />
         <div
           className={clsx(
@@ -71,9 +71,9 @@ export default function TransactionsList({
         <BulkToolbar
           selectedNumber={selectedItems.length}
           isShown={selectedItems.length > 0}
-          allSelected={selectedItems.length === data.length && isBulkSelect}
-          onBulkSelect={bulkSelect}
-          onBulkUnSelect={bulkUnSelect}
+          isAllSelected={selectedItems.length === data.length && isAllSelected}
+          onSelectAll={selectAll}
+          onDeselectAll={deselectAll}
           selectedItems={selectedItems}
         />
       </div>

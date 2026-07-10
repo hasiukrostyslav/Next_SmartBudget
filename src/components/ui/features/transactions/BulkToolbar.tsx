@@ -23,9 +23,9 @@ import Modal from '../../modals/Modal';
 interface BulkToolbarProps {
   isShown: boolean;
   selectedNumber: number;
-  allSelected: boolean;
-  onBulkSelect: () => void;
-  onBulkUnSelect: () => void;
+  isAllSelected: boolean;
+  onSelectAll: () => void;
+  onDeselectAll: () => void;
   selectedItems: {
     itemId: string;
     itemName: string;
@@ -40,9 +40,9 @@ interface BulkToolbarProps {
 export default function BulkToolbar({
   isShown,
   selectedNumber,
-  allSelected,
-  onBulkSelect,
-  onBulkUnSelect,
+  isAllSelected,
+  onSelectAll,
+  onDeselectAll,
   selectedItems,
 }: BulkToolbarProps) {
   const {
@@ -95,8 +95,8 @@ export default function BulkToolbar({
           iconName="select"
           iconSize={14}
           label="Select all"
-          onClick={onBulkSelect}
-          disabled={allSelected}
+          onClick={onSelectAll}
+          disabled={isAllSelected}
         />
         <ToolbarButton
           iconName="refresh"
@@ -125,7 +125,7 @@ export default function BulkToolbar({
         size={14}
         shape="square"
         variant="ghost"
-        onClick={onBulkUnSelect}
+        onClick={onDeselectAll}
       />
 
       {isOpenEditStatusModal && (

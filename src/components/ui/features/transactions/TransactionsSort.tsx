@@ -6,13 +6,13 @@ import CheckBox from '../../controls/CheckBox';
 import TransactionsSortList from './TransactionsSortList';
 
 interface TransactionsSortProps {
-  isBulkSelect: boolean;
-  onToggleBulkSelect: () => void;
+  isAllSelected: boolean;
+  onToggleSelectAll: () => void;
 }
 
 export default function TransactionsSort({
-  isBulkSelect,
-  onToggleBulkSelect,
+  isAllSelected,
+  onToggleSelectAll,
 }: TransactionsSortProps) {
   return (
     <div
@@ -21,9 +21,9 @@ export default function TransactionsSort({
       )}
     >
       <CheckBox
-        name="all"
-        checked={isBulkSelect}
-        onChange={onToggleBulkSelect}
+        name="bulk"
+        checked={isAllSelected}
+        onChange={onToggleSelectAll}
       />
 
       <TransactionsSortList />

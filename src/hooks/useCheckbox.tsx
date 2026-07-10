@@ -12,7 +12,7 @@ import {
 } from '@/lib/constants/enums';
 
 export function useCheckbox(list: TransactionItem[]) {
-  const [isBulkSelect, setIsBulkSelect] = useState(false);
+  const [isAllSelected, setIsAllSelected] = useState(false);
   const [selectedItems, setSelectedItems] = useState<
     {
       itemId: string;
@@ -27,7 +27,7 @@ export function useCheckbox(list: TransactionItem[]) {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (isBulkSelect)
+    if (isAllSelected)
       setSelectedItems(
         list.map((d) => ({
           itemId: d.transactionId,
@@ -40,15 +40,15 @@ export function useCheckbox(list: TransactionItem[]) {
         })),
       );
     else setSelectedItems([]);
-  }, [isBulkSelect, list]);
+  }, [isAllSelected, list]);
 
   useEffect(() => {
-    setIsBulkSelect(false);
+    setIsAllSelected(false);
     setSelectedItems([]);
   }, [searchParams]);
 
   useEffect(() => {
-    if (!selectedItems.length) setIsBulkSelect(false);
+    if (!selectedItems.length) setIsAllSelected(false);
   }, [selectedItems.length]);
 
   const toggleSelect = (
@@ -77,9 +77,9 @@ export function useCheckbox(list: TransactionItem[]) {
           ],
     );
 
-  const toggleBulkSelect = () => setIsBulkSelect(!isBulkSelect);
-  const bulkSelect = () => {
-    setIsBulkSelect(true);
+  const toggleSelectAll = () => setIsAllSelected(!isAllSelected);
+  const selectAll = () => {
+    setIsAllSelected(true);
     setSelectedItems(
       list.map((d) => ({
         itemId: d.transactionId,
@@ -92,17 +92,17 @@ export function useCheckbox(list: TransactionItem[]) {
       })),
     );
   };
-  const bulkUnSelect = () => {
-    setIsBulkSelect(false);
+  const deselectAll = () => {
+    setIsAllSelected(false);
     setSelectedItems([]);
   };
 
   return {
     selectedItems,
-    isBulkSelect,
+    isAllSelected,
     toggleSelect,
-    toggleBulkSelect,
-    bulkSelect,
-    bulkUnSelect,
+    toggleSelectAll,
+    selectAll,
+    deselectAll,
   };
 }
