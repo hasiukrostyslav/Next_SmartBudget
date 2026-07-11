@@ -2,13 +2,9 @@
 
 import clsx from 'clsx';
 
+import { TransactionItem } from '@/types/types';
+
 import { deleteManyTransaction } from '@/lib/actions/transactionActions';
-import {
-  Currency,
-  Status,
-  TransactionCategories,
-  TransactionType,
-} from '@/lib/constants/enums';
 import { useModal } from '@/hooks/useModal';
 
 import DeleteForm from '@/components/forms/DeleteForm';
@@ -23,26 +19,18 @@ import Modal from '../../modals/Modal';
 interface BulkToolbarProps {
   isShown: boolean;
   selectedNumber: number;
-  allSelected: boolean;
-  onBulkSelect: () => void;
-  onBulkUnSelect: () => void;
-  selectedItems: {
-    itemId: string;
-    itemName: string;
-    status: Status;
-    category: TransactionCategories;
-    type: TransactionType;
-    amount: number;
-    currency: Currency;
-  }[];
+  isAllSelected: boolean;
+  onSelectAll: () => void;
+  onDeselectAll: () => void;
+  selectedItems: TransactionItem[];
 }
 
 export default function BulkToolbar({
   isShown,
   selectedNumber,
-  allSelected,
-  onBulkSelect,
-  onBulkUnSelect,
+  isAllSelected,
+  onSelectAll,
+  onDeselectAll,
   selectedItems,
 }: BulkToolbarProps) {
   const {
@@ -95,8 +83,8 @@ export default function BulkToolbar({
           iconName="select"
           iconSize={14}
           label="Select all"
-          onClick={onBulkSelect}
-          disabled={allSelected}
+          onClick={onSelectAll}
+          disabled={isAllSelected}
         />
         <ToolbarButton
           iconName="refresh"
@@ -125,7 +113,7 @@ export default function BulkToolbar({
         size={14}
         shape="square"
         variant="ghost"
-        onClick={onBulkUnSelect}
+        onClick={onDeselectAll}
       />
 
       {isOpenEditStatusModal && (
@@ -133,7 +121,7 @@ export default function BulkToolbar({
           <EditItemStatusForm
             onClose={closeEditStatusModal}
             selectedItems={selectedItems.map((el) => ({
-              id: el.itemId,
+              id: el.transactionId,
               status: el.status,
             }))}
           />
@@ -145,8 +133,8 @@ export default function BulkToolbar({
           <EditTransactionCategoryForm
             onClose={closeEditCategoryModal}
             selectedItems={selectedItems.map((el) => ({
-              id: el.itemId,
-              category: el.category,
+              id: el.transactionId,
+              category: el.transactionCategory,
             }))}
           />
         </Modal>
@@ -157,15 +145,15 @@ export default function BulkToolbar({
           <DeleteForm
             itemType="transaction"
             items={selectedItems.map((el) => ({
-              id: el.itemId,
-              name: el.itemName,
-              type: el.type,
+              id: el.transactionId,
+              name: el.transactionName,
+              type: el.transactionType,
               currency: el.currency,
               amount: el.amount,
             }))}
             onClose={closeDeleteModal}
             onSubmit={() =>
-              deleteManyTransaction(selectedItems.map((el) => el.itemId))
+              deleteManyTransaction(selectedItems.map((el) => el.transactionId))
             }
           />
         </Modal>

@@ -18,15 +18,15 @@ export default function TransactionsList({
 }: {
   data: TransactionItem[];
 }) {
-  const {
-    selectedItems,
-    isBulkSelect,
-    toggleSelect,
-    toggleBulkSelect,
-    bulkSelect,
-    bulkUnSelect,
-  } = useCheckbox(data);
   const { theme } = useTheme();
+  const {
+    selectedIds,
+    isAllSelected,
+    toggleSelect,
+    toggleSelectAll,
+    selectAll,
+    deselectAll,
+  } = useCheckbox(data.map((el) => el.transactionId));
 
   return (
     <SectionWrapper>
@@ -37,8 +37,8 @@ export default function TransactionsList({
         )}
       >
         <TransactionsSort
-          isBulkSelect={isBulkSelect}
-          onToggleBulkSelect={toggleBulkSelect}
+          isAllSelected={isAllSelected}
+          onToggleSelectAll={toggleSelectAll}
         />
         <div
           className={clsx(
@@ -51,30 +51,20 @@ export default function TransactionsList({
             <TransactionsItem
               key={item.transactionId}
               item={item}
-              checked={selectedItems.some(
-                (i) => i.itemId === item.transactionId,
-              )}
-              onToggleSelect={() =>
-                toggleSelect(
-                  item.transactionId,
-                  item.transactionName,
-                  item.status,
-                  item.transactionCategory,
-                  item.transactionType,
-                  item.amount,
-                  item.currency,
-                )
-              }
+              checked={selectedIds.has(item.transactionId)}
+              onToggleSelect={() => toggleSelect(item.transactionId)}
             />
           ))}
         </div>
         <BulkToolbar
-          selectedNumber={selectedItems.length}
-          isShown={selectedItems.length > 0}
-          allSelected={selectedItems.length === data.length && isBulkSelect}
-          onBulkSelect={bulkSelect}
-          onBulkUnSelect={bulkUnSelect}
-          selectedItems={selectedItems}
+          selectedNumber={selectedIds.size}
+          isShown={selectedIds.size > 0}
+          isAllSelected={isAllSelected}
+          onSelectAll={selectAll}
+          onDeselectAll={deselectAll}
+          selectedItems={data.filter((item) =>
+            selectedIds.has(item.transactionId),
+          )}
         />
       </div>
     </SectionWrapper>

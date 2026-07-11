@@ -42,7 +42,10 @@ export default function DeleteForm({
   const balance = calcDeletedBalance(items);
 
   return (
-    <form onSubmit={handleDelete}>
+    <form
+      onSubmit={handleDelete}
+      className={clsx('flex flex-col dark:text-slate-400')}
+    >
       <ModalHeader
         itemsCount={items.length}
         itemType={itemType}

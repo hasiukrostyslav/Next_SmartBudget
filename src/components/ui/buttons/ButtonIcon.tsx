@@ -46,7 +46,6 @@ export default function ButtonIcon({
           'outline-input p-1.5',
           style[variant],
           shape === 'round' ? 'rounded-full' : 'rounded-md',
-
           className,
         )}
       >

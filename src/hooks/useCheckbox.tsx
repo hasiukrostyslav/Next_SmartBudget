@@ -2,107 +2,34 @@ import { useEffect, useState } from 'react';
 
 import { useSearchParams } from 'next/navigation';
 
-import { TransactionItem } from '@/types/types';
+export function useCheckbox(ids: string[]) {
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
-import {
-  Currency,
-  Status,
-  TransactionCategories,
-  TransactionType,
-} from '@/lib/constants/enums';
-
-export function useCheckbox(list: TransactionItem[]) {
-  const [isBulkSelect, setIsBulkSelect] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<
-    {
-      itemId: string;
-      itemName: string;
-      status: Status;
-      category: TransactionCategories;
-      type: TransactionType;
-      amount: number;
-      currency: Currency;
-    }[]
-  >([]);
   const searchParams = useSearchParams();
 
-  useEffect(() => {
-    if (isBulkSelect)
-      setSelectedItems(
-        list.map((d) => ({
-          itemId: d.transactionId,
-          itemName: d.transactionName,
-          status: d.status,
-          category: d.transactionCategory,
-          type: d.transactionType,
-          amount: d.amount,
-          currency: d.currency,
-        })),
-      );
-    else setSelectedItems([]);
-  }, [isBulkSelect, list]);
+  // reset selection when the filter/query changes
+  useEffect(() => setSelectedIds(new Set()), [searchParams]);
 
-  useEffect(() => {
-    setIsBulkSelect(false);
-    setSelectedItems([]);
-  }, [searchParams]);
+  const isAllSelected = ids.length > 0 && ids.length === selectedIds.size;
 
-  useEffect(() => {
-    if (!selectedItems.length) setIsBulkSelect(false);
-  }, [selectedItems.length]);
-
-  const toggleSelect = (
-    id: string,
-    name: string,
-    status: Status,
-    category: TransactionCategories,
-    type: TransactionType,
-    amount: number,
-    currency: Currency,
-  ) =>
-    setSelectedItems((prev) =>
-      prev.find((i) => i.itemId === id)
-        ? prev.filter((i) => i.itemId !== id)
-        : [
-            ...prev,
-            {
-              itemId: id,
-              itemName: name,
-              status,
-              type,
-              amount,
-              currency,
-              category,
-            },
-          ],
-    );
-
-  const toggleBulkSelect = () => setIsBulkSelect(!isBulkSelect);
-  const bulkSelect = () => {
-    setIsBulkSelect(true);
-    setSelectedItems(
-      list.map((d) => ({
-        itemId: d.transactionId,
-        itemName: d.transactionName,
-        status: d.status,
-        category: d.transactionCategory,
-        type: d.transactionType,
-        amount: d.amount,
-        currency: d.currency,
-      })),
-    );
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
   };
-  const bulkUnSelect = () => {
-    setIsBulkSelect(false);
-    setSelectedItems([]);
-  };
+
+  const deselectAll = () => setSelectedIds(new Set());
+  const selectAll = () => setSelectedIds(new Set(ids));
+  const toggleSelectAll = () => (isAllSelected ? deselectAll() : selectAll());
 
   return {
-    selectedItems,
-    isBulkSelect,
+    selectedIds,
+    isAllSelected,
     toggleSelect,
-    toggleBulkSelect,
-    bulkSelect,
-    bulkUnSelect,
+    toggleSelectAll,
+    selectAll,
+    deselectAll,
   };
 }
