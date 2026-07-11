@@ -2,13 +2,9 @@
 
 import clsx from 'clsx';
 
+import { TransactionItem } from '@/types/types';
+
 import { deleteManyTransaction } from '@/lib/actions/transactionActions';
-import {
-  Currency,
-  Status,
-  TransactionCategories,
-  TransactionType,
-} from '@/lib/constants/enums';
 import { useModal } from '@/hooks/useModal';
 
 import DeleteForm from '@/components/forms/DeleteForm';
@@ -26,15 +22,7 @@ interface BulkToolbarProps {
   isAllSelected: boolean;
   onSelectAll: () => void;
   onDeselectAll: () => void;
-  selectedItems: {
-    itemId: string;
-    itemName: string;
-    status: Status;
-    category: TransactionCategories;
-    type: TransactionType;
-    amount: number;
-    currency: Currency;
-  }[];
+  selectedItems: TransactionItem[];
 }
 
 export default function BulkToolbar({
@@ -133,7 +121,7 @@ export default function BulkToolbar({
           <EditItemStatusForm
             onClose={closeEditStatusModal}
             selectedItems={selectedItems.map((el) => ({
-              id: el.itemId,
+              id: el.transactionId,
               status: el.status,
             }))}
           />
@@ -145,8 +133,8 @@ export default function BulkToolbar({
           <EditTransactionCategoryForm
             onClose={closeEditCategoryModal}
             selectedItems={selectedItems.map((el) => ({
-              id: el.itemId,
-              category: el.category,
+              id: el.transactionId,
+              category: el.transactionCategory,
             }))}
           />
         </Modal>
@@ -157,15 +145,15 @@ export default function BulkToolbar({
           <DeleteForm
             itemType="transaction"
             items={selectedItems.map((el) => ({
-              id: el.itemId,
-              name: el.itemName,
-              type: el.type,
+              id: el.transactionId,
+              name: el.transactionName,
+              type: el.transactionType,
               currency: el.currency,
               amount: el.amount,
             }))}
             onClose={closeDeleteModal}
             onSubmit={() =>
-              deleteManyTransaction(selectedItems.map((el) => el.itemId))
+              deleteManyTransaction(selectedItems.map((el) => el.transactionId))
             }
           />
         </Modal>

@@ -20,13 +20,13 @@ export default function TransactionsList({
 }) {
   const { theme } = useTheme();
   const {
-    selectedItems,
+    selectedIds,
     isAllSelected,
     toggleSelect,
     toggleSelectAll,
     selectAll,
     deselectAll,
-  } = useCheckbox(data);
+  } = useCheckbox(data.map((el) => el.transactionId));
 
   return (
     <SectionWrapper>
@@ -51,30 +51,20 @@ export default function TransactionsList({
             <TransactionsItem
               key={item.transactionId}
               item={item}
-              checked={selectedItems.some(
-                (i) => i.itemId === item.transactionId,
-              )}
-              onToggleSelect={() =>
-                toggleSelect(
-                  item.transactionId,
-                  item.transactionName,
-                  item.status,
-                  item.transactionCategory,
-                  item.transactionType,
-                  item.amount,
-                  item.currency,
-                )
-              }
+              checked={selectedIds.has(item.transactionId)}
+              onToggleSelect={() => toggleSelect(item.transactionId)}
             />
           ))}
         </div>
         <BulkToolbar
-          selectedNumber={selectedItems.length}
-          isShown={selectedItems.length > 0}
-          isAllSelected={selectedItems.length === data.length && isAllSelected}
+          selectedNumber={selectedIds.size}
+          isShown={selectedIds.size > 0}
+          isAllSelected={isAllSelected}
           onSelectAll={selectAll}
           onDeselectAll={deselectAll}
-          selectedItems={selectedItems}
+          selectedItems={data.filter((item) =>
+            selectedIds.has(item.transactionId),
+          )}
         />
       </div>
     </SectionWrapper>
