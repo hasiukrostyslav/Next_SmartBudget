@@ -39,14 +39,6 @@ export type ItemType =
   | 'loan'
   | 'deposit';
 
-export interface DeleteItem {
-  id: string;
-  name: string;
-  type: TransactionType;
-  amount: number;
-  currency: Currency;
-}
-
 export interface SelectOption {
   value: string | number;
   label: string;

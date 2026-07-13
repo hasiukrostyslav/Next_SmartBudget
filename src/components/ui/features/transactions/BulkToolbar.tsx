@@ -5,7 +5,6 @@ import clsx from 'clsx';
 import { TransactionItem } from '@/types/types';
 
 import { deleteManyTransaction } from '@/lib/actions/transactionActions';
-import { useModal } from '@/hooks/useModal';
 
 import DeleteForm from '@/components/forms/DeleteForm';
 import SectionWrapper from '@/components/layouts/SectionWrapper';
@@ -14,7 +13,7 @@ import EditItemStatusForm from '../../../forms/EditItemStatusForm';
 import EditTransactionCategoryForm from '../../../forms/EditTransactionCategoryForm';
 import ButtonIcon from '../../buttons/ButtonIcon';
 import ToolbarButton from '../../buttons/ToolbarButton';
-import Modal from '../../modals/Modal';
+import ModalTrigger from '../../modals/ModalTrigger';
 
 interface BulkToolbarProps {
   isShown: boolean;
@@ -33,27 +32,6 @@ export default function BulkToolbar({
   onDeselectAll,
   selectedItems,
 }: BulkToolbarProps) {
-  const {
-    isOpen: isOpenEditStatusModal,
-    dialogRef: editStatusModalRef,
-    handleOpen: openEditStatusModal,
-    handleClose: closeEditStatusModal,
-  } = useModal();
-
-  const {
-    isOpen: isOpenEditCategoryModal,
-    dialogRef: editCategoryModalRef,
-    handleOpen: openEditCategoryModal,
-    handleClose: closeEditCategoryModal,
-  } = useModal();
-
-  const {
-    isOpen: isOpenDeleteModal,
-    dialogRef: deleteModalRef,
-    handleOpen: openDeleteModal,
-    handleClose: closeDeleteModal,
-  } = useModal();
-
   return (
     <SectionWrapper
       className={clsx(
@@ -86,26 +64,72 @@ export default function BulkToolbar({
           onClick={onSelectAll}
           disabled={isAllSelected}
         />
-        <ToolbarButton
-          iconName="refresh"
-          iconSize={14}
-          label="Change status"
-          modalCategory="editStatus"
-          onClick={openEditStatusModal}
+
+        <ModalTrigger
+          renderTrigger={(open) => (
+            <ToolbarButton
+              iconName="refresh"
+              iconSize={14}
+              label="Change status"
+              modalCategory="editStatus"
+              onClick={open}
+            />
+          )}
+          renderContent={(close) => (
+            <EditItemStatusForm
+              onClose={close}
+              selectedItems={selectedItems.map((el) => ({
+                id: el.transactionId,
+                status: el.status,
+              }))}
+            />
+          )}
         />
-        <ToolbarButton
-          iconName="tag"
-          iconSize={14}
-          label="Change category"
-          modalCategory="editCategory"
-          onClick={openEditCategoryModal}
+
+        <ModalTrigger
+          modalWidth="lg"
+          renderTrigger={(open) => (
+            <ToolbarButton
+              iconName="tag"
+              iconSize={14}
+              label="Change category"
+              modalCategory="editCategory"
+              onClick={open}
+            />
+          )}
+          renderContent={(close) => (
+            <EditTransactionCategoryForm
+              onClose={close}
+              selectedItems={selectedItems.map((el) => ({
+                id: el.transactionId,
+                category: el.transactionCategory,
+              }))}
+            />
+          )}
         />
-        <ToolbarButton
-          iconName="delete"
-          iconSize={14}
-          label="Delete"
-          modalCategory="delete"
-          onClick={openDeleteModal}
+
+        <ModalTrigger
+          renderTrigger={(open) => (
+            <ToolbarButton
+              iconName="delete"
+              iconSize={14}
+              label="Delete"
+              modalCategory="delete"
+              onClick={open}
+            />
+          )}
+          renderContent={(close) => (
+            <DeleteForm
+              itemType="transaction"
+              items={selectedItems}
+              onClose={close}
+              onSubmit={() =>
+                deleteManyTransaction(
+                  selectedItems.map((el) => el.transactionId),
+                )
+              }
+            />
+          )}
         />
       </div>
       <ButtonIcon
@@ -115,49 +139,6 @@ export default function BulkToolbar({
         variant="ghost"
         onClick={onDeselectAll}
       />
-
-      {isOpenEditStatusModal && (
-        <Modal ref={editStatusModalRef} className="w-4/12">
-          <EditItemStatusForm
-            onClose={closeEditStatusModal}
-            selectedItems={selectedItems.map((el) => ({
-              id: el.transactionId,
-              status: el.status,
-            }))}
-          />
-        </Modal>
-      )}
-
-      {isOpenEditCategoryModal && (
-        <Modal ref={editCategoryModalRef} className="w-5/12">
-          <EditTransactionCategoryForm
-            onClose={closeEditCategoryModal}
-            selectedItems={selectedItems.map((el) => ({
-              id: el.transactionId,
-              category: el.transactionCategory,
-            }))}
-          />
-        </Modal>
-      )}
-
-      {isOpenDeleteModal && (
-        <Modal ref={deleteModalRef} className="w-4/12">
-          <DeleteForm
-            itemType="transaction"
-            items={selectedItems.map((el) => ({
-              id: el.transactionId,
-              name: el.transactionName,
-              type: el.transactionType,
-              currency: el.currency,
-              amount: el.amount,
-            }))}
-            onClose={closeDeleteModal}
-            onSubmit={() =>
-              deleteManyTransaction(selectedItems.map((el) => el.transactionId))
-            }
-          />
-        </Modal>
-      )}
     </SectionWrapper>
   );
 }
