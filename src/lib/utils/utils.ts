@@ -1,3 +1,5 @@
+import { TransactionItem } from '@/types/types';
+
 import {
   DEFAULT_LOCALE,
   PAGE_SIZE_OPTIONS,
@@ -85,13 +87,7 @@ export function wait(ms: number): Promise<void> {
 }
 
 // Calculate sum of deleted balance
-export function calcDeletedBalance(
-  item: {
-    type: TransactionType;
-    amount: number;
-    currency: Currency;
-  }[],
-) {
+export function calcDeletedBalance(item: TransactionItem[]) {
   const grouped = Object.entries(
     Object.groupBy(item, ({ currency }) => currency),
   );
@@ -101,7 +97,8 @@ export function calcDeletedBalance(
       currency,
       total: (entries ?? []).reduce(
         (sum, item) =>
-          sum + (item.type === 'Income' ? item.amount : -item.amount),
+          sum +
+          (item.transactionType === 'Income' ? item.amount : -item.amount),
         0,
       ),
     };

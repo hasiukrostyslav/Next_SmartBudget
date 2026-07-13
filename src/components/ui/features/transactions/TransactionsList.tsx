@@ -9,7 +9,8 @@ import { useTheme } from '@/hooks/useTheme';
 
 import SectionWrapper from '@/components/layouts/SectionWrapper';
 
-import BulkToolbar from './BulkToolbar';
+import BulkToolbar from '../../modals/BulkToolbar';
+import TransactionBulkActionButtons from './TransactionBulkActionButtons';
 import TransactionsItem from './TransactionsItem';
 import TransactionsSort from './TransactionsSort';
 
@@ -62,10 +63,13 @@ export default function TransactionsList({
           isAllSelected={isAllSelected}
           onSelectAll={selectAll}
           onDeselectAll={deselectAll}
-          selectedItems={data.filter((item) =>
-            selectedIds.has(item.transactionId),
-          )}
-        />
+        >
+          <TransactionBulkActionButtons
+            selectedItems={data.filter((item) =>
+              selectedIds.has(item.transactionId),
+            )}
+          />
+        </BulkToolbar>
       </div>
     </SectionWrapper>
   );

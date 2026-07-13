@@ -1,24 +1,21 @@
 'use client';
 
-import { DeleteItem } from '@/types/types';
+import { TransactionItem } from '@/types/types';
 
 import { deleteTransaction } from '@/lib/actions/transactionActions';
-import { useModal } from '@/hooks/useModal';
 
 import DeleteForm from '@/components/forms/DeleteForm';
 
 import ButtonIcon from '../../buttons/ButtonIcon';
-import Modal from '../../modals/Modal';
+import ModalTrigger from '../../modals/ModalTrigger';
 
 interface TransactionActionButtonsProps {
-  item: DeleteItem;
+  item: TransactionItem;
 }
 
 export default function TransactionActionButtons({
   item,
 }: TransactionActionButtonsProps) {
-  const { isOpen, dialogRef, handleOpen, handleClose } = useModal();
-
   return (
     <>
       <div className="flex text-slate-500 dark:text-slate-300">
@@ -36,25 +33,27 @@ export default function TransactionActionButtons({
           size={14}
           tooltipLabel="Edit transaction"
         />
-        <ButtonIcon
-          iconName="delete"
-          shape="square"
-          variant="ghost"
-          size={14}
-          onClick={handleOpen}
-          tooltipLabel="Delete transaction"
+        <ModalTrigger
+          renderTrigger={(open) => (
+            <ButtonIcon
+              iconName="delete"
+              shape="square"
+              variant="ghost"
+              size={14}
+              onClick={open}
+              tooltipLabel="Delete transaction"
+            />
+          )}
+          renderContent={(close) => (
+            <DeleteForm
+              onClose={close}
+              itemType="transaction"
+              items={[item]}
+              onSubmit={() => deleteTransaction(item.transactionId)}
+            />
+          )}
         />
       </div>
-      {isOpen && (
-        <Modal ref={dialogRef} className="max-w-4/12">
-          <DeleteForm
-            onClose={handleClose}
-            itemType="transaction"
-            items={[item]}
-            onSubmit={() => deleteTransaction(item.id)}
-          />
-        </Modal>
-      )}
     </>
   );
 }
