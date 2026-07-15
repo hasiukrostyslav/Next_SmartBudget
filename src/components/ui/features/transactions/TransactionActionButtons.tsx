@@ -5,6 +5,7 @@ import { TransactionItem } from '@/types/types';
 import { deleteTransaction } from '@/lib/actions/transactionActions';
 
 import DeleteForm from '@/components/forms/DeleteForm';
+import EditTransactionForm from '@/components/forms/EditTransactionForm';
 
 import ButtonIcon from '../../buttons/ButtonIcon';
 import ModalTrigger from '../../modals/ModalTrigger';
@@ -26,13 +27,23 @@ export default function TransactionActionButtons({
           size={14}
           tooltipLabel="Duplicate transaction"
         />
-        <ButtonIcon
-          iconName="edit"
-          shape="square"
-          variant="ghost"
-          size={14}
-          tooltipLabel="Edit transaction"
+        <ModalTrigger
+          modalWidth="lg"
+          renderTrigger={(open) => (
+            <ButtonIcon
+              iconName="edit"
+              shape="square"
+              variant="ghost"
+              size={14}
+              onClick={open}
+              tooltipLabel="Edit transaction"
+            />
+          )}
+          renderContent={(close) => (
+            <EditTransactionForm item={item} onClose={close} />
+          )}
         />
+
         <ModalTrigger
           renderTrigger={(open) => (
             <ButtonIcon

@@ -55,6 +55,15 @@ export const MODAL_CONFIG = {
       header: 'Add new',
       infoText: 'Enter an income or expense record',
     },
+    edit: {
+      icon: 'refresh',
+      iconColor: 'text-blue-500',
+      button:
+        'border border-blue-500 text-blue-500 bg-blue-100 dark:bg-blue-500/10 dark:border-blue-400 dark:text-blue-400',
+      iconBgColor: 'bg-blue-100 dark:bg-blue-500/20',
+      header: 'Edit',
+      infoText: 'Update what happened with this transaction',
+    },
     editStatus: {
       icon: 'refresh',
       iconColor: 'text-blue-500',
