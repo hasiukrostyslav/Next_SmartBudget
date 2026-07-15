@@ -6,6 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { TransactionItem } from '@/types/types';
+
 import { createTransaction } from '@/lib/actions/transactionActions';
 import { DEFAULT_CURRENCY } from '@/lib/constants/constants';
 import {
@@ -20,7 +22,7 @@ import {
   TRANSACTION_CATEGORIES_CONFIG,
   TRANSACTION_TYPE_CONFIG,
 } from '@/lib/constants/transactions';
-import { CreateTransactionSchema } from '@/lib/schemas/transaction.schema';
+import { TransactionSchema } from '@/lib/schemas/transaction.schema';
 
 import SegmentedControl from '../ui/controls/SegmentedControl';
 import Input from '../ui/inputs/Input';
@@ -33,31 +35,49 @@ import ModalHeader from '../ui/modals/ModalHeader';
 import DatePicker from '../ui/selects/DatePicker';
 import Select from '../ui/selects/Select';
 
-type FormData = z.infer<typeof CreateTransactionSchema>;
+type FormData = z.infer<typeof TransactionSchema>;
 
-interface CreateTransactionFormProps {
-  onClose: () => void;
-}
+type TransactionFormProps = { onClose: () => void } & (
+  | { mode: 'create' }
+  | { mode: 'edit'; item: TransactionItem }
+);
 
-export default function CreateTransactionForm({
-  onClose,
-}: CreateTransactionFormProps) {
+export default function TransactionForm(props: TransactionFormProps) {
+  const isEdit = props.mode === 'edit';
+
   const [isPending, startTransition] = useTransition();
-  const { register, handleSubmit, control } = useForm({
-    resolver: zodResolver(CreateTransactionSchema),
-    defaultValues: {
-      transactionType: 'Expenses',
-      currency: DEFAULT_CURRENCY,
-      status: 'COMPLETED',
-      createdAt: new Date(),
-    },
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { isDirty, isValid },
+  } = useForm({
+    resolver: zodResolver(TransactionSchema),
+    defaultValues: isEdit
+      ? {
+          transactionType: props.item.transactionType,
+          transactionName: props.item.transactionName,
+          amount: props.item.amount,
+          currency: props.item.currency,
+          status: props.item.status,
+          transactionCategory: props.item.transactionCategory,
+          createdAt: props.item.updatedAt,
+          paymentMethod: props.item.paymentMethod,
+          description: props.item.description ?? '',
+        }
+      : {
+          transactionType: 'Expenses',
+          currency: DEFAULT_CURRENCY,
+          status: 'COMPLETED',
+          createdAt: new Date(),
+        },
   });
 
   async function onSubmit(data: FormData) {
     startTransition(async () => {
       const result = await createTransaction(data);
 
-      if (result.success) onClose();
+      if (result.success) props.onClose();
     });
   }
 
@@ -68,9 +88,9 @@ export default function CreateTransactionForm({
       className="flex flex-col dark:text-slate-400"
     >
       <ModalHeader
-        operationType={OperationType.CREATE}
+        operationType={isEdit ? OperationType.EDIT : OperationType.CREATE}
         itemType="transaction"
-        onClose={onClose}
+        onClose={props.onClose}
       />
 
       <section className="flex flex-col gap-4 px-6 py-4">
@@ -256,10 +276,11 @@ export default function CreateTransactionForm({
       </section>
 
       <ModalFooter
-        operationType={OperationType.CREATE}
+        operationType={isEdit ? OperationType.EDIT : OperationType.CREATE}
         itemType="transaction"
         isSubmitting={isPending}
-        onClose={onClose}
+        onClose={props.onClose}
+        disabled={isEdit ? !isDirty : !isValid}
       />
     </form>
   );

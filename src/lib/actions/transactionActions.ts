@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 
 import z from 'zod';
 
-import { CreateTransactionData, UpdateTransactionData } from '@/types/types';
+import { UpdateTransactionData } from '@/types/types';
 
 import { TRANSACTIONS_PATH } from '@/routes';
 import { auth } from '@/auth/auth';
@@ -24,12 +24,12 @@ import {
   updateTransactionStatusMany,
 } from '../db/transactions';
 import {
-  CreateTransactionSchema,
   SearchParamsSchema,
+  TransactionSchema,
 } from '../schemas/transaction.schema';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
-type CreateTransactionDataType = z.infer<typeof CreateTransactionSchema>;
+type CreateTransactionDataType = z.infer<typeof TransactionSchema>;
 
 async function getUserId(): Promise<string | null> {
   const session = await auth();
@@ -89,7 +89,7 @@ export async function getTransaction(id: string) {
 
 // Create Transaction
 export async function createTransaction(
-  transaction: z.infer<typeof CreateTransactionSchema>,
+  transaction: z.infer<typeof TransactionSchema>,
 ) {
   const userId = await getUserId();
   if (!userId)
@@ -99,7 +99,7 @@ export async function createTransaction(
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
-  const parsed = CreateTransactionSchema.safeParse(transaction);
+  const parsed = TransactionSchema.safeParse(transaction);
   if (!parsed.success)
     return {
       success: false,

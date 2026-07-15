@@ -5,7 +5,7 @@ import { TransactionItem } from '@/types/types';
 import { deleteTransaction } from '@/lib/actions/transactionActions';
 
 import DeleteForm from '@/components/forms/DeleteForm';
-import EditTransactionForm from '@/components/forms/EditTransactionForm';
+import TransactionForm from '@/components/forms/TransactionForm';
 
 import ButtonIcon from '../../buttons/ButtonIcon';
 import ModalTrigger from '../../modals/ModalTrigger';
@@ -40,7 +40,7 @@ export default function TransactionActionButtons({
             />
           )}
           renderContent={(close) => (
-            <EditTransactionForm item={item} onClose={close} />
+            <TransactionForm mode={'edit'} item={item} onClose={close} />
           )}
         />
 

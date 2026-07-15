@@ -8,7 +8,7 @@ import {
 } from '../constants/enums';
 import { TRANSACTION_SORT_OPTIONS } from '../constants/transactions';
 
-export const CreateTransactionSchema = z.object({
+export const TransactionSchema = z.object({
   transactionName: z
     .string()
     .min(1, { message: 'Transaction name is required.' })
