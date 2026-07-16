@@ -9,13 +9,13 @@ import {
   TRANSACTION_SORT_FIELD_MAP,
 } from '../constants/transactions';
 import {
-  CreateTransactionSchema,
   SearchParamsSchema,
+  TransactionSchema,
 } from '../schemas/transaction.schema';
 import { db } from './db';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
-type CreateTransactionDataType = z.infer<typeof CreateTransactionSchema>;
+type CreateTransactionDataType = z.infer<typeof TransactionSchema>;
 
 // Find Transactions
 export async function findTransactionsByUserId(
