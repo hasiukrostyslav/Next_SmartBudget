@@ -55,6 +55,15 @@ export const MODAL_CONFIG = {
       header: 'Add new',
       infoText: 'Enter an income or expense record',
     },
+    copy: {
+      icon: 'copy',
+      iconColor: 'text-blue-500',
+      button:
+        'border border-blue-500 text-blue-500 bg-blue-100 dark:bg-blue-500/10',
+      iconBgColor: 'bg-blue-100 dark:bg-blue-500/20',
+      header: 'Duplicate',
+      infoText: 'Create a copy of this item to reuse its details',
+    },
     edit: {
       icon: 'refresh',
       iconColor: 'text-blue-500',
@@ -100,6 +109,14 @@ export const MODAL_CONFIG = {
       buttonIcon: 'plus',
       buttonColor: 'blue',
       buttonText: 'Create',
+    },
+    copy: {
+      infoColor: 'text-slate-600',
+      infoIcon: 'info',
+      infoText: 'The original item is not changed',
+      buttonIcon: 'copy',
+      buttonColor: 'blue',
+      buttonText: 'Create copy',
     },
     edit: {
       infoColor: 'text-slate-500',

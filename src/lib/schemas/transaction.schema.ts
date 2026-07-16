@@ -29,6 +29,13 @@ export const TransactionSchema = z.object({
   createdAt: z.date(),
 });
 
+export const CopyTransactionSchema = TransactionSchema.pick({
+  createdAt: true,
+  amount: true,
+  currency: true,
+  description: true,
+});
+
 export const SearchParamsSchema = z.object({
   limit: z.string().optional().default('10'),
   page: z.string().optional().default('1'),
