@@ -8,7 +8,10 @@ import { z } from 'zod';
 
 import { TransactionItem } from '@/types/types';
 
-import { createTransaction } from '@/lib/actions/transactionActions';
+import {
+  createTransaction,
+  editTransaction,
+} from '@/lib/actions/transactionActions';
 import { DEFAULT_CURRENCY } from '@/lib/constants/constants';
 import {
   OperationType,
@@ -23,6 +26,7 @@ import {
   TRANSACTION_TYPE_CONFIG,
 } from '@/lib/constants/transactions';
 import { TransactionSchema } from '@/lib/schemas/transaction.schema';
+import { useToast } from '@/hooks/useToast';
 
 import SegmentedControl from '../ui/controls/SegmentedControl';
 import Input from '../ui/inputs/Input';
@@ -46,6 +50,7 @@ export default function TransactionForm(props: TransactionFormProps) {
   const isEdit = props.mode === 'edit';
 
   const [isPending, startTransition] = useTransition();
+  const { toastSuccess } = useToast();
   const {
     register,
     handleSubmit,
@@ -61,7 +66,7 @@ export default function TransactionForm(props: TransactionFormProps) {
           currency: props.item.currency,
           status: props.item.status,
           transactionCategory: props.item.transactionCategory,
-          createdAt: props.item.updatedAt,
+          createdAt: props.item.updatedAt, // SHOULD BE change to updatedAt
           paymentMethod: props.item.paymentMethod,
           description: props.item.description ?? '',
         }
@@ -75,9 +80,17 @@ export default function TransactionForm(props: TransactionFormProps) {
 
   async function onSubmit(data: FormData) {
     startTransition(async () => {
-      const result = await createTransaction(data);
+      const result = isEdit
+        ? await editTransaction(props.item.transactionId, data)
+        : await createTransaction(data);
 
-      if (result.success) props.onClose();
+      if (result.success) {
+        props.onClose();
+        toastSuccess(
+          isEdit ? OperationType.EDIT : OperationType.CREATE,
+          'Transaction',
+        );
+      }
     });
   }
 
