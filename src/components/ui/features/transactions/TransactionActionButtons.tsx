@@ -22,7 +22,6 @@ export default function TransactionActionButtons({
     <>
       <div className="flex text-slate-500 dark:text-slate-300">
         <ModalTrigger
-          // modalWidth="lg"
           renderTrigger={(open) => (
             <ButtonIcon
               iconName="copy"

@@ -35,6 +35,9 @@ export default function DatePicker({
   padding = 'sm',
   variant = 'primary',
   groupPosition,
+  contentPosition,
+  contentExpandedAlign,
+  contentWidthExpandedTo,
   disabled,
   onSelect,
 }: DatePickerProps) {
