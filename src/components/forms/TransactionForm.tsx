@@ -50,7 +50,7 @@ export default function TransactionForm(props: TransactionFormProps) {
   const isEdit = props.mode === 'edit';
 
   const [isPending, startTransition] = useTransition();
-  const { toastSuccess } = useToast();
+  const { toastSuccess, toastError } = useToast();
   const {
     register,
     handleSubmit,
@@ -66,7 +66,7 @@ export default function TransactionForm(props: TransactionFormProps) {
           currency: props.item.currency,
           status: props.item.status,
           transactionCategory: props.item.transactionCategory,
-          createdAt: props.item.updatedAt, // SHOULD BE change to updatedAt
+          createdAt: props.item.createdAt,
           paymentMethod: props.item.paymentMethod,
           description: props.item.description ?? '',
         }
@@ -89,6 +89,12 @@ export default function TransactionForm(props: TransactionFormProps) {
         toastSuccess(
           isEdit ? OperationType.EDIT : OperationType.CREATE,
           'Transaction',
+        );
+      } else {
+        toastError(
+          isEdit ? OperationType.EDIT : OperationType.CREATE,
+          'Transaction',
+          result?.error as string,
         );
       }
     });

@@ -8,9 +8,15 @@ interface ToastProps {
   role: keyof typeof TOAST_CONFIG;
   operation: keyof typeof TOAST_CONFIG.success.header;
   entity: string;
+  errorMessage?: string;
 }
 
-export default function Toast({ role, operation, entity }: ToastProps) {
+export default function Toast({
+  role,
+  operation,
+  entity,
+  errorMessage,
+}: ToastProps) {
   const config = TOAST_CONFIG[role];
 
   const header = config.header[operation].replace('{x}', entity);
@@ -29,7 +35,7 @@ export default function Toast({ role, operation, entity }: ToastProps) {
       </div>
       <div>
         <h2 className="flex items-center gap-2 font-semibold dark:text-slate-400">
-          {header}
+          {errorMessage || header}
         </h2>
         <p className="text-xs text-slate-500">{description}</p>
       </div>

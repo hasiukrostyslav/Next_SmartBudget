@@ -41,7 +41,7 @@ export default function EditTransactionCategoryForm({
   const [isPending, startTransition] = useTransition();
   const { selectedValue, handleSelect } = useSelectValue({});
   const { searchQuery, role, handleChange, handleClear } = useSearchInput({});
-  const { toastSuccess } = useToast();
+  const { toastSuccess, toastError } = useToast();
 
   const initialValue = [...new Set(selectedItems.map((el) => el.category))];
   const filteredCategories = TRANSACTION_CATEGORIES.filter((el) =>
@@ -67,6 +67,8 @@ export default function EditTransactionCategoryForm({
       if (result.success) {
         onClose();
         toastSuccess(OperationType.EDIT, 'Transaction');
+      } else {
+        toastError(OperationType.EDIT, 'Transaction', result?.error as string);
       }
     });
   };
