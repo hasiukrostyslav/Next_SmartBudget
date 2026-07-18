@@ -44,8 +44,6 @@ export default function DeleteForm({
           result?.error as string,
         );
       }
-      onClose();
-      toastSuccess(OperationType.DELETE, 'Transaction');
     });
   };
 
