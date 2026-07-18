@@ -112,7 +112,7 @@ export default function CopyTransactionForm({
                 </div>
               </TransactionBadge>
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col items-end gap-1">
               <div className="text-base font-bold">
                 <TransactionAmount
                   type={sourceTransaction.transactionType}
@@ -156,7 +156,7 @@ export default function CopyTransactionForm({
                   selectedValue={field.value}
                   onSelect={field.onChange}
                   showSelectedOption
-                  contentWidthExpandedTo="min-w-max"
+                  contentWidthExpandedTo="w-76"
                   padding="md"
                 />
               )}

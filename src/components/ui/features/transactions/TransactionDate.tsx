@@ -1,3 +1,5 @@
+import { clsx } from 'clsx';
+
 interface TransactionDateProps {
   date: Date;
   withTime: boolean;
@@ -15,9 +17,9 @@ export default function TransactionDate({
   }).format(date);
 
   return (
-    <div className="flex flex-col px-1.5">
+    <div className={clsx('flex flex-col', withTime ? 'px-1.5' : '')}>
       <span className="font-medium">{formattedDate}</span>
-      {withTime ?? (
+      {withTime && (
         <span className="text-slate-500 dark:text-slate-500">{time}</span>
       )}
     </div>

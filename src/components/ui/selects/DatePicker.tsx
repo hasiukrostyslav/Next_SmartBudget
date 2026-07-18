@@ -35,7 +35,7 @@ export default function DatePicker({
   padding = 'sm',
   variant = 'primary',
   groupPosition,
-  contentPosition,
+  contentPosition = 'top',
   contentExpandedAlign,
   contentWidthExpandedTo,
   disabled,
@@ -96,7 +96,9 @@ export default function DatePicker({
       <PopoverPanel
         id={id}
         isContentExpanded={isContentExpanded}
-        position="top"
+        position={contentPosition}
+        widthExpandedTo={contentWidthExpandedTo}
+        expandedAlign={contentExpandedAlign}
       >
         <Calendar
           onSelect={handleSelectDay}

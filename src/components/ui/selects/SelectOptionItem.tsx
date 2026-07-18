@@ -27,7 +27,7 @@ export default function SelectOptionItem(props: SelectOptionItemProps) {
         <div
           className={clsx(
             'rounded-md',
-            context === 'list' ? 'p-1.5' : 'p-0.5',
+            context === 'list' ? 'p-1' : 'p-0.5',
             option.color,
             !option.icon && !option.symbol && 'p-2',
           )}
