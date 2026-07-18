@@ -46,7 +46,7 @@ export default function CopyTransactionForm({
   onClose,
 }: CopyTransactionFormProps) {
   const [isPending, startTransition] = useTransition();
-  const { toastSuccess } = useToast();
+  const { toastSuccess, toastError } = useToast();
   const {
     register,
     handleSubmit,
@@ -75,6 +75,12 @@ export default function CopyTransactionForm({
       if (result.success) {
         onClose();
         toastSuccess(OperationType.CREATE, 'Transaction');
+      } else {
+        toastError(
+          OperationType.CREATE,
+          'Transaction',
+          result?.error as string,
+        );
       }
     });
   }

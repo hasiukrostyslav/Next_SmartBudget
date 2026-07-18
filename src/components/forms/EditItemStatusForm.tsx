@@ -30,7 +30,7 @@ export default function EditItemStatusForm({
 }: EditItemStatusFormProps) {
   const [isPending, startTransition] = useTransition();
   const { selectedValue, handleSelect } = useSelectValue({});
-  const { toastSuccess } = useToast();
+  const { toastSuccess, toastError } = useToast();
   const initialValue = [...new Set(selectedItems.map((el) => el.status))];
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -45,6 +45,8 @@ export default function EditItemStatusForm({
       if (result.success) {
         onClose();
         toastSuccess(OperationType.EDIT, 'Transaction');
+      } else {
+        toastError(OperationType.EDIT, 'Transaction', result?.error as string);
       }
     });
   };

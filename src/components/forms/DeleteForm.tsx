@@ -16,7 +16,7 @@ interface DeleteFormProps {
   itemType: ItemType;
   items: TransactionItem[];
   onClose: () => void;
-  onSubmit: () => Promise<{ success: boolean; status: number }>;
+  onSubmit: () => Promise<{ success: boolean; status: number; error?: string }>;
 }
 
 export default function DeleteForm({
@@ -26,14 +26,24 @@ export default function DeleteForm({
   onSubmit,
 }: DeleteFormProps) {
   const [isPending, startTransition] = useTransition();
-  const { toastSuccess } = useToast();
+  const { toastSuccess, toastError } = useToast();
 
   const handleDelete = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     startTransition(async () => {
-      await onSubmit();
+      const result = await onSubmit();
 
+      if (result.success) {
+        onClose();
+        toastSuccess(OperationType.DELETE, 'Transaction');
+      } else {
+        toastError(
+          OperationType.DELETE,
+          'Transaction',
+          result?.error as string,
+        );
+      }
       onClose();
       toastSuccess(OperationType.DELETE, 'Transaction');
     });

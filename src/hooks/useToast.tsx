@@ -33,8 +33,17 @@ export function useToast() {
   const toastError = (
     operation: keyof typeof TOAST_CONFIG.success.header,
     entity: string,
+    errorMessage?: string,
   ) =>
-    toast(<Toast role="error" operation={operation} entity={entity} />, config);
+    toast(
+      <Toast
+        role="error"
+        operation={operation}
+        entity={entity}
+        errorMessage={errorMessage}
+      />,
+      config,
+    );
 
   return { toastSuccess, toastError };
 }
