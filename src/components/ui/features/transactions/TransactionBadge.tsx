@@ -1,3 +1,5 @@
+import React from 'react';
+
 import clsx from 'clsx';
 
 import { TransactionCategories } from '@/lib/constants/enums';
@@ -8,27 +10,33 @@ import Icon from '../../icons/Icon';
 interface TransactionBadgeProps {
   category: TransactionCategories;
   name: string;
+  children?: React.ReactNode;
 }
 
 export default function TransactionBadge({
   category,
   name,
+  children,
 }: TransactionBadgeProps) {
   return (
-    <div className="flex gap-2 px-1.5">
+    <div className={clsx('flex items-center gap-2 px-1.5')}>
       <span
         className={clsx(
-          'rounded-full border-2 p-1.5',
+          'rounded-md',
+          children ? 'p-2.5' : 'p-1.5',
           TRANSACTION_CATEGORIES_CONFIG[category].style.badge,
         )}
       >
         <Icon
           name={TRANSACTION_CATEGORIES_CONFIG[category].icon || 'banknote'}
-          size={18}
+          size={children ? 22 : 18}
         />
       </span>
-      <div className="flex items-center">
-        <span className="font-medium">{name}</span>
+      <div className="flex flex-col gap-1">
+        <span className={clsx('font-medium', children ? 'ml-1.5 text-sm' : '')}>
+          {name}
+        </span>
+        {children}
       </div>
     </div>
   );

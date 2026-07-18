@@ -63,6 +63,7 @@ export const STATUS_CONFIG = {
       card: 'border-green-600 bg-green-50 dark:bg-green-600/10',
       icon: 'bg-green-200 text-green-600 dark:bg-green-500/20',
       radio: 'border-green-600',
+      text: 'text-green-600',
     },
   },
   PENDING: {
@@ -77,6 +78,7 @@ export const STATUS_CONFIG = {
       card: 'border-yellow-600 bg-yellow-50 dark:bg-yellow-600/10',
       icon: 'bg-yellow-200 text-yellow-600 dark:bg-yellow-500/20',
       radio: 'border-yellow-600',
+      text: 'text-yellow-600 dark:text-yellow-500',
     },
   },
   FAILED: {
@@ -91,6 +93,7 @@ export const STATUS_CONFIG = {
       card: 'border-red-600 bg-red-50 dark:bg-red-600/10',
       icon: 'bg-red-200 text-red-600 dark:bg-red-500/20',
       radio: 'border-red-600',
+      text: 'text-red-600',
     },
   },
   CANCELED: {
@@ -104,7 +107,8 @@ export const STATUS_CONFIG = {
       dark:bg-slate-500/10 dark:text-slate-400`,
       card: 'border-slate-600 bg-slate-50 dark:bg-slate-600/10',
       icon: 'bg-slate-200 text-slate-600 dark:bg-slate-500/20',
-      radio: 'border-slate-600',
+      radio: 'border-slate-500',
+      text: 'text-slate-500 ',
     },
   },
 } as const;

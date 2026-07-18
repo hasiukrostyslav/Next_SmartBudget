@@ -47,7 +47,8 @@ export const TRANSACTION_CATEGORIES = [
 export type TransactionCategories = (typeof TRANSACTION_CATEGORIES)[number];
 
 export enum OperationType {
+  COPY = 'copy',
   CREATE = 'create',
-  EDIT = 'edit',
   DELETE = 'delete',
+  EDIT = 'edit',
 }

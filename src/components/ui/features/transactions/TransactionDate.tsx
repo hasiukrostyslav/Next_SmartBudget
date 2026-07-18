@@ -1,4 +1,14 @@
-export default function TransactionDate({ date }: { date: Date }) {
+import { clsx } from 'clsx';
+
+interface TransactionDateProps {
+  date: Date;
+  withTime: boolean;
+}
+
+export default function TransactionDate({
+  date,
+  withTime,
+}: TransactionDateProps) {
   const formattedDate = new Intl.DateTimeFormat('uk').format(date);
   const time = new Intl.DateTimeFormat('uk', {
     hour: '2-digit',
@@ -7,9 +17,11 @@ export default function TransactionDate({ date }: { date: Date }) {
   }).format(date);
 
   return (
-    <div className="flex flex-col px-1.5">
+    <div className={clsx('flex flex-col', withTime ? 'px-1.5' : '')}>
       <span className="font-medium">{formattedDate}</span>
-      <span className="text-slate-500 dark:text-slate-500">{time}</span>
+      {withTime && (
+        <span className="text-slate-500 dark:text-slate-500">{time}</span>
+      )}
     </div>
   );
 }

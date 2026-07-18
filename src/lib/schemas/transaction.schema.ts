@@ -8,7 +8,7 @@ import {
 } from '../constants/enums';
 import { TRANSACTION_SORT_OPTIONS } from '../constants/transactions';
 
-export const CreateTransactionSchema = z.object({
+export const TransactionSchema = z.object({
   transactionName: z
     .string()
     .min(1, { message: 'Transaction name is required.' })
@@ -27,6 +27,13 @@ export const CreateTransactionSchema = z.object({
   description: z.string().optional(),
   status: z.enum(STATUSES).default('COMPLETED'),
   createdAt: z.date(),
+});
+
+export const CopyTransactionSchema = TransactionSchema.pick({
+  createdAt: true,
+  amount: true,
+  currency: true,
+  description: true,
 });
 
 export const SearchParamsSchema = z.object({
