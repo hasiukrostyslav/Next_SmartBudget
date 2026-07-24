@@ -8,7 +8,7 @@ export default async function UserPanel() {
   const userName = session?.user?.name;
 
   return (
-    <div className="ml-10 flex items-center">
+    <div className="ml-auto flex items-center">
       <div className="mr-10 flex items-center gap-3">
         <ButtonIcon size={16} iconName="chat" shape="round" variant="solid" />
         <ButtonIcon
