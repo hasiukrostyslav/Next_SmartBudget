@@ -62,36 +62,34 @@ model Transactions {
 }
 
 enum TransactionStatus {
+  CANCELED
   COMPLETED
   FAILED
   PENDING
-  CANCELED
 }
 
 enum TransactionType {
-  Income
   Expenses
+  Income
 }
 
 enum Currency {
+  EUR
+  GBP
+  HUF
+  PLN
   UAH
   USD
-  EUR
-  PLN
-  HUF
-  GBP
 }
 
 enum TransactionCategory {
-  income
-  investments
-  prize
   advertisement
   appliance
   books
   cafe
   car
   clothes
+  currency_exchange @map("currency exchange")
   delivery
   donations
   electricity
@@ -100,12 +98,18 @@ enum TransactionCategory {
   gas
   groceries
   healthcare
+  income
   insurance
   internet
+  investments
   jewelry
   loan
+  mobile_phone      @map("mobile phone")
   movies
   others
+  personal_care     @map("personal care")
+  pet_care          @map("pet care")
+  prize
   repair
   sport
   taxes
@@ -114,9 +118,4 @@ enum TransactionCategory {
   travel
   utilities
   water
-
-  currency_exchange @map("currency exchange")
-  mobile_phone      @map("mobile phone")
-  personal_care     @map("personal care")
-  pet_care          @map("pet care")
 }
