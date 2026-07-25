@@ -24,7 +24,11 @@ export const TransactionSchema = z.object({
   amount: z.coerce
     .number()
     .positive({ message: 'Amount must be a positive number.' }),
-  description: z.string().optional(),
+  description: z
+    .string()
+    .nullish()
+    .transform((v) => v?.trim() || null)
+    .optional(),
   status: z.enum(STATUSES).default('COMPLETED'),
   createdAt: z.date(),
 });

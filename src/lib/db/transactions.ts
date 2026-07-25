@@ -4,10 +4,7 @@ import { UpdateTransactionData } from '@/types/types';
 
 import { PAGE_SIZE_OPTIONS } from '../constants/constants';
 import { Status, TransactionCategories } from '../constants/enums';
-import {
-  TRANSACTION_CATEGORIES_CONFIG,
-  TRANSACTION_SORT_FIELD_MAP,
-} from '../constants/transactions';
+import { TRANSACTION_SORT_FIELD_MAP } from '../constants/transactions';
 import {
   SearchParamsSchema,
   TransactionSchema,
@@ -20,48 +17,48 @@ type CreateTransactionDataType = z.infer<typeof TransactionSchema>;
 // Find Transactions
 export async function findTransactionsByUserId(
   userId: string,
-  props?: SearchParamsType,
+  params?: SearchParamsType,
 ) {
-  const sortField =
-    props?.sort && TRANSACTION_SORT_FIELD_MAP[props.sort]
-      ? TRANSACTION_SORT_FIELD_MAP[props.sort]
+  const sortedField =
+    params?.sort && TRANSACTION_SORT_FIELD_MAP[params.sort]
+      ? TRANSACTION_SORT_FIELD_MAP[params.sort]
       : 'createdAt';
 
-  const order = props?.order ?? 'desc';
-  const limit = Number(props?.limit ?? PAGE_SIZE_OPTIONS[0]);
-  const skip = limit * (Number(props?.page ?? 1) - 1);
+  const order = params?.order ?? 'desc';
+  const limit = Number(params?.limit ?? PAGE_SIZE_OPTIONS[0]);
+  const skip = limit * (Number(params?.page ?? 1) - 1);
+  const search = params?.search;
+  console.log(params);
 
-  if (sortField === 'amount') {
-    const all = await db.transactions.findMany({ where: { userId } });
-    const sorted = all.sort((a, b) => {
-      const signedA = a.transactionType === 'Expenses' ? -a.amount : a.amount;
-      const signedB = b.transactionType === 'Expenses' ? -b.amount : b.amount;
-      return order === 'asc' ? signedA - signedB : signedB - signedA;
+  if (
+    sortedField === 'amount' ||
+    sortedField === 'transactionName' ||
+    sortedField === 'description'
+  ) {
+    const transactions = await db.transactions.findMany({
+      where: { userId },
     });
-    return {
-      transactions: sorted.slice(skip, skip + limit),
-      transactionCount: all.length,
-    };
-  }
+    const sorted = transactions.sort((a, b) => {
+      if (sortedField === 'amount') {
+        const signedA = a.transactionType === 'Expenses' ? -a.amount : a.amount;
+        const signedB = b.transactionType === 'Expenses' ? -b.amount : b.amount;
+        return order === 'asc' ? signedA - signedB : signedB - signedA;
+      }
 
-  if (sortField === 'transactionCategory') {
-    const all = await db.transactions.findMany({ where: { userId } });
-    const sorted = all.sort((a, b) => {
-      const labelA =
-        TRANSACTION_CATEGORIES_CONFIG[
-          a.transactionCategory as keyof typeof TRANSACTION_CATEGORIES_CONFIG
-        ]?.text.header ?? a.transactionCategory;
-      const labelB =
-        TRANSACTION_CATEGORIES_CONFIG[
-          b.transactionCategory as keyof typeof TRANSACTION_CATEGORIES_CONFIG
-        ]?.text.header ?? b.transactionCategory;
+      const valueA = a[sortedField];
+      const valueB = b[sortedField];
+
+      if (!valueA && !valueB) return 0;
+      if (!valueA) return 1;
+      if (!valueB) return -1;
+
       return order === 'asc'
-        ? labelA.localeCompare(labelB)
-        : labelB.localeCompare(labelA);
+        ? valueA?.localeCompare(valueB)
+        : valueB?.localeCompare(valueA);
     });
     return {
       transactions: sorted.slice(skip, skip + limit),
-      transactionCount: all.length,
+      transactionCount: transactions.length,
     };
   }
 
@@ -70,7 +67,7 @@ export async function findTransactionsByUserId(
       skip,
       take: limit,
       where: { userId },
-      orderBy: { [sortField]: order },
+      orderBy: { [sortedField]: order },
     }),
     db.transactions.count({ where: { userId } }),
   ]);

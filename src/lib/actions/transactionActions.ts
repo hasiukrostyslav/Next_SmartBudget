@@ -37,7 +37,7 @@ async function getUserId(): Promise<string | null> {
 }
 
 // Get Transactions
-export async function getTransactions(props?: SearchParamsType) {
+export async function getTransactions(params?: SearchParamsType) {
   const userId = await getUserId();
   if (!userId)
     return {
@@ -47,7 +47,7 @@ export async function getTransactions(props?: SearchParamsType) {
     };
 
   try {
-    const data = await findTransactionsByUserId(userId, props);
+    const data = await findTransactionsByUserId(userId, params);
     return { success: true, status: HTTP_STATUS.OK, data };
   } catch (error) {
     console.error('[getTransactions]', error);
