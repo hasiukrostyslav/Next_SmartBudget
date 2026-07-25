@@ -27,7 +27,7 @@ export async function findTransactionsByUserId(
   const order = params?.order ?? 'desc';
   const limit = Number(params?.limit ?? PAGE_SIZE_OPTIONS[0]);
   const skip = limit * (Number(params?.page ?? 1) - 1);
-  const search = params?.search;
+  const search = params?.search.replaceAll('-', ' ').trim();
 
   if (
     sortedField === 'amount' ||
@@ -37,7 +37,7 @@ export async function findTransactionsByUserId(
     const transactions = await db.transactions.findMany({
       where: {
         userId,
-        transactionName: { startsWith: search, mode: 'insensitive' },
+        transactionName: { contains: search, mode: 'insensitive' },
       },
     });
     const sorted = transactions.sort((a, b) => {
@@ -70,14 +70,14 @@ export async function findTransactionsByUserId(
       take: limit,
       where: {
         userId,
-        transactionName: { startsWith: search, mode: 'insensitive' },
+        transactionName: { contains: search, mode: 'insensitive' },
       },
       orderBy: { [sortedField]: order },
     }),
     db.transactions.count({
       where: {
         userId,
-        transactionName: { startsWith: search, mode: 'insensitive' },
+        transactionName: { contains: search, mode: 'insensitive' },
       },
     }),
   ]);
