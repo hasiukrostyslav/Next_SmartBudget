@@ -5,7 +5,6 @@ import {
   PAGE_SIZE_OPTIONS,
   PAGINATION_RANGE,
 } from '../constants/constants';
-import { Currency, TransactionType } from '../constants/enums';
 
 // Generate Search Params string
 export function createQueryString(
@@ -18,9 +17,11 @@ export function createQueryString(
   const slugQuery = query.map((q) => ({ ...q, value: toSlug(q.value) }));
 
   const params = new URLSearchParams(searchParams.toString());
-  slugQuery.forEach((el) => params.set(el.param, el.value));
+  slugQuery.forEach((el) =>
+    el.value === '' ? params.delete(el.param) : params.set(el.param, el.value),
+  );
 
-  if (query.some((q) => q.param !== 'page')) params.set('page', '1');
+  if (query.find((q) => q.param !== 'page')) params.set('page', '1');
 
   return params.toString();
 }
