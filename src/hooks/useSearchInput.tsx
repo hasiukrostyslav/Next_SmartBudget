@@ -14,8 +14,10 @@ export function useSearchInput({
   isContentExpanded,
   isUpdateSearchParam,
 }: useSearchInputProps) {
-  const [searchQuery, setSearchQuery] = useState('');
   const searchParams = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(
+    searchParams.get('search') ?? '',
+  );
   const pathname = usePathname();
   const router = useRouter();
 
@@ -35,6 +37,10 @@ export function useSearchInput({
       handleClear();
     }
   }, [isContentExpanded, handleClear]);
+
+  useEffect(() => {
+    if (isUpdateSearchParam && !searchParams.get('search')) setSearchQuery('');
+  }, [isUpdateSearchParam, searchParams]);
 
   const role: keyof typeof INPUT_CONFIG.button.roleIcon = 'clear';
 

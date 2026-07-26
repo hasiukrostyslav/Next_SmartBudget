@@ -6,6 +6,18 @@ import {
   PAGINATION_RANGE,
 } from '../constants/constants';
 
+// Check if any of the given filter keys has a truthy value. Accepts a plain
+// object (server-parsed params) or a Record built from URLSearchParams, so
+// server and client can check the same TRANSACTION_FILTERS list without
+// hardcoding individual param names.
+export function hasActiveFilters(
+  params: Record<string, unknown> | undefined,
+  filterKeys: readonly string[],
+) {
+  if (!params) return false;
+  return filterKeys.some((key) => Boolean(params[key]));
+}
+
 // Generate Search Params string
 export function createQueryString(
   searchParams: URLSearchParams,

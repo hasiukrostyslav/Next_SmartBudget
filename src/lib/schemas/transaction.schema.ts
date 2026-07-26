@@ -49,4 +49,11 @@ export const SearchParamsSchema = z.object({
     .default('date'),
   order: z.enum(['asc', 'desc']).optional().default('desc'),
   search: z.string().optional().default(''),
+  category: z.string().optional().default(''),
+  account: z.string().optional().default(''),
+  date: z.string().optional().default(''),
+  amount: z.string().optional().default(''),
+  currency: z.string().optional().default(''),
+  status: z.string().optional().default(''),
+  type: z.string().optional().default(''),
 });

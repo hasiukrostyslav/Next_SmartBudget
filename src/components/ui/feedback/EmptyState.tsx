@@ -12,9 +12,23 @@ type EmptyStateEntry = (typeof EMPTY_STATE_TEXT)[keyof typeof EMPTY_STATE_TEXT];
 interface EmptyStateProps {
   config: EmptyStateEntry;
   children?: React.ReactNode;
+  isFilterApplied?: boolean;
+  clearFiltersHref?: string;
 }
 
-export default function EmptyState({ config, children }: EmptyStateProps) {
+export default function EmptyState({
+  config,
+  children,
+  isFilterApplied,
+  clearFiltersHref,
+}: EmptyStateProps) {
+  const header = isFilterApplied
+    ? config.noFilterResults.header
+    : config.header;
+  const description = isFilterApplied
+    ? config.noFilterResults.description
+    : config.description;
+
   return (
     <section
       className={clsx(
@@ -30,13 +44,13 @@ export default function EmptyState({ config, children }: EmptyStateProps) {
           height={140}
           priority
         />
-        {config?.header && (
+        {header && (
           <h2
             className={clsx(
               'mt-4 text-xl leading-snug font-bold tracking-wider',
             )}
           >
-            {config.header}
+            {header}
           </h2>
         )}
       </div>
@@ -45,23 +59,29 @@ export default function EmptyState({ config, children }: EmptyStateProps) {
           'mt-2 flex w-1/3 flex-col items-center justify-center gap-3 text-center',
         )}
       >
-        {config?.description && (
-          <p className="text-slate-500">{config.description}</p>
-        )}
-        {children ||
-          (config?.cta && (
-            <div className="flex gap-2">
-              <Button color="blue" size="sm">
-                <Icon name="plus" size={14} />
-                <span>{config.cta.primaryLabel}</span>
+        {description && <p className="text-slate-500">{description}</p>}
+        {isFilterApplied
+          ? clearFiltersHref && (
+              <Button color="blue" size="sm" href={clearFiltersHref}>
+                <Icon name="undo" size={14} />
+                <span>Clear all filters</span>
               </Button>
-              {'secondaryLabel' in config.cta && config.cta.secondaryLabel && (
-                <Button color="outline" size="sm">
-                  {config.cta.secondaryLabel}
+            )
+          : children ||
+            (config?.cta && (
+              <div className="flex gap-2">
+                <Button color="blue" size="sm">
+                  <Icon name="plus" size={14} />
+                  <span>{config.cta.primaryLabel}</span>
                 </Button>
-              )}
-            </div>
-          ))}
+                {'secondaryLabel' in config.cta &&
+                  config.cta.secondaryLabel && (
+                    <Button color="outline" size="sm">
+                      {config.cta.secondaryLabel}
+                    </Button>
+                  )}
+              </div>
+            ))}
       </div>
     </section>
   );

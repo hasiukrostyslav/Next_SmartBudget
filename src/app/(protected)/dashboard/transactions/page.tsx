@@ -1,8 +1,11 @@
 import { Suspense } from 'react';
 
+import { TRANSACTIONS_PATH } from '@/routes';
 import { getTransactions } from '@/lib/actions/transactionActions';
 import { EMPTY_STATE_TEXT } from '@/lib/constants/messages';
+import { TRANSACTION_FILTERS } from '@/lib/constants/navigation';
 import { SearchParamsSchema } from '@/lib/schemas/transaction.schema';
+import { hasActiveFilters } from '@/lib/utils/utils';
 
 import TransactionsCTA from '@/components/ui/features/transactions/TransactionsCTA';
 import TransactionsList from '@/components/ui/features/transactions/TransactionsList';
@@ -36,9 +39,15 @@ async function TransactionsListContent({
       />
     );
 
-  if (result.data.transactions.length < 1)
+  if (result.data.transactions.length < 1) {
+    const isFilterApplied = hasActiveFilters(parsedParams, TRANSACTION_FILTERS);
+
     return (
-      <EmptyState config={EMPTY_STATE_TEXT.transactions}>
+      <EmptyState
+        config={EMPTY_STATE_TEXT.transactions}
+        isFilterApplied={isFilterApplied}
+        clearFiltersHref={TRANSACTIONS_PATH}
+      >
         <TransactionsCTA
           buttonSize="sm"
           iconSize={14}
@@ -46,6 +55,7 @@ async function TransactionsListContent({
         />
       </EmptyState>
     );
+  }
 
   return <TransactionsList data={result.data.transactions} />;
 }
@@ -72,7 +82,9 @@ export default async function TransactionsPage({
 
   return (
     <section className="grid h-full grid-rows-[auto_1fr_auto] gap-4">
-      <TransactionsToolbar />
+      <Suspense fallback={null}>
+        <TransactionsToolbar />
+      </Suspense>
       <div className="relative">
         <Suspense
           key={suspenseKey}
