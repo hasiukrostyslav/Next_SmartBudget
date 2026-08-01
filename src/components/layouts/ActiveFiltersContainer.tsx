@@ -9,7 +9,7 @@ import ActiveFilter from '../ui/controls/ActiveFilter';
 import Icon from '../ui/icons/Icon';
 
 export default function ActiveFiltersContainer() {
-  const { filters, clearAll } = useFilters();
+  const { filters, clearAll, clearFilter } = useFilters();
 
   if (filters.length === 0) return null;
 
@@ -23,7 +23,11 @@ export default function ActiveFiltersContainer() {
       <div className="flex items-center gap-2">
         <h4 className="text-sm text-slate-500">ACTIVE</h4>
         {filters.map((filter) => (
-          <ActiveFilter key={filter.key + '=' + filter.value} filter={filter} />
+          <ActiveFilter
+            key={filter.key + '=' + filter.value}
+            filter={filter}
+            onClick={clearFilter}
+          />
         ))}
       </div>
       <Button color="transparent" size="xs" onClick={clearAll}>

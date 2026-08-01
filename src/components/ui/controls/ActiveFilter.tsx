@@ -5,11 +5,14 @@ import { FilterParamsSchema } from '@/lib/schemas/transaction.schema';
 
 import ButtonIcon from '../buttons/ButtonIcon';
 
+type FilterKey = keyof z.infer<typeof FilterParamsSchema>;
+
 interface ActiveFilterProps {
   filter: { key: keyof z.infer<typeof FilterParamsSchema>; value: string };
+  onClick: ({ key, value }: { key: FilterKey; value: string }) => void;
 }
 
-export default function ActiveFilter({ filter }: ActiveFilterProps) {
+export default function ActiveFilter({ filter, onClick }: ActiveFilterProps) {
   return (
     <div>
       <div
@@ -36,6 +39,7 @@ export default function ActiveFilter({ filter }: ActiveFilterProps) {
             shape="round"
             size={10}
             variant="primary"
+            onClick={() => onClick(filter)}
           />
         </div>
       </div>

@@ -30,5 +30,24 @@ export function useFilters() {
     router.replace(`${pathname}?${newSearchParam}`);
   };
 
-  return { filters, clearAll };
+  const clearFilter = ({ key, value }: { key: FilterKey; value: string }) => {
+    const newSearchParam = new URLSearchParams(searchParams.toString());
+
+    if (!newSearchParam.has(key)) return;
+
+    if (
+      newSearchParam.getAll(key).length === 1 &&
+      newSearchParam.get(key) === value
+    ) {
+      newSearchParam.delete(key);
+    } else {
+      const values = newSearchParam.getAll(key).filter((el) => el !== value);
+      newSearchParam.delete(key);
+      values.forEach((el) => newSearchParam.append(key, el));
+    }
+
+    router.replace(`${pathname}?${newSearchParam}`);
+  };
+
+  return { filters, clearAll, clearFilter };
 }
