@@ -7,12 +7,44 @@ import ButtonIcon from '../buttons/ButtonIcon';
 
 type FilterKey = keyof z.infer<typeof FilterParamsSchema>;
 
-interface ActiveFilterProps {
-  filter: { key: keyof z.infer<typeof FilterParamsSchema>; value: string };
-  onClick: ({ key, value }: { key: FilterKey; value: string }) => void;
-}
+type ActiveFilterProps =
+  | {
+      filter: { key: keyof z.infer<typeof FilterParamsSchema>; value: string };
+      onClick: (filter: { key: FilterKey; value: string }) => void;
+    }
+  | { filterCount: number; onClick: () => void; isExpanded: boolean };
 
-export default function ActiveFilter({ filter, onClick }: ActiveFilterProps) {
+export default function ActiveFilter(props: ActiveFilterProps) {
+  if ('filterCount' in props) {
+    const { filterCount, onClick, isExpanded } = props;
+
+    return (
+      <div>
+        <div
+          className={clsx(
+            'flex items-center gap-1 rounded-xl border py-0.5 pr-1 pl-2',
+            'border-slate-400 bg-slate-200/20 dark:border-slate-600 dark:bg-slate-800',
+          )}
+        >
+          <p className="text-sm font-semibold text-slate-600 dark:text-slate-600">
+            {isExpanded ? 'Show less' : `+${filterCount} more`}
+          </p>
+          <div>
+            <ButtonIcon
+              iconName={isExpanded ? 'chevron-up' : 'chevron-down'}
+              shape="round"
+              size={10}
+              variant="ghost"
+              onClick={onClick}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const { filter, onClick } = props;
+
   return (
     <div>
       <div

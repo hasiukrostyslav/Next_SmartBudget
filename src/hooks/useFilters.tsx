@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
@@ -11,6 +11,7 @@ type FilterKey = keyof z.infer<typeof FilterParamsSchema>;
 const FILTER_KEYS = new Set<string>(Object.keys(FilterParamsSchema.shape));
 
 export function useFilters() {
+  const [isFiltersExpanded, setIsFiltersExpanded] = useState(false);
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -49,5 +50,7 @@ export function useFilters() {
     router.replace(`${pathname}?${newSearchParam}`);
   };
 
-  return { filters, clearAll, clearFilter };
+  const expandFilters = () => setIsFiltersExpanded(!isFiltersExpanded);
+
+  return { filters, clearAll, clearFilter, isFiltersExpanded, expandFilters };
 }
