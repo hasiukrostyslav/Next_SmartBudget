@@ -22,8 +22,11 @@ export default function ActiveFilter({ filter }: ActiveFilterProps) {
           {filter.key.at(0)?.toUpperCase() + filter.key.slice(1)} :{' '}
           <span className="font-semibold">
             {filter.value
-              .split('-')
-              .map((value) => value.at(0)?.toUpperCase() + value.slice(1))
+              .replace('-', ' ')
+              .split(' ')
+              .map((value) =>
+                value ? value.at(0)?.toUpperCase() + value.slice(1) : '',
+              )
               .join(' ')}
           </span>
         </p>
