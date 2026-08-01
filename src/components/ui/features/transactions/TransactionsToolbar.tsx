@@ -1,3 +1,4 @@
+import ActiveFiltersContainer from '@/components/layouts/ActiveFiltersContainer';
 import SectionWrapper from '@/components/layouts/SectionWrapper';
 
 import TransactionsCTA from './TransactionsCTA';
@@ -12,6 +13,7 @@ export default async function TransactionsToolbar() {
           <TransactionsCTA buttonSize="sm" iconSize={16} />
         </div>
       </div>
+      <ActiveFiltersContainer />
     </SectionWrapper>
   );
 }

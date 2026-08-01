@@ -57,3 +57,14 @@ export const SearchParamsSchema = z.object({
   status: z.string().optional().default(''),
   type: z.string().optional().default(''),
 });
+
+export const FilterParamsSchema = SearchParamsSchema.pick({
+  search: true,
+  category: true,
+  account: true,
+  date: true,
+  amount: true,
+  currency: true,
+  status: true,
+  type: true,
+});
