@@ -19,14 +19,14 @@ export default function ActiveFilter(props: ActiveFilterProps) {
     const { filterCount, onClick, isExpanded } = props;
 
     return (
-      <div>
+      <div className="shrink-0 whitespace-nowrap">
         <div
           className={clsx(
             'flex items-center gap-1 rounded-xl border py-0.5 pr-1 pl-2',
             'border-slate-400 bg-slate-200/20 dark:border-slate-600 dark:bg-slate-800',
           )}
         >
-          <p className="text-sm font-semibold text-slate-600 dark:text-slate-600">
+          <p className="text-sm font-semibold text-slate-600 dark:text-slate-400">
             {isExpanded ? 'Show less' : `+${filterCount} more`}
           </p>
           <div>
@@ -46,14 +46,14 @@ export default function ActiveFilter(props: ActiveFilterProps) {
   const { filter, onClick } = props;
 
   return (
-    <div>
+    <div className="shrink-0 whitespace-nowrap">
       <div
         className={clsx(
           'flex items-center gap-1 rounded-xl border py-0.5 pr-1 pl-2',
           'border-blue-400 bg-blue-200/20 dark:border-slate-600 dark:bg-slate-800',
         )}
       >
-        <p className="text-sm text-blue-600 dark:text-blue-600">
+        <p className="text-sm text-blue-600 dark:text-blue-400">
           {filter.key.at(0)?.toUpperCase() + filter.key.slice(1)} :{' '}
           <span className="font-semibold">
             {filter.value
