@@ -81,11 +81,11 @@ export default async function TransactionsPage({
   const suspenseKey = JSON.stringify(params.data);
 
   return (
-    <section className="grid h-full grid-rows-[auto_1fr_auto] gap-4">
+    <section className="grid h-full min-h-0 grid-rows-[auto_1fr_auto] gap-4">
       <Suspense fallback={null}>
         <TransactionsToolbar />
       </Suspense>
-      <div className="relative">
+      <div className="relative min-h-0">
         <Suspense
           key={suspenseKey}
           fallback={
