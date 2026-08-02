@@ -10,12 +10,12 @@ import ActiveFilter from '../ui/controls/ActiveFilter';
 import Icon from '../ui/icons/Icon';
 
 export default function ActiveFiltersContainer() {
-  const { filters, clearAll, clearFilter, isFiltersExpanded, expandFilters } =
-    useFilters();
-  const { containerRef, measureRef, visible } = useOverflowList(filters.length);
+  const { filters, clearAll, clearFilter } = useFilters();
+  const { containerRef, measureRef, visible, isListExpanded, expandList } =
+    useOverflowList({ count: filters.length });
 
   const hidden = filters.length - visible;
-  const shownFilters = isFiltersExpanded ? filters : filters.slice(0, visible);
+  const shownFilters = isListExpanded ? filters : filters.slice(0, visible);
 
   if (filters.length === 0) return null;
 
@@ -45,12 +45,11 @@ export default function ActiveFiltersContainer() {
           ))}
         </div>
 
-        {/* Visible row: single row when collapsed, wraps when expanded. */}
         <div
           ref={containerRef}
           className={clsx(
             'flex items-center gap-2',
-            isFiltersExpanded ? 'flex-wrap' : 'overflow-hidden',
+            isListExpanded ? 'flex-wrap' : 'overflow-hidden',
           )}
         >
           {shownFilters.map((filter) => (
@@ -63,8 +62,8 @@ export default function ActiveFiltersContainer() {
           {hidden > 0 && (
             <ActiveFilter
               filterCount={hidden}
-              isExpanded={isFiltersExpanded}
-              onClick={expandFilters}
+              isExpanded={isListExpanded}
+              onClick={expandList}
             />
           )}
         </div>

@@ -1,20 +1,27 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 
-// Measures how many items fit on a single row of `containerRef`, reserving
-// room for the "+N more" button when the items overflow. Render every item in
-// the hidden `measureRef` layer so widths stay stable as the visible row is
-// sliced.
-export function useOverflowList(count: number, buttonWidth = 100, gap = 8) {
+interface useOverflowListProps {
+  count: number;
+  buttonWidth?: number;
+  gap?: number;
+}
+
+export function useOverflowList({
+  count,
+  buttonWidth = 100,
+  gap = 8,
+}: useOverflowListProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(count);
+  const [isListExpanded, setIsListExpanded] = useState(false);
 
   useLayoutEffect(() => {
     const container = containerRef.current;
     const measure = measureRef.current;
     if (!container || !measure) return;
 
-    const recalc = () => {
+    const calcVisibleItems = () => {
       const available = container.clientWidth;
       const widths = Array.from(measure.children).map(
         (child) => (child as HTMLElement).offsetWidth,
@@ -28,22 +35,24 @@ export function useOverflowList(count: number, buttonWidth = 100, gap = 8) {
       }
 
       // Overflowing: reserve space for the button and count what fits.
-      let used = 0;
-      let fit = 0;
+      let usedSpace = 0;
+      let itemsFit = 0;
       for (const width of widths) {
-        if (used + width + buttonWidth > available) break;
-        used += width + gap;
-        fit++;
+        if (usedSpace + width + buttonWidth > available) break;
+        usedSpace += width + gap;
+        itemsFit++;
       }
-      setVisible(fit);
+      setVisible(itemsFit);
     };
 
-    const observer = new ResizeObserver(recalc);
+    const observer = new ResizeObserver(calcVisibleItems);
     observer.observe(container);
-    recalc();
+    calcVisibleItems();
 
     return () => observer.disconnect();
   }, [count, buttonWidth, gap]);
 
-  return { containerRef, measureRef, visible };
+  const expandList = () => setIsListExpanded(!isListExpanded);
+
+  return { containerRef, measureRef, visible, isListExpanded, expandList };
 }
