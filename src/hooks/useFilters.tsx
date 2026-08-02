@@ -17,9 +17,12 @@ export function useFilters() {
 
   const filters = useMemo(
     () =>
-      Array.from(searchParams.entries())
-        .filter(([key, value]) => FILTER_KEYS.has(key) && value !== '')
-        .map(([key, value]) => ({ key: key as FilterKey, value })),
+      Array.from(FILTER_KEYS).flatMap((key) =>
+        searchParams
+          .getAll(key)
+          .filter((value) => value !== '')
+          .map((value) => ({ key: key as FilterKey, value })),
+      ),
     [searchParams],
   );
 

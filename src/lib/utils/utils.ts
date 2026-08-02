@@ -35,6 +35,10 @@ export function createQueryString(
 
   if (query.find((q) => q.param !== 'page')) params.set('page', '1');
 
+  // Canonical order so the generated string is identical on server and client
+  // (URL param order from useSearchParams is not stable across SSR/hydration).
+  params.sort();
+
   return params.toString();
 }
 
