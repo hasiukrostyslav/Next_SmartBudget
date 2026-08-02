@@ -5,7 +5,18 @@ import {
   PAGE_SIZE_OPTIONS,
   PAGINATION_RANGE,
 } from '../constants/constants';
-import { Currency, TransactionType } from '../constants/enums';
+
+// Check if any of the given filter keys has a truthy value. Accepts a plain
+// object (server-parsed params) or a Record built from URLSearchParams, so
+// server and client can check the same TRANSACTION_FILTERS list without
+// hardcoding individual param names.
+export function hasActiveFilters(
+  params: Record<string, unknown> | undefined,
+  filterKeys: readonly string[],
+) {
+  if (!params) return false;
+  return filterKeys.some((key) => Boolean(params[key]));
+}
 
 // Generate Search Params string
 export function createQueryString(
@@ -18,9 +29,15 @@ export function createQueryString(
   const slugQuery = query.map((q) => ({ ...q, value: toSlug(q.value) }));
 
   const params = new URLSearchParams(searchParams.toString());
-  slugQuery.forEach((el) => params.set(el.param, el.value));
+  slugQuery.forEach((el) =>
+    el.value === '' ? params.delete(el.param) : params.set(el.param, el.value),
+  );
 
-  if (query.some((q) => q.param !== 'page')) params.set('page', '1');
+  if (query.find((q) => q.param !== 'page')) params.set('page', '1');
+
+  // Canonical order so the generated string is identical on server and client
+  // (URL param order from useSearchParams is not stable across SSR/hydration).
+  params.sort();
 
   return params.toString();
 }

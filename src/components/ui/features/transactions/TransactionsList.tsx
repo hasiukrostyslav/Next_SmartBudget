@@ -30,10 +30,10 @@ export default function TransactionsList({
   } = useCheckbox(data.map((el) => el.transactionId));
 
   return (
-    <SectionWrapper>
+    <SectionWrapper className="flex h-full min-h-0 flex-col overflow-hidden">
       <div
         className={clsx(
-          'relative grid auto-rows-min gap-x-4',
+          'relative grid min-h-0 flex-1 gap-x-4 grid-rows-[auto_minmax(0,1fr)]',
           'grid-cols-[auto_1fr_1fr_1fr_auto_minmax(6rem,auto)_1fr_auto_auto]',
         )}
       >
@@ -44,7 +44,7 @@ export default function TransactionsList({
         <div
           className={clsx(
             'col-span-full grid auto-rows-min grid-cols-subgrid',
-            'scrollbar h-50vh h-61vh overflow-x-hidden overflow-y-auto',
+            'scrollbar overflow-x-hidden overflow-y-auto',
             theme === 'dark' ? 'scrollbar-dark' : '',
           )}
         >
