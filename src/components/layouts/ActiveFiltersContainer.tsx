@@ -26,7 +26,7 @@ export default function ActiveFiltersContainer() {
         'grid grid-cols-[auto_1fr_auto] items-start gap-2',
       )}
     >
-      <h4 className="col-end-1 flex h-7 items-center py-1 text-sm text-slate-500">
+      <h4 className="flex h-7 items-center py-1 text-sm text-slate-500">
         ACTIVE
       </h4>
       <div className="relative min-w-0">
@@ -48,7 +48,7 @@ export default function ActiveFiltersContainer() {
         <div
           ref={containerRef}
           className={clsx(
-            'flex items-center gap-2',
+            'flex grow items-center gap-2',
             isListExpanded ? 'flex-wrap' : 'overflow-hidden',
           )}
         >
@@ -68,7 +68,7 @@ export default function ActiveFiltersContainer() {
           )}
         </div>
       </div>
-      <div className="-col-end-1 flex h-7 items-center">
+      <div className="flex h-7 items-center">
         <Button color="transparent" size="xs" onClick={clearAll}>
           <Icon name="delete" size={14} />
           <span>Clear all</span>
