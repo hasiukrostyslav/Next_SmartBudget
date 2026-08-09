@@ -33,7 +33,7 @@ export default function TransactionsList({
     <SectionWrapper className="flex h-full min-h-0 flex-col overflow-hidden">
       <div
         className={clsx(
-          'relative grid min-h-0 flex-1 gap-x-4 grid-rows-[auto_minmax(0,1fr)]',
+          'relative grid min-h-0 flex-1 grid-rows-[auto_minmax(0,1fr)] gap-x-4',
           'grid-cols-[auto_1fr_1fr_1fr_auto_minmax(6rem,auto)_1fr_auto_auto]',
         )}
       >
