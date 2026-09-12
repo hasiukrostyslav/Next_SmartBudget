@@ -16,7 +16,7 @@ export function useSearchInput({
 }: useSearchInputProps) {
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(
-    searchParams.get('search') ?? '',
+    isUpdateSearchParam ? (searchParams.get('search') ?? '') : '',
   );
   const pathname = usePathname();
   const router = useRouter();
