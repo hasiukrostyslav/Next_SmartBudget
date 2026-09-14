@@ -4,7 +4,7 @@ import { useSyncExternalStore } from 'react';
 
 import { clsx } from 'clsx';
 
-import { DEFAULT_TIME_ZONE } from '@/lib/constants/constants';
+import { DEFAULT_TIME_ZONE, FORMAT_LOCALE } from '@/lib/constants/constants';
 
 interface TransactionDateProps {
   date: Date;
@@ -13,8 +13,8 @@ interface TransactionDateProps {
 
 export function formatTransactionDate(date: Date, timeZone?: string) {
   return {
-    date: new Intl.DateTimeFormat('uk', { timeZone }).format(date),
-    time: new Intl.DateTimeFormat('uk', {
+    date: new Intl.DateTimeFormat(FORMAT_LOCALE, { timeZone }).format(date),
+    time: new Intl.DateTimeFormat(FORMAT_LOCALE, {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',

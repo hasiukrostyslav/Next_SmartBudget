@@ -2,6 +2,8 @@
 
 import { useSyncExternalStore } from 'react';
 
+import { FORMAT_LOCALE, UI_LOCALE } from '@/lib/constants/constants';
+
 function subscribe(onTick: () => void) {
   const interval = setInterval(onTick, 1000);
   return () => clearInterval(interval);
@@ -24,14 +26,14 @@ export default function Time() {
 
   const date = new Date(seconds * 1000);
 
-  const formatDate = new Intl.DateTimeFormat('en-US', {
+  const formatDate = new Intl.DateTimeFormat(UI_LOCALE, {
     weekday: 'short',
     year: 'numeric',
     month: 'short',
     day: 'numeric',
   }).format(date);
 
-  const formatTime = new Intl.DateTimeFormat('uk', {
+  const formatTime = new Intl.DateTimeFormat(FORMAT_LOCALE, {
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric',

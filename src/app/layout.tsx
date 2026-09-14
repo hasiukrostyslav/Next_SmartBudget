@@ -5,6 +5,7 @@ import '@/styles/globals.css';
 
 import { ToastContainer } from 'react-toastify';
 
+import { UI_LOCALE } from '@/lib/constants/constants';
 import { METADATA_TEXT } from '@/lib/constants/messages';
 import { THEME_INIT_SCRIPT } from '@/lib/constants/theme';
 import ThemeProvider from '@/context/ThemeContext';
@@ -27,7 +28,7 @@ export default function RootLayout({
   return (
     // suppressHydrationWarning: THEME_INIT_SCRIPT adds the `dark` class to
     // <html> before React hydrates, so the attribute legitimately differs.
-    <html lang="en" suppressHydrationWarning>
+    <html lang={UI_LOCALE} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>

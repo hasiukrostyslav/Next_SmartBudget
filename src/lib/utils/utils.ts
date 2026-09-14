@@ -1,7 +1,7 @@
 import { TransactionItem } from '@/types/types';
 
 import {
-  DEFAULT_LOCALE,
+  FORMAT_LOCALE,
   PAGE_SIZE_OPTIONS,
   PAGINATION_RANGE,
 } from '../constants/constants';
@@ -126,7 +126,7 @@ export function calcDeletedBalance(item: TransactionItem[]) {
 
 // Format amount
 export function getFormattedAmount(amount: number) {
-  return new Intl.NumberFormat(DEFAULT_LOCALE, {
+  return new Intl.NumberFormat(FORMAT_LOCALE, {
     minimumFractionDigits: 2,
   }).format(amount);
 }
