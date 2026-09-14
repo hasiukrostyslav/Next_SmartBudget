@@ -16,10 +16,12 @@ import {
 // .default(): a partial built from TransactionSchema fills currency and status
 // back in, so an edit that changes only the name would reset both.
 const TransactionFields = z.object({
+  // Trim before checking the length: the other order accepted "   " and
+  // stored an empty name.
   transactionName: z
     .string()
-    .min(1, { message: 'Transaction name is required.' })
-    .trim(),
+    .trim()
+    .min(1, { message: 'Transaction name is required.' }),
   transactionCategory: z.enum(TRANSACTION_CATEGORIES, {
     message: 'Category is required.',
   }),
