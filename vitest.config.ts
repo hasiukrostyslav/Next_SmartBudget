@@ -12,6 +12,6 @@ export default defineConfig({
     // interleaves queries from concurrent connections, so test files run one
     // at a time; the suite is small enough that this costs little.
     fileParallelism: false,
-    include: ['src/**/*.test.ts', 'scripts/**/*.test.ts'],
+    include: ['src/**/*.test.{ts,tsx}', 'scripts/**/*.test.ts'],
   },
 });
