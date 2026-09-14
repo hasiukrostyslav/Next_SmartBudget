@@ -14,6 +14,7 @@ import { OperationType } from '@/lib/constants/enums';
 import {
   CREATE_TRANSACTION_FIELDS,
   CURRENCY_CONFIG,
+  toPaymentMethod,
 } from '@/lib/constants/transactions';
 import { CopyTransactionSchema } from '@/lib/schemas/transaction.schema';
 import { callAction } from '@/lib/utils/callAction';
@@ -71,7 +72,10 @@ export default function CopyTransactionForm({
           transactionName: sourceTransaction.transactionName,
           transactionType: sourceTransaction.transactionType,
           transactionCategory: sourceTransaction.transactionCategory,
-          paymentMethod: sourceTransaction.paymentMethod,
+          // The copy has no payment field; a legacy value becomes Card, which
+          // is what the row's icon already shows for it.
+          paymentMethod:
+            toPaymentMethod(sourceTransaction.paymentMethod) ?? 'Card',
           status: sourceTransaction.status,
         }),
       );

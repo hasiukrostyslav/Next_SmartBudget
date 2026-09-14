@@ -21,7 +21,9 @@ import {
 import {
   CREATE_TRANSACTION_FIELDS,
   CURRENCY_CONFIG,
+  PAYMENT_METHODS,
   STATUS_CONFIG,
+  toPaymentMethod,
   TRANSACTION_CATEGORIES_CONFIG,
   TRANSACTION_TYPE_CONFIG,
 } from '@/lib/constants/transactions';
@@ -68,7 +70,8 @@ export default function TransactionForm(props: TransactionFormProps) {
           status: props.item.status,
           transactionCategory: props.item.transactionCategory,
           createdAt: props.item.createdAt,
-          paymentMethod: props.item.paymentMethod,
+          // A legacy value is left empty so the user picks Card or Cash.
+          paymentMethod: toPaymentMethod(props.item.paymentMethod),
           description: props.item.description ?? '',
         }
       : {
@@ -270,10 +273,9 @@ export default function TransactionForm(props: TransactionFormProps) {
               control={control}
               name={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.name}
               render={({ field }) => (
-                // Should be fixed in the future!!!
                 <Select
                   label={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.label}
-                  options={['Cash', 'Card'].map((payment) => ({
+                  options={PAYMENT_METHODS.map((payment) => ({
                     value: payment,
                     label: payment,
                   }))}

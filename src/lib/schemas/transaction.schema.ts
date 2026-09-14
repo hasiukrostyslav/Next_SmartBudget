@@ -28,7 +28,9 @@ const TransactionFields = z.object({
   transactionType: z.enum(TRANSACTION_TYPES, {
     error: 'Transaction type is required.',
   }),
-  paymentMethod: z.string().min(1, { message: 'Payment method is required.' }),
+  paymentMethod: z.enum(PAYMENT_METHODS, {
+    message: 'Payment method is required.',
+  }),
   currency: z.enum(CURRENCIES),
   amount: z.coerce
     .number()
