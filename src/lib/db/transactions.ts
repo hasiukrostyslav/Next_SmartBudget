@@ -1,18 +1,18 @@
 import z from 'zod';
 
-import { UpdateTransactionData } from '@/types/types';
-
 import { PAGE_SIZE_OPTIONS } from '../constants/constants';
 import { Status, TransactionCategories } from '../constants/enums';
 import { TRANSACTION_SORT_FIELD_MAP } from '../constants/transactions';
 import {
   SearchParamsSchema,
   TransactionSchema,
+  UpdateTransactionSchema,
 } from '../schemas/transaction.schema';
 import { db } from './db';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 type CreateTransactionDataType = z.infer<typeof TransactionSchema>;
+type UpdateTransactionDataType = z.infer<typeof UpdateTransactionSchema>;
 
 // Find Transactions
 export async function findTransactionsByUserId(
@@ -127,7 +127,7 @@ export async function createTransaction(
 export async function updateTransactionById(
   id: string,
   userId: string,
-  data: UpdateTransactionData,
+  data: UpdateTransactionDataType,
 ) {
   return db.transactions.updateMany({
     where: { transactionId: id, userId },

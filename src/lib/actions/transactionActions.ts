@@ -24,12 +24,25 @@ import {
   updateTransactionStatusMany,
 } from '../db/transactions';
 import {
+  CategorySchema,
+  IdListSchema,
+  IdSchema,
   SearchParamsSchema,
+  StatusSchema,
   TransactionSchema,
+  UpdateTransactionSchema,
 } from '../schemas/transaction.schema';
 
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 type CreateTransactionDataType = z.infer<typeof TransactionSchema>;
+
+// Server Actions are public POST endpoints: TypeScript parameter types do not
+// exist at runtime, so every mutation parses its input before touching the DB.
+const invalidInput = () => ({
+  success: false,
+  status: HTTP_STATUS.UNPROCESSABLE_ENTITY,
+  error: ERROR_MESSAGES.transaction.INVALID,
+});
 
 async function getUserId(): Promise<string | null> {
   const session = await auth();
@@ -131,8 +144,16 @@ export async function editTransaction(id: string, data: UpdateTransactionData) {
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
+  const parsedId = IdSchema.safeParse(id);
+  const parsedData = UpdateTransactionSchema.safeParse(data);
+  if (!parsedId.success || !parsedData.success) return invalidInput();
+
   try {
-    const result = await updateTransactionById(id, userId, data);
+    const result = await updateTransactionById(
+      parsedId.data,
+      userId,
+      parsedData.data,
+    );
     revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
@@ -157,11 +178,15 @@ export async function changeTransactionStatus(
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
+  const parsedIds = IdListSchema.safeParse(transactionIds);
+  const parsedStatus = StatusSchema.safeParse(status);
+  if (!parsedIds.success || !parsedStatus.success) return invalidInput();
+
   try {
     const result = await updateTransactionStatusMany(
-      transactionIds,
+      parsedIds.data,
       userId,
-      status,
+      parsedStatus.data,
     );
     revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: HTTP_STATUS.OK, data: result };
@@ -187,11 +212,15 @@ export async function changeTransactionCategory(
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
+  const parsedIds = IdListSchema.safeParse(transactionIds);
+  const parsedCategory = CategorySchema.safeParse(category);
+  if (!parsedIds.success || !parsedCategory.success) return invalidInput();
+
   try {
     const result = await updateTransactionCategoryMany(
-      transactionIds,
+      parsedIds.data,
       userId,
-      category,
+      parsedCategory.data,
     );
     revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: HTTP_STATUS.OK, data: result };
@@ -215,8 +244,11 @@ export async function deleteTransaction(transactionId: string) {
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
+  const parsedId = IdSchema.safeParse(transactionId);
+  if (!parsedId.success) return invalidInput();
+
   try {
-    const result = await deleteTransactionById(transactionId, userId);
+    const result = await deleteTransactionById(parsedId.data, userId);
     revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
@@ -238,8 +270,11 @@ export async function deleteManyTransaction(transactionId: string[]) {
       error: ERROR_MESSAGES.UNAUTHORIZED,
     };
 
+  const parsedIds = IdListSchema.safeParse(transactionId);
+  if (!parsedIds.success) return invalidInput();
+
   try {
-    const result = await deleteTransactionsMany(transactionId, userId);
+    const result = await deleteTransactionsMany(parsedIds.data, userId);
     revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {

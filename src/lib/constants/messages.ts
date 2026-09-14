@@ -23,6 +23,7 @@ export const ERROR_MESSAGES = {
     FETCH_MANY: 'Failed to fetch transactions',
     FETCH_ONE: 'Failed to fetch transaction',
     NOT_FOUND: 'Transaction not found',
+    INVALID: 'Some of the submitted values are invalid.',
     CREATE: 'Failed to create transaction',
     UPDATE: 'Failed to update transaction',
     UPDATE_STATUS: 'Failed to update transaction status',

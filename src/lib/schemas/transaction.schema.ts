@@ -8,7 +8,10 @@ import {
 } from '../constants/enums';
 import { TRANSACTION_SORT_OPTIONS } from '../constants/transactions';
 
-export const TransactionSchema = z.object({
+// Field rules without defaults. Kept separate because Zod's .partial() keeps
+// .default(): a partial built from TransactionSchema fills currency and status
+// back in, so an edit that changes only the name would reset both.
+const TransactionFields = z.object({
   transactionName: z
     .string()
     .min(1, { message: 'Transaction name is required.' })
@@ -20,18 +23,38 @@ export const TransactionSchema = z.object({
     error: 'Transaction type is required.',
   }),
   paymentMethod: z.string().min(1, { message: 'Payment method is required.' }),
-  currency: z.enum(CURRENCIES).default('UAH'),
+  currency: z.enum(CURRENCIES),
   amount: z.coerce
     .number()
     .positive({ message: 'Amount must be a positive number.' }),
+  // Absent stays absent: a partial edit that omits the note must not clear it.
+  // Empty or whitespace-only becomes null, which does clear it.
   description: z
     .string()
     .nullish()
-    .transform((v) => v?.trim() || null)
+    .transform((v) => (v === undefined ? undefined : v?.trim() || null))
     .optional(),
-  status: z.enum(STATUSES).default('COMPLETED'),
+  status: z.enum(STATUSES),
   createdAt: z.date(),
 });
+
+export const TransactionSchema = TransactionFields.extend({
+  currency: z.enum(CURRENCIES).default('UAH'),
+  status: z.enum(STATUSES).default('COMPLETED'),
+});
+
+// Unknown keys (userId, transactionId, updatedAt) are stripped by z.object.
+export const UpdateTransactionSchema = TransactionFields.partial();
+
+// Two id formats live in these columns: Prisma's cuid() for rows created here
+// and cuid2 for rows created by the Express server, so no .cuid() check.
+export const IdSchema = z.string().min(1).max(64);
+
+// One page of the list is the most a bulk action can select.
+export const IdListSchema = z.array(IdSchema).min(1).max(100);
+
+export const StatusSchema = z.enum(STATUSES);
+export const CategorySchema = z.enum(TRANSACTION_CATEGORIES);
 
 export const CopyTransactionSchema = TransactionSchema.pick({
   createdAt: true,
