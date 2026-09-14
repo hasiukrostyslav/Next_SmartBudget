@@ -25,5 +25,7 @@ export async function verifyCredentials(credentials: unknown) {
 
   if (!user?.password || !isValidPassword) return null;
 
-  return user;
+  // Only what the session needs. Auth.js passes this object to every callback
+  // and event, so the password hash must never be part of it.
+  return { id: user.id, name: user.name, email: user.email, image: user.image };
 }
