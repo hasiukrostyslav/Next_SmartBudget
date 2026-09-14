@@ -14,7 +14,7 @@ export default function Modal({ ref, children, className }: ModalProps) {
         'outline-input top-1/2 left-1/2 -translate-1/2 rounded-xl text-left',
         'overflow-visible bg-slate-50 dark:bg-slate-800',
         'backdrop:bg-slate-400/60 dark:backdrop:bg-slate-700/60',
-        `${className}`,
+        className,
       )}
     >
       {children}
