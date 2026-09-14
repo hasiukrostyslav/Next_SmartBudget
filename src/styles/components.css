@@ -52,11 +52,22 @@
     scrollbar-color: var(--color-slate-700) var(--color-slate-900);
   }
 
-  .visible-hover-show:hover > div:last-child {
-    visibility: visible;
-  }
+  /* Row actions show on hover or while focus is inside the row. Hidden with
+     opacity, not visibility: visibility: hidden also takes the buttons out of
+     the tab order, so a keyboard user could never edit or delete a row. */
   .visible-hide > div:last-child {
-    visibility: hidden;
+    opacity: 0;
+    transition: opacity 100ms;
+  }
+  .visible-hover-show:hover > div:last-child,
+  .visible-hover-show:focus-within > div:last-child {
+    opacity: 1;
+  }
+  /* Touch screens have no hover to reveal them. */
+  @media (hover: none) {
+    .visible-hide > div:last-child {
+      opacity: 1;
+    }
   }
   div.next-sibling:hover + div {
     border-color: transparent !important;
