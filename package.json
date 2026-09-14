@@ -7,7 +7,8 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint .",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db:replay": "node scripts/replay-migrations.mjs"
   },
   "dependencies": {
     "@auth/prisma-adapter": "2.11.3",
@@ -32,6 +33,7 @@
     "zod": "^4.3.4"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
     "@eslint/eslintrc": "^3.3.3",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
     "@next/eslint-plugin-next": "^16.3.5",
