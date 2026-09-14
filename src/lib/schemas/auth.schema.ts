@@ -1,11 +1,19 @@
 import * as z from 'zod';
 
+// Emails are trimmed and lowercased before validation, so "Foo@Example.com "
+// and "foo@example.com" are one account.
+const EmailSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .pipe(z.email({ message: 'Please enter a valid email.' }));
+
 export const SignUpSchema = z.object({
   name: z
     .string()
     .min(2, { message: 'Name must be at least 2 characters long.' })
     .trim(),
-  email: z.email({ message: 'Please enter a valid email.' }).trim(),
+  email: EmailSchema,
   password: z
     .string()
     .min(8, { message: 'Password should be at least 8 characters long.' })
@@ -23,6 +31,6 @@ export const SignUpSchema = z.object({
 // password changes: enforcing them here locked out every account whose
 // password predates the policy, and showed the policy to anyone at the door.
 export const SignInSchema = z.object({
-  email: z.email({ message: 'Please enter a valid email.' }).trim(),
+  email: EmailSchema,
   password: z.string().min(1, { message: 'Password is required.' }),
 });
