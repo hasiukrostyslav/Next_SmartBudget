@@ -4,6 +4,8 @@ import { useTransition } from 'react';
 
 import clsx from 'clsx';
 
+import type { ItemType } from '@/types/types';
+
 import { changeTransactionStatus } from '@/lib/actions/transactionActions';
 import { OperationType, Status, STATUSES } from '@/lib/constants/enums';
 import { STATUS_CONFIG } from '@/lib/constants/transactions';
@@ -18,6 +20,7 @@ import ModalFooter from '../ui/modals/ModalFooter';
 import ModalHeader from '../ui/modals/ModalHeader';
 
 interface EditItemStatusFormProps {
+  itemType: ItemType;
   onClose: () => void;
   selectedItems: {
     id: string;
@@ -26,12 +29,15 @@ interface EditItemStatusFormProps {
 }
 
 export default function EditItemStatusForm({
+  itemType,
   onClose,
   selectedItems,
 }: EditItemStatusFormProps) {
   const [isPending, startTransition] = useTransition();
   const { selectedValue, handleSelect } = useSelectValue({});
   const { toastSuccess, toastError } = useToast();
+  // Toasts name what was acted on, e.g. "Payment deleted".
+  const entity = itemType.charAt(0).toUpperCase() + itemType.slice(1);
   const initialValue = [...new Set(selectedItems.map((el) => el.status))];
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -47,9 +53,9 @@ export default function EditItemStatusForm({
 
       if (result.success) {
         onClose();
-        toastSuccess(OperationType.EDIT, 'Transaction');
+        toastSuccess(OperationType.EDIT, entity);
       } else {
-        toastError(OperationType.EDIT, 'Transaction', result.error);
+        toastError(OperationType.EDIT, entity, result.error);
       }
     });
   };
@@ -61,7 +67,7 @@ export default function EditItemStatusForm({
     >
       <ModalHeader
         operationType="editStatus"
-        itemType="transaction"
+        itemType={itemType}
         onClose={onClose}
       />
 
@@ -103,7 +109,7 @@ export default function EditItemStatusForm({
 
       <ModalFooter
         operationType={OperationType.EDIT}
-        itemType="transaction"
+        itemType={itemType}
         disabled={
           isPending ||
           !selectedValue ||

@@ -29,6 +29,8 @@ export default function DeleteForm({
 }: DeleteFormProps) {
   const [isPending, startTransition] = useTransition();
   const { toastSuccess, toastError } = useToast();
+  // Toasts name what was acted on, e.g. "Payment deleted".
+  const entity = itemType.charAt(0).toUpperCase() + itemType.slice(1);
 
   const handleDelete = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,9 +40,9 @@ export default function DeleteForm({
 
       if (result.success) {
         onClose();
-        toastSuccess(OperationType.DELETE, 'Transaction');
+        toastSuccess(OperationType.DELETE, entity);
       } else {
-        toastError(OperationType.DELETE, 'Transaction', result.error);
+        toastError(OperationType.DELETE, entity, result.error);
       }
     });
   };
