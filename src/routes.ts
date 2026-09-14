@@ -6,13 +6,12 @@ export const publicRoutes = ['/'];
 
 export const LOGIN_PATH = '/auth/login';
 export const SIGN_UP_PATH = '/auth/signup';
-export const FORGOT_PASSWORD_PATH = '/auth/forgot-password';
 
 /**
  * An array of routes that are used for authentication.
  * These routes will redirect logged users to /dashboard.
  */
-export const authRoutes = [LOGIN_PATH, SIGN_UP_PATH, FORGOT_PASSWORD_PATH];
+export const authRoutes = [LOGIN_PATH, SIGN_UP_PATH];
 
 /**
  * The prefix for API authentication routes.

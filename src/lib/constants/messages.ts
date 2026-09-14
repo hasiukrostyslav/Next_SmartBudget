@@ -4,7 +4,6 @@ export const METADATA_TEXT = {
     title: 'Welcome | SmartBudget',
     description: 'Smart Money, Bright Tomorrow',
   },
-  FORGOT_PASSWORD: 'Forgot Password',
   SIGN_IN: 'Sign In',
   SIGN_UP: 'Sign Up',
   NOT_FOUND_PAGE: 'Page not Found',

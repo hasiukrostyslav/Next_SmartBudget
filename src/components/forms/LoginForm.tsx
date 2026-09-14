@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
-import { FORGOT_PASSWORD_PATH } from '@/routes';
 import { login } from '@/lib/actions/authActions';
 import { INPUT_PLACEHOLDER } from '@/lib/constants/messages';
 import { SignInSchema } from '@/lib/schemas/auth.schema';
@@ -17,7 +16,6 @@ import Button from '../ui/buttons/Button';
 import FormError from '../ui/feedback/FormError';
 import Spinner from '../ui/feedback/Spinner';
 import Input from '../ui/inputs/Input';
-import AuthLink from '../ui/links/AuthLink';
 
 type FormInputs = z.infer<typeof SignInSchema>;
 
@@ -72,13 +70,15 @@ export default function LoginForm() {
         }}
       />
 
-      <AuthLink href={FORGOT_PASSWORD_PATH} className="mb-3 self-end">
-        Forgot password
-      </AuthLink>
-
       {serverError && <FormError message={serverError} />}
 
-      <Button size="lg" color="black" disabled={isPending} type="submit">
+      <Button
+        size="lg"
+        color="black"
+        disabled={isPending}
+        type="submit"
+        className="mt-3"
+      >
         {!isPending ? (
           'Sign In'
         ) : (
