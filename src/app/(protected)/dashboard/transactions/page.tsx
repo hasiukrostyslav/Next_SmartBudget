@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { cache, Suspense } from 'react';
 
 import { TRANSACTIONS_PATH } from '@/routes';
 import { getTransactions } from '@/lib/actions/transactionActions';
@@ -19,12 +19,18 @@ type SearchParamsType = { [key: string]: string | string[] | undefined };
 
 type ParsedParams = ReturnType<typeof SearchParamsSchema.safeParse>['data'];
 
+// The list and the pagination render in separate Suspense boundaries and both
+// need the same page of data. cache() memoises per request by argument
+// identity, and both receive the same parsedParams object, so the query (a
+// findMany plus a count) runs once instead of twice.
+const getTransactionsForRequest = cache(getTransactions);
+
 async function TransactionsListContent({
   parsedParams,
 }: {
   parsedParams: ParsedParams;
 }) {
-  const result = await getTransactions(parsedParams);
+  const result = await getTransactionsForRequest(parsedParams);
 
   if (!result.success || !result.data)
     return (
@@ -65,7 +71,7 @@ async function TransactionsPaginationContent({
 }: {
   parsedParams: ParsedParams;
 }) {
-  const result = await getTransactions(parsedParams);
+  const result = await getTransactionsForRequest(parsedParams);
 
   if (!result.success || !result.data) return null;
 
