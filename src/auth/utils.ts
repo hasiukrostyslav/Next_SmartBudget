@@ -22,6 +22,9 @@ export async function signInUser(email: string, password: string) {
           error: ERROR_MESSAGES.auth.INVALID_EMAIL_OR_PASSWORD,
         };
       }
+      // Anything else — the user lookup failing, a misconfiguration — is not
+      // the user's fault and must not read as a wrong password. Log it.
+      console.error('[signInUser]', error);
       return { success: false, error: ERROR_MESSAGES.SOMETHING_WENT_WRONG };
     }
     throw error;

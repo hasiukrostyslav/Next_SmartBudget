@@ -7,6 +7,7 @@ import { signInUser } from '@/auth/utils';
 
 import { SALT_ROUNDS } from '../constants/constants';
 import { ERROR_MESSAGES } from '../constants/messages';
+import { isUniqueConstraintError } from '../db/errors';
 import { createUser, getUserByEmail } from '../db/users';
 import { SignInSchema, SignUpSchema } from '../schemas/auth.schema';
 
@@ -25,19 +26,28 @@ export async function signUp(formData: SignUpFormData) {
 
   const { email, password, name } = validatedFields.data;
 
-  // Checking if account with provided email exist
-  const existingUser = await getUserByEmail(email);
+  try {
+    // Checking if account with provided email exist
+    const existingUser = await getUserByEmail(email);
 
-  if (existingUser)
-    return {
-      error: ERROR_MESSAGES.auth.EMAIL_EXISTS,
-    };
+    if (existingUser)
+      return {
+        error: ERROR_MESSAGES.auth.EMAIL_EXISTS,
+      };
 
-  // Hash password
-  const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    // Hash password and create the user. Sign-in only happens once the row
+    // is known to exist.
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    await createUser(name, email, hashedPassword);
+  } catch (error) {
+    // Two sign-ups for the same email can both pass the check above; the
+    // unique index on users.email decides which one wins.
+    if (isUniqueConstraintError(error))
+      return { error: ERROR_MESSAGES.auth.EMAIL_EXISTS };
 
-  // Create new user
-  await createUser(name, email, hashedPassword);
+    console.error('[signUp]', error);
+    return { error: ERROR_MESSAGES.SOMETHING_WENT_WRONG };
+  }
 
   // Sign In
   const result = await signInUser(email, password);

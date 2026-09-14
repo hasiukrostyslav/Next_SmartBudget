@@ -1,23 +1,15 @@
 import { db } from './db';
 
-export async function getUserByEmail(email: string) {
-  try {
-    const user = await db.users.findUnique({ where: { email } });
+// These deliberately do not catch. A missing row is `null`; a failing query is
+// an exception. Collapsing both into `null` made a database outage look like
+// "Invalid email or password!" and let sign-up carry on after a failed INSERT.
 
-    return user;
-  } catch {
-    return null;
-  }
+export async function getUserByEmail(email: string) {
+  return db.users.findUnique({ where: { email } });
 }
 
 export async function getUserById(id: string) {
-  try {
-    const user = await db.users.findUnique({ where: { id } });
-
-    return user;
-  } catch {
-    return null;
-  }
+  return db.users.findUnique({ where: { id } });
 }
 
 export async function createUser(
@@ -25,15 +17,11 @@ export async function createUser(
   email: string,
   password: string,
 ) {
-  try {
-    await db.users.create({
-      data: {
-        name,
-        email,
-        password,
-      },
-    });
-  } catch {
-    return null;
-  }
+  return db.users.create({
+    data: {
+      name,
+      email,
+      password,
+    },
+  });
 }
