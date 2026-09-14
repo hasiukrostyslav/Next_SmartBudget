@@ -4,8 +4,6 @@ import { revalidatePath } from 'next/cache';
 
 import z from 'zod';
 
-import { UpdateTransactionData } from '@/types/types';
-
 import { TRANSACTIONS_PATH } from '@/routes';
 import { auth } from '@/auth/auth';
 
@@ -28,72 +26,86 @@ import {
   TransactionSchema,
   UpdateTransactionSchema,
 } from '../schemas/transaction.schema';
+import type { ActionFailure, ActionResult } from './types';
 
-type CreateTransactionDataType = z.infer<typeof TransactionSchema>;
+// Only mutations belong in this module: every export of a 'use server' file is
+// a public POST endpoint. Reads live in lib/data.
+
+type CreatedTransaction = Awaited<ReturnType<typeof create>>;
+type WriteResult = Awaited<ReturnType<typeof updateTransactionById>>;
+
+const unauthorized = (): ActionFailure => ({
+  success: false,
+  status: HTTP_STATUS.UNAUTHORIZED,
+  error: ERROR_MESSAGES.UNAUTHORIZED,
+});
 
 // Server Actions are public POST endpoints: TypeScript parameter types do not
 // exist at runtime, so every mutation parses its input before touching the DB.
-const invalidInput = () => ({
+const invalidInput = (
+  fieldErrors?: ActionFailure['fieldErrors'],
+): ActionFailure => ({
   success: false,
   status: HTTP_STATUS.UNPROCESSABLE_ENTITY,
   error: ERROR_MESSAGES.transaction.INVALID,
+  ...(fieldErrors && { fieldErrors }),
 });
+
+const serverError = (
+  label: string,
+  error: unknown,
+  message: string,
+): ActionFailure => {
+  console.error(`[${label}]`, error);
+  return {
+    success: false,
+    status: HTTP_STATUS.SERVER_ERROR,
+    error: message,
+  };
+};
 
 async function getUserId(): Promise<string | null> {
   const session = await auth();
   return session?.user?.id ?? null;
 }
 
-// Only mutations belong in this module: every export of a 'use server' file
-// is a public POST endpoint. Reads live in lib/data.
-
 // Create Transaction
 export async function createTransaction(
-  transaction: z.infer<typeof TransactionSchema>,
-) {
+  transaction: z.input<typeof TransactionSchema>,
+): Promise<ActionResult<CreatedTransaction>> {
   const userId = await getUserId();
-  if (!userId)
-    return {
-      success: false,
-      status: HTTP_STATUS.UNAUTHORIZED,
-      error: ERROR_MESSAGES.UNAUTHORIZED,
-    };
+  if (!userId) return unauthorized();
 
   const parsed = TransactionSchema.safeParse(transaction);
   if (!parsed.success)
-    return {
-      success: false,
-      status: HTTP_STATUS.UNPROCESSABLE_ENTITY,
-      error: parsed.error.flatten().fieldErrors,
-    };
+    return invalidInput(z.flattenError(parsed.error).fieldErrors);
 
   try {
-    const data = await create(userId, parsed.data as CreateTransactionDataType);
+    const data = await create(userId, parsed.data);
     revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: HTTP_STATUS.CREATED, data };
   } catch (error) {
-    console.error('[createTransaction]', error);
-    return {
-      success: false,
-      status: HTTP_STATUS.SERVER_ERROR,
-      error: ERROR_MESSAGES.transaction.CREATE,
-    };
+    return serverError(
+      'createTransaction',
+      error,
+      ERROR_MESSAGES.transaction.CREATE,
+    );
   }
 }
 
 // Edit Transactions
-export async function editTransaction(id: string, data: UpdateTransactionData) {
+export async function editTransaction(
+  id: string,
+  data: z.input<typeof UpdateTransactionSchema>,
+): Promise<ActionResult<WriteResult>> {
   const userId = await getUserId();
-  if (!userId)
-    return {
-      success: false,
-      status: HTTP_STATUS.UNAUTHORIZED,
-      error: ERROR_MESSAGES.UNAUTHORIZED,
-    };
+  if (!userId) return unauthorized();
 
   const parsedId = IdSchema.safeParse(id);
   const parsedData = UpdateTransactionSchema.safeParse(data);
-  if (!parsedId.success || !parsedData.success) return invalidInput();
+  if (!parsedData.success)
+    return invalidInput(z.flattenError(parsedData.error).fieldErrors);
+  if (!parsedId.success) return invalidInput();
 
   try {
     const result = await updateTransactionById(
@@ -104,26 +116,20 @@ export async function editTransaction(id: string, data: UpdateTransactionData) {
     revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
-    console.error('[editTransaction]', error);
-    return {
-      success: false,
-      status: HTTP_STATUS.SERVER_ERROR,
-      error: ERROR_MESSAGES.transaction.UPDATE,
-    };
+    return serverError(
+      'editTransaction',
+      error,
+      ERROR_MESSAGES.transaction.UPDATE,
+    );
   }
 }
 
 export async function changeTransactionStatus(
   transactionIds: string[],
   status: Status,
-) {
+): Promise<ActionResult<WriteResult>> {
   const userId = await getUserId();
-  if (!userId)
-    return {
-      success: false,
-      status: HTTP_STATUS.UNAUTHORIZED,
-      error: ERROR_MESSAGES.UNAUTHORIZED,
-    };
+  if (!userId) return unauthorized();
 
   const parsedIds = IdListSchema.safeParse(transactionIds);
   const parsedStatus = StatusSchema.safeParse(status);
@@ -138,26 +144,20 @@ export async function changeTransactionStatus(
     revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
-    console.error('[changeTransactionStatus]', error);
-    return {
-      success: false,
-      status: HTTP_STATUS.SERVER_ERROR,
-      error: ERROR_MESSAGES.transaction.UPDATE_STATUS,
-    };
+    return serverError(
+      'changeTransactionStatus',
+      error,
+      ERROR_MESSAGES.transaction.UPDATE_STATUS,
+    );
   }
 }
 
 export async function changeTransactionCategory(
   transactionIds: string[],
   category: TransactionCategories,
-) {
+): Promise<ActionResult<WriteResult>> {
   const userId = await getUserId();
-  if (!userId)
-    return {
-      success: false,
-      status: HTTP_STATUS.UNAUTHORIZED,
-      error: ERROR_MESSAGES.UNAUTHORIZED,
-    };
+  if (!userId) return unauthorized();
 
   const parsedIds = IdListSchema.safeParse(transactionIds);
   const parsedCategory = CategorySchema.safeParse(category);
@@ -172,24 +172,20 @@ export async function changeTransactionCategory(
     revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
-    console.error('[changeTransactionCategory]', error);
-    return {
-      success: false,
-      status: HTTP_STATUS.SERVER_ERROR,
-      error: ERROR_MESSAGES.transaction.UPDATE_CATEGORY,
-    };
+    return serverError(
+      'changeTransactionCategory',
+      error,
+      ERROR_MESSAGES.transaction.UPDATE_CATEGORY,
+    );
   }
 }
 
 // Delete transactions
-export async function deleteTransaction(transactionId: string) {
+export async function deleteTransaction(
+  transactionId: string,
+): Promise<ActionResult<WriteResult>> {
   const userId = await getUserId();
-  if (!userId)
-    return {
-      success: false,
-      status: HTTP_STATUS.UNAUTHORIZED,
-      error: ERROR_MESSAGES.UNAUTHORIZED,
-    };
+  if (!userId) return unauthorized();
 
   const parsedId = IdSchema.safeParse(transactionId);
   if (!parsedId.success) return invalidInput();
@@ -199,23 +195,19 @@ export async function deleteTransaction(transactionId: string) {
     revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
-    console.error('[deleteTransaction]', error);
-    return {
-      success: false,
-      status: HTTP_STATUS.SERVER_ERROR,
-      error: ERROR_MESSAGES.transaction.DELETE,
-    };
+    return serverError(
+      'deleteTransaction',
+      error,
+      ERROR_MESSAGES.transaction.DELETE,
+    );
   }
 }
 
-export async function deleteManyTransaction(transactionId: string[]) {
+export async function deleteManyTransaction(
+  transactionId: string[],
+): Promise<ActionResult<WriteResult>> {
   const userId = await getUserId();
-  if (!userId)
-    return {
-      success: false,
-      status: HTTP_STATUS.UNAUTHORIZED,
-      error: ERROR_MESSAGES.UNAUTHORIZED,
-    };
+  if (!userId) return unauthorized();
 
   const parsedIds = IdListSchema.safeParse(transactionId);
   if (!parsedIds.success) return invalidInput();
@@ -225,11 +217,10 @@ export async function deleteManyTransaction(transactionId: string[]) {
     revalidatePath(TRANSACTIONS_PATH);
     return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
-    console.error('[deleteManyTransaction]', error);
-    return {
-      success: false,
-      status: HTTP_STATUS.SERVER_ERROR,
-      error: ERROR_MESSAGES.transaction.DELETE_MANY,
-    };
+    return serverError(
+      'deleteManyTransaction',
+      error,
+      ERROR_MESSAGES.transaction.DELETE_MANY,
+    );
   }
 }

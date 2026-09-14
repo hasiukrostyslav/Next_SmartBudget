@@ -49,7 +49,7 @@ export default function EditItemStatusForm({
         onClose();
         toastSuccess(OperationType.EDIT, 'Transaction');
       } else {
-        toastError(OperationType.EDIT, 'Transaction', result?.error as string);
+        toastError(OperationType.EDIT, 'Transaction', result.error);
       }
     });
   };

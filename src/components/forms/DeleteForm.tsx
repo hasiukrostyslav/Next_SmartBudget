@@ -5,6 +5,7 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 
 import { ItemType, TransactionItem } from '@/types/types';
 
+import type { ActionResult } from '@/lib/actions/types';
 import { OperationType } from '@/lib/constants/enums';
 import { callAction } from '@/lib/utils/callAction';
 import { calcDeletedBalance, getFormattedAmount } from '@/lib/utils/utils';
@@ -17,7 +18,7 @@ interface DeleteFormProps {
   itemType: ItemType;
   items: TransactionItem[];
   onClose: () => void;
-  onSubmit: () => Promise<{ success: boolean; status: number; error?: string }>;
+  onSubmit: () => Promise<ActionResult<unknown>>;
 }
 
 export default function DeleteForm({
@@ -39,11 +40,7 @@ export default function DeleteForm({
         onClose();
         toastSuccess(OperationType.DELETE, 'Transaction');
       } else {
-        toastError(
-          OperationType.DELETE,
-          'Transaction',
-          result?.error as string,
-        );
+        toastError(OperationType.DELETE, 'Transaction', result.error);
       }
     });
   };

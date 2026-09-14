@@ -79,11 +79,7 @@ export default function CopyTransactionForm({
         onClose();
         toastSuccess(OperationType.CREATE, 'Transaction');
       } else {
-        toastError(
-          OperationType.CREATE,
-          'Transaction',
-          result?.error as string,
-        );
+        toastError(OperationType.CREATE, 'Transaction', result.error);
       }
     });
   }

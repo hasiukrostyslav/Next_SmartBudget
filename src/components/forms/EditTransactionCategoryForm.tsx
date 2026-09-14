@@ -69,7 +69,7 @@ export default function EditTransactionCategoryForm({
         onClose();
         toastSuccess(OperationType.EDIT, 'Transaction');
       } else {
-        toastError(OperationType.EDIT, 'Transaction', result?.error as string);
+        toastError(OperationType.EDIT, 'Transaction', result.error);
       }
     });
   };

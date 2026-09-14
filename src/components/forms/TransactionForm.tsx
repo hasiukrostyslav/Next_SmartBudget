@@ -99,7 +99,7 @@ export default function TransactionForm(props: TransactionFormProps) {
         toastError(
           isEdit ? OperationType.EDIT : OperationType.CREATE,
           'Transaction',
-          result?.error as string,
+          result.error,
         );
       }
     });
