@@ -1,10 +1,17 @@
 import { cache, Suspense } from 'react';
 
+import { redirect } from 'next/navigation';
+
 import { TRANSACTIONS_PATH } from '@/routes';
 import { getTransactions } from '@/lib/actions/transactionActions';
 import { EMPTY_STATE_TEXT } from '@/lib/constants/messages';
 import { TRANSACTION_FILTERS } from '@/lib/constants/navigation';
 import { SearchParamsSchema } from '@/lib/schemas/transaction.schema';
+import {
+  normaliseSearchParams,
+  RawSearchParams,
+  toQueryString,
+} from '@/lib/utils/searchParams';
 import { hasActiveFilters } from '@/lib/utils/utils';
 
 import TransactionsCTA from '@/components/ui/features/transactions/TransactionsCTA';
@@ -15,9 +22,7 @@ import Error from '@/components/ui/feedback/Error';
 import LoadingOverlay from '@/components/ui/feedback/LoadingOverlay';
 import PaginationTable from '@/components/ui/pagination/PaginationTable';
 
-type SearchParamsType = { [key: string]: string | string[] | undefined };
-
-type ParsedParams = ReturnType<typeof SearchParamsSchema.safeParse>['data'];
+type ParsedParams = ReturnType<typeof SearchParamsSchema.parse>;
 
 // The list and the pagination render in separate Suspense boundaries and both
 // need the same page of data. cache() memoises per request by argument
@@ -27,8 +32,10 @@ const getTransactionsForRequest = cache(getTransactions);
 
 async function TransactionsListContent({
   parsedParams,
+  query,
 }: {
   parsedParams: ParsedParams;
+  query: string;
 }) {
   const result = await getTransactionsForRequest(parsedParams);
 
@@ -45,7 +52,19 @@ async function TransactionsListContent({
       />
     );
 
-  if (result.data.transactions.length < 1) {
+  const { transactions, transactionCount } = result.data;
+
+  // A page past the end (the last rows on it were deleted, or the URL was
+  // edited) would otherwise show "No transactions yet" while rows exist.
+  const lastPage = Math.ceil(transactionCount / parsedParams.limit);
+  if (transactions.length < 1 && lastPage > 0 && parsedParams.page > lastPage) {
+    const target = new URLSearchParams(query);
+    target.set('page', String(lastPage));
+    target.sort();
+    redirect(`${TRANSACTIONS_PATH}?${target}`);
+  }
+
+  if (transactions.length < 1) {
     const isFilterApplied = hasActiveFilters(parsedParams, TRANSACTION_FILTERS);
 
     return (
@@ -63,7 +82,7 @@ async function TransactionsListContent({
     );
   }
 
-  return <TransactionsList data={result.data.transactions} />;
+  return <TransactionsList data={transactions} />;
 }
 
 async function TransactionsPaginationContent({
@@ -81,10 +100,17 @@ async function TransactionsPaginationContent({
 export default async function TransactionsPage({
   searchParams,
 }: {
-  searchParams: Promise<SearchParamsType>;
+  searchParams: Promise<RawSearchParams>;
 }) {
-  const params = SearchParamsSchema.safeParse(await searchParams);
-  const suspenseKey = JSON.stringify(params.data);
+  const raw = await searchParams;
+  const parsedParams = SearchParamsSchema.parse(raw);
+
+  // An invalid limit, page, sort or order renders its fallback; make the
+  // address bar agree, so pagination links and a shared URL reflect the page.
+  const normalised = normaliseSearchParams(raw, parsedParams);
+  if (normalised) redirect(`${TRANSACTIONS_PATH}?${normalised}`);
+
+  const suspenseKey = JSON.stringify(parsedParams);
 
   return (
     <section className="grid h-full min-h-0 grid-rows-[auto_1fr_auto] gap-4">
@@ -101,11 +127,14 @@ export default async function TransactionsPage({
             />
           }
         >
-          <TransactionsListContent parsedParams={params.data} />
+          <TransactionsListContent
+            parsedParams={parsedParams}
+            query={toQueryString(raw).toString()}
+          />
         </Suspense>
       </div>
       <Suspense key={`pagination-${suspenseKey}`} fallback={null}>
-        <TransactionsPaginationContent parsedParams={params.data} />
+        <TransactionsPaginationContent parsedParams={parsedParams} />
       </Suspense>
     </section>
   );

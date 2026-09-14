@@ -1,5 +1,6 @@
 import * as z from 'zod';
 
+import { PAGE_SIZE_OPTIONS } from '../constants/constants';
 import {
   CURRENCIES,
   STATUSES,
@@ -65,22 +66,24 @@ export const CopyTransactionSchema = TransactionSchema.pick({
   description: true,
 });
 
+// URL params are hand-editable. Each field falls back to its default on a bad
+// value (.catch) instead of failing the whole parse, so ?page=abc renders page 1
+// with every other param intact, and the query below never sees NaN, a
+// negative offset or an unbounded page size. Server and client parse the URL
+// with this same schema, so the controls always describe the page rendered.
 export const SearchParamsSchema = z.object({
-  limit: z.string().optional().default('10'),
-  page: z.string().optional().default('1'),
-  sort: z
-    .enum(TRANSACTION_SORT_OPTIONS.map((opt) => opt.label))
-    .optional()
-    .default('date'),
-  order: z.enum(['asc', 'desc']).optional().default('desc'),
-  search: z.string().optional().default(''),
-  category: z.string().optional().default(''),
-  account: z.string().optional().default(''),
-  date: z.string().optional().default(''),
-  amount: z.string().optional().default(''),
-  currency: z.string().optional().default(''),
-  status: z.string().optional().default(''),
-  type: z.string().optional().default(''),
+  limit: z.coerce.number().int().min(1).max(100).catch(PAGE_SIZE_OPTIONS[0]),
+  page: z.coerce.number().int().min(1).max(1_000_000).catch(1),
+  sort: z.enum(TRANSACTION_SORT_OPTIONS.map((opt) => opt.label)).catch('date'),
+  order: z.enum(['asc', 'desc']).catch('desc'),
+  search: z.string().catch(''),
+  category: z.string().catch(''),
+  account: z.string().catch(''),
+  date: z.string().catch(''),
+  amount: z.string().catch(''),
+  currency: z.string().catch(''),
+  status: z.string().catch(''),
+  type: z.string().catch(''),
 });
 
 export const FilterParamsSchema = SearchParamsSchema.pick({
