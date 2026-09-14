@@ -6,16 +6,20 @@ import {
   PAGINATION_RANGE,
 } from '../constants/constants';
 
-// Check if any of the given filter keys has a truthy value. Accepts a plain
-// object (server-parsed params) or a Record built from URLSearchParams, so
-// server and client can check the same TRANSACTION_FILTERS list without
-// hardcoding individual param names.
+// Check if any of the given filter keys is set. Accepts a plain object
+// (server-parsed params, where list filters are arrays) or a Record built from
+// URLSearchParams, so server and client can check the same TRANSACTION_FILTERS
+// list without hardcoding individual param names. An empty list is not a
+// filter.
 export function hasActiveFilters(
   params: Record<string, unknown> | undefined,
   filterKeys: readonly string[],
 ) {
   if (!params) return false;
-  return filterKeys.some((key) => Boolean(params[key]));
+  return filterKeys.some((key) => {
+    const value = params[key];
+    return Array.isArray(value) ? value.length > 0 : Boolean(value);
+  });
 }
 
 // Generate Search Params string

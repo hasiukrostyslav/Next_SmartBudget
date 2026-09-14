@@ -7,7 +7,10 @@ import {
   TRANSACTION_CATEGORIES,
   TRANSACTION_TYPES,
 } from '../constants/enums';
-import { TRANSACTION_SORT_OPTIONS } from '../constants/transactions';
+import {
+  PAYMENT_METHODS,
+  TRANSACTION_SORT_OPTIONS,
+} from '../constants/transactions';
 
 // Field rules without defaults. Kept separate because Zod's .partial() keeps
 // .default(): a partial built from TransactionSchema fills currency and status
@@ -66,6 +69,25 @@ export const CopyTransactionSchema = TransactionSchema.pick({
   description: true,
 });
 
+// A list filter can repeat (?status=PENDING&status=FAILED) or be
+// comma-separated (?status=PENDING,FAILED — the Express server's form). Values
+// outside the allowed set are dropped rather than failing the page.
+function listParam<T extends string>(allowed: readonly T[]) {
+  return z
+    .union([z.string(), z.array(z.string())])
+    .optional()
+    .transform((value) => {
+      const entries = [value ?? []]
+        .flat()
+        .flatMap((entry) => entry.split(','))
+        .map((entry) => entry.trim());
+      return [...new Set(entries)].filter((entry): entry is T =>
+        (allowed as readonly string[]).includes(entry),
+      );
+    })
+    .catch([]);
+}
+
 // URL params are hand-editable. Each field falls back to its default on a bad
 // value (.catch) instead of failing the whole parse, so ?page=abc renders page 1
 // with every other param intact, and the query below never sees NaN, a
@@ -77,21 +99,17 @@ export const SearchParamsSchema = z.object({
   sort: z.enum(TRANSACTION_SORT_OPTIONS.map((opt) => opt.label)).catch('date'),
   order: z.enum(['asc', 'desc']).catch('desc'),
   search: z.string().catch(''),
-  category: z.string().catch(''),
-  account: z.string().catch(''),
-  date: z.string().catch(''),
-  amount: z.string().catch(''),
-  currency: z.string().catch(''),
-  status: z.string().catch(''),
-  type: z.string().catch(''),
+  category: listParam(TRANSACTION_CATEGORIES),
+  account: listParam(PAYMENT_METHODS),
+  currency: listParam(CURRENCIES),
+  status: listParam(STATUSES),
+  type: listParam(TRANSACTION_TYPES),
 });
 
 export const FilterParamsSchema = SearchParamsSchema.pick({
   search: true,
   category: true,
   account: true,
-  date: true,
-  amount: true,
   currency: true,
   status: true,
   type: true,

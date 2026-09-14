@@ -1,3 +1,8 @@
+// How a transaction was paid. The column is free text because the Express
+// server shares it; both apps offer and accept only these values.
+export const PAYMENT_METHODS = ['Card', 'Cash'] as const;
+export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
+
 export const TRANSACTION_TYPE_CONFIG = [
   { option: 'Income', icon: 'arrow-up', color: 'text-green-500' },
   { option: 'Expenses', icon: 'arrow-down', color: 'text-red-500' },

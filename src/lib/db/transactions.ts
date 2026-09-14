@@ -39,6 +39,21 @@ const ORDER_BY_SQL: Record<string, { expression: string; nullsLast?: true }> = {
   status: { expression: 'status' },
 };
 
+// The URL and the app use the enum names; four categories are stored in the
+// database with a space instead (see @map in schema.prisma).
+const SPACED_CATEGORIES = new Set([
+  'currency_exchange',
+  'mobile_phone',
+  'personal_care',
+  'pet_care',
+]);
+
+function toDbCategory(category: string) {
+  return SPACED_CATEGORIES.has(category)
+    ? category.replace('_', ' ')
+    : category;
+}
+
 // Match the search term literally: % and _ typed by the user are text, not
 // LIKE wildcards.
 function escapeLike(term: string) {
@@ -62,6 +77,25 @@ export async function findTransactionsByUserId(
       Prisma.sql`transaction_name ILIKE ${`%${escapeLike(search)}%`} ESCAPE '\\'`,
     );
   }
+
+  // Values are already validated against their enums by SearchParamsSchema and
+  // are bound as a parameter; the column names are fixed here. Several values
+  // for one filter match any of them; different filters must all match.
+  const listFilters: [column: string, values: readonly string[]][] = [
+    ['transaction_category', (params?.category ?? []).map(toDbCategory)],
+    ['transaction_type', params?.type ?? []],
+    ['status', params?.status ?? []],
+    ['currency', params?.currency ?? []],
+    ['payment_method', params?.account ?? []],
+  ];
+  for (const [column, values] of listFilters) {
+    if (values.length > 0) {
+      conditions.push(
+        Prisma.sql`${Prisma.raw(column)}::text = ANY(${[...values]})`,
+      );
+    }
+  }
+
   const where = Prisma.join(conditions, ' AND ');
 
   // transaction_id breaks ties, so rows with equal sort values keep a stable

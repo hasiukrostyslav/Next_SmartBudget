@@ -35,22 +35,28 @@ const add = (
     type: 'Income' | 'Expenses';
     note?: string | null;
     day: number;
+    category?: string;
+    account?: string;
+    currency?: string;
+    status?: string;
   },
 ) =>
   createTransaction(
     owner,
     TransactionSchema.parse({
       transactionName: fields.name,
-      transactionCategory: 'cafe',
+      transactionCategory: fields.category ?? 'cafe',
       transactionType: fields.type,
-      paymentMethod: 'Card',
+      paymentMethod: fields.account ?? 'Card',
+      currency: fields.currency ?? 'UAH',
+      status: fields.status ?? 'COMPLETED',
       amount: fields.amount,
       description: fields.note ?? null,
       createdAt: new Date(Date.UTC(2026, 0, fields.day)),
     }),
   );
 
-const list = (query: Record<string, string>) =>
+const list = (query: Record<string, string | string[]>) =>
   findTransactionsByUserId(userId, SearchParamsSchema.parse(query));
 
 const names = (result: { transactions: { transactionName: string }[] }) =>
@@ -87,6 +93,10 @@ describe.skipIf(!process.env.TEST_DATABASE_URL)(
         type: 'Expenses',
         note: 'A note',
         day: 3,
+        category: 'currency_exchange',
+        account: 'Cash',
+        currency: 'USD',
+        status: 'PENDING',
       });
       await add(userId, {
         name: 'Delta 50%',
@@ -94,6 +104,8 @@ describe.skipIf(!process.env.TEST_DATABASE_URL)(
         type: 'Income',
         note: null,
         day: 4,
+        category: 'pet_care',
+        status: 'FAILED',
       });
       await add(otherUserId, {
         name: 'Zulu',
@@ -172,6 +184,42 @@ describe.skipIf(!process.env.TEST_DATABASE_URL)(
       expect(names(await list({ search: '50%' }))).toEqual(['Delta 50%']);
       expect((await list({ search: '%' })).transactionCount).toBe(1);
       expect((await list({ search: '_' })).transactionCount).toBe(0);
+    });
+
+    it('filters by category, including categories stored with a space', async () => {
+      expect(names(await list({ category: 'currency_exchange' }))).toEqual([
+        'charlie',
+      ]);
+      expect(
+        names(await list({ category: 'currency_exchange,pet_care' })).sort(),
+      ).toEqual(['Delta 50%', 'charlie']);
+    });
+
+    it('matches any value within a filter and every filter together', async () => {
+      expect(
+        names(await list({ status: ['PENDING', 'FAILED'], type: 'Income' })),
+      ).toEqual(['Delta 50%']);
+      expect(
+        (await list({ status: ['PENDING', 'FAILED'] })).transactionCount,
+      ).toBe(2);
+    });
+
+    it('filters by currency and account', async () => {
+      expect(names(await list({ currency: 'USD' }))).toEqual(['charlie']);
+      expect(names(await list({ account: 'Cash' }))).toEqual(['charlie']);
+    });
+
+    it('combines a filter with the search', async () => {
+      expect(names(await list({ status: 'FAILED', search: '50%' }))).toEqual([
+        'Delta 50%',
+      ]);
+      expect(
+        (await list({ status: 'PENDING', search: '50%' })).transactionCount,
+      ).toBe(0);
+    });
+
+    it('ignores unknown filter values instead of failing', async () => {
+      expect((await list({ status: 'STOLEN' })).transactionCount).toBe(4);
     });
 
     it("never returns another user's rows", async () => {
