@@ -13,6 +13,7 @@ export const METADATA_TEXT = {
 export const ERROR_MESSAGES = {
   UNAUTHORIZED: 'Unauthorized. Please sign in!',
   SOMETHING_WENT_WRONG: 'Something went wrong',
+  NETWORK: 'Could not reach the server. Check your connection and try again.',
   auth: {
     INVALID_CREDENTIALS: 'Invalid credentials',
     EMAIL_EXISTS: 'An account with this email already exists.',

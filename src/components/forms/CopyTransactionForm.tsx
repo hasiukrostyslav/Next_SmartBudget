@@ -16,6 +16,7 @@ import {
   CURRENCY_CONFIG,
 } from '@/lib/constants/transactions';
 import { CopyTransactionSchema } from '@/lib/schemas/transaction.schema';
+import { callAction } from '@/lib/utils/callAction';
 import { useToast } from '@/hooks/useToast';
 
 import TransactionAmount from '../ui/features/transactions/TransactionAmount';
@@ -64,14 +65,16 @@ export default function CopyTransactionForm({
 
   async function onSubmit(data: FormData) {
     startTransition(async () => {
-      const result = await createTransaction({
-        ...data,
-        transactionName: sourceTransaction.transactionName,
-        transactionType: sourceTransaction.transactionType,
-        transactionCategory: sourceTransaction.transactionCategory,
-        paymentMethod: sourceTransaction.paymentMethod,
-        status: sourceTransaction.status,
-      });
+      const result = await callAction(() =>
+        createTransaction({
+          ...data,
+          transactionName: sourceTransaction.transactionName,
+          transactionType: sourceTransaction.transactionType,
+          transactionCategory: sourceTransaction.transactionCategory,
+          paymentMethod: sourceTransaction.paymentMethod,
+          status: sourceTransaction.status,
+        }),
+      );
       if (result.success) {
         onClose();
         toastSuccess(OperationType.CREATE, 'Transaction');

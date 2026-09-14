@@ -10,6 +10,7 @@ import { FORGOT_PASSWORD_PATH } from '@/routes';
 import { login } from '@/lib/actions/authActions';
 import { INPUT_PLACEHOLDER } from '@/lib/constants/messages';
 import { SignInSchema } from '@/lib/schemas/auth.schema';
+import { callAction } from '@/lib/utils/callAction';
 import { usePasswordVisibility } from '@/hooks/usePasswordVisibility';
 
 import Button from '../ui/buttons/Button';
@@ -37,7 +38,7 @@ export default function LoginForm() {
     setServerError(undefined);
 
     startTransition(async () => {
-      const result = await login(data);
+      const result = await callAction(() => login(data));
       if (result?.error) {
         setServerError(result.error);
       }

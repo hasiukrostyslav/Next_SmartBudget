@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { changeTransactionStatus } from '@/lib/actions/transactionActions';
 import { OperationType, Status, STATUSES } from '@/lib/constants/enums';
 import { STATUS_CONFIG } from '@/lib/constants/transactions';
+import { callAction } from '@/lib/utils/callAction';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useToast } from '@/hooks/useToast';
 
@@ -37,9 +38,11 @@ export default function EditItemStatusForm({
     e.preventDefault();
 
     startTransition(async () => {
-      const result = await changeTransactionStatus(
-        selectedItems.map((el) => el.id),
-        selectedValue as Status,
+      const result = await callAction(() =>
+        changeTransactionStatus(
+          selectedItems.map((el) => el.id),
+          selectedValue as Status,
+        ),
       );
 
       if (result.success) {

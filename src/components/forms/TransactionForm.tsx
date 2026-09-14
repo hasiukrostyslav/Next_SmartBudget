@@ -26,6 +26,7 @@ import {
   TRANSACTION_TYPE_CONFIG,
 } from '@/lib/constants/transactions';
 import { TransactionSchema } from '@/lib/schemas/transaction.schema';
+import { callAction } from '@/lib/utils/callAction';
 import { useToast } from '@/hooks/useToast';
 
 import SegmentedControl from '../ui/controls/SegmentedControl';
@@ -80,9 +81,13 @@ export default function TransactionForm(props: TransactionFormProps) {
 
   async function onSubmit(data: FormData) {
     startTransition(async () => {
+      // Two calls, not one ternary inside callAction: the actions return
+      // different result types, and a single closure can't unify them.
       const result = isEdit
-        ? await editTransaction(props.item.transactionId, data)
-        : await createTransaction(data);
+        ? await callAction(() =>
+            editTransaction(props.item.transactionId, data),
+          )
+        : await callAction(() => createTransaction(data));
 
       if (result.success) {
         props.onClose();

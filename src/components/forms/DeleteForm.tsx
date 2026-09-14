@@ -6,6 +6,7 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 import { ItemType, TransactionItem } from '@/types/types';
 
 import { OperationType } from '@/lib/constants/enums';
+import { callAction } from '@/lib/utils/callAction';
 import { calcDeletedBalance, getFormattedAmount } from '@/lib/utils/utils';
 import { useToast } from '@/hooks/useToast';
 
@@ -32,7 +33,7 @@ export default function DeleteForm({
     e.preventDefault();
 
     startTransition(async () => {
-      const result = await onSubmit();
+      const result = await callAction(onSubmit);
 
       if (result.success) {
         onClose();

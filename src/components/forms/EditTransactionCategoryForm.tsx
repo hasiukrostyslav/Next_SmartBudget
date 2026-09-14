@@ -11,6 +11,7 @@ import {
   TransactionCategories,
 } from '@/lib/constants/enums';
 import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/transactions';
+import { callAction } from '@/lib/utils/callAction';
 import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useToast } from '@/hooks/useToast';
@@ -57,9 +58,11 @@ export default function EditTransactionCategoryForm({
     e.preventDefault();
 
     startTransition(async () => {
-      const result = await changeTransactionCategory(
-        selectedItems.map((el) => el.id),
-        selectedValue as TransactionCategories,
+      const result = await callAction(() =>
+        changeTransactionCategory(
+          selectedItems.map((el) => el.id),
+          selectedValue as TransactionCategories,
+        ),
       );
 
       if (result.success) {
