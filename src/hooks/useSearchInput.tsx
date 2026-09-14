@@ -21,12 +21,31 @@ export function useSearchInput({
   isUpdateSearchParam,
 }: useSearchInputProps) {
   const searchParams = useSearchParams();
+  const urlSearch = searchParams.get('search') ?? '';
   const [searchQuery, setSearchQuery] = useState(
-    isUpdateSearchParam ? (searchParams.get('search') ?? '') : '',
+    isUpdateSearchParam ? urlSearch : '',
   );
   const pathname = usePathname();
   const router = useRouter();
   const pendingWrite = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // State adjusted while rendering, from the previous render's values, instead
+  // of in effects (which render twice and can cascade):
+  // - a dropdown's search box starts empty each time the dropdown opens;
+  // - the page's search box empties when the search param is removed from the
+  //   URL (e.g. "Clear all"). Only a change of the search value itself counts,
+  //   so a sort or page change made mid-typing leaves the text alone.
+  const [wasExpanded, setWasExpanded] = useState(isContentExpanded);
+  if (isContentExpanded !== wasExpanded) {
+    setWasExpanded(isContentExpanded);
+    if (isContentExpanded) setSearchQuery('');
+  }
+
+  const [lastUrlSearch, setLastUrlSearch] = useState(urlSearch);
+  if (urlSearch !== lastUrlSearch) {
+    setLastUrlSearch(urlSearch);
+    if (isUpdateSearchParam && !urlSearch) setSearchQuery('');
+  }
 
   const cancelPendingWrite = useCallback(() => {
     if (pendingWrite.current) clearTimeout(pendingWrite.current);
@@ -46,31 +65,14 @@ export function useSearchInput({
     [pathname, router],
   );
 
-  const handleClear = useCallback(() => {
+  const handleClear = () => {
     setSearchQuery('');
 
     if (isUpdateSearchParam) {
       cancelPendingWrite();
       writeSearchParam('');
     }
-  }, [isUpdateSearchParam, cancelPendingWrite, writeSearchParam]);
-
-  useEffect(() => {
-    if (isContentExpanded) {
-      handleClear();
-    }
-  }, [isContentExpanded, handleClear]);
-
-  // Empty the box when the param disappears from the URL (e.g. "Clear all"),
-  // but not while a write is pending: the URL simply hasn't caught up yet.
-  useEffect(() => {
-    if (
-      isUpdateSearchParam &&
-      !searchParams.get('search') &&
-      !pendingWrite.current
-    )
-      setSearchQuery('');
-  }, [isUpdateSearchParam, searchParams]);
+  };
 
   // Never navigate after the input has unmounted.
   useEffect(() => cancelPendingWrite, [cancelPendingWrite]);

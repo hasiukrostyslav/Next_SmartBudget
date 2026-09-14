@@ -12,7 +12,9 @@ const INCOME_CATEGORIES = [
 ] as const;
 
 function getCategoryType(categoryKey: string): TransactionType {
-  return INCOME_CATEGORIES.includes(categoryKey as any) ? 'Income' : 'Expenses';
+  return (INCOME_CATEGORIES as readonly string[]).includes(categoryKey)
+    ? 'Income'
+    : 'Expenses';
 }
 
 export async function GET() {

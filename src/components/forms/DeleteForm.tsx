@@ -61,7 +61,7 @@ export default function DeleteForm({
 
       <section className="flex flex-col gap-4 px-6 py-5">
         <div className="text-sm dark:text-slate-300">
-          You're about to permanently delete{' '}
+          You&apos;re about to permanently delete{' '}
           <span className="font-semibold">
             {`${items.length === 1 ? items[0].transactionName : items.length} 
             ${itemType}${items.length > 1 ? 's' : ''}`}

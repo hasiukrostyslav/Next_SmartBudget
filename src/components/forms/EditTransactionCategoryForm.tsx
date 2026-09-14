@@ -87,9 +87,9 @@ export default function EditTransactionCategoryForm({
 
       <section className="px-6 py-5">
         <p className="mb-4">
-          Update the {selectedItems.length} transaction's category to reflect
-          its current state. Changes will appear in the transaction history and
-          related records.
+          Update the {selectedItems.length} transaction&apos;s category to
+          reflect its current state. Changes will appear in the transaction
+          history and related records.
         </p>
 
         <ModalFieldWrapper>

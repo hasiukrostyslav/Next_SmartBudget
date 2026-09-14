@@ -1,27 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { useSearchParams } from 'next/navigation';
-
+// Row selection for one page of the list.
+//
+// No effect resets it when the URL changes: the page keys the list's Suspense
+// boundary on the URL params, so a new query remounts the list and this state
+// starts fresh. Ids that are no longer on the page (rows just deleted) are
+// ignored, so the bulk toolbar never counts rows that are gone.
 export function useCheckbox(ids: string[]) {
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [selected, setSelected] = useState<Set<string>>(new Set());
 
-  const searchParams = useSearchParams();
-
-  // reset selection when the filter/query changes
-  useEffect(() => setSelectedIds(new Set()), [searchParams]);
-
-  const isAllSelected = ids.length > 0 && ids.length === selectedIds.size;
+  const selectedIds = new Set(ids.filter((id) => selected.has(id)));
+  const isAllSelected = ids.length > 0 && selectedIds.size === ids.length;
 
   const toggleSelect = (id: string) => {
-    setSelectedIds((prev) => {
+    setSelected((prev) => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       return next;
     });
   };
 
-  const deselectAll = () => setSelectedIds(new Set());
-  const selectAll = () => setSelectedIds(new Set(ids));
+  const deselectAll = () => setSelected(new Set());
+  const selectAll = () => setSelected(new Set(ids));
   const toggleSelectAll = () => (isAllSelected ? deselectAll() : selectAll());
 
   return {

@@ -40,7 +40,8 @@ export default function EmptySearchResult({
             category ? 'text-base' : 'text-sm',
           )}
         >
-          No matches for <span className="text-purple-500">"{query}"</span>
+          No matches for{' '}
+          <span className="text-purple-500">&ldquo;{query}&rdquo;</span>
         </h2>
       </div>
 
