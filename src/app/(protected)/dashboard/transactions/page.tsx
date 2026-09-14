@@ -3,9 +3,9 @@ import { cache, Suspense } from 'react';
 import { redirect } from 'next/navigation';
 
 import { TRANSACTIONS_PATH } from '@/routes';
-import { getTransactions } from '@/lib/actions/transactionActions';
 import { EMPTY_STATE_TEXT } from '@/lib/constants/messages';
 import { TRANSACTION_FILTERS } from '@/lib/constants/navigation';
+import { getTransactions } from '@/lib/data/transactions';
 import { SearchParamsSchema } from '@/lib/schemas/transaction.schema';
 import {
   normaliseSearchParams,

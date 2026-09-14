@@ -15,10 +15,7 @@ import { ERROR_MESSAGES } from '../constants/messages';
 import {
   createTransaction as create,
   deleteTransactionById,
-  deleteTransactionsAll,
   deleteTransactionsMany,
-  findTransactionById,
-  findTransactionsByUserId,
   updateTransactionById,
   updateTransactionCategoryMany,
   updateTransactionStatusMany,
@@ -27,13 +24,11 @@ import {
   CategorySchema,
   IdListSchema,
   IdSchema,
-  SearchParamsSchema,
   StatusSchema,
   TransactionSchema,
   UpdateTransactionSchema,
 } from '../schemas/transaction.schema';
 
-type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 type CreateTransactionDataType = z.infer<typeof TransactionSchema>;
 
 // Server Actions are public POST endpoints: TypeScript parameter types do not
@@ -49,56 +44,8 @@ async function getUserId(): Promise<string | null> {
   return session?.user?.id ?? null;
 }
 
-// Get Transactions
-export async function getTransactions(params?: SearchParamsType) {
-  const userId = await getUserId();
-  if (!userId)
-    return {
-      success: false,
-      status: HTTP_STATUS.UNAUTHORIZED,
-      error: ERROR_MESSAGES.UNAUTHORIZED,
-    };
-
-  try {
-    const data = await findTransactionsByUserId(userId, params);
-    return { success: true, status: HTTP_STATUS.OK, data };
-  } catch (error) {
-    console.error('[getTransactions]', error);
-    return {
-      success: false,
-      status: HTTP_STATUS.SERVER_ERROR,
-      error: ERROR_MESSAGES.transaction.FETCH_MANY,
-    };
-  }
-}
-
-export async function getTransaction(id: string) {
-  const userId = await getUserId();
-  if (!userId)
-    return {
-      success: false,
-      status: HTTP_STATUS.UNAUTHORIZED,
-      error: ERROR_MESSAGES.UNAUTHORIZED,
-    };
-
-  try {
-    const data = await findTransactionById(id, userId);
-    if (!data)
-      return {
-        success: false,
-        status: HTTP_STATUS.NOT_FOUND,
-        error: ERROR_MESSAGES.transaction.NOT_FOUND,
-      };
-    return { success: true, status: HTTP_STATUS.OK, data };
-  } catch (error) {
-    console.error('[getTransaction]', error);
-    return {
-      success: false,
-      status: HTTP_STATUS.SERVER_ERROR,
-      error: ERROR_MESSAGES.transaction.FETCH_ONE,
-    };
-  }
-}
+// Only mutations belong in this module: every export of a 'use server' file
+// is a public POST endpoint. Reads live in lib/data.
 
 // Create Transaction
 export async function createTransaction(
@@ -279,29 +226,6 @@ export async function deleteManyTransaction(transactionId: string[]) {
     return { success: true, status: HTTP_STATUS.OK, data: result };
   } catch (error) {
     console.error('[deleteManyTransaction]', error);
-    return {
-      success: false,
-      status: HTTP_STATUS.SERVER_ERROR,
-      error: ERROR_MESSAGES.transaction.DELETE_MANY,
-    };
-  }
-}
-
-export async function deleteAllTransaction() {
-  const userId = await getUserId();
-  if (!userId)
-    return {
-      success: false,
-      status: HTTP_STATUS.UNAUTHORIZED,
-      error: ERROR_MESSAGES.UNAUTHORIZED,
-    };
-
-  try {
-    const result = await deleteTransactionsAll(userId);
-    revalidatePath(TRANSACTIONS_PATH);
-    return { success: true, status: HTTP_STATUS.OK, data: result };
-  } catch (error) {
-    console.error('[deleteAllTransaction]', error);
     return {
       success: false,
       status: HTTP_STATUS.SERVER_ERROR,

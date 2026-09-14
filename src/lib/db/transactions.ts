@@ -236,7 +236,3 @@ export async function deleteTransactionsMany(
     },
   });
 }
-
-export async function deleteTransactionsAll(userId: string) {
-  return db.transactions.deleteMany({ where: { userId } });
-}
