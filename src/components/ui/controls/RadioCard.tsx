@@ -54,7 +54,7 @@ export default function RadioCard({
         <Icon name={iconName} size={20} />
       </div>
       <div>
-        <h2
+        <span
           className={clsx(
             'flex items-center gap-2 font-semibold dark:text-slate-300',
           )}
@@ -67,9 +67,9 @@ export default function RadioCard({
               CURRENT
             </span>
           )}
-        </h2>
+        </span>
 
-        <p className="text-xs text-slate-500">{text.description}</p>
+        <span className="block text-xs text-slate-500">{text.description}</span>
       </div>
 
       <span

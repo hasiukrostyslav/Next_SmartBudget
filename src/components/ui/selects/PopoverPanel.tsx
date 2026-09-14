@@ -8,6 +8,9 @@ interface PopoverPanelProps {
   position: 'top' | 'bottom';
   widthExpandedTo?: string;
   expandedAlign?: 'left' | 'right';
+  // A date picker panel is a dialog; a select's panel holds a listbox.
+  role?: 'dialog';
+  ariaLabel?: string;
   children: React.ReactNode;
 }
 
@@ -17,12 +20,15 @@ export default function PopoverPanel({
   position,
   widthExpandedTo,
   expandedAlign = 'left',
+  role,
+  ariaLabel,
   children,
 }: PopoverPanelProps) {
   return (
     <div
       id={`select-list-${id}`}
-      role="listbox"
+      role={role}
+      aria-label={ariaLabel}
       inert={!isContentExpanded}
       className={clsx(
         'absolute z-50 text-sm',

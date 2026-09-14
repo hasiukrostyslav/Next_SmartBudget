@@ -79,6 +79,7 @@ export default function SelectContent({
         </div>
       )}
       <div
+        role="listbox"
         className={clsx(
           withSearch ? 'max-h-60' : 'max-h-75',
           'scrollbar grid gap-1 overflow-y-auto p-2',

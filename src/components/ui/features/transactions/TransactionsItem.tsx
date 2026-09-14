@@ -17,6 +17,8 @@ interface TransactionsItemProps {
   onToggleSelect: () => void;
 }
 
+// One row of the transactions table. Each cell is a direct grid item, so the
+// row keeps its subgrid columns.
 export default function TransactionsItem({
   item,
   checked,
@@ -24,6 +26,7 @@ export default function TransactionsItem({
 }: TransactionsItemProps) {
   return (
     <div
+      role="row"
       className={clsx(
         'col-span-full grid grid-cols-subgrid items-center text-xs',
         'border-t tracking-wide text-slate-800 dark:text-slate-400',
@@ -32,27 +35,45 @@ export default function TransactionsItem({
         'next-sibling hover:rounded-md',
       )}
     >
-      <CheckBox
-        name={item.transactionName}
-        label={`Select ${item.transactionName}`}
-        checked={checked}
-        onChange={onToggleSelect}
-      />
-      <TransactionBadge
-        category={item.transactionCategory}
-        name={item.transactionName}
-      />
-      <TransactionCategory category={item.transactionCategory} />
-      <TransactionAccount paymentMethod={item.paymentMethod} />
-      <TransactionDate date={item.createdAt} withTime />
-      <TransactionAmount
-        type={item.transactionType}
-        amount={item.amount}
-        currency={item.currency}
-      />
-      <div className="px-1.5">{item.description}</div>
-      <TransactionStatus status={item.status} />
-      <TransactionActionButtons item={item} />
+      <div role="cell">
+        <CheckBox
+          name={item.transactionName}
+          label={`Select ${item.transactionName}`}
+          checked={checked}
+          onChange={onToggleSelect}
+        />
+      </div>
+      <div role="cell">
+        <TransactionBadge
+          category={item.transactionCategory}
+          name={item.transactionName}
+        />
+      </div>
+      <div role="cell">
+        <TransactionCategory category={item.transactionCategory} />
+      </div>
+      <div role="cell">
+        <TransactionAccount paymentMethod={item.paymentMethod} />
+      </div>
+      <div role="cell">
+        <TransactionDate date={item.createdAt} withTime />
+      </div>
+      <div role="cell">
+        <TransactionAmount
+          type={item.transactionType}
+          amount={item.amount}
+          currency={item.currency}
+        />
+      </div>
+      <div role="cell" className="px-1.5">
+        {item.description}
+      </div>
+      <div role="cell">
+        <TransactionStatus status={item.status} />
+      </div>
+      <div role="cell">
+        <TransactionActionButtons item={item} />
+      </div>
     </div>
   );
 }

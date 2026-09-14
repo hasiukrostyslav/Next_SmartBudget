@@ -8,9 +8,9 @@ export default function ModalFieldLabel({
   isOptional = false,
 }: ModalFieldLabelProps) {
   return (
-    <h4 className="text-xs text-slate-500 dark:text-slate-400">
+    <p className="text-xs text-slate-500 dark:text-slate-400">
       {label.toUpperCase()}{' '}
       {!isOptional && <span className="text-red-500">*</span>}
-    </h4>
+    </p>
   );
 }

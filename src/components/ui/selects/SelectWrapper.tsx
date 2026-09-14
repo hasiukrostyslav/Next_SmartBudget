@@ -1,33 +1,21 @@
 import React from 'react';
 
 interface SelectWrapperProps {
-  id: string;
-  isContentExpanded: boolean;
   ref: React.RefObject<HTMLDivElement | null>;
   onBlur: (e: React.FocusEvent) => void;
   children: React.ReactNode;
-  ariaHasPopup: 'menu' | 'dialog' | 'grid' | 'listbox' | 'tree';
 }
 
+// Positions the popover and closes it when focus leaves. The trigger button
+// carries the ARIA state (aria-haspopup, aria-expanded, aria-controls); a role
+// here duplicated it and pointed aria-controls at an id that did not exist.
 export default function SelectWrapper({
-  id,
-  isContentExpanded,
   ref,
   onBlur,
   children,
-  ariaHasPopup,
 }: SelectWrapperProps) {
   return (
-    <div
-      role="combobox"
-      aria-haspopup={ariaHasPopup}
-      aria-controls={`select-control-${id}`}
-      aria-labelledby={`select-label-${id}`}
-      aria-expanded={isContentExpanded}
-      ref={ref}
-      className="relative"
-      onBlur={onBlur}
-    >
+    <div ref={ref} className="relative" onBlur={onBlur}>
       {children}
     </div>
   );

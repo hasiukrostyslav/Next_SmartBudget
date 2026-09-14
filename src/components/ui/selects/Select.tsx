@@ -53,13 +53,7 @@ export default function Select({
   } = useSelectDropdown(onSelect);
 
   return (
-    <SelectWrapper
-      id={id}
-      isContentExpanded={isContentExpanded}
-      ref={selectRef}
-      onBlur={handleBlur}
-      ariaHasPopup="listbox"
-    >
+    <SelectWrapper ref={selectRef} onBlur={handleBlur}>
       <SelectTrigger
         id={id}
         label={label}

@@ -40,7 +40,7 @@ export default function SelectTrigger({
       id={`select-label-${id}`}
       name={label}
       aria-haspopup={ariaHasPopup}
-      aria-controls={`select-control-${id}`}
+      aria-controls={`select-list-${id}`}
       aria-expanded={isContentExpanded}
       type="button"
       onClick={onClick}

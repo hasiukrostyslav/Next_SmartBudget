@@ -26,9 +26,9 @@ export default function ActiveFiltersContainer() {
         'grid grid-cols-[auto_1fr_auto] items-start gap-2',
       )}
     >
-      <h4 className="flex h-7 items-center py-1 text-sm text-slate-500">
+      <span className="flex h-7 items-center py-1 text-sm text-slate-500">
         ACTIVE
-      </h4>
+      </span>
       <div className="relative min-w-0">
         {/* Hidden layer: all chips on one row, used only to measure widths. */}
         <div

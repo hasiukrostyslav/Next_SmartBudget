@@ -65,13 +65,7 @@ export default function DatePicker({
   };
 
   return (
-    <SelectWrapper
-      id={id}
-      isContentExpanded={isContentExpanded}
-      ref={selectRef}
-      onBlur={handleBlur}
-      ariaHasPopup="dialog"
-    >
+    <SelectWrapper ref={selectRef} onBlur={handleBlur}>
       <SelectTrigger
         id={id}
         label={label}
@@ -94,6 +88,8 @@ export default function DatePicker({
       </SelectTrigger>
 
       <PopoverPanel
+        role="dialog"
+        ariaLabel={label}
         id={id}
         isContentExpanded={isContentExpanded}
         position={contentPosition}

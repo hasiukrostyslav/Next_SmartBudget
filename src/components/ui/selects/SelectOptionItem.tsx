@@ -42,11 +42,11 @@ export default function SelectOptionItem(props: SelectOptionItemProps) {
       )}
 
       <div className="flex flex-col items-start justify-center">
-        <h4 className="dark:text-slate-300">{option.label}</h4>
+        <span className="dark:text-slate-300">{option.label}</span>
         {option.description && context === 'list' && (
-          <p className={clsx('text-xs text-slate-500 dark:text-slate-400')}>
+          <span className={clsx('text-xs text-slate-500 dark:text-slate-400')}>
             {option.description}
-          </p>
+          </span>
         )}
       </div>
 
