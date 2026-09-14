@@ -5,7 +5,6 @@ import clsx from 'clsx';
 import { TransactionItem } from '@/types/types';
 
 import { useCheckbox } from '@/hooks/useCheckbox';
-import { useTheme } from '@/hooks/useTheme';
 
 import SectionWrapper from '@/components/layouts/SectionWrapper';
 
@@ -19,7 +18,6 @@ export default function TransactionsList({
 }: {
   data: TransactionItem[];
 }) {
-  const { theme } = useTheme();
   const {
     selectedIds,
     isAllSelected,
@@ -45,7 +43,6 @@ export default function TransactionsList({
           className={clsx(
             'col-span-full grid auto-rows-min grid-cols-subgrid',
             'scrollbar overflow-x-hidden overflow-y-auto',
-            theme === 'dark' ? 'scrollbar-dark' : '',
           )}
         >
           {data.map((item) => (

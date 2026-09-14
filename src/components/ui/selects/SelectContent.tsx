@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { SelectOption } from '@/types/types';
 
 import { useSearchInput } from '@/hooks/useSearchInput';
-import { useTheme } from '@/hooks/useTheme';
 
 import EmptySearchResult from '../feedback/EmptySearchResult';
 import Input from '../inputs/Input';
@@ -35,7 +34,6 @@ export default function SelectContent({
   withSearch,
   onSelect,
 }: SelectContentProps) {
-  const { theme } = useTheme();
   const { searchQuery, role, handleChange, handleClear } = useSearchInput({
     isContentExpanded,
   });
@@ -83,7 +81,6 @@ export default function SelectContent({
         className={clsx(
           withSearch ? 'max-h-60' : 'max-h-75',
           'scrollbar grid gap-1 overflow-y-auto p-2',
-          theme === 'dark' ? 'scrollbar-dark' : '',
         )}
       >
         {withSearch && filteredOptions.length === 0 ? (

@@ -46,10 +46,10 @@
 
   .scrollbar {
     scrollbar-width: thin;
+  }
 
-    &.scrollbar-dark {
-      scrollbar-color: var(--color-slate-700) var(--color-slate-900);
-    }
+  .dark .scrollbar {
+    scrollbar-color: var(--color-slate-700) var(--color-slate-900);
   }
 
   .visible-hover-show:hover > div:last-child {

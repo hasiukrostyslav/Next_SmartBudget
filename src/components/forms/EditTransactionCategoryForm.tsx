@@ -13,7 +13,6 @@ import {
 import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/transactions';
 import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
-import { useTheme } from '@/hooks/useTheme';
 import { useToast } from '@/hooks/useToast';
 
 import EmptySearchResult from '@/components/ui/feedback/EmptySearchResult';
@@ -37,7 +36,6 @@ export default function EditTransactionCategoryForm({
   onClose,
   selectedItems,
 }: EditTransactionCategoryFormProps) {
-  const { theme } = useTheme();
   const [isPending, startTransition] = useTransition();
   const { selectedValue, handleSelect } = useSelectValue({});
   const { searchQuery, role, handleChange, handleClear } = useSearchInput({});
@@ -108,7 +106,7 @@ export default function EditTransactionCategoryForm({
             className={clsx(
               'mt-2 grid h-72 grid-cols-2 gap-3 pr-2',
               'scrollbar auto-rows-min overflow-y-auto',
-              theme === 'dark' ? 'scrollbar-dark' : '',
+
               filteredCategories.length === 0 ? 'place-content-center' : '',
             )}
           >

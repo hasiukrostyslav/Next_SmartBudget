@@ -6,6 +6,7 @@ import '@/styles/globals.css';
 import { ToastContainer } from 'react-toastify';
 
 import { METADATA_TEXT } from '@/lib/constants/messages';
+import { THEME_INIT_SCRIPT } from '@/lib/constants/theme';
 import ThemeProvider from '@/context/ThemeContext';
 
 const roboto = Roboto({ subsets: ['latin'] });
@@ -24,7 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning: THEME_INIT_SCRIPT adds the `dark` class to
+    // <html> before React hydrates, so the attribute legitimately differs.
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className={`${roboto.className}`}>
         <main className="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-300">
           <ThemeProvider>
