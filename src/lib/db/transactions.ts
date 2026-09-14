@@ -1,9 +1,8 @@
 import z from 'zod';
 
-import type { Transactions } from '../../../generated/client';
+import { Prisma, type Transactions } from '../../../generated/client';
 import { PAGE_SIZE_OPTIONS } from '../constants/constants';
 import { Status, TransactionCategories } from '../constants/enums';
-import { TRANSACTION_SORT_FIELD_MAP } from '../constants/transactions';
 import {
   SearchParamsSchema,
   TransactionSchema,
@@ -22,78 +21,79 @@ function toTransactionItem(row: Transactions) {
   return { ...row, amount: row.amount.toNumber() };
 }
 
+// ORDER BY expression per sort key. Every fragment is hardcoded here and
+// selected by key, never built from user input. Sorting runs in the database
+// so only one page of rows is ever loaded:
+// - amount is signed (expenses negative), matching the displayed balance impact
+// - name and note compare case-insensitively
+// - rows without a note sort last in both directions
+const ORDER_BY_SQL: Record<string, { expression: string; nullsLast?: true }> = {
+  name: { expression: 'lower(transaction_name)' },
+  category: { expression: 'transaction_category' },
+  account: { expression: 'payment_method' },
+  date: { expression: 'created_at' },
+  amount: {
+    expression: `CASE WHEN transaction_type = 'Expenses' THEN -amount ELSE amount END`,
+  },
+  note: { expression: 'lower(description)', nullsLast: true },
+  status: { expression: 'status' },
+};
+
+// Match the search term literally: % and _ typed by the user are text, not
+// LIKE wildcards.
+function escapeLike(term: string) {
+  return term.replace(/[\\%_]/g, (char) => `\\${char}`);
+}
+
 // Find Transactions
 export async function findTransactionsByUserId(
   userId: string,
   params?: SearchParamsType,
 ) {
-  const sortedField =
-    params?.sort && TRANSACTION_SORT_FIELD_MAP[params.sort]
-      ? TRANSACTION_SORT_FIELD_MAP[params.sort]
-      : 'createdAt';
-
-  const order = params?.order ?? 'desc';
+  const sort = ORDER_BY_SQL[params?.sort ?? 'date'] ?? ORDER_BY_SQL.date;
+  const direction = params?.order === 'asc' ? 'ASC' : 'DESC';
   const limit = Number(params?.limit ?? PAGE_SIZE_OPTIONS[0]);
   const skip = limit * (Number(params?.page ?? 1) - 1);
-  const search = params?.search.replaceAll('-', ' ').trim();
+  const search = params?.search?.replaceAll('-', ' ').trim() ?? '';
 
-  if (
-    sortedField === 'amount' ||
-    sortedField === 'transactionName' ||
-    sortedField === 'description'
-  ) {
-    const transactions = (
-      await db.transactions.findMany({
-        where: {
-          userId,
-          transactionName: { contains: search, mode: 'insensitive' },
-        },
-      })
-    ).map(toTransactionItem);
-    const sorted = transactions.sort((a, b) => {
-      if (sortedField === 'amount') {
-        const signedA = a.transactionType === 'Expenses' ? -a.amount : a.amount;
-        const signedB = b.transactionType === 'Expenses' ? -b.amount : b.amount;
-        return order === 'asc' ? signedA - signedB : signedB - signedA;
-      }
-
-      const valueA = a[sortedField];
-      const valueB = b[sortedField];
-
-      if (!valueA && !valueB) return 0;
-      if (!valueA) return 1;
-      if (!valueB) return -1;
-
-      return order === 'asc'
-        ? valueA?.localeCompare(valueB)
-        : valueB?.localeCompare(valueA);
-    });
-    return {
-      transactions: sorted.slice(skip, skip + limit),
-      transactionCount: transactions.length,
-    };
+  const conditions = [Prisma.sql`user_id = ${userId}`];
+  if (search) {
+    conditions.push(
+      Prisma.sql`transaction_name ILIKE ${`%${escapeLike(search)}%`} ESCAPE '\\'`,
+    );
   }
+  const where = Prisma.join(conditions, ' AND ');
 
-  const [transactions, transactionCount] = await Promise.all([
-    db.transactions.findMany({
-      skip,
-      take: limit,
-      where: {
-        userId,
-        transactionName: { contains: search, mode: 'insensitive' },
-      },
-      orderBy: { [sortedField]: order },
-    }),
-    db.transactions.count({
-      where: {
-        userId,
-        transactionName: { contains: search, mode: 'insensitive' },
-      },
-    }),
+  // transaction_id breaks ties, so rows with equal sort values keep a stable
+  // order and never repeat or vanish between pages.
+  const orderBy = Prisma.raw(
+    `${sort.expression} ${direction}${sort.nullsLast ? ' NULLS LAST' : ''}, transaction_id ${direction}`,
+  );
+
+  const [page, [{ count }]] = await Promise.all([
+    db.$queryRaw<{ transaction_id: string }[]>`
+      SELECT transaction_id FROM transactions
+      WHERE ${where}
+      ORDER BY ${orderBy}
+      LIMIT ${limit} OFFSET ${skip}`,
+    db.$queryRaw<{ count: number }[]>`
+      SELECT COUNT(*)::int AS count FROM transactions WHERE ${where}`,
   ]);
+
+  const ids = page.map((row) => row.transaction_id);
+  const rows = ids.length
+    ? await db.transactions.findMany({
+        where: { userId, transactionId: { in: ids } },
+      })
+    : [];
+  const rowsById = new Map(rows.map((row) => [row.transactionId, row]));
+
   return {
-    transactions: transactions.map(toTransactionItem),
-    transactionCount,
+    transactions: ids.flatMap((id) => {
+      const row = rowsById.get(id);
+      return row ? [toTransactionItem(row)] : [];
+    }),
+    transactionCount: count,
   };
 }
 

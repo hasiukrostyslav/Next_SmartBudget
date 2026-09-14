@@ -40,16 +40,6 @@ export const TRANSACTION_SORT_OPTIONS = [
   { name: 'Status', label: 'status' },
 ] as const;
 
-export const TRANSACTION_SORT_FIELD_MAP = {
-  name: 'transactionName',
-  account: 'paymentMethod',
-  date: 'createdAt',
-  amount: 'amount',
-  note: 'description',
-  status: 'status',
-  category: 'transactionCategory',
-} as const;
-
 export const STATUS_CONFIG = {
   COMPLETED: {
     text: {
