@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 
+import { env } from '../lib/env';
 import authConfig from './auth.config';
 import { verifyCredentials } from './credentials';
 
@@ -10,6 +11,7 @@ import { verifyCredentials } from './credentials';
 // adding the Auth.js models under the names the adapter expects first.
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
+  secret: env.AUTH_SECRET,
   providers: [
     {
       ...authConfig.providers[0],
