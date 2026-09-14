@@ -37,13 +37,20 @@ export function createQueryString(
       : params.set(el.param, String(el.value)),
   );
 
-  if (query.find((q) => q.param !== 'page')) params.set('page', '1');
+  // Any change other than the page itself starts again from page 1.
+  if (query.some((q) => q.param !== 'page')) params.set('page', '1');
 
   // Canonical order so the generated string is identical on server and client
   // (URL param order from useSearchParams is not stable across SSR/hydration).
   params.sort();
 
   return params.toString();
+}
+
+// Case-insensitive substring match of an already trimmed, lowercased query
+// against any of the texts. An empty query matches everything.
+export function matchesQuery(query: string, ...texts: (string | undefined)[]) {
+  return !query || texts.some((text) => text?.toLowerCase().includes(query));
 }
 
 // Select filter options for list size

@@ -2,6 +2,7 @@ import clsx from 'clsx';
 
 import { SelectOption } from '@/types/types';
 
+import { matchesQuery } from '@/lib/utils/utils';
 import { useSearchInput } from '@/hooks/useSearchInput';
 
 import EmptySearchResult from '../feedback/EmptySearchResult';
@@ -38,22 +39,12 @@ export default function SelectContent({
     isContentExpanded,
   });
 
+  const query = searchQuery.trim().toLowerCase();
   const filteredOptions = options
+    .filter((option) => matchesQuery(query, option.label, option.description))
     .toSorted((a, b) =>
       a.label.localeCompare(b.label, undefined, { numeric: true }),
-    )
-    .filter((el) =>
-      searchQuery.length === 0
-        ? el
-        : el.label
-            .toLowerCase()
-            .includes(searchQuery.trimStart().toLowerCase()) ||
-          (el.description &&
-            el.description
-              .toLowerCase()
-              .includes(searchQuery.trimStart().toLowerCase())),
-    )
-    .toSorted();
+    );
 
   return (
     <PopoverPanel

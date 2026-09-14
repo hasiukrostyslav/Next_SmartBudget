@@ -12,6 +12,7 @@ import {
 } from '@/lib/constants/enums';
 import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/transactions';
 import { callAction } from '@/lib/utils/callAction';
+import { matchesQuery } from '@/lib/utils/utils';
 import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
 import { useToast } from '@/hooks/useToast';
@@ -43,15 +44,13 @@ export default function EditTransactionCategoryForm({
   const { toastSuccess, toastError } = useToast();
 
   const initialValue = [...new Set(selectedItems.map((el) => el.category))];
-  const filteredCategories = TRANSACTION_CATEGORIES.filter((el) =>
-    searchQuery.length === 0
-      ? el
-      : el
-          .replaceAll('_', ' ')
-          .includes(searchQuery.trimStart().toLowerCase()) ||
-        TRANSACTION_CATEGORIES_CONFIG[el].text.description
-          .toLowerCase()
-          .includes(searchQuery.trimStart().toLowerCase()),
+  const query = searchQuery.trim().toLowerCase();
+  const filteredCategories = TRANSACTION_CATEGORIES.filter((category) =>
+    matchesQuery(
+      query,
+      category.replaceAll('_', ' '),
+      TRANSACTION_CATEGORIES_CONFIG[category].text.description,
+    ),
   ).toSorted();
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
