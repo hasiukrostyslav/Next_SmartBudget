@@ -1,11 +1,7 @@
-import Link from 'next/link';
-
 import clsx from 'clsx';
 
 import Copyright from '../ui/atomic/Copyright';
 import ThemeButton from '../ui/buttons/ThemeButton';
-
-const links = ['Privacy Policy', 'Term and Condition', 'Contact'];
 
 export default function Footer() {
   return (
@@ -17,16 +13,6 @@ export default function Footer() {
       )}
     >
       <Copyright />
-      <ul className="flex items-center gap-4">
-        {links.map((link) => (
-          <li key={link} className="hover:text-slate-600">
-            <Link className="outline-round-sm" href="#">
-              {link}
-            </Link>
-          </li>
-        ))}
-      </ul>
-
       <ThemeButton />
     </footer>
   );

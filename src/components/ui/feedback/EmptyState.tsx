@@ -11,6 +11,7 @@ type EmptyStateEntry = (typeof EMPTY_STATE_TEXT)[keyof typeof EMPTY_STATE_TEXT];
 
 interface EmptyStateProps {
   config: EmptyStateEntry;
+  // The page's call to action, if it has a working one.
   children?: React.ReactNode;
   isFilterApplied?: boolean;
   clearFiltersHref?: string;
@@ -67,21 +68,7 @@ export default function EmptyState({
                 <span>Clear all filters</span>
               </Button>
             )
-          : children ||
-            (config?.cta && (
-              <div className="flex gap-2">
-                <Button color="blue" size="sm">
-                  <Icon name="plus" size={14} />
-                  <span>{config.cta.primaryLabel}</span>
-                </Button>
-                {'secondaryLabel' in config.cta &&
-                  config.cta.secondaryLabel && (
-                    <Button color="outline" size="sm">
-                      {config.cta.secondaryLabel}
-                    </Button>
-                  )}
-              </div>
-            ))}
+          : children}
       </div>
     </section>
   );
