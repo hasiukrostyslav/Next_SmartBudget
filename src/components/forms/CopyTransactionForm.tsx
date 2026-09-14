@@ -164,7 +164,6 @@ export default function CopyTransactionForm({
                   label={CREATE_TRANSACTION_FIELDS.DATE.label}
                   selectedValue={field.value}
                   onSelect={field.onChange}
-                  showSelectedOption
                   contentWidthExpandedTo="w-76"
                   padding="md"
                 />
