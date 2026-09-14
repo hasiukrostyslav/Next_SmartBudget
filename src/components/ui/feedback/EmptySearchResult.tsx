@@ -25,7 +25,6 @@ export default function EmptySearchResult({
       <div className="flex flex-col items-center justify-center gap-2">
         {category && (
           <Image
-            className="h-[120] w-[120]"
             alt="Error"
             src="/error-404.png"
             width={120}

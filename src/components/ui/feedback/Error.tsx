@@ -27,7 +27,6 @@ export default function Error({ type, page = 'inner' }: ErrorProps) {
       )}
     >
       <Image
-        className="h-[300] w-[300]"
         alt="Error"
         src={`/error-${ERROR_MESSAGES_CONFIG[type].code}.png`}
         width={300}

@@ -38,7 +38,6 @@ export default function EmptyState({
     >
       <div className="flex flex-col items-center justify-center gap-2">
         <Image
-          className="h-[140] w-[140]"
           alt="Error"
           src="/error-404.png"
           width={140}
