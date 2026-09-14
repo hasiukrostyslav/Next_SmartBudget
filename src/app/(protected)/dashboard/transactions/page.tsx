@@ -18,7 +18,7 @@ import TransactionsCTA from '@/components/ui/features/transactions/TransactionsC
 import TransactionsList from '@/components/ui/features/transactions/TransactionsList';
 import TransactionsToolbar from '@/components/ui/features/transactions/TransactionsToolbar';
 import EmptyState from '@/components/ui/feedback/EmptyState';
-import Error from '@/components/ui/feedback/Error';
+import ErrorState from '@/components/ui/feedback/ErrorState';
 import LoadingOverlay from '@/components/ui/feedback/LoadingOverlay';
 import PaginationTable from '@/components/ui/pagination/PaginationTable';
 
@@ -41,7 +41,7 @@ async function TransactionsListContent({
 
   if (!result.success || !result.data)
     return (
-      <Error
+      <ErrorState
         type={
           result.status === 401
             ? 'auth'

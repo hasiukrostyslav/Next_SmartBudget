@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 import Button from '@/components/ui/buttons/Button';
-import ErrorState from '@/components/ui/feedback/Error';
+import ErrorState from '@/components/ui/feedback/ErrorState';
 import Icon from '@/components/ui/icons/Icon';
 
 // Catches render errors inside the dashboard so the sidebar, header and footer

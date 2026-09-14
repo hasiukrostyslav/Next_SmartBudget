@@ -1,6 +1,6 @@
 import LoadingOverlay from '@/components/ui/feedback/LoadingOverlay';
 
-export default function loading() {
+export default function Loading() {
   return (
     <LoadingOverlay
       title="Loading your transactions"

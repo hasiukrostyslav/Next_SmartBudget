@@ -10,24 +10,19 @@ interface IconProps {
   strokeWidth?: number;
 }
 
-export default function Icon({
-  name,
-  className,
-  color,
-  size,
-  strokeWidth,
-}: IconProps) {
-  const Icon = icons.find((icon) => icon.role === name)?.component;
+type RenderIcon = (props: IconProps) => React.ReactElement;
 
-  if (!Icon) return null;
+// Built once. Finding an icon used to scan the whole 90-entry list on every
+// render of every icon. The map holds render functions rather than
+// components, so Icon never picks a component type during render, which the
+// React Compiler cannot prove stable.
+const RENDER_BY_ROLE = new Map<string, RenderIcon>(
+  icons.map(({ role, component: Component }) => [
+    role,
+    (props) => <Component {...props} />,
+  ]),
+);
 
-  return (
-    <Icon
-      name={name}
-      strokeWidth={strokeWidth}
-      size={size}
-      color={color}
-      className={className}
-    />
-  );
+export default function Icon(props: IconProps) {
+  return RENDER_BY_ROLE.get(props.name)?.(props) ?? null;
 }

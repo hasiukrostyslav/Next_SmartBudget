@@ -4,7 +4,7 @@ import SectionWrapper from '@/components/layouts/SectionWrapper';
 import TransactionsCTA from './TransactionsCTA';
 import TransactionsFilters from './TransactionsFilters';
 
-export default async function TransactionsToolbar() {
+export default function TransactionsToolbar() {
   return (
     <SectionWrapper>
       <div className="flex items-center gap-4">
