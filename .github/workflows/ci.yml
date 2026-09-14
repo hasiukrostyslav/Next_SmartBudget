@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: app
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/app?sslmode=disable
+      SHADOW_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/shadow?sslmode=disable
+      TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/app?sslmode=disable
+      # Only lets the build and tests start; nothing is signed with it.
+      AUTH_SECRET: ci-placeholder-secret-not-used-outside-ci-0123
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install (also generates the Prisma client)
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Migrations build a fresh database
+        run: npm run db:replay
+
+      - name: Create the shadow database
+        run: PGPASSWORD=postgres psql -h localhost -U postgres -c 'CREATE DATABASE shadow'
+
+      - name: Apply migrations
+        run: npx prisma migrate deploy
+
+      - name: Migrations match schema.prisma
+        run: npx prisma migrate diff --from-migrations prisma/migrations --to-schema prisma/schema.prisma --exit-code
+
+      - name: Test (database tests included)
+        run: npm test
+
+      - name: Build
+        run: npm run build
