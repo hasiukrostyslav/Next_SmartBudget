@@ -26,7 +26,9 @@ const TransactionFields = z.object({
   currency: z.enum(CURRENCIES),
   amount: z.coerce
     .number()
-    .positive({ message: 'Amount must be a positive number.' }),
+    .positive({ message: 'Amount must be a positive number.' })
+    // numeric(14, 2) holds at most 999 999 999 999.99.
+    .max(999_999_999_999.99, { message: 'Amount is too large.' }),
   // Absent stays absent: a partial edit that omits the note must not clear it.
   // Empty or whitespace-only becomes null, which does clear it.
   description: z

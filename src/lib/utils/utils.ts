@@ -91,22 +91,21 @@ export function wait(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// Calculate sum of deleted balance
+// Balance impact of deleting these items, per currency. Summed in integer
+// minor units: adding floats directly drifts (100.1 + 200.2 is
+// 300.29999999999995 in JavaScript).
 export function calcDeletedBalance(item: TransactionItem[]) {
   const grouped = Object.entries(
     Object.groupBy(item, ({ currency }) => currency),
   );
 
   return grouped.map(([currency, entries]) => {
-    return {
-      currency,
-      total: (entries ?? []).reduce(
-        (sum, item) =>
-          sum +
-          (item.transactionType === 'Income' ? item.amount : -item.amount),
-        0,
-      ),
-    };
+    const minorUnits = (entries ?? []).reduce((sum, entry) => {
+      const cents = Math.round(entry.amount * 100);
+      return sum + (entry.transactionType === 'Income' ? cents : -cents);
+    }, 0);
+
+    return { currency, total: minorUnits / 100 };
   });
 }
 

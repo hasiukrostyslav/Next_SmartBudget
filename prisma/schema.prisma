@@ -50,7 +50,7 @@ model Transactions {
   paymentMethod       String              @map("payment_method")
   transactionType     TransactionType     @map("transaction_type")
   currency            Currency
-  amount              Float
+  amount              Decimal             @db.Decimal(14, 2)
   description         String?
   status              TransactionStatus   @default(COMPLETED)
   createdAt           DateTime            @default(now()) @map("created_at")

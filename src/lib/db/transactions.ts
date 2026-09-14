@@ -1,5 +1,6 @@
 import z from 'zod';
 
+import type { Transactions } from '../../../generated/client';
 import { PAGE_SIZE_OPTIONS } from '../constants/constants';
 import { Status, TransactionCategories } from '../constants/enums';
 import { TRANSACTION_SORT_FIELD_MAP } from '../constants/transactions';
@@ -13,6 +14,13 @@ import { db } from './db';
 type SearchParamsType = z.infer<typeof SearchParamsSchema>;
 type CreateTransactionDataType = z.infer<typeof TransactionSchema>;
 type UpdateTransactionDataType = z.infer<typeof UpdateTransactionSchema>;
+
+// Prisma returns amount as a Decimal, which cannot be passed to a Client
+// Component or returned from a Server Action. Convert here, at the data
+// boundary; numeric(14, 2) values round-trip through a JS number exactly.
+function toTransactionItem(row: Transactions) {
+  return { ...row, amount: row.amount.toNumber() };
+}
 
 // Find Transactions
 export async function findTransactionsByUserId(
@@ -34,12 +42,14 @@ export async function findTransactionsByUserId(
     sortedField === 'transactionName' ||
     sortedField === 'description'
   ) {
-    const transactions = await db.transactions.findMany({
-      where: {
-        userId,
-        transactionName: { contains: search, mode: 'insensitive' },
-      },
-    });
+    const transactions = (
+      await db.transactions.findMany({
+        where: {
+          userId,
+          transactionName: { contains: search, mode: 'insensitive' },
+        },
+      })
+    ).map(toTransactionItem);
     const sorted = transactions.sort((a, b) => {
       if (sortedField === 'amount') {
         const signedA = a.transactionType === 'Expenses' ? -a.amount : a.amount;
@@ -81,13 +91,17 @@ export async function findTransactionsByUserId(
       },
     }),
   ]);
-  return { transactions, transactionCount };
+  return {
+    transactions: transactions.map(toTransactionItem),
+    transactionCount,
+  };
 }
 
 export async function findTransactionById(id: string, userId: string) {
-  return db.transactions.findFirst({
+  const row = await db.transactions.findFirst({
     where: { transactionId: id, userId },
   });
+  return row ? toTransactionItem(row) : null;
 }
 
 // Create Transaction
@@ -107,7 +121,7 @@ export async function createTransaction(
     createdAt,
   } = transaction;
 
-  return db.transactions.create({
+  const row = await db.transactions.create({
     data: {
       userId,
       transactionCategory,
@@ -121,6 +135,8 @@ export async function createTransaction(
       createdAt,
     },
   });
+
+  return toTransactionItem(row);
 }
 
 // Edit Transactions
