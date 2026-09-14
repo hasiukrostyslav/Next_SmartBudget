@@ -18,6 +18,7 @@ export const ERROR_MESSAGES = {
     INVALID_CREDENTIALS: 'Invalid credentials',
     EMAIL_EXISTS: 'An account with this email already exists.',
     INVALID_EMAIL_OR_PASSWORD: 'Invalid email or password!',
+    TOO_MANY_ATTEMPTS: 'Too many attempts. Wait a few minutes and try again.',
   },
   transaction: {
     FETCH_MANY: 'Failed to fetch transactions',

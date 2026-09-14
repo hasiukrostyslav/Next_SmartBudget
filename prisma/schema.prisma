@@ -119,3 +119,12 @@ enum TransactionCategory {
   utilities
   water
 }
+
+// Fixed-window counters for sign-in and sign-up rate limiting (src/lib/rateLimit.ts).
+model RateLimits {
+  key     String   @id
+  count   Int
+  resetAt DateTime @map("reset_at")
+
+  @@map("rate_limits")
+}

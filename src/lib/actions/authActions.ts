@@ -9,6 +9,7 @@ import { SALT_ROUNDS } from '../constants/constants';
 import { ERROR_MESSAGES } from '../constants/messages';
 import { isUniqueConstraintError } from '../db/errors';
 import { createUser, getUserByEmail } from '../db/users';
+import { isLoginAllowed, isSignUpAllowed } from '../rateLimit';
 import { SignInSchema, SignUpSchema } from '../schemas/auth.schema';
 
 type SignUpFormData = z.infer<typeof SignUpSchema>;
@@ -23,6 +24,10 @@ export async function signUp(formData: SignUpFormData) {
       error: ERROR_MESSAGES.auth.INVALID_CREDENTIALS,
     };
   }
+
+  // Checked before any hashing, so a flood of sign-ups can't spend bcrypt time.
+  if (!(await isSignUpAllowed()))
+    return { error: ERROR_MESSAGES.auth.TOO_MANY_ATTEMPTS };
 
   const { email, password, name } = validatedFields.data;
 
@@ -65,6 +70,10 @@ export async function login(formData: SignInFormData) {
   }
 
   const { email, password } = validatedFields.data;
+
+  // Counted before the password is checked, so every guess costs an attempt.
+  if (!(await isLoginAllowed(email)))
+    return { error: ERROR_MESSAGES.auth.TOO_MANY_ATTEMPTS };
 
   // Sign In
   const result = await signInUser(email, password);
