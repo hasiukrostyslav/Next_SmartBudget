@@ -103,6 +103,7 @@ export default function TransactionsFilters() {
         name="search"
         padding="sm"
         placeholder="Search Transaction..."
+        ariaLabel="Search transactions"
         iconName="search"
         value={searchQuery}
         onChange={handleChange}

@@ -180,6 +180,7 @@ export default function CopyTransactionForm({
               <div className="flex-2">
                 <Input
                   {...register(CREATE_TRANSACTION_FIELDS.AMOUNT.name)}
+                  ariaLabel={CREATE_TRANSACTION_FIELDS.AMOUNT.label}
                   padding="md"
                   type="number"
                   step="any"
@@ -193,7 +194,7 @@ export default function CopyTransactionForm({
                   name={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
                   render={({ field }) => (
                     <Select
-                      label={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
+                      label={CREATE_TRANSACTION_FIELDS.CURRENCY.label}
                       options={CURRENCY_CONFIG.map((el) => ({
                         value: el.currency,
                         label: el.currency,
@@ -222,6 +223,7 @@ export default function CopyTransactionForm({
           />
           <TextArea
             {...register(CREATE_TRANSACTION_FIELDS.DESCRIPTION.name)}
+            ariaLabel={CREATE_TRANSACTION_FIELDS.DESCRIPTION.label}
             placeholder={CREATE_TRANSACTION_FIELDS.DESCRIPTION.placeholder}
           />
         </ModalFieldWrapper>

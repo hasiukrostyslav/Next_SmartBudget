@@ -74,7 +74,11 @@ export default function EditItemStatusForm({
 
         <ModalFieldWrapper>
           <ModalFieldLabel label="New status" />
-          <div className="flex flex-col gap-3">
+          <div
+            role="radiogroup"
+            aria-label="New status"
+            className="flex flex-col gap-3"
+          >
             {STATUSES.map((status) => {
               const item = STATUS_CONFIG[status];
 

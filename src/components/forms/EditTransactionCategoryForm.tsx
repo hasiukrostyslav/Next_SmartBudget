@@ -97,6 +97,7 @@ export default function EditTransactionCategoryForm({
           <Input
             name="search"
             placeholder="Search categories..."
+            ariaLabel="Search categories"
             iconName="search"
             padding="md"
             value={searchQuery}
@@ -106,10 +107,11 @@ export default function EditTransactionCategoryForm({
           />
 
           <div
+            role="radiogroup"
+            aria-label="New category"
             className={clsx(
               'mt-2 grid h-72 grid-cols-2 gap-3 pr-2',
               'scrollbar auto-rows-min overflow-y-auto',
-
               filteredCategories.length === 0 ? 'place-content-center' : '',
             )}
           >

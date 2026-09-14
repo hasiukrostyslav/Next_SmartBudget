@@ -63,6 +63,7 @@ export default function BulkToolbar({
       </div>
       <ButtonIcon
         iconName="close"
+        label="Clear selection"
         size={14}
         shape="square"
         variant="ghost"

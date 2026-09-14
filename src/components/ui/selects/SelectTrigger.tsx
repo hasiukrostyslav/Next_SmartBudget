@@ -57,6 +57,8 @@ export default function SelectTrigger({
       )}
     >
       <div className="flex items-center gap-2">
+        {/* Names the button "<field>: <value>" for screen readers. */}
+        <span className="sr-only">{label}: </span>
         {iconName && (
           <Icon name={iconName} size={16} className="text-slate-500" />
         )}

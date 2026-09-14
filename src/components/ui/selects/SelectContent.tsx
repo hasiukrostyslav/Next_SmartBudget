@@ -68,6 +68,7 @@ export default function SelectContent({
           <Input
             name="search"
             placeholder="Search categories..."
+            ariaLabel="Search options"
             iconName="search"
             padding="sm"
             value={searchQuery}

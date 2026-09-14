@@ -20,6 +20,8 @@ interface InputProps {
   value?: string;
   disabled?: boolean;
   placeholder?: string;
+  // Accessible name when the field has no visible <label>.
+  ariaLabel?: string;
   error?: string;
   iconName?: IconName;
   groupPosition?: 'start' | 'end';
@@ -43,6 +45,7 @@ export default function Input({
   value,
   disabled,
   placeholder,
+  ariaLabel,
   error,
   iconName,
   groupPosition,
@@ -56,14 +59,14 @@ export default function Input({
   ...props
 }: InputProps) {
   const id = useId();
+  const inputId = `${name}-${id}`;
+  const errorId = `${inputId}-error`;
 
   const borderColor = INPUT_CONFIG.border;
 
   return (
     <div className={clsx('relative', error ? 'mb-4.5' : '')}>
-      {label && (
-        <InputLabel label={label} htmlFor={`${name}-${id}`} margin={padding} />
-      )}
+      {label && <InputLabel label={label} htmlFor={inputId} margin={padding} />}
 
       <div className="relative">
         {iconName && <InputIcon name={iconName} padding={padding} />}
@@ -71,7 +74,10 @@ export default function Input({
         <input
           {...props}
           ref={ref}
-          id={`${name}-${id}`}
+          id={inputId}
+          aria-label={label ? undefined : ariaLabel}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? errorId : undefined}
           name={name}
           disabled={disabled}
           placeholder={placeholder}
@@ -121,7 +127,7 @@ export default function Input({
         )}
       </div>
 
-      {error && <InputError message={error} />}
+      {error && <InputError id={errorId} message={error} />}
     </div>
   );
 }

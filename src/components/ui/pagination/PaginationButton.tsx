@@ -30,6 +30,14 @@ export default function PaginationButton({
     <Link
       href={disabled || active ? '#' : href}
       aria-disabled={disabled}
+      aria-label={
+        page === 'prev'
+          ? 'Previous page'
+          : page === 'next'
+            ? 'Next page'
+            : `Page ${page}`
+      }
+      aria-current={active ? 'page' : undefined}
       tabIndex={disabled || active ? -1 : 0}
       className={clsx(
         'flex h-7 w-7 items-center justify-center p-1 font-semibold',

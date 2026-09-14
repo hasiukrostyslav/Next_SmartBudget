@@ -38,7 +38,7 @@ export default function PaginationFilter({
       <div className="flex items-center gap-2 pl-2">
         <span>Rows per page</span>
         <Select
-          label={TRANSACTION_SEARCH_PARAMS.LIMIT}
+          label="Rows per page"
           options={pageSizeOptions}
           selectedValue={selectedValue}
           onSelect={handleSelect}

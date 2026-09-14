@@ -22,6 +22,7 @@ export default function TransactionsSort({
     >
       <CheckBox
         name="bulk"
+        label="Select all transactions on this page"
         checked={isAllSelected}
         onChange={onToggleSelectAll}
       />

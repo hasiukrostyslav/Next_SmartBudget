@@ -29,7 +29,8 @@ export default function Sidebar() {
         size={24}
         shape="square"
         variant="ghost"
-        tooltipLabel={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        withTooltip
         tooltipSide="right"
         className="mt-auto self-end text-blue-400 dark:text-blue-200"
         iconClassName={clsx(

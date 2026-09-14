@@ -34,6 +34,7 @@ export default function TransactionsItem({
     >
       <CheckBox
         name={item.transactionName}
+        label={`Select ${item.transactionName}`}
         checked={checked}
         onChange={onToggleSelect}
       />

@@ -126,6 +126,7 @@ export default function TransactionForm(props: TransactionFormProps) {
               name={CREATE_TRANSACTION_FIELDS.TYPE.name}
               render={({ field }) => (
                 <SegmentedControl
+                  label={CREATE_TRANSACTION_FIELDS.TYPE.label}
                   options={TRANSACTION_TYPE_CONFIG}
                   selectedValue={field.value}
                   onSelect={field.onChange}
@@ -140,6 +141,7 @@ export default function TransactionForm(props: TransactionFormProps) {
             <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.NAME.label} />
             <Input
               {...register(CREATE_TRANSACTION_FIELDS.NAME.name)}
+              ariaLabel={CREATE_TRANSACTION_FIELDS.NAME.label}
               padding="md"
               placeholder={CREATE_TRANSACTION_FIELDS.NAME.placeholder}
             />
@@ -153,6 +155,7 @@ export default function TransactionForm(props: TransactionFormProps) {
               <div className="flex-2">
                 <Input
                   {...register(CREATE_TRANSACTION_FIELDS.AMOUNT.name)}
+                  ariaLabel={CREATE_TRANSACTION_FIELDS.AMOUNT.label}
                   padding="md"
                   type="number"
                   step="any"
@@ -166,7 +169,7 @@ export default function TransactionForm(props: TransactionFormProps) {
                   name={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
                   render={({ field }) => (
                     <Select
-                      label={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
+                      label={CREATE_TRANSACTION_FIELDS.CURRENCY.label}
                       options={CURRENCY_CONFIG.map((el) => ({
                         value: el.currency,
                         label: el.currency,
@@ -195,7 +198,7 @@ export default function TransactionForm(props: TransactionFormProps) {
               name={CREATE_TRANSACTION_FIELDS.STATUS.name}
               render={({ field }) => (
                 <Select
-                  label={CREATE_TRANSACTION_FIELDS.STATUS.name}
+                  label={CREATE_TRANSACTION_FIELDS.STATUS.label}
                   options={[...STATUSES].map((status) => ({
                     value: status,
                     label: STATUS_CONFIG[status].text.header,
@@ -220,7 +223,7 @@ export default function TransactionForm(props: TransactionFormProps) {
               name={CREATE_TRANSACTION_FIELDS.CATEGORY.name}
               render={({ field }) => (
                 <Select
-                  label={CREATE_TRANSACTION_FIELDS.CATEGORY.name}
+                  label={CREATE_TRANSACTION_FIELDS.CATEGORY.label}
                   options={[...TRANSACTION_CATEGORIES].map((category) => ({
                     value: category,
                     label: TRANSACTION_CATEGORIES_CONFIG[category].text.header,
@@ -269,7 +272,7 @@ export default function TransactionForm(props: TransactionFormProps) {
               render={({ field }) => (
                 // Should be fixed in the future!!!
                 <Select
-                  label={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.name}
+                  label={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.label}
                   options={['Cash', 'Card'].map((payment) => ({
                     value: payment,
                     label: payment,
@@ -294,6 +297,7 @@ export default function TransactionForm(props: TransactionFormProps) {
           />
           <TextArea
             {...register(CREATE_TRANSACTION_FIELDS.DESCRIPTION.name)}
+            ariaLabel={CREATE_TRANSACTION_FIELDS.DESCRIPTION.label}
             placeholder={CREATE_TRANSACTION_FIELDS.DESCRIPTION.placeholder}
           />
         </ModalFieldWrapper>

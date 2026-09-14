@@ -27,6 +27,7 @@ export default function Calendar({
       <div className="flex items-center justify-between">
         <ButtonIcon
           iconName="chevron-left"
+          label="Previous month"
           size={16}
           shape="square"
           variant="outline"
@@ -36,6 +37,7 @@ export default function Calendar({
         <p className="font-bold">{format(cursor, 'LLLL yyyy')}</p>
         <ButtonIcon
           iconName="chevron-right"
+          label="Next month"
           size={16}
           shape="square"
           variant="outline"
