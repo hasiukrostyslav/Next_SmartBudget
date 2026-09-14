@@ -222,6 +222,14 @@ describe.skipIf(!process.env.TEST_DATABASE_URL)(
       expect((await list({ status: 'STOLEN' })).transactionCount).toBe(4);
     });
 
+    it('searches notes as well as names', async () => {
+      expect(names(await list({ search: 'note' })).sort()).toEqual([
+        'bravo',
+        'charlie',
+      ]);
+      expect(names(await list({ search: 'A NOTE' }))).toEqual(['charlie']);
+    });
+
     it("never returns another user's rows", async () => {
       const all = await list({ limit: '100' });
       expect(all.transactionCount).toBe(4);

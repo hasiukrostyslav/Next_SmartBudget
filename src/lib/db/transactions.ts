@@ -72,9 +72,11 @@ export async function findTransactionsByUserId(
   const search = params?.search?.replaceAll('-', ' ').trim() ?? '';
 
   const conditions = [Prisma.sql`user_id = ${userId}`];
+  // Name or note, as in the Express API (docs/transactions-query.md).
   if (search) {
+    const pattern = `%${escapeLike(search)}%`;
     conditions.push(
-      Prisma.sql`transaction_name ILIKE ${`%${escapeLike(search)}%`} ESCAPE '\\'`,
+      Prisma.sql`(transaction_name ILIKE ${pattern} ESCAPE '\\' OR description ILIKE ${pattern} ESCAPE '\\')`,
     );
   }
 
