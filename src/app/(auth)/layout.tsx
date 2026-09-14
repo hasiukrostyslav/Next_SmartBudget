@@ -8,8 +8,9 @@ export default function AuthLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="flex h-screen w-screen">
-      <figure className="relative w-7/12">
+    <section className="flex h-screen w-full">
+      {/* The image column is decoration; below lg the form takes the screen. */}
+      <figure className="relative hidden lg:block lg:w-7/12">
         <Image
           src="/background.jpg"
           alt="background image"

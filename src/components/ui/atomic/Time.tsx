@@ -27,7 +27,7 @@ export default function Time() {
   }).format(date);
 
   return (
-    <div className="flex gap-2">
+    <div className="hidden gap-2 md:flex">
       <span className="text-sm text-slate-400">{formatDate}</span>
       <span className="text-sm text-slate-400">{formatTime}</span>
     </div>

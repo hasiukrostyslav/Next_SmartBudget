@@ -28,12 +28,14 @@ export default function TransactionsList({
   } = useCheckbox(data.map((el) => el.transactionId));
 
   return (
-    <SectionWrapper className="flex h-full min-h-0 flex-col overflow-hidden">
+    <SectionWrapper className="flex h-full min-h-0 flex-col overflow-x-auto overflow-y-hidden">
       <div
         role="table"
         aria-label="Transactions"
         className={clsx(
           'relative grid min-h-0 flex-1 grid-rows-[auto_minmax(0,1fr)] gap-x-4',
+          // Nine columns don't fit a phone; the table scrolls sideways instead.
+          'min-w-[60rem]',
           'grid-cols-[auto_1fr_1fr_1fr_auto_minmax(6rem,auto)_1fr_auto_auto]',
         )}
       >

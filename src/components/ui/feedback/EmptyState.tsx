@@ -57,7 +57,7 @@ export default function EmptyState({
       </div>
       <div
         className={clsx(
-          'mt-2 flex w-1/3 flex-col items-center justify-center gap-3 text-center',
+          'mt-2 flex w-full max-w-md flex-col items-center justify-center gap-3 px-4 text-center',
         )}
       >
         {description && <p className="text-slate-500">{description}</p>}

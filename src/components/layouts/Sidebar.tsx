@@ -4,12 +4,18 @@ import { useState } from 'react';
 
 import clsx from 'clsx';
 
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+
 import ButtonIcon from '../ui/buttons/ButtonIcon';
 import AnimatedLogo from '../ui/logos/AnimatedLogo';
 import Navbar from './Navbar';
 
 export default function Sidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  // Below the lg breakpoint the sidebar starts collapsed; once the user
+  // toggles it, their choice wins.
+  const isNarrowScreen = useMediaQuery('(max-width: 1023px)');
+  const [collapsedByUser, setCollapsedByUser] = useState<boolean | null>(null);
+  const isCollapsed = collapsedByUser ?? isNarrowScreen;
 
   return (
     <aside
@@ -24,7 +30,9 @@ export default function Sidebar() {
       <Navbar isCollapsed={isCollapsed} />
 
       <ButtonIcon
-        onClick={() => setIsCollapsed((collapsed) => !collapsed)}
+        onClick={() =>
+          setCollapsedByUser((collapsed) => !(collapsed ?? isNarrowScreen))
+        }
         iconName="chevrons-left"
         size={24}
         shape="square"

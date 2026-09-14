@@ -11,8 +11,8 @@ export default function AuthFormContainer({
   heading,
 }: AuthFormContainerProps) {
   return (
-    <section className="relative flex w-5/12 items-center justify-center">
-      <div className="flex w-1/2 flex-col items-center justify-center gap-2">
+    <section className="relative flex w-full items-center justify-center px-6 lg:w-5/12">
+      <div className="flex w-full max-w-sm flex-col items-center justify-center gap-2">
         <Logo className="h-17.5" type="lg" />
         <h2 className="text-lg font-medium tracking-wide">{heading}</h2>
         {children}
