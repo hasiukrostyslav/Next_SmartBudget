@@ -95,22 +95,26 @@ export function wait(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// Balance impact of deleting these items, per currency. Summed in integer
-// minor units: adding floats directly drifts (100.1 + 200.2 is
-// 300.29999999999995 in JavaScript).
+// Balance impact of deleting these items, per currency, in first-seen currency
+// order. Summed in integer minor units: adding floats directly drifts
+// (100.1 + 200.2 is 300.29999999999995 in JavaScript). A Map instead of
+// Object.groupBy, which needs Safari 17.4+ and is not polyfilled by Next.
 export function calcDeletedBalance(item: TransactionItem[]) {
-  const grouped = Object.entries(
-    Object.groupBy(item, ({ currency }) => currency),
-  );
+  const minorUnitsByCurrency = new Map<string, number>();
 
-  return grouped.map(([currency, entries]) => {
-    const minorUnits = (entries ?? []).reduce((sum, entry) => {
-      const cents = Math.round(entry.amount * 100);
-      return sum + (entry.transactionType === 'Income' ? cents : -cents);
-    }, 0);
+  for (const entry of item) {
+    const cents = Math.round(entry.amount * 100);
+    const signed = entry.transactionType === 'Income' ? cents : -cents;
+    minorUnitsByCurrency.set(
+      entry.currency,
+      (minorUnitsByCurrency.get(entry.currency) ?? 0) + signed,
+    );
+  }
 
-    return { currency, total: minorUnits / 100 };
-  });
+  return [...minorUnitsByCurrency].map(([currency, minorUnits]) => ({
+    currency,
+    total: minorUnits / 100,
+  }));
 }
 
 // Format amount
