@@ -6,10 +6,20 @@ import { db } from './db';
 
 // Case-insensitive, so an account stored with capitals before emails were
 // normalised is still found. New accounts are stored lowercased.
+//
+// Compared with lower() rather than Prisma's insensitive `equals`, which
+// compiles to ILIKE: "_" and "%" in the address acted as wildcards, so
+// "j_hn@example.com" found "john@example.com". When rows differ only by case
+// (the Express server stores emails as typed), the exact-case row wins, then
+// the oldest.
 export async function getUserByEmail(email: string) {
-  return db.user.findFirst({
-    where: { email: { equals: email, mode: 'insensitive' } },
-  });
+  const [match] = await db.$queryRaw<{ id: string }[]>`
+    SELECT id FROM users
+    WHERE lower(email) = lower(${email})
+    ORDER BY (email = ${email}) DESC, created_at ASC
+    LIMIT 1`;
+
+  return match ? db.user.findUnique({ where: { id: match.id } }) : null;
 }
 
 export async function getUserById(id: string) {
