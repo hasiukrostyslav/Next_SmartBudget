@@ -39,14 +39,14 @@ describe.skipIf(!process.env.TEST_DATABASE_URL)(
   'transactions data layer',
   () => {
     beforeAll(async () => {
-      await db.users.create({
+      await db.user.create({
         data: { id: userId, email: `${userId}@test.local` },
       });
     });
 
     afterAll(async () => {
       // Cascades to the user's transactions.
-      await db.users.deleteMany({ where: { id: userId } });
+      await db.user.deleteMany({ where: { id: userId } });
       await db.$disconnect();
     });
 
@@ -54,7 +54,7 @@ describe.skipIf(!process.env.TEST_DATABASE_URL)(
       await createTransaction(userId, newTransaction(100.1));
       await createTransaction(userId, newTransaction(200.2));
 
-      const { _sum } = await db.transactions.aggregate({
+      const { _sum } = await db.transaction.aggregate({
         where: { userId },
         _sum: { amount: true },
       });

@@ -7,13 +7,13 @@ import { db } from './db';
 // Case-insensitive, so an account stored with capitals before emails were
 // normalised is still found. New accounts are stored lowercased.
 export async function getUserByEmail(email: string) {
-  return db.users.findFirst({
+  return db.user.findFirst({
     where: { email: { equals: email, mode: 'insensitive' } },
   });
 }
 
 export async function getUserById(id: string) {
-  return db.users.findUnique({ where: { id } });
+  return db.user.findUnique({ where: { id } });
 }
 
 export async function createUser(
@@ -21,7 +21,7 @@ export async function createUser(
   email: string,
   password: string,
 ) {
-  return db.users.create({
+  return db.user.create({
     data: {
       name,
       email,

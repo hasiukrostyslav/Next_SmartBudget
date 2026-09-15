@@ -21,12 +21,12 @@ const storedEmail = `Mixed.Case-${run}@Example.COM`;
 
 describe.skipIf(!process.env.TEST_DATABASE_URL)('getUserByEmail', () => {
   afterAll(async () => {
-    await db.users.deleteMany({ where: { email: storedEmail } });
+    await db.user.deleteMany({ where: { email: storedEmail } });
     await db.$disconnect();
   });
 
   it('finds an account stored with capitals by its lowercased email', async () => {
-    await db.users.create({ data: { email: storedEmail, name: 'Legacy' } });
+    await db.user.create({ data: { email: storedEmail, name: 'Legacy' } });
 
     const found = await getUserByEmail(storedEmail.toLowerCase());
     expect(found?.email).toBe(storedEmail);

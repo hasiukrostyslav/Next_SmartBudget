@@ -1,6 +1,6 @@
 import z from 'zod';
 
-import { Prisma, type Transactions } from '../../../generated/client';
+import { Prisma, type Transaction } from '../../../generated/client';
 import { PAGE_SIZE_OPTIONS } from '../constants/constants';
 import { Status, TransactionCategories } from '../constants/enums';
 import {
@@ -17,7 +17,7 @@ type UpdateTransactionDataType = z.infer<typeof UpdateTransactionSchema>;
 // Prisma returns amount as a Decimal, which cannot be passed to a Client
 // Component or returned from a Server Action. Convert here, at the data
 // boundary; numeric(14, 2) values round-trip through a JS number exactly.
-function toTransactionItem(row: Transactions) {
+function toTransactionItem(row: Transaction) {
   return { ...row, amount: row.amount.toNumber() };
 }
 
@@ -118,7 +118,7 @@ export async function findTransactionsByUserId(
 
   const ids = page.map((row) => row.transaction_id);
   const rows = ids.length
-    ? await db.transactions.findMany({
+    ? await db.transaction.findMany({
         where: { userId, transactionId: { in: ids } },
       })
     : [];
@@ -134,7 +134,7 @@ export async function findTransactionsByUserId(
 }
 
 export async function findTransactionById(id: string, userId: string) {
-  const row = await db.transactions.findFirst({
+  const row = await db.transaction.findFirst({
     where: { transactionId: id, userId },
   });
   return row ? toTransactionItem(row) : null;
@@ -157,7 +157,7 @@ export async function createTransaction(
     createdAt,
   } = transaction;
 
-  const row = await db.transactions.create({
+  const row = await db.transaction.create({
     data: {
       userId,
       transactionCategory,
@@ -181,7 +181,7 @@ export async function updateTransactionById(
   userId: string,
   data: UpdateTransactionDataType,
 ) {
-  return db.transactions.updateMany({
+  return db.transaction.updateMany({
     where: { transactionId: id, userId },
     data,
   });
@@ -192,7 +192,7 @@ export async function updateTransactionStatusMany(
   userId: string,
   status: Status,
 ) {
-  return db.transactions.updateMany({
+  return db.transaction.updateMany({
     where: {
       transactionId: { in: transactionIds },
       userId,
@@ -206,7 +206,7 @@ export async function updateTransactionCategoryMany(
   userId: string,
   category: TransactionCategories,
 ) {
-  return db.transactions.updateMany({
+  return db.transaction.updateMany({
     where: {
       transactionId: { in: transactionIds },
       userId,
@@ -220,7 +220,7 @@ export async function deleteTransactionById(
   transactionId: string,
   userId: string,
 ) {
-  return db.transactions.deleteMany({
+  return db.transaction.deleteMany({
     where: { transactionId, userId },
   });
 }
@@ -229,7 +229,7 @@ export async function deleteTransactionsMany(
   transactionId: string[],
   userId: string,
 ) {
-  return db.transactions.deleteMany({
+  return db.transaction.deleteMany({
     where: {
       transactionId: { in: transactionId },
       userId,

@@ -22,7 +22,7 @@ const email = `users-${Date.now()}-${Math.random().toString(36).slice(2)}@test.l
 
 describe.skipIf(!process.env.TEST_DATABASE_URL)('users data layer', () => {
   afterAll(async () => {
-    await db.users.deleteMany({ where: { email } });
+    await db.user.deleteMany({ where: { email } });
     await db.$disconnect();
   });
 

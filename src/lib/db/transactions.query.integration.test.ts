@@ -66,7 +66,7 @@ describe.skipIf(!process.env.TEST_DATABASE_URL)(
   'findTransactionsByUserId',
   () => {
     beforeAll(async () => {
-      await db.users.createMany({
+      await db.user.createMany({
         data: [
           { id: userId, email: `${userId}@test.local` },
           { id: otherUserId, email: `${otherUserId}@test.local` },
@@ -116,7 +116,7 @@ describe.skipIf(!process.env.TEST_DATABASE_URL)(
     });
 
     afterAll(async () => {
-      await db.users.deleteMany({
+      await db.user.deleteMany({
         where: { id: { in: [userId, otherUserId] } },
       });
       await db.$disconnect();

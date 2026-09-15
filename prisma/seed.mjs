@@ -35,12 +35,12 @@ const pool = new pg.Pool({
 const db = new PrismaClient({ adapter: new PrismaPg(pool) });
 
 try {
-  const user = await db.users.findFirst({
+  const user = await db.user.findFirst({
     where: { email: { equals: email, mode: 'insensitive' } },
   });
   if (!user) throw new Error(`No account with the email ${email}.`);
 
-  const { count } = await db.transactions.createMany({
+  const { count } = await db.transaction.createMany({
     data: Object.values(TransactionCategory).map((category) => ({
       userId: user.id,
       transactionName: category
