@@ -19,6 +19,12 @@ export default defineConfig([
       ],
     },
   },
+  {
+    // Command-line scripts (the migration replay and the seed) report progress
+    // on stdout.
+    files: ['scripts/**', 'prisma/**'],
+    rules: { 'no-console': 'off' },
+  },
   globalIgnores([
     '.next/**',
     'out/**',
