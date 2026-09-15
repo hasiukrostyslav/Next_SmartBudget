@@ -21,7 +21,8 @@ const TransactionFields = z.object({
   transactionName: z
     .string()
     .trim()
-    .min(1, { message: 'Transaction name is required.' }),
+    .min(1, { message: 'Transaction name is required.' })
+    .max(100, { message: 'Name must be 100 characters or fewer.' }),
   transactionCategory: z.enum(TRANSACTION_CATEGORIES, {
     message: 'Category is required.',
   }),
@@ -41,6 +42,7 @@ const TransactionFields = z.object({
   // Empty or whitespace-only becomes null, which does clear it.
   description: z
     .string()
+    .max(500, { message: 'Note must be 500 characters or fewer.' })
     .nullish()
     .transform((v) => (v === undefined ? undefined : v?.trim() || null))
     .optional(),
@@ -102,7 +104,11 @@ export const SearchParamsSchema = z.object({
   page: z.coerce.number().int().min(1).max(1_000_000).catch(1),
   sort: z.enum(TRANSACTION_SORT_OPTIONS.map((opt) => opt.label)).catch('date'),
   order: z.enum(['asc', 'desc']).catch('desc'),
-  search: z.string().catch(''),
+  // Long enough for any real search; longer input is cut, not rejected.
+  search: z
+    .string()
+    .catch('')
+    .transform((search) => search.slice(0, 100)),
   category: listParam(TRANSACTION_CATEGORIES),
   account: listParam(PAYMENT_METHODS),
   currency: listParam(CURRENCIES),
