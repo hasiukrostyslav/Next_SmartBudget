@@ -28,6 +28,7 @@ export default function TransactionBulkActionButtons({
         )}
         renderContent={(close) => (
           <EditItemStatusForm
+            itemType="transaction"
             onClose={close}
             selectedItems={selectedItems.map((el) => ({
               id: el.transactionId,

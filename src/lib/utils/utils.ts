@@ -1,21 +1,25 @@
 import { TransactionItem } from '@/types/types';
 
 import {
-  DEFAULT_LOCALE,
+  FORMAT_LOCALE,
   PAGE_SIZE_OPTIONS,
   PAGINATION_RANGE,
 } from '../constants/constants';
 
-// Check if any of the given filter keys has a truthy value. Accepts a plain
-// object (server-parsed params) or a Record built from URLSearchParams, so
-// server and client can check the same TRANSACTION_FILTERS list without
-// hardcoding individual param names.
+// Check if any of the given filter keys is set. Accepts a plain object
+// (server-parsed params, where list filters are arrays) or a Record built from
+// URLSearchParams, so server and client can check the same TRANSACTION_FILTERS
+// list without hardcoding individual param names. An empty list is not a
+// filter.
 export function hasActiveFilters(
   params: Record<string, unknown> | undefined,
   filterKeys: readonly string[],
 ) {
   if (!params) return false;
-  return filterKeys.some((key) => Boolean(params[key]));
+  return filterKeys.some((key) => {
+    const value = params[key];
+    return Array.isArray(value) ? value.length > 0 : Boolean(value);
+  });
 }
 
 // Generate Search Params string
@@ -33,13 +37,20 @@ export function createQueryString(
       : params.set(el.param, String(el.value)),
   );
 
-  if (query.find((q) => q.param !== 'page')) params.set('page', '1');
+  // Any change other than the page itself starts again from page 1.
+  if (query.some((q) => q.param !== 'page')) params.set('page', '1');
 
   // Canonical order so the generated string is identical on server and client
   // (URL param order from useSearchParams is not stable across SSR/hydration).
   params.sort();
 
   return params.toString();
+}
+
+// Case-insensitive substring match of an already trimmed, lowercased query
+// against any of the texts. An empty query matches everything.
+export function matchesQuery(query: string, ...texts: (string | undefined)[]) {
+  return !query || texts.some((text) => text?.toLowerCase().includes(query));
 }
 
 // Select filter options for list size
@@ -86,33 +97,31 @@ export function getPaginationPattern(
   }
 }
 
-// For testing purpose
-export function wait(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-// Calculate sum of deleted balance
+// Balance impact of deleting these items, per currency, in first-seen currency
+// order. Summed in integer minor units: adding floats directly drifts
+// (100.1 + 200.2 is 300.29999999999995 in JavaScript). A Map instead of
+// Object.groupBy, which needs Safari 17.4+ and is not polyfilled by Next.
 export function calcDeletedBalance(item: TransactionItem[]) {
-  const grouped = Object.entries(
-    Object.groupBy(item, ({ currency }) => currency),
-  );
+  const minorUnitsByCurrency = new Map<string, number>();
 
-  return grouped.map(([currency, entries]) => {
-    return {
-      currency,
-      total: (entries ?? []).reduce(
-        (sum, item) =>
-          sum +
-          (item.transactionType === 'Income' ? item.amount : -item.amount),
-        0,
-      ),
-    };
-  });
+  for (const entry of item) {
+    const cents = Math.round(entry.amount * 100);
+    const signed = entry.transactionType === 'Income' ? cents : -cents;
+    minorUnitsByCurrency.set(
+      entry.currency,
+      (minorUnitsByCurrency.get(entry.currency) ?? 0) + signed,
+    );
+  }
+
+  return [...minorUnitsByCurrency].map(([currency, minorUnits]) => ({
+    currency,
+    total: minorUnits / 100,
+  }));
 }
 
 // Format amount
 export function getFormattedAmount(amount: number) {
-  return new Intl.NumberFormat(DEFAULT_LOCALE, {
+  return new Intl.NumberFormat(FORMAT_LOCALE, {
     minimumFractionDigits: 2,
   }).format(amount);
 }

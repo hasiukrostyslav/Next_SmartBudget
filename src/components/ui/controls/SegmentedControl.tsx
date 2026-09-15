@@ -5,6 +5,7 @@ import { IconName } from '@/types/types';
 import SegmentedControlRadioItem from './SegmentedControlRadioItem';
 
 interface SegmentedControlProps {
+  label: string;
   selectedValue: string;
   onSelect: (option: string) => void;
   options: readonly {
@@ -15,12 +16,15 @@ interface SegmentedControlProps {
 }
 
 export default function SegmentedControl({
+  label,
   selectedValue,
   options,
   onSelect,
 }: SegmentedControlProps) {
   return (
     <div
+      role="radiogroup"
+      aria-label={label}
       className={clsx(
         'flex items-center justify-between gap-2 rounded-md p-1',
         'w-full bg-slate-500/10',

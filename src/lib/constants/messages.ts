@@ -4,7 +4,6 @@ export const METADATA_TEXT = {
     title: 'Welcome | SmartBudget',
     description: 'Smart Money, Bright Tomorrow',
   },
-  FORGOT_PASSWORD: 'Forgot Password',
   SIGN_IN: 'Sign In',
   SIGN_UP: 'Sign Up',
   NOT_FOUND_PAGE: 'Page not Found',
@@ -13,15 +12,18 @@ export const METADATA_TEXT = {
 export const ERROR_MESSAGES = {
   UNAUTHORIZED: 'Unauthorized. Please sign in!',
   SOMETHING_WENT_WRONG: 'Something went wrong',
+  NETWORK: 'Could not reach the server. Check your connection and try again.',
   auth: {
     INVALID_CREDENTIALS: 'Invalid credentials',
     EMAIL_EXISTS: 'An account with this email already exists.',
     INVALID_EMAIL_OR_PASSWORD: 'Invalid email or password!',
+    TOO_MANY_ATTEMPTS: 'Too many attempts. Wait a few minutes and try again.',
   },
   transaction: {
     FETCH_MANY: 'Failed to fetch transactions',
     FETCH_ONE: 'Failed to fetch transaction',
     NOT_FOUND: 'Transaction not found',
+    INVALID: 'Some of the submitted values are invalid.',
     CREATE: 'Failed to create transaction',
     UPDATE: 'Failed to update transaction',
     UPDATE_STATUS: 'Failed to update transaction status',
@@ -45,7 +47,6 @@ export const EMPTY_STATE_TEXT = {
       "When you add or import transactions, they'll show up here so you can search, filter and categorize them.",
     cta: {
       primaryLabel: 'Add transaction',
-      secondaryLabel: 'Import from CSV',
     },
     noFilterResults: {
       header: 'No transactions match your filters',
@@ -57,10 +58,6 @@ export const EMPTY_STATE_TEXT = {
     header: 'No payments yet',
     description:
       'Track recurring bills, subscriptions and one-time payments all in one place.',
-    cta: {
-      primaryLabel: 'Add payment',
-      secondaryLabel: 'Import from CSV',
-    },
     noFilterResults: {
       header: 'No payments match your filters',
       description:
@@ -71,9 +68,6 @@ export const EMPTY_STATE_TEXT = {
     header: 'No cards added',
     description:
       'Add your debit or credit cards to monitor balances and link transactions automatically.',
-    cta: {
-      primaryLabel: 'Add card',
-    },
     noFilterResults: {
       header: 'No cards match your filters',
       description:
@@ -84,9 +78,6 @@ export const EMPTY_STATE_TEXT = {
     header: 'No savings goals yet',
     description:
       'Create a savings goal to start tracking your progress toward something that matters.',
-    cta: {
-      primaryLabel: 'Create goal',
-    },
     noFilterResults: {
       header: 'No savings match your filters',
       description:
@@ -97,9 +88,6 @@ export const EMPTY_STATE_TEXT = {
     header: 'No loans tracked',
     description:
       'Add a loan to monitor your outstanding balance, interest, and repayment schedule.',
-    cta: {
-      primaryLabel: 'Add loan',
-    },
     noFilterResults: {
       header: 'No loans match your filters',
       description:
@@ -110,9 +98,6 @@ export const EMPTY_STATE_TEXT = {
     header: 'No deposits yet',
     description:
       'Record fixed deposits or term savings to keep tabs on maturity dates and earned interest.',
-    cta: {
-      primaryLabel: 'Add deposit',
-    },
     noFilterResults: {
       header: 'No deposits match your filters',
       description:

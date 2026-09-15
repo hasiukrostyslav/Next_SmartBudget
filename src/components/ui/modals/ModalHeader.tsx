@@ -51,6 +51,7 @@ export default function ModalHeader({
       </div>
       <ButtonIcon
         iconName="close"
+        label="Close"
         size={18}
         shape="square"
         variant="ghost"

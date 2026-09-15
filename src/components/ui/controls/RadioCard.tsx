@@ -35,6 +35,7 @@ export default function RadioCard({
     <label
       tabIndex={0}
       role="radio"
+      aria-checked={selectedValue === option || (!selectedValue && isCurrent)}
       className={clsx(
         'outline-input flex cursor-pointer items-center gap-3 rounded-xl border-2',
         'px-4 py-2',
@@ -53,7 +54,7 @@ export default function RadioCard({
         <Icon name={iconName} size={20} />
       </div>
       <div>
-        <h2
+        <span
           className={clsx(
             'flex items-center gap-2 font-semibold dark:text-slate-300',
           )}
@@ -66,9 +67,9 @@ export default function RadioCard({
               CURRENT
             </span>
           )}
-        </h2>
+        </span>
 
-        <p className="text-xs text-slate-500">{text.description}</p>
+        <span className="block text-xs text-slate-500">{text.description}</span>
       </div>
 
       <span
@@ -83,6 +84,10 @@ export default function RadioCard({
       <input
         type="radio"
         className="peer hidden"
+        // The labelled element with role="radio" is the control assistive tech
+        // should see; this native input only carries the form value.
+        aria-hidden
+        tabIndex={-1}
         onChange={() => onSelect(option)}
         name={option}
         value={option}

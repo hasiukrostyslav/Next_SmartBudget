@@ -14,8 +14,10 @@ import { OperationType } from '@/lib/constants/enums';
 import {
   CREATE_TRANSACTION_FIELDS,
   CURRENCY_CONFIG,
+  toPaymentMethod,
 } from '@/lib/constants/transactions';
 import { CopyTransactionSchema } from '@/lib/schemas/transaction.schema';
+import { callAction } from '@/lib/utils/callAction';
 import { useToast } from '@/hooks/useToast';
 
 import TransactionAmount from '../ui/features/transactions/TransactionAmount';
@@ -64,23 +66,24 @@ export default function CopyTransactionForm({
 
   async function onSubmit(data: FormData) {
     startTransition(async () => {
-      const result = await createTransaction({
-        ...data,
-        transactionName: sourceTransaction.transactionName,
-        transactionType: sourceTransaction.transactionType,
-        transactionCategory: sourceTransaction.transactionCategory,
-        paymentMethod: sourceTransaction.paymentMethod,
-        status: sourceTransaction.status,
-      });
+      const result = await callAction(() =>
+        createTransaction({
+          ...data,
+          transactionName: sourceTransaction.transactionName,
+          transactionType: sourceTransaction.transactionType,
+          transactionCategory: sourceTransaction.transactionCategory,
+          // The copy has no payment field; a legacy value becomes Card, which
+          // is what the row's icon already shows for it.
+          paymentMethod:
+            toPaymentMethod(sourceTransaction.paymentMethod) ?? 'Card',
+          status: sourceTransaction.status,
+        }),
+      );
       if (result.success) {
         onClose();
         toastSuccess(OperationType.CREATE, 'Transaction');
       } else {
-        toastError(
-          OperationType.CREATE,
-          'Transaction',
-          result?.error as string,
-        );
+        toastError(OperationType.CREATE, 'Transaction', result.error);
       }
     });
   }
@@ -161,7 +164,6 @@ export default function CopyTransactionForm({
                   label={CREATE_TRANSACTION_FIELDS.DATE.label}
                   selectedValue={field.value}
                   onSelect={field.onChange}
-                  showSelectedOption
                   contentWidthExpandedTo="w-76"
                   padding="md"
                 />
@@ -177,6 +179,7 @@ export default function CopyTransactionForm({
               <div className="flex-2">
                 <Input
                   {...register(CREATE_TRANSACTION_FIELDS.AMOUNT.name)}
+                  ariaLabel={CREATE_TRANSACTION_FIELDS.AMOUNT.label}
                   padding="md"
                   type="number"
                   step="any"
@@ -190,7 +193,7 @@ export default function CopyTransactionForm({
                   name={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
                   render={({ field }) => (
                     <Select
-                      label={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
+                      label={CREATE_TRANSACTION_FIELDS.CURRENCY.label}
                       options={CURRENCY_CONFIG.map((el) => ({
                         value: el.currency,
                         label: el.currency,
@@ -219,6 +222,7 @@ export default function CopyTransactionForm({
           />
           <TextArea
             {...register(CREATE_TRANSACTION_FIELDS.DESCRIPTION.name)}
+            ariaLabel={CREATE_TRANSACTION_FIELDS.DESCRIPTION.label}
             placeholder={CREATE_TRANSACTION_FIELDS.DESCRIPTION.placeholder}
           />
         </ModalFieldWrapper>

@@ -6,6 +6,8 @@ import Icon from '../icons/Icon';
 
 interface CheckBoxProps {
   name: string;
+  // Accessible name: the visible box has no text.
+  label: string;
   disabled?: boolean;
   checked: boolean;
   onChange: () => void;
@@ -13,6 +15,7 @@ interface CheckBoxProps {
 
 export default function CheckBox({
   name,
+  label,
   disabled,
   checked,
   onChange,
@@ -22,6 +25,9 @@ export default function CheckBox({
       <input
         type="checkbox"
         className="peer hidden"
+        // The styled span below is the control assistive tech should see.
+        aria-hidden
+        tabIndex={-1}
         name={name}
         disabled={disabled}
         checked={checked}
@@ -29,6 +35,7 @@ export default function CheckBox({
       />
       <span
         role="checkbox"
+        aria-label={label}
         aria-checked={checked}
         aria-disabled={disabled}
         tabIndex={!disabled ? 0 : -1}
@@ -47,7 +54,7 @@ export default function CheckBox({
             : 'peer-checked:border-blue-400 peer-checked:bg-blue-400 peer-checked:text-slate-50',
         )}
       >
-        <Icon name="check" size={14} aria-checked />
+        <Icon name="check" size={14} />
       </span>
     </label>
   );

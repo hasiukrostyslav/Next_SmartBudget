@@ -1,10 +1,9 @@
 'use client';
 
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { TransactionItem } from '@/types/types';
 
@@ -21,11 +20,19 @@ import {
 import {
   CREATE_TRANSACTION_FIELDS,
   CURRENCY_CONFIG,
+  PAYMENT_METHODS,
   STATUS_CONFIG,
+  toPaymentMethod,
   TRANSACTION_CATEGORIES_CONFIG,
   TRANSACTION_TYPE_CONFIG,
 } from '@/lib/constants/transactions';
-import { TransactionSchema } from '@/lib/schemas/transaction.schema';
+import {
+  toCreatePayload,
+  toEditPayload,
+  transactionFormSchema,
+  type TransactionFormValues,
+} from '@/lib/schemas/transactionForm';
+import { callAction } from '@/lib/utils/callAction';
 import { useToast } from '@/hooks/useToast';
 
 import SegmentedControl from '../ui/controls/SegmentedControl';
@@ -39,7 +46,7 @@ import ModalHeader from '../ui/modals/ModalHeader';
 import DatePicker from '../ui/selects/DatePicker';
 import Select from '../ui/selects/Select';
 
-type FormData = z.infer<typeof TransactionSchema>;
+type FormData = TransactionFormValues;
 
 type TransactionFormProps = { onClose: () => void } & (
   | { mode: 'create' }
@@ -49,6 +56,17 @@ type TransactionFormProps = { onClose: () => void } & (
 export default function TransactionForm(props: TransactionFormProps) {
   const isEdit = props.mode === 'edit';
 
+  // A row created by the Express server can hold a free-text payment method.
+  // It stays selectable, and is kept unless the user picks Card or Cash.
+  const storedPaymentMethod = isEdit ? props.item.paymentMethod : undefined;
+  const [schema] = useState(() => transactionFormSchema(storedPaymentMethod));
+  const paymentMethodOptions = [
+    ...PAYMENT_METHODS,
+    ...(storedPaymentMethod && !toPaymentMethod(storedPaymentMethod)
+      ? [storedPaymentMethod]
+      : []),
+  ].map((payment) => ({ value: payment, label: payment }));
+
   const [isPending, startTransition] = useTransition();
   const { toastSuccess, toastError } = useToast();
   const {
@@ -57,7 +75,7 @@ export default function TransactionForm(props: TransactionFormProps) {
     control,
     formState: { isDirty, isValid },
   } = useForm({
-    resolver: zodResolver(TransactionSchema),
+    resolver: zodResolver(schema),
     defaultValues: isEdit
       ? {
           transactionType: props.item.transactionType,
@@ -80,9 +98,13 @@ export default function TransactionForm(props: TransactionFormProps) {
 
   async function onSubmit(data: FormData) {
     startTransition(async () => {
+      // Two calls, not one ternary inside callAction: the actions return
+      // different result types, and a single closure can't unify them.
       const result = isEdit
-        ? await editTransaction(props.item.transactionId, data)
-        : await createTransaction(data);
+        ? await callAction(() =>
+            editTransaction(props.item.transactionId, toEditPayload(data)),
+          )
+        : await callAction(() => createTransaction(toCreatePayload(data)));
 
       if (result.success) {
         props.onClose();
@@ -94,7 +116,7 @@ export default function TransactionForm(props: TransactionFormProps) {
         toastError(
           isEdit ? OperationType.EDIT : OperationType.CREATE,
           'Transaction',
-          result?.error as string,
+          result.error,
         );
       }
     });
@@ -121,6 +143,7 @@ export default function TransactionForm(props: TransactionFormProps) {
               name={CREATE_TRANSACTION_FIELDS.TYPE.name}
               render={({ field }) => (
                 <SegmentedControl
+                  label={CREATE_TRANSACTION_FIELDS.TYPE.label}
                   options={TRANSACTION_TYPE_CONFIG}
                   selectedValue={field.value}
                   onSelect={field.onChange}
@@ -135,6 +158,7 @@ export default function TransactionForm(props: TransactionFormProps) {
             <ModalFieldLabel label={CREATE_TRANSACTION_FIELDS.NAME.label} />
             <Input
               {...register(CREATE_TRANSACTION_FIELDS.NAME.name)}
+              ariaLabel={CREATE_TRANSACTION_FIELDS.NAME.label}
               padding="md"
               placeholder={CREATE_TRANSACTION_FIELDS.NAME.placeholder}
             />
@@ -148,6 +172,7 @@ export default function TransactionForm(props: TransactionFormProps) {
               <div className="flex-2">
                 <Input
                   {...register(CREATE_TRANSACTION_FIELDS.AMOUNT.name)}
+                  ariaLabel={CREATE_TRANSACTION_FIELDS.AMOUNT.label}
                   padding="md"
                   type="number"
                   step="any"
@@ -161,7 +186,7 @@ export default function TransactionForm(props: TransactionFormProps) {
                   name={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
                   render={({ field }) => (
                     <Select
-                      label={CREATE_TRANSACTION_FIELDS.CURRENCY.name}
+                      label={CREATE_TRANSACTION_FIELDS.CURRENCY.label}
                       options={CURRENCY_CONFIG.map((el) => ({
                         value: el.currency,
                         label: el.currency,
@@ -190,7 +215,7 @@ export default function TransactionForm(props: TransactionFormProps) {
               name={CREATE_TRANSACTION_FIELDS.STATUS.name}
               render={({ field }) => (
                 <Select
-                  label={CREATE_TRANSACTION_FIELDS.STATUS.name}
+                  label={CREATE_TRANSACTION_FIELDS.STATUS.label}
                   options={[...STATUSES].map((status) => ({
                     value: status,
                     label: STATUS_CONFIG[status].text.header,
@@ -215,7 +240,7 @@ export default function TransactionForm(props: TransactionFormProps) {
               name={CREATE_TRANSACTION_FIELDS.CATEGORY.name}
               render={({ field }) => (
                 <Select
-                  label={CREATE_TRANSACTION_FIELDS.CATEGORY.name}
+                  label={CREATE_TRANSACTION_FIELDS.CATEGORY.label}
                   options={[...TRANSACTION_CATEGORIES].map((category) => ({
                     value: category,
                     label: TRANSACTION_CATEGORIES_CONFIG[category].text.header,
@@ -247,7 +272,6 @@ export default function TransactionForm(props: TransactionFormProps) {
                   label={CREATE_TRANSACTION_FIELDS.DATE.label}
                   selectedValue={field.value}
                   onSelect={field.onChange}
-                  showSelectedOption
                   padding="md"
                 />
               )}
@@ -262,13 +286,9 @@ export default function TransactionForm(props: TransactionFormProps) {
               control={control}
               name={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.name}
               render={({ field }) => (
-                // Should be fixed in the future!!!
                 <Select
-                  label={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.name}
-                  options={['Cash', 'Card'].map((payment) => ({
-                    value: payment,
-                    label: payment,
-                  }))}
+                  label={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.label}
+                  options={paymentMethodOptions}
                   padding="md"
                   showSelectedOption
                   selectedValue={field.value}
@@ -289,6 +309,7 @@ export default function TransactionForm(props: TransactionFormProps) {
           />
           <TextArea
             {...register(CREATE_TRANSACTION_FIELDS.DESCRIPTION.name)}
+            ariaLabel={CREATE_TRANSACTION_FIELDS.DESCRIPTION.label}
             placeholder={CREATE_TRANSACTION_FIELDS.DESCRIPTION.placeholder}
           />
         </ModalFieldWrapper>

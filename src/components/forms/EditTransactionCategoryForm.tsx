@@ -11,9 +11,10 @@ import {
   TransactionCategories,
 } from '@/lib/constants/enums';
 import { TRANSACTION_CATEGORIES_CONFIG } from '@/lib/constants/transactions';
+import { callAction } from '@/lib/utils/callAction';
+import { matchesQuery } from '@/lib/utils/utils';
 import { useSearchInput } from '@/hooks/useSearchInput';
 import { useSelectValue } from '@/hooks/useSelectValue';
-import { useTheme } from '@/hooks/useTheme';
 import { useToast } from '@/hooks/useToast';
 
 import EmptySearchResult from '@/components/ui/feedback/EmptySearchResult';
@@ -37,38 +38,37 @@ export default function EditTransactionCategoryForm({
   onClose,
   selectedItems,
 }: EditTransactionCategoryFormProps) {
-  const { theme } = useTheme();
   const [isPending, startTransition] = useTransition();
   const { selectedValue, handleSelect } = useSelectValue({});
   const { searchQuery, role, handleChange, handleClear } = useSearchInput({});
   const { toastSuccess, toastError } = useToast();
 
   const initialValue = [...new Set(selectedItems.map((el) => el.category))];
-  const filteredCategories = TRANSACTION_CATEGORIES.filter((el) =>
-    searchQuery.length === 0
-      ? el
-      : el
-          .replaceAll('_', ' ')
-          .includes(searchQuery.trimStart().toLowerCase()) ||
-        TRANSACTION_CATEGORIES_CONFIG[el].text.description
-          .toLowerCase()
-          .includes(searchQuery.trimStart().toLowerCase()),
+  const query = searchQuery.trim().toLowerCase();
+  const filteredCategories = TRANSACTION_CATEGORIES.filter((category) =>
+    matchesQuery(
+      query,
+      category.replaceAll('_', ' '),
+      TRANSACTION_CATEGORIES_CONFIG[category].text.description,
+    ),
   ).toSorted();
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     startTransition(async () => {
-      const result = await changeTransactionCategory(
-        selectedItems.map((el) => el.id),
-        selectedValue as TransactionCategories,
+      const result = await callAction(() =>
+        changeTransactionCategory(
+          selectedItems.map((el) => el.id),
+          selectedValue as TransactionCategories,
+        ),
       );
 
       if (result.success) {
         onClose();
         toastSuccess(OperationType.EDIT, 'Transaction');
       } else {
-        toastError(OperationType.EDIT, 'Transaction', result?.error as string);
+        toastError(OperationType.EDIT, 'Transaction', result.error);
       }
     });
   };
@@ -86,9 +86,9 @@ export default function EditTransactionCategoryForm({
 
       <section className="px-6 py-5">
         <p className="mb-4">
-          Update the {selectedItems.length} transaction's category to reflect
-          its current state. Changes will appear in the transaction history and
-          related records.
+          Update the {selectedItems.length} transaction&apos;s category to
+          reflect its current state. Changes will appear in the transaction
+          history and related records.
         </p>
 
         <ModalFieldWrapper>
@@ -96,6 +96,7 @@ export default function EditTransactionCategoryForm({
           <Input
             name="search"
             placeholder="Search categories..."
+            ariaLabel="Search categories"
             iconName="search"
             padding="md"
             value={searchQuery}
@@ -105,10 +106,11 @@ export default function EditTransactionCategoryForm({
           />
 
           <div
+            role="radiogroup"
+            aria-label="New category"
             className={clsx(
               'mt-2 grid h-72 grid-cols-2 gap-3 pr-2',
               'scrollbar auto-rows-min overflow-y-auto',
-              theme === 'dark' ? 'scrollbar-dark' : '',
               filteredCategories.length === 0 ? 'place-content-center' : '',
             )}
           >

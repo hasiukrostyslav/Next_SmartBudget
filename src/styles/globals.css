@@ -18,9 +18,6 @@
 
 button {
   cursor: pointer;
-  transition-property: hover;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 500ms;
 
   &:disabled {
     cursor: default;
@@ -45,14 +42,3 @@ Red - red(50, 300, 400, 500, 600)
 Yellow - amber(50, 400, 500, 600)
 Green - emerald(50, 300, 400, 500, 600)
 */
-
-@layer utilities {
-  .h-50vh {
-    height: 50vh;
-  }
-  @media (min-width: 1537px) {
-    .h-61vh {
-      height: 61vh;
-    }
-  }
-}

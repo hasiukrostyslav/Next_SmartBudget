@@ -3,9 +3,12 @@ import { Roboto } from 'next/font/google';
 
 import '@/styles/globals.css';
 
+import { TooltipProvider } from '@radix-ui/react-tooltip';
 import { ToastContainer } from 'react-toastify';
 
+import { UI_LOCALE } from '@/lib/constants/constants';
 import { METADATA_TEXT } from '@/lib/constants/messages';
+import { THEME_INIT_SCRIPT } from '@/lib/constants/theme';
 import ThemeProvider from '@/context/ThemeContext';
 
 const roboto = Roboto({ subsets: ['latin'] });
@@ -24,7 +27,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning: THEME_INIT_SCRIPT adds the `dark` class to
+    // <html> before React hydrates, so the attribute legitimately differs.
+    <html lang={UI_LOCALE} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className={`${roboto.className}`}>
         <main className="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-300">
           <ThemeProvider>
@@ -40,7 +48,9 @@ export default function RootLayout({
                 overflow: 'visible',
               }}
             />
-            {children}
+            {/* One provider for every tooltip, so moving from one to the next
+                opens it without the delay. */}
+            <TooltipProvider delayDuration={500}>{children}</TooltipProvider>
           </ThemeProvider>
         </main>
       </body>

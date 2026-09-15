@@ -1,4 +1,3 @@
-import { TRANSACTION_SEARCH_PARAMS } from '@/lib/constants/http';
 import { getPageSizeOption } from '@/lib/utils/utils';
 import { useSelectValue } from '@/hooks/useSelectValue';
 
@@ -23,7 +22,7 @@ export default function PaginationFilter({
 
   const { selectedValue, handleSelect } = useSelectValue({
     defaultValue,
-    param: TRANSACTION_SEARCH_PARAMS.LIMIT,
+    param: 'limit',
   });
 
   return (
@@ -38,7 +37,7 @@ export default function PaginationFilter({
       <div className="flex items-center gap-2 pl-2">
         <span>Rows per page</span>
         <Select
-          label={TRANSACTION_SEARCH_PARAMS.LIMIT}
+          label="Rows per page"
           options={pageSizeOptions}
           selectedValue={selectedValue}
           onSelect={handleSelect}

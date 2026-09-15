@@ -5,7 +5,9 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 
 import { ItemType, TransactionItem } from '@/types/types';
 
+import type { ActionResult } from '@/lib/actions/types';
 import { OperationType } from '@/lib/constants/enums';
+import { callAction } from '@/lib/utils/callAction';
 import { calcDeletedBalance, getFormattedAmount } from '@/lib/utils/utils';
 import { useToast } from '@/hooks/useToast';
 
@@ -16,7 +18,7 @@ interface DeleteFormProps {
   itemType: ItemType;
   items: TransactionItem[];
   onClose: () => void;
-  onSubmit: () => Promise<{ success: boolean; status: number; error?: string }>;
+  onSubmit: () => Promise<ActionResult<unknown>>;
 }
 
 export default function DeleteForm({
@@ -27,22 +29,20 @@ export default function DeleteForm({
 }: DeleteFormProps) {
   const [isPending, startTransition] = useTransition();
   const { toastSuccess, toastError } = useToast();
+  // Toasts name what was acted on, e.g. "Payment deleted".
+  const entity = itemType.charAt(0).toUpperCase() + itemType.slice(1);
 
   const handleDelete = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     startTransition(async () => {
-      const result = await onSubmit();
+      const result = await callAction(onSubmit);
 
       if (result.success) {
         onClose();
-        toastSuccess(OperationType.DELETE, 'Transaction');
+        toastSuccess(OperationType.DELETE, entity);
       } else {
-        toastError(
-          OperationType.DELETE,
-          'Transaction',
-          result?.error as string,
-        );
+        toastError(OperationType.DELETE, entity, result.error);
       }
     });
   };
@@ -63,7 +63,7 @@ export default function DeleteForm({
 
       <section className="flex flex-col gap-4 px-6 py-5">
         <div className="text-sm dark:text-slate-300">
-          You're about to permanently delete{' '}
+          You&apos;re about to permanently delete{' '}
           <span className="font-semibold">
             {`${items.length === 1 ? items[0].transactionName : items.length} 
             ${itemType}${items.length > 1 ? 's' : ''}`}

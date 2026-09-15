@@ -34,9 +34,9 @@ export default function Toast({
         <Icon name={config.icon} size={16} />
       </div>
       <div>
-        <h2 className="flex items-center gap-2 font-semibold dark:text-slate-400">
+        <p className="flex items-center gap-2 font-semibold dark:text-slate-400">
           {errorMessage || header}
-        </h2>
+        </p>
         <p className="text-xs text-slate-500">{description}</p>
       </div>
     </div>

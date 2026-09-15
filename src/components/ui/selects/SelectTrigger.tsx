@@ -40,7 +40,7 @@ export default function SelectTrigger({
       id={`select-label-${id}`}
       name={label}
       aria-haspopup={ariaHasPopup}
-      aria-controls={`select-control-${id}`}
+      aria-controls={`select-list-${id}`}
       aria-expanded={isContentExpanded}
       type="button"
       onClick={onClick}
@@ -57,6 +57,8 @@ export default function SelectTrigger({
       )}
     >
       <div className="flex items-center gap-2">
+        {/* Names the button "<field>: <value>" for screen readers. */}
+        <span className="sr-only">{label}: </span>
         {iconName && (
           <Icon name={iconName} size={16} className="text-slate-500" />
         )}

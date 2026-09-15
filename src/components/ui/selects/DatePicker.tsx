@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { set } from 'date-fns';
+
 import { SELECT_CONFIG } from '@/lib/constants/components';
 import { useCalendar } from '@/hooks/useCalendar';
 import { useSelectDropdown } from '@/hooks/useSelectDropdown';
@@ -18,12 +20,10 @@ interface DatePickerProps {
   placeholder?: string;
   padding?: keyof typeof SELECT_CONFIG.padding;
   variant?: keyof typeof SELECT_CONFIG.variant;
-  showSelectedOption: boolean;
   groupPosition?: 'start' | 'end';
   contentPosition?: 'top' | 'bottom';
   contentExpandedAlign?: 'left' | 'right';
   contentWidthExpandedTo?: string;
-  withSearch?: boolean;
   disabled?: boolean;
   onSelect: (value: Date) => void;
 }
@@ -54,9 +54,18 @@ export default function DatePicker({
 
   const [draft, setDraft] = useState(selectedValue);
 
+  // Calendar days are midnights. Keep the time already chosen: taking the day
+  // as-is reset the transaction's time to 00:00 whenever a day was picked.
   const handleSelectDay = (day: Date) => {
     goToMonth(day);
-    setDraft(day);
+    setDraft(
+      set(day, {
+        hours: draft.getHours(),
+        minutes: draft.getMinutes(),
+        seconds: draft.getSeconds(),
+        milliseconds: draft.getMilliseconds(),
+      }),
+    );
   };
 
   const handleDone = () => {
@@ -65,13 +74,7 @@ export default function DatePicker({
   };
 
   return (
-    <SelectWrapper
-      id={id}
-      isContentExpanded={isContentExpanded}
-      ref={selectRef}
-      onBlur={handleBlur}
-      ariaHasPopup="dialog"
-    >
+    <SelectWrapper ref={selectRef} onBlur={handleBlur}>
       <SelectTrigger
         id={id}
         label={label}
@@ -82,7 +85,9 @@ export default function DatePicker({
         groupPosition={groupPosition}
         onClick={() => {
           handleToggleExpanded();
+          // Reopen on the saved value, in its month, not on the last month browsed.
           setDraft(selectedValue);
+          goToMonth(selectedValue);
         }}
         ariaHasPopup="dialog"
         iconName="calendar"
@@ -94,6 +99,8 @@ export default function DatePicker({
       </SelectTrigger>
 
       <PopoverPanel
+        role="dialog"
+        ariaLabel={label}
         id={id}
         isContentExpanded={isContentExpanded}
         position={contentPosition}
@@ -113,7 +120,8 @@ export default function DatePicker({
             color="blue"
             size="sm"
             onClick={handleDone}
-            disabled={draft === selectedValue}
+            // Compare instants: two Date objects for the same moment are not ===.
+            disabled={draft.getTime() === selectedValue.getTime()}
           >
             Done
           </Button>

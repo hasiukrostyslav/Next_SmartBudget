@@ -32,11 +32,12 @@ export default function TimeSelect({
     <div className="flex gap-3 border-t border-slate-300 p-3 dark:border-slate-500">
       <div className="flex items-center gap-2 font-semibold text-slate-400">
         <Icon name="clock" size={14} />
-        <h4>Time</h4>
+        <span>Time</span>
       </div>
       <div className="flex items-center gap-1">
         <Input
           name="hour"
+          ariaLabel="Hour"
           type="number"
           padding="sm"
           value={hour}
@@ -49,6 +50,7 @@ export default function TimeSelect({
         <span className="font-bold">:</span>
         <Input
           name="minute"
+          ariaLabel="Minute"
           type="number"
           padding="sm"
           value={minute}

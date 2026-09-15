@@ -29,7 +29,8 @@ export default function TransactionActionButtons({
               variant="ghost"
               size={14}
               onClick={open}
-              tooltipLabel="Copy transaction"
+              label="Copy transaction"
+              withTooltip
             />
           )}
           renderContent={(close) => (
@@ -46,7 +47,8 @@ export default function TransactionActionButtons({
               variant="ghost"
               size={14}
               onClick={open}
-              tooltipLabel="Edit transaction"
+              label="Edit transaction"
+              withTooltip
             />
           )}
           renderContent={(close) => (
@@ -62,7 +64,8 @@ export default function TransactionActionButtons({
               variant="ghost"
               size={14}
               onClick={open}
-              tooltipLabel="Delete transaction"
+              label="Delete transaction"
+              withTooltip
             />
           )}
           renderContent={(close) => (

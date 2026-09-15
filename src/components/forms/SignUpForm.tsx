@@ -9,6 +9,7 @@ import z from 'zod';
 import { signUp } from '@/lib/actions/authActions';
 import { INPUT_PLACEHOLDER } from '@/lib/constants/messages';
 import { SignUpSchema } from '@/lib/schemas/auth.schema';
+import { callAction } from '@/lib/utils/callAction';
 import { usePasswordVisibility } from '@/hooks/usePasswordVisibility';
 
 import Button from '../ui/buttons/Button';
@@ -35,7 +36,7 @@ export default function SignUpForm() {
     setServerError(undefined);
 
     startTransition(async () => {
-      const result = await signUp(data);
+      const result = await callAction(() => signUp(data));
       if (result?.error) {
         setServerError(result.error);
       }

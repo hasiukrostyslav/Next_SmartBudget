@@ -1,50 +1,38 @@
 import NextAuth from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
 
-import { PrismaAdapter } from '@auth/prisma-adapter';
-import bcrypt from 'bcryptjs';
-
-import { getUserByEmail } from '@/lib/db/users';
-import { SignInSchema } from '@/lib/schemas/auth.schema';
-
-import { db } from '../lib/db/db';
+import { env } from '../lib/env';
 import authConfig from './auth.config';
+import { createAccount, verifyCredentials } from './credentials';
+import { revalidateSessionToken } from './session';
 
+// Credentials sign-in with JWT sessions needs no database adapter. Adding an
+// OAuth provider means adding the Auth.js adapter and the Session and
+// VerificationToken models it expects first.
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(db),
-  session: { strategy: 'jwt' },
+  ...authConfig,
+  secret: env.AUTH_SECRET,
   providers: [
-    {
-      ...authConfig.providers[0],
-      async authorize(credentials) {
-        // Credentials validation
-        const validatedFields = SignInSchema.safeParse(credentials);
-        if (!validatedFields.success) return null;
-
-        const { email, password } = validatedFields.data;
-
-        // Get user
-        const user = await getUserByEmail(email);
-        if (!user || !user.password) return null;
-
-        // Compare passwords with user hashed password
-        const isValidPassword = await bcrypt.compare(password, user.password);
-        if (!isValidPassword) return null;
-
-        return user;
+    Credentials({
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
-    },
+      authorize: verifyCredentials,
+    }),
+    Credentials({
+      id: 'signup',
+      name: 'Sign up',
+      credentials: {
+        name: { label: 'Name' },
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
+      authorize: createAccount,
+    }),
   ],
   callbacks: {
-    async session({ token, session }) {
-      if (session.user && token.sub) {
-        session.user.id = token.sub;
-      }
-
-      return session;
-    },
-
-    async jwt({ token }) {
-      return token;
-    },
+    ...authConfig.callbacks,
+    jwt: ({ token }) => revalidateSessionToken(token),
   },
 });

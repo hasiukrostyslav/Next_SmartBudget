@@ -17,12 +17,13 @@ export const NAV_LINKS_CONFIG: {
   { type: 'setting', page: 'settings', icon: 'settings' },
 ] as const;
 
+// Every param that narrows the transactions list. `date` and `amount` were
+// listed here and in the schema but had no URL format, no control and no query,
+// so they are gone until that feature exists.
 export const TRANSACTION_FILTERS = [
   'search',
   'category',
   'account',
-  'date',
-  'amount',
   'currency',
   'status',
   'type',

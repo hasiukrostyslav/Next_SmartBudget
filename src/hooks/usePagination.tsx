@@ -1,13 +1,17 @@
 import { useSearchParams } from 'next/navigation';
 
-import { PAGE_SIZE_OPTIONS, PAGINATION_RANGE } from '@/lib/constants/constants';
+import { PAGINATION_RANGE } from '@/lib/constants/constants';
+import { SearchParamsSchema } from '@/lib/schemas/transaction.schema';
 import { createQueryString, getPaginationPattern } from '@/lib/utils/utils';
 
 export function usePagination(totalCount: number) {
   const searchParams = useSearchParams();
 
-  const limit = Number(searchParams.get('limit') || PAGE_SIZE_OPTIONS[0]);
-  const currentPage = Number(searchParams.get('page') || 1);
+  // Parsed with the same schema as the server, so a hand-edited ?limit=abc
+  // shows the page size actually rendered instead of "NaN".
+  const { limit, page: currentPage } = SearchParamsSchema.parse(
+    Object.fromEntries(searchParams),
+  );
   const pageCount = Math.ceil(totalCount / limit);
 
   const stack = Array.from(

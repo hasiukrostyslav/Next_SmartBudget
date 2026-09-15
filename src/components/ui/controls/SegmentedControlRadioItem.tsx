@@ -23,6 +23,7 @@ export default function SegmentedControlRadioItem({
     <label
       tabIndex={0}
       role="radio"
+      aria-checked={selectedValue === option}
       className={clsx(
         'outline-input w-1/2 cursor-pointer rounded-md px-4 py-1.5',
         selectedValue === option
@@ -43,6 +44,10 @@ export default function SegmentedControlRadioItem({
       <input
         type="radio"
         className="peer hidden"
+        // The labelled element with role="radio" is the control assistive tech
+        // should see; this native input only carries the form value.
+        aria-hidden
+        tabIndex={-1}
         onChange={() => onSelect(option)}
         name={option}
         value={option}

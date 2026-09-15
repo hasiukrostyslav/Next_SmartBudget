@@ -11,12 +11,14 @@ import Button from '../buttons/Button';
 import ButtonLink from '../buttons/ButtonLink';
 import Icon from '../icons/Icon';
 
-interface ErrorProps {
+interface ErrorStateProps {
   type: keyof typeof ERROR_MESSAGES_CONFIG;
   page?: 'inner' | 'outer';
 }
 
-export default function Error({ type, page = 'inner' }: ErrorProps) {
+// Named ErrorState, not Error: importing it as Error shadowed the global
+// Error constructor in every file that used it.
+export default function ErrorState({ type, page = 'inner' }: ErrorStateProps) {
   const router = useRouter();
 
   return (
@@ -27,8 +29,7 @@ export default function Error({ type, page = 'inner' }: ErrorProps) {
       )}
     >
       <Image
-        className="h-[300] w-[300]"
-        alt="Error"
+        alt=""
         src={`/error-${ERROR_MESSAGES_CONFIG[type].code}.png`}
         width={300}
         height={300}

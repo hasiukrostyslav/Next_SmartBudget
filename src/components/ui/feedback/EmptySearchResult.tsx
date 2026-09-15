@@ -24,14 +24,7 @@ export default function EmptySearchResult({
     >
       <div className="flex flex-col items-center justify-center gap-2">
         {category && (
-          <Image
-            className="h-[120] w-[120]"
-            alt="Error"
-            src="/error-404.png"
-            width={120}
-            height={120}
-            priority
-          />
+          <Image alt="" src="/error-404.png" width={120} height={120} />
         )}
 
         <h2
@@ -40,7 +33,8 @@ export default function EmptySearchResult({
             category ? 'text-base' : 'text-sm',
           )}
         >
-          No matches for <span className="text-purple-500">"{query}"</span>
+          No matches for{' '}
+          <span className="text-purple-500">&ldquo;{query}&rdquo;</span>
         </h2>
       </div>
 

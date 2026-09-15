@@ -2,8 +2,8 @@ import clsx from 'clsx';
 
 import { SelectOption } from '@/types/types';
 
+import { matchesQuery } from '@/lib/utils/utils';
 import { useSearchInput } from '@/hooks/useSearchInput';
-import { useTheme } from '@/hooks/useTheme';
 
 import EmptySearchResult from '../feedback/EmptySearchResult';
 import Input from '../inputs/Input';
@@ -35,27 +35,16 @@ export default function SelectContent({
   withSearch,
   onSelect,
 }: SelectContentProps) {
-  const { theme } = useTheme();
   const { searchQuery, role, handleChange, handleClear } = useSearchInput({
     isContentExpanded,
   });
 
+  const query = searchQuery.trim().toLowerCase();
   const filteredOptions = options
+    .filter((option) => matchesQuery(query, option.label, option.description))
     .toSorted((a, b) =>
       a.label.localeCompare(b.label, undefined, { numeric: true }),
-    )
-    .filter((el) =>
-      searchQuery.length === 0
-        ? el
-        : el.label
-            .toLowerCase()
-            .includes(searchQuery.trimStart().toLowerCase()) ||
-          (el.description &&
-            el.description
-              .toLowerCase()
-              .includes(searchQuery.trimStart().toLowerCase())),
-    )
-    .toSorted();
+    );
 
   return (
     <PopoverPanel
@@ -70,6 +59,7 @@ export default function SelectContent({
           <Input
             name="search"
             placeholder="Search categories..."
+            ariaLabel="Search options"
             iconName="search"
             padding="sm"
             value={searchQuery}
@@ -80,10 +70,10 @@ export default function SelectContent({
         </div>
       )}
       <div
+        role="listbox"
         className={clsx(
           withSearch ? 'max-h-60' : 'max-h-75',
           'scrollbar grid gap-1 overflow-y-auto p-2',
-          theme === 'dark' ? 'scrollbar-dark' : '',
         )}
       >
         {withSearch && filteredOptions.length === 0 ? (

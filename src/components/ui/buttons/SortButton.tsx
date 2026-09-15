@@ -20,7 +20,13 @@ export default function SortButton({
   onClick,
 }: SortButtonProps) {
   return (
-    <div className="text-xs">
+    <div
+      role="columnheader"
+      aria-sort={
+        isActive ? (order === 'asc' ? 'ascending' : 'descending') : undefined
+      }
+      className="text-xs"
+    >
       <button
         onClick={() => onClick(label)}
         type="button"

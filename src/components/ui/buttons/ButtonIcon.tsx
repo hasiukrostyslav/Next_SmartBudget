@@ -7,10 +7,14 @@ import Icon from '../icons/Icon';
 
 interface ButtonIconProps {
   iconName: IconName;
+  // Accessible name. The button shows only an icon, so without it a screen
+  // reader announces just "button". A tooltip only adds a description.
+  label: string;
+  // Also show the label as a tooltip.
+  withTooltip?: boolean;
   size: number;
   shape: 'round' | 'square';
   variant: 'solid' | 'ghost' | 'outline' | 'primary';
-  tooltipLabel?: string;
   tooltipSide?: 'top' | 'right' | 'bottom' | 'left';
   type?: 'button' | 'submit';
   className?: string;
@@ -29,10 +33,11 @@ const style = {
 
 export default function ButtonIcon({
   iconName,
+  label,
+  withTooltip = false,
   size,
   shape,
   variant,
-  tooltipLabel,
   tooltipSide,
   type = 'button',
   className,
@@ -40,10 +45,11 @@ export default function ButtonIcon({
   onClick,
 }: ButtonIconProps) {
   return (
-    <Tooltip label={tooltipLabel} side={tooltipSide}>
+    <Tooltip label={withTooltip ? label : undefined} side={tooltipSide}>
       <button
         type={type}
         onClick={onClick}
+        aria-label={label}
         className={clsx(
           'outline-input p-1.5',
           style[variant],

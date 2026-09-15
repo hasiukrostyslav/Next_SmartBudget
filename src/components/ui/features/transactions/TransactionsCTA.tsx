@@ -38,14 +38,6 @@ export default function TransactionsCTA({
           <TransactionForm mode="create" onClose={close} />
         )}
       />
-
-      {configCTA &&
-        'secondaryLabel' in configCTA &&
-        configCTA.secondaryLabel && (
-          <Button color="outline" size="sm">
-            {configCTA.secondaryLabel}
-          </Button>
-        )}
     </div>
   );
 }
