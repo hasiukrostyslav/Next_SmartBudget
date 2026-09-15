@@ -128,5 +128,7 @@ model RateLimit {
   count   Int
   resetAt DateTime @map("reset_at")
 
+  // The expired-window sweep deletes by reset_at.
+  @@index([resetAt])
   @@map("rate_limits")
 }
