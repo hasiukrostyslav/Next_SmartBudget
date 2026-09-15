@@ -19,7 +19,9 @@ describe('every mutation', () => {
   it('refuses without a session and never queries', async () => {
     vi.mocked(auth).mockResolvedValueOnce(null as never);
 
-    await expect(deleteTransaction('tx-1')).resolves.toMatchObject({
+    await expect(
+      deleteTransaction('cjld2cjxh0000qzrmn831i7rn'),
+    ).resolves.toMatchObject({
       success: false,
       status: 401,
     });
@@ -28,12 +30,17 @@ describe('every mutation', () => {
   });
 
   it('revalidates the list after a successful write', async () => {
-    await expect(deleteTransaction('tx-1')).resolves.toMatchObject({
+    await expect(
+      deleteTransaction('cjld2cjxh0000qzrmn831i7rn'),
+    ).resolves.toMatchObject({
       success: true,
       status: 200,
       data: { count: 1 },
     });
-    expect(db.deleteTransactionById).toHaveBeenCalledWith('tx-1', 'user-1');
+    expect(db.deleteTransactionById).toHaveBeenCalledWith(
+      'cjld2cjxh0000qzrmn831i7rn',
+      'user-1',
+    );
     expect(revalidatePath).toHaveBeenCalledOnce();
   });
 
@@ -43,7 +50,9 @@ describe('every mutation', () => {
       new Error('connection refused'),
     );
 
-    await expect(deleteTransaction('tx-1')).resolves.toMatchObject({
+    await expect(
+      deleteTransaction('cjld2cjxh0000qzrmn831i7rn'),
+    ).resolves.toMatchObject({
       success: false,
       status: 500,
     });

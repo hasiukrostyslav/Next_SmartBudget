@@ -58,9 +58,13 @@ export const TransactionSchema = TransactionFields.extend({
 // Unknown keys (userId, transactionId, updatedAt) are stripped by z.object.
 export const UpdateTransactionSchema = TransactionFields.partial();
 
-// Two id formats live in these columns: Prisma's cuid() for rows created here
-// and cuid2 for rows created by the Express server, so no .cuid() check.
-export const IdSchema = z.string().min(1).max(64);
+// Two id formats live in these columns: Prisma's cuid() (25 characters,
+// always starting with "c") for rows created here, and cuid2 (24 by default,
+// any leading letter) for rows the Express server creates. The pattern accepts
+// both and nothing else, so an id can't carry a path, a quote or padding.
+export const IdSchema = z
+  .string()
+  .regex(/^[a-z][a-z0-9]{19,31}$/, { message: 'Invalid id.' });
 
 // One page of the list is the most a bulk action can select.
 export const IdListSchema = z.array(IdSchema).min(1).max(100);

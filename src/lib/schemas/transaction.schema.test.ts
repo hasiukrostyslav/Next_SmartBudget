@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   CategorySchema,
   IdListSchema,
+  IdSchema,
   StatusSchema,
   TransactionSchema,
   UpdateTransactionSchema,
@@ -61,6 +62,20 @@ describe('id and enum inputs', () => {
     expect(IdListSchema.safeParse([PRISMA_CUID, EXPRESS_CUID2]).success).toBe(
       true,
     );
+  });
+
+  it('rejects ids in neither format', () => {
+    for (const id of [
+      'tx-1',
+      '',
+      PRISMA_CUID.toUpperCase(),
+      `1${EXPRESS_CUID2.slice(1)}`,
+      'a'.repeat(19),
+      'a'.repeat(33),
+      `${PRISMA_CUID}'--`,
+      '../transactions',
+    ])
+      expect(IdSchema.safeParse(id).success, id).toBe(false);
   });
 
   it('rejects empty, oversized and non-string id lists', () => {

@@ -23,7 +23,9 @@ describe('action results', () => {
   });
 
   it('edit reports which field was invalid', async () => {
-    const result = await editTransaction('tx-1', { currency: 'BTC' } as never);
+    const result = await editTransaction('cjld2cjxh0000qzrmn831i7rn', {
+      currency: 'BTC',
+    } as never);
 
     expect(result.success).toBe(false);
     if (result.success) return;

@@ -23,19 +23,23 @@ beforeEach(() => vi.clearAllMocks());
 
 describe('transaction mutations validate their input', () => {
   it('editTransaction drops an injected userId before the query', async () => {
-    const result = await actions.editTransaction('tx-1', {
+    const result = await actions.editTransaction('cjld2cjxh0000qzrmn831i7rn', {
       transactionName: 'Renamed',
       userId: 'victim',
     } as never);
 
     expect(result.success).toBe(true);
-    expect(db.updateTransactionById).toHaveBeenCalledWith('tx-1', 'user-1', {
-      transactionName: 'Renamed',
-    });
+    expect(db.updateTransactionById).toHaveBeenCalledWith(
+      'cjld2cjxh0000qzrmn831i7rn',
+      'user-1',
+      {
+        transactionName: 'Renamed',
+      },
+    );
   });
 
   it('editTransaction rejects an invalid field with 422 and no query', async () => {
-    const result = await actions.editTransaction('tx-1', {
+    const result = await actions.editTransaction('cjld2cjxh0000qzrmn831i7rn', {
       currency: 'BTC',
     } as never);
 
@@ -45,7 +49,7 @@ describe('transaction mutations validate their input', () => {
 
   it('changeTransactionStatus rejects an unknown status', async () => {
     const result = await actions.changeTransactionStatus(
-      ['tx-1'],
+      ['cjld2cjxh0000qzrmn831i7rn'],
       'REFUNDED' as never,
     );
 
@@ -55,7 +59,7 @@ describe('transaction mutations validate their input', () => {
 
   it('changeTransactionCategory rejects a non-array id list', async () => {
     const result = await actions.changeTransactionCategory(
-      'tx-1' as never,
+      'cjld2cjxh0000qzrmn831i7rn' as never,
       'cafe',
     );
 
