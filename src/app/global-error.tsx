@@ -10,10 +10,10 @@ import { ERROR_MESSAGES_CONFIG } from '@/lib/constants/components';
 // and depends on nothing the root layout provides (theme, toasts, tooltips).
 export default function GlobalError({
   error,
-  reset,
+  retry,
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
+  retry: () => void;
 }) {
   useEffect(() => {
     console.error(error);
@@ -28,7 +28,7 @@ export default function GlobalError({
         <p className="font-light">{message}</p>
         <button
           type="button"
-          onClick={reset}
+          onClick={retry}
           className="outline-round-sm rounded-md bg-blue-600 px-4 py-2 text-slate-100 hover:bg-blue-700"
         >
           Try again

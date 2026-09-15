@@ -9,10 +9,10 @@ import Icon from '@/components/ui/icons/Icon';
 // Catches render errors outside the dashboard (the auth pages).
 export default function RootError({
   error,
-  reset,
+  retry,
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
+  retry: () => void;
 }) {
   useEffect(() => {
     console.error(error);
@@ -21,7 +21,7 @@ export default function RootError({
   return (
     <section className="flex h-dvh flex-col items-center justify-center gap-6">
       <ErrorState type="server" page="outer" />
-      <Button color="blue" size="md" onClick={reset}>
+      <Button color="blue" size="md" onClick={retry}>
         <Icon name="refresh" size={16} />
         Try again
       </Button>
