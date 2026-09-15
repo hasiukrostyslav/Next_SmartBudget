@@ -97,11 +97,6 @@ export function getPaginationPattern(
   }
 }
 
-// For testing purpose
-export function wait(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 // Balance impact of deleting these items, per currency, in first-seen currency
 // order. Summed in integer minor units: adding floats directly drifts
 // (100.1 + 200.2 is 300.29999999999995 in JavaScript). A Map instead of
