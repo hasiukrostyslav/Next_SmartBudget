@@ -197,6 +197,8 @@ If the count isn't 0, fix those rows first. If a migration has already failed, f
 
 The amount migration rewrites `transactions`, and the index migration replaces its index. Both hold an exclusive lock on the table while they run, and the restore migration briefly locks `users` as well. Deploy at a quiet time. Each of these migrations gives up after 5 seconds if another session holds a lock, instead of stalling both apps; if one times out, run `npx prisma migrate resolve --rolled-back <migration name>` and deploy again.
 
+Until these migrations are deployed, `npx prisma migrate dev` fails against Neon or any copy of it (P3006 in the shadow database). `20260725120050_restore_pushed_schema` is dated before migrations Neon has already recorded, and `migrate dev` doesn't replay unapplied older migrations into the shadow database. Deploy first; a fresh database is not affected.
+
 ---
 
 ## Author
