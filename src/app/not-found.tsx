@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <section className="relative flex h-screen items-center justify-center">
+    <section className="relative flex h-dvh items-center justify-center">
       <Link href="/">
         <Logo className="absolute top-2.5 left-6.5 h-10" type="lg" />
       </Link>

@@ -19,7 +19,7 @@ export default function RootError({
   }, [error]);
 
   return (
-    <section className="flex h-screen flex-col items-center justify-center gap-6">
+    <section className="flex h-dvh flex-col items-center justify-center gap-6">
       <ErrorState type="server" page="outer" />
       <Button color="blue" size="md" onClick={reset}>
         <Icon name="refresh" size={16} />

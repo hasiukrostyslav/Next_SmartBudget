@@ -23,7 +23,7 @@ export default function GlobalError({
 
   return (
     <html lang="en">
-      <body className="flex h-screen flex-col items-center justify-center gap-4 bg-slate-50 px-6 text-center text-slate-900">
+      <body className="flex h-dvh flex-col items-center justify-center gap-4 bg-slate-50 px-6 text-center text-slate-900">
         <h1 className="text-3xl font-bold tracking-wider">{header}</h1>
         <p className="font-light">{message}</p>
         <button

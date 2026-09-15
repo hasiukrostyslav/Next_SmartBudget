@@ -10,7 +10,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="grid h-screen grid-cols-[auto_1fr] grid-rows-[auto_1fr_auto]">
+    <section className="grid h-dvh grid-cols-[auto_1fr] grid-rows-[auto_1fr_auto]">
       <TooltipProvider>
         <Sidebar />
         <Header />
