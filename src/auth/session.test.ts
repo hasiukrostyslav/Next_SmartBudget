@@ -41,4 +41,17 @@ describe('revalidateSessionToken', () => {
     );
     expect(getUserById).toHaveBeenCalledWith('user-1');
   });
+
+  it('keeps the session unchanged when the lookup fails', async () => {
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {});
+    vi.mocked(getUserById).mockRejectedValueOnce(
+      new Error('connection refused'),
+    );
+    const token = { sub: 'user-1', accountCheckedAt: NOW - 301 };
+
+    await expect(revalidateSessionToken(token, NOW)).resolves.toBe(token);
+    expect(log).toHaveBeenCalled();
+
+    log.mockRestore();
+  });
 });

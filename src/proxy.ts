@@ -2,6 +2,7 @@ import NextAuth from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import authConfig from './auth/auth.config';
+import { revalidateSessionToken } from './auth/session';
 import { safeCallbackPath } from './lib/utils/callbackUrl';
 import {
   API_AUTH_PATH,
@@ -10,7 +11,18 @@ import {
   LOGIN_PATH,
 } from './routes';
 
-const { auth } = NextAuth(authConfig);
+// The account re-check runs here as well as in auth.ts. auth() in Server
+// Components and Server Actions can't write cookies, so a refreshed token was
+// dropped and the account was looked up on every call once five minutes had
+// passed. For a deleted account the proxy kept re-issuing the old cookie.
+// The proxy's response carries the refreshed or cleared cookie.
+const { auth } = NextAuth({
+  ...authConfig,
+  callbacks: {
+    ...authConfig.callbacks,
+    jwt: ({ token }) => revalidateSessionToken(token),
+  },
+});
 
 export default auth(async function proxy(req) {
   const { nextUrl } = req;

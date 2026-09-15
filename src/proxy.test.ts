@@ -4,8 +4,18 @@ import { describe, expect, it, vi } from 'vitest';
 
 // The proxy is next-auth's auth() wrapper around a handler; the mock hands the
 // handler back, so it can be called with any session.
+// The config the proxy passes to NextAuth, captured by the mock itself so the
+// test doesn't depend on mock call records.
+const nextAuth = vi.hoisted(() => ({ config: undefined as unknown }));
+
 vi.mock('next-auth', () => ({
-  default: vi.fn(() => ({ auth: (handler: unknown) => handler })),
+  default: (config: unknown) => {
+    nextAuth.config = config;
+    return { auth: (handler: unknown) => handler };
+  },
+}));
+vi.mock('./auth/session', () => ({
+  revalidateSessionToken: vi.fn(async (token: unknown) => token),
 }));
 
 const { default: proxy } = await import('./proxy');
@@ -56,5 +66,15 @@ describe('proxy', () => {
     expect(location(response)).toBe(
       'http://app.example/auth/login?callbackUrl=%2Fdashboard',
     );
+  });
+
+  it('re-checks the account in the proxy, where the refreshed cookie is written', async () => {
+    const { revalidateSessionToken } = await import('./auth/session');
+    const config = nextAuth.config as {
+      callbacks: { jwt: (args: { token: object }) => unknown };
+    };
+
+    await config.callbacks.jwt({ token: { sub: 'user-1' } });
+    expect(revalidateSessionToken).toHaveBeenCalledWith({ sub: 'user-1' });
   });
 });
