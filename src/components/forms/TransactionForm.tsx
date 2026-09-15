@@ -1,10 +1,9 @@
 'use client';
 
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { TransactionItem } from '@/types/types';
 
@@ -27,7 +26,12 @@ import {
   TRANSACTION_CATEGORIES_CONFIG,
   TRANSACTION_TYPE_CONFIG,
 } from '@/lib/constants/transactions';
-import { TransactionSchema } from '@/lib/schemas/transaction.schema';
+import {
+  toCreatePayload,
+  toEditPayload,
+  transactionFormSchema,
+  type TransactionFormValues,
+} from '@/lib/schemas/transactionForm';
 import { callAction } from '@/lib/utils/callAction';
 import { useToast } from '@/hooks/useToast';
 
@@ -42,7 +46,7 @@ import ModalHeader from '../ui/modals/ModalHeader';
 import DatePicker from '../ui/selects/DatePicker';
 import Select from '../ui/selects/Select';
 
-type FormData = z.infer<typeof TransactionSchema>;
+type FormData = TransactionFormValues;
 
 type TransactionFormProps = { onClose: () => void } & (
   | { mode: 'create' }
@@ -52,6 +56,17 @@ type TransactionFormProps = { onClose: () => void } & (
 export default function TransactionForm(props: TransactionFormProps) {
   const isEdit = props.mode === 'edit';
 
+  // A row created by the Express server can hold a free-text payment method.
+  // It stays selectable, and is kept unless the user picks Card or Cash.
+  const storedPaymentMethod = isEdit ? props.item.paymentMethod : undefined;
+  const [schema] = useState(() => transactionFormSchema(storedPaymentMethod));
+  const paymentMethodOptions = [
+    ...PAYMENT_METHODS,
+    ...(storedPaymentMethod && !toPaymentMethod(storedPaymentMethod)
+      ? [storedPaymentMethod]
+      : []),
+  ].map((payment) => ({ value: payment, label: payment }));
+
   const [isPending, startTransition] = useTransition();
   const { toastSuccess, toastError } = useToast();
   const {
@@ -60,7 +75,7 @@ export default function TransactionForm(props: TransactionFormProps) {
     control,
     formState: { isDirty, isValid },
   } = useForm({
-    resolver: zodResolver(TransactionSchema),
+    resolver: zodResolver(schema),
     defaultValues: isEdit
       ? {
           transactionType: props.item.transactionType,
@@ -70,8 +85,7 @@ export default function TransactionForm(props: TransactionFormProps) {
           status: props.item.status,
           transactionCategory: props.item.transactionCategory,
           createdAt: props.item.createdAt,
-          // A legacy value is left empty so the user picks Card or Cash.
-          paymentMethod: toPaymentMethod(props.item.paymentMethod),
+          paymentMethod: props.item.paymentMethod,
           description: props.item.description ?? '',
         }
       : {
@@ -88,9 +102,9 @@ export default function TransactionForm(props: TransactionFormProps) {
       // different result types, and a single closure can't unify them.
       const result = isEdit
         ? await callAction(() =>
-            editTransaction(props.item.transactionId, data),
+            editTransaction(props.item.transactionId, toEditPayload(data)),
           )
-        : await callAction(() => createTransaction(data));
+        : await callAction(() => createTransaction(toCreatePayload(data)));
 
       if (result.success) {
         props.onClose();
@@ -274,10 +288,7 @@ export default function TransactionForm(props: TransactionFormProps) {
               render={({ field }) => (
                 <Select
                   label={CREATE_TRANSACTION_FIELDS.PAYMENT_METHOD.label}
-                  options={PAYMENT_METHODS.map((payment) => ({
-                    value: payment,
-                    label: payment,
-                  }))}
+                  options={paymentMethodOptions}
                   padding="md"
                   showSelectedOption
                   selectedValue={field.value}
