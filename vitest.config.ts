@@ -12,6 +12,9 @@ export default defineConfig({
     // interleaves queries from concurrent connections, so test files run one
     // at a time; the suite is small enough that this costs little.
     fileParallelism: false,
+    // next-auth imports "next/server" without an extension; Vite resolves it,
+    // Node's ESM loader does not.
+    server: { deps: { inline: ['next-auth'] } },
     include: ['src/**/*.test.{ts,tsx}', 'scripts/**/*.test.ts'],
   },
 });

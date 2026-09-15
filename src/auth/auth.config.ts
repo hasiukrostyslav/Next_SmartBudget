@@ -1,20 +1,17 @@
 import type { NextAuthConfig } from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
 
-// Edge-safe config shared by the proxy and the Node auth instance. Anything
-// here must not touch the database. The session callback lives here, not in
-// auth.ts, so the proxy's session carries `user.id` too — the proxy guard
-// checks for that id rather than for the mere presence of `req.auth`.
+// Edge-safe config shared by the proxy and the Node auth instance: nothing
+// here may touch the database. Providers live in auth.ts; the proxy only reads
+// sessions. The session callback lives here so the proxy's session carries
+// user.id, which the proxy guard checks.
 export default {
-  session: { strategy: 'jwt' },
-  providers: [
-    Credentials({
-      credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' },
-      },
-    }),
-  ],
+  session: {
+    strategy: 'jwt',
+    // A week instead of Auth.js's default 30 days. auth.ts also re-checks
+    // that the account still exists.
+    maxAge: 7 * 24 * 60 * 60,
+  },
+  providers: [],
   callbacks: {
     session({ session, token }) {
       if (session.user && token.sub) session.user.id = token.sub;

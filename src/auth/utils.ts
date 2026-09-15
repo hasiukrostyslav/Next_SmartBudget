@@ -5,27 +5,32 @@ import { ERROR_MESSAGES } from '@/lib/constants/messages';
 
 import { signIn } from './auth';
 
-export async function signInUser(email: string, password: string) {
-  try {
-    const res = await signIn('credentials', {
-      email,
-      password,
-      redirectTo: DEFAULT_LOGIN_PATH,
-    });
+type CredentialsProvider = 'credentials' | 'signup';
 
-    return { success: true, data: res };
+// Signs in through one of the Credentials providers. On success Auth.js
+// redirects by throwing, and that is rethrown. A rejected sign-in returns
+// `rejectedMessage`; any other Auth.js error (a failing lookup, a
+// misconfiguration) is not the user's fault: it is logged and reported
+// generically.
+export async function signInWithCredentials(
+  provider: CredentialsProvider,
+  fields: Record<string, string>,
+  rejectedMessage: string,
+  redirectTo: string = DEFAULT_LOGIN_PATH,
+) {
+  try {
+    await signIn(provider, { ...fields, redirectTo });
+    return { success: true as const };
   } catch (error) {
     if (error instanceof AuthError) {
-      if (error.type === 'CredentialsSignin') {
-        return {
-          success: false,
-          error: ERROR_MESSAGES.auth.INVALID_EMAIL_OR_PASSWORD,
-        };
-      }
-      // Anything else — the user lookup failing, a misconfiguration — is not
-      // the user's fault and must not read as a wrong password. Log it.
-      console.error('[signInUser]', error);
-      return { success: false, error: ERROR_MESSAGES.SOMETHING_WENT_WRONG };
+      if (error.type === 'CredentialsSignin')
+        return { success: false as const, error: rejectedMessage };
+
+      console.error('[signInWithCredentials]', error);
+      return {
+        success: false as const,
+        error: ERROR_MESSAGES.SOMETHING_WENT_WRONG,
+      };
     }
     throw error;
   }

@@ -1,15 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { Prisma } from '../../../generated/client';
 import { ERROR_MESSAGES } from '../constants/messages';
 
 vi.mock('@/auth/utils', () => ({
-  signInUser: vi.fn(async () => ({ success: true, data: undefined })),
+  signInWithCredentials: vi.fn(async () => ({ success: true })),
 }));
-vi.mock('../db/users', () => ({
-  getUserByEmail: vi.fn(async () => null),
-  createUser: vi.fn(async () => ({ id: 'user-1' })),
-}));
+vi.mock('../db/users', () => ({ getUserByEmail: vi.fn(async () => null) }));
 vi.mock('../rateLimit', () => ({
   isLoginAllowed: vi.fn(async () => true),
   isSignUpAllowed: vi.fn(async () => true),
@@ -17,7 +13,7 @@ vi.mock('../rateLimit', () => ({
 
 const users = await import('../db/users');
 const rateLimit = await import('../rateLimit');
-const { signInUser } = await import('@/auth/utils');
+const { signInWithCredentials } = await import('@/auth/utils');
 const { login, signUp } = await import('./authActions');
 
 const form = {
@@ -32,10 +28,24 @@ beforeEach(() => {
 });
 
 describe('signUp', () => {
-  it('signs in after the user row is created', async () => {
+  it('creates and signs in through the sign-up provider', async () => {
     await expect(signUp(form)).resolves.toBeUndefined();
-    expect(users.createUser).toHaveBeenCalledOnce();
-    expect(signInUser).toHaveBeenCalledWith(form.email, form.password);
+    expect(signInWithCredentials).toHaveBeenCalledWith(
+      'signup',
+      form,
+      ERROR_MESSAGES.auth.EMAIL_EXISTS,
+    );
+  });
+
+  it('reports an email that already has an account before trying', async () => {
+    vi.mocked(users.getUserByEmail).mockResolvedValueOnce({
+      id: 'user-1',
+    } as never);
+
+    await expect(signUp(form)).resolves.toEqual({
+      error: ERROR_MESSAGES.auth.EMAIL_EXISTS,
+    });
+    expect(signInWithCredentials).not.toHaveBeenCalled();
   });
 
   it('reports a database outage as an error, not as a free email', async () => {
@@ -46,55 +56,42 @@ describe('signUp', () => {
     await expect(signUp(form)).resolves.toEqual({
       error: ERROR_MESSAGES.SOMETHING_WENT_WRONG,
     });
-    expect(users.createUser).not.toHaveBeenCalled();
-    expect(signInUser).not.toHaveBeenCalled();
+    expect(signInWithCredentials).not.toHaveBeenCalled();
   });
 
-  it('does not sign in when the INSERT fails', async () => {
-    vi.mocked(users.createUser).mockRejectedValueOnce(new Error('timeout'));
-
-    await expect(signUp(form)).resolves.toEqual({
-      error: ERROR_MESSAGES.SOMETHING_WENT_WRONG,
+  it("passes on the provider's rejection", async () => {
+    vi.mocked(signInWithCredentials).mockResolvedValueOnce({
+      success: false,
+      error: ERROR_MESSAGES.auth.EMAIL_EXISTS,
     });
-    expect(signInUser).not.toHaveBeenCalled();
-  });
-
-  it('reports a lost race on the same email as "email exists"', async () => {
-    vi.mocked(users.createUser).mockRejectedValueOnce(
-      new Prisma.PrismaClientKnownRequestError('Unique constraint failed', {
-        code: 'P2002',
-        clientVersion: 'test',
-      }),
-    );
 
     await expect(signUp(form)).resolves.toEqual({
       error: ERROR_MESSAGES.auth.EMAIL_EXISTS,
     });
-    expect(signInUser).not.toHaveBeenCalled();
   });
 
-  it('stops before any lookup or hashing once the client is rate limited', async () => {
+  it('stops before any lookup once the client is rate limited', async () => {
     vi.mocked(rateLimit.isSignUpAllowed).mockResolvedValueOnce(false);
 
     await expect(signUp(form)).resolves.toEqual({
       error: ERROR_MESSAGES.auth.TOO_MANY_ATTEMPTS,
     });
     expect(users.getUserByEmail).not.toHaveBeenCalled();
-    expect(users.createUser).not.toHaveBeenCalled();
-    expect(signInUser).not.toHaveBeenCalled();
+    expect(signInWithCredentials).not.toHaveBeenCalled();
   });
 });
 
 describe('login', () => {
   const credentials = { email: 'user@example.com', password: 'anything' };
 
-  it('counts the attempt against the account before signing in', async () => {
+  it('counts the attempt against the account, then signs in', async () => {
     await login(credentials);
 
     expect(rateLimit.isLoginAllowed).toHaveBeenCalledWith(credentials.email);
-    expect(signInUser).toHaveBeenCalledWith(
-      credentials.email,
-      credentials.password,
+    expect(signInWithCredentials).toHaveBeenCalledWith(
+      'credentials',
+      credentials,
+      ERROR_MESSAGES.auth.INVALID_EMAIL_OR_PASSWORD,
     );
   });
 
@@ -104,6 +101,6 @@ describe('login', () => {
     await expect(login(credentials)).resolves.toEqual({
       error: ERROR_MESSAGES.auth.TOO_MANY_ATTEMPTS,
     });
-    expect(signInUser).not.toHaveBeenCalled();
+    expect(signInWithCredentials).not.toHaveBeenCalled();
   });
 });
