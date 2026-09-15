@@ -100,7 +100,7 @@ The database is shared with the Express server of the React client (`react_smart
 
 ## Prerequisites
 
-- Node.js 20.9 or later (22 is what CI uses; see `.nvmrc`)
+- Node.js 22.22.2 or later in the 22 line, or 24.15 or later: the range Vitest 5, jsdom 30 and Prisma 7.10 support. CI uses the version in `.nvmrc`
 - npm
 - A PostgreSQL database (e.g. [Neon](https://neon.tech))
 
