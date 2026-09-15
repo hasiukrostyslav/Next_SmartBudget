@@ -29,10 +29,16 @@ export default auth(async function proxy(req) {
 
   if (isLoggedIn && isAuthRoute) {
     // Already signed in: go where the login link was going to send them.
-    const destination = safeCallbackPath(
-      nextUrl.searchParams.get('callbackUrl'),
+    const destination = new URL(
+      safeCallbackPath(nextUrl.searchParams.get('callbackUrl')),
+      nextUrl,
     );
-    return NextResponse.redirect(new URL(destination, nextUrl));
+    // Never leave this origin, whatever the helper returns.
+    return NextResponse.redirect(
+      destination.origin === nextUrl.origin
+        ? destination
+        : new URL(DEFAULT_LOGIN_PATH, nextUrl),
+    );
   }
 
   if (isLoggedIn && isBaseRoute) {

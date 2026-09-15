@@ -19,6 +19,10 @@ export function safeCallbackPath(value: string | null | undefined): string {
   // The URL parser follows the browser's rules (it drops tabs and newlines and
   // reads a backslash as "/"), so a path that would leave the site shows here.
   if (url.origin !== PLACEHOLDER_ORIGIN) return DEFAULT_LOGIN_PATH;
+  // Dot segments are resolved by now, so "/.//evil.example" has become
+  // "//evil.example": protocol-relative, and another host as soon as a browser
+  // or new URL(path, base) reads it.
+  if (url.pathname.startsWith('//')) return DEFAULT_LOGIN_PATH;
   if (authRoutes.includes(url.pathname)) return DEFAULT_LOGIN_PATH;
 
   return `${url.pathname}${url.search}${url.hash}`;

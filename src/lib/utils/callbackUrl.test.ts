@@ -18,10 +18,30 @@ describe('safeCallbackPath', () => {
     '//evil.example',
     '/\\evil.example',
     '/\t/evil.example',
+    // Forms that pass the origin check and only become "//host" once the
+    // parser resolves their dot segments.
+    '/.//evil.example',
+    '/dashboard/..//evil.example/login?x=1',
+    '/%2e//evil.example',
+    '/%2E%2E//evil.example',
+    '/.\\/evil.example',
     'javascript:alert(1)',
     '/auth/login',
     '/auth/signup?next=1',
   ])('falls back to the dashboard for %j', (value) => {
     expect(safeCallbackPath(value)).toBe('/dashboard');
+  });
+
+  it('returns a value that passes its own check unchanged', () => {
+    for (const value of [
+      '/dashboard/transactions?page=2',
+      '/.//evil.example',
+      '/dashboard/..//evil.example',
+      '/a/../b?c=1#d',
+    ]) {
+      const safe = safeCallbackPath(value);
+      expect(safe.startsWith('//')).toBe(false);
+      expect(safeCallbackPath(safe)).toBe(safe);
+    }
   });
 });
