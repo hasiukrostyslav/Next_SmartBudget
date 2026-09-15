@@ -37,13 +37,7 @@ export default function EmptyState({
       )}
     >
       <div className="flex flex-col items-center justify-center gap-2">
-        <Image
-          alt="Error"
-          src="/error-404.png"
-          width={140}
-          height={140}
-          priority
-        />
+        <Image alt="" src="/error-404.png" width={140} height={140} />
         {header && (
           <h2
             className={clsx(

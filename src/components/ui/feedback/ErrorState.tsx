@@ -29,7 +29,7 @@ export default function ErrorState({ type, page = 'inner' }: ErrorStateProps) {
       )}
     >
       <Image
-        alt="Error"
+        alt=""
         src={`/error-${ERROR_MESSAGES_CONFIG[type].code}.png`}
         width={300}
         height={300}
