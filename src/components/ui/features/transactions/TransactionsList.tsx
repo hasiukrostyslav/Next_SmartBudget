@@ -59,20 +59,28 @@ export default function TransactionsList({
             />
           ))}
         </div>
-        <BulkToolbar
-          selectedNumber={selectedIds.size}
-          isShown={selectedIds.size > 0}
-          isAllSelected={isAllSelected}
-          onSelectAll={selectAll}
-          onDeselectAll={deselectAll}
-        >
-          <TransactionBulkActionButtons
-            selectedItems={data.filter((item) =>
-              selectedIds.has(item.transactionId),
-            )}
-          />
-        </BulkToolbar>
       </div>
+
+      {/* Outside role="table": a table may only contain rows and row groups.
+          The toolbar is fixed to the viewport, so where it sits in the DOM
+          doesn't move it. The status line is always rendered, so the count is
+          announced when a selection starts, changes and ends. */}
+      <p role="status" className="sr-only">
+        {selectedIds.size > 0 ? `${selectedIds.size} selected` : ''}
+      </p>
+      <BulkToolbar
+        selectedNumber={selectedIds.size}
+        isShown={selectedIds.size > 0}
+        isAllSelected={isAllSelected}
+        onSelectAll={selectAll}
+        onDeselectAll={deselectAll}
+      >
+        <TransactionBulkActionButtons
+          selectedItems={data.filter((item) =>
+            selectedIds.has(item.transactionId),
+          )}
+        />
+      </BulkToolbar>
     </SectionWrapper>
   );
 }
