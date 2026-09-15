@@ -92,3 +92,15 @@ describe('id and enum inputs', () => {
     expect(CategorySchema.safeParse('currency_exchange').success).toBe(true);
   });
 });
+
+describe('amount', () => {
+  it('accepts whole cents and rejects anything finer', () => {
+    const isValid = (amount: number) =>
+      UpdateTransactionSchema.safeParse({ amount }).success;
+
+    for (const amount of [0.01, 0.07, 12.35, 19.99, 999_999_999_999.99])
+      expect(isValid(amount), String(amount)).toBe(true);
+    for (const amount of [0.004, 0.001, 4.555, 12.345])
+      expect(isValid(amount), String(amount)).toBe(false);
+  });
+});

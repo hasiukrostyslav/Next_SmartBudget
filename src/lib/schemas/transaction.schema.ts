@@ -36,6 +36,9 @@ const TransactionFields = z.object({
   amount: z.coerce
     .number()
     .positive({ message: 'Amount must be a positive number.' })
+    // numeric(14, 2) keeps whole cents only: 12.345 was stored as 12.35, and
+    // 0.004 as 0.00.
+    .multipleOf(0.01, { message: 'Amount can have at most 2 decimal places.' })
     // numeric(14, 2) holds at most 999 999 999 999.99.
     .max(999_999_999_999.99, { message: 'Amount is too large.' }),
   // Absent stays absent: a partial edit that omits the note must not clear it.
