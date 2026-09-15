@@ -26,8 +26,12 @@ export const SignUpSchema = z.object({
     .regex(/[^a-zA-Z0-9]/, {
       message: 'Password should contain at least one special character.',
     })
-    // bcrypt uses only the first 72 bytes of a password.
-    .max(72, { message: 'Password must be 72 characters or fewer.' })
+    // bcrypt uses only the first 72 bytes of a password, and a character
+    // outside ASCII takes 2 to 4 of them. Counting characters let a 72-letter
+    // Cyrillic password through, and everything after byte 72 was ignored.
+    .refine((value) => new TextEncoder().encode(value).length <= 72, {
+      message: 'Password is too long.',
+    })
     .trim(),
 });
 

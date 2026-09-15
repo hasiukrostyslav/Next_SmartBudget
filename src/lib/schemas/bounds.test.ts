@@ -70,4 +70,18 @@ describe('input bounds', () => {
       }).success,
     ).toBe(false);
   });
+
+  it('limits passwords to the 72 bytes bcrypt reads, not 72 characters', () => {
+    const signUp = (password: string) =>
+      SignUpSchema.safeParse({
+        name: 'User',
+        email: 'user@example.com',
+        password,
+      }).success;
+
+    // "ж" is 2 bytes in UTF-8.
+    expect(signUp('a1!' + 'ж'.repeat(34))).toBe(true); // 71 bytes, 37 characters
+    expect(signUp('a1!' + 'ж'.repeat(35))).toBe(false); // 73 bytes, 38 characters
+    expect(signUp('a1!' + 'x'.repeat(69))).toBe(true); // 72 bytes
+  });
 });
