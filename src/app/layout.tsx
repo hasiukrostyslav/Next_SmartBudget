@@ -3,6 +3,7 @@ import { Roboto } from 'next/font/google';
 
 import '@/styles/globals.css';
 
+import { TooltipProvider } from '@radix-ui/react-tooltip';
 import { ToastContainer } from 'react-toastify';
 
 import { UI_LOCALE } from '@/lib/constants/constants';
@@ -47,7 +48,9 @@ export default function RootLayout({
                 overflow: 'visible',
               }}
             />
-            {children}
+            {/* One provider for every tooltip, so moving from one to the next
+                opens it without the delay. */}
+            <TooltipProvider delayDuration={500}>{children}</TooltipProvider>
           </ThemeProvider>
         </main>
       </body>

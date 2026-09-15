@@ -20,27 +20,25 @@ export default function Tooltip({
   if (!label) return <>{children}</>;
 
   return (
-    <TooltipPrimitive.Provider delayDuration={delayDuration}>
-      <TooltipPrimitive.Root>
-        <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
-        <TooltipPrimitive.Portal container={container}>
-          <TooltipPrimitive.Content
-            side={side}
-            sideOffset={6}
-            avoidCollisions
-            collisionPadding={8}
-            className="max-w-xs rounded-md px-2.5 py-1.5 text-xs font-medium shadow-md"
-            style={{
-              backgroundColor: 'var(--tooltip-bg)',
-              color: 'var(--tooltip-fg)',
-              zIndex: 9999,
-            }}
-          >
-            {label}
-            <TooltipPrimitive.Arrow style={{ fill: 'var(--tooltip-arrow)' }} />
-          </TooltipPrimitive.Content>
-        </TooltipPrimitive.Portal>
-      </TooltipPrimitive.Root>
-    </TooltipPrimitive.Provider>
+    <TooltipPrimitive.Root delayDuration={delayDuration}>
+      <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
+      <TooltipPrimitive.Portal container={container}>
+        <TooltipPrimitive.Content
+          side={side}
+          sideOffset={6}
+          avoidCollisions
+          collisionPadding={8}
+          className="max-w-xs rounded-md px-2.5 py-1.5 text-xs font-medium shadow-md"
+          style={{
+            backgroundColor: 'var(--tooltip-bg)',
+            color: 'var(--tooltip-fg)',
+            zIndex: 9999,
+          }}
+        >
+          {label}
+          <TooltipPrimitive.Arrow style={{ fill: 'var(--tooltip-arrow)' }} />
+        </TooltipPrimitive.Content>
+      </TooltipPrimitive.Portal>
+    </TooltipPrimitive.Root>
   );
 }

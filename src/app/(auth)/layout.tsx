@@ -1,7 +1,5 @@
 import Image from 'next/image';
 
-import ThemeProvider from '@/context/ThemeContext';
-
 export default function AuthLayout({
   children,
 }: Readonly<{
@@ -21,7 +19,7 @@ export default function AuthLayout({
           priority
         />
       </figure>
-      <ThemeProvider>{children}</ThemeProvider>
+      {children}
     </section>
   );
 }
