@@ -22,7 +22,6 @@
     "currency-symbol-map": "^5.1.0",
     "date-fns": "^4.4.0",
     "lucide-react": "^1.7.0",
-    "motion": "^12.23.26",
     "next": "^16.3.5",
     "next-auth": "5.0.0-beta.32",
     "pg": "^8.16.3",
