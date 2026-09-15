@@ -19,7 +19,7 @@ import Input from '../ui/inputs/Input';
 
 type FormInputs = z.infer<typeof SignInSchema>;
 
-export default function LoginForm() {
+export default function LoginForm({ callbackUrl }: { callbackUrl?: string }) {
   const [isPending, startTransition] = useTransition();
   const [serverError, setServerError] = useState<string>();
   const { buttonRole, toggleVisibility } = usePasswordVisibility();
@@ -36,7 +36,7 @@ export default function LoginForm() {
     setServerError(undefined);
 
     startTransition(async () => {
-      const result = await callAction(() => login(data));
+      const result = await callAction(() => login(data, callbackUrl));
       if (result?.error) {
         setServerError(result.error);
       }

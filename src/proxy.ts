@@ -2,6 +2,7 @@ import NextAuth from 'next-auth';
 import { NextResponse } from 'next/server';
 
 import authConfig from './auth/auth.config';
+import { safeCallbackPath } from './lib/utils/callbackUrl';
 import {
   API_AUTH_PATH,
   authRoutes,
@@ -26,12 +27,27 @@ export default auth(async function proxy(req) {
 
   if (isApiAuthRoute) return NextResponse.next();
 
-  if ((isAuthRoute && isLoggedIn) || (isLoggedIn && isBaseRoute)) {
+  if (isLoggedIn && isAuthRoute) {
+    // Already signed in: go where the login link was going to send them.
+    const destination = safeCallbackPath(
+      nextUrl.searchParams.get('callbackUrl'),
+    );
+    return NextResponse.redirect(new URL(destination, nextUrl));
+  }
+
+  if (isLoggedIn && isBaseRoute) {
     return NextResponse.redirect(new URL(DEFAULT_LOGIN_PATH, nextUrl));
   }
 
   if (!isLoggedIn && !isAuthRoute) {
-    return NextResponse.redirect(new URL(LOGIN_PATH, nextUrl));
+    const loginUrl = new URL(LOGIN_PATH, nextUrl);
+    // Come back here after signing in. "/" has no page of its own.
+    if (!isBaseRoute)
+      loginUrl.searchParams.set(
+        'callbackUrl',
+        `${nextUrl.pathname}${nextUrl.search}`,
+      );
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();

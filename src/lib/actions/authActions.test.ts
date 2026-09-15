@@ -92,8 +92,27 @@ describe('login', () => {
       'credentials',
       credentials,
       ERROR_MESSAGES.auth.INVALID_EMAIL_OR_PASSWORD,
+      '/dashboard',
     );
   });
+
+  it.each([
+    ['/dashboard/transactions?page=2', '/dashboard/transactions?page=2'],
+    ['//evil.example', '/dashboard'],
+    [{ toString: (): string => '/dashboard/cards' }, '/dashboard'],
+  ])(
+    'redirects to the checked callbackUrl %j',
+    async (callbackUrl, expected) => {
+      await login(credentials, callbackUrl);
+
+      expect(signInWithCredentials).toHaveBeenLastCalledWith(
+        'credentials',
+        credentials,
+        ERROR_MESSAGES.auth.INVALID_EMAIL_OR_PASSWORD,
+        expected,
+      );
+    },
+  );
 
   it('refuses to check the password once rate limited', async () => {
     vi.mocked(rateLimit.isLoginAllowed).mockResolvedValueOnce(false);

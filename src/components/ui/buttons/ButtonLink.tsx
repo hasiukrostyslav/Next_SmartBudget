@@ -23,16 +23,29 @@ export default function ButtonLink({
   color,
   iconName,
 }: ButtonLinkProps) {
-  return (
-    <Link
-      className={clsx(
-        'outline-round-md flex items-center gap-1.5 rounded-lg border-2 px-4 py-2 text-base',
-        disabled ? 'border-slate-400 bg-slate-400' : BUTTON_CONFIG.color[color],
-      )}
-      href={href}
-    >
+  const className = clsx(
+    'outline-round-md flex items-center gap-1.5 rounded-lg border-2 px-4 py-2 text-base',
+    disabled ? 'border-slate-400 bg-slate-400' : BUTTON_CONFIG.color[color],
+  );
+  const content = (
+    <>
       <Icon name={iconName} size={18} />
       {children}
+    </>
+  );
+
+  // A link has no disabled state: render inert text instead of a link that
+  // still navigates.
+  if (disabled)
+    return (
+      <span className={className} aria-disabled="true">
+        {content}
+      </span>
+    );
+
+  return (
+    <Link className={className} href={href}>
+      {content}
     </Link>
   );
 }

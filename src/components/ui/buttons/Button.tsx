@@ -34,6 +34,15 @@ export default function Button({
     className,
   );
 
+  // A link has no disabled state: render inert text instead of a link that
+  // still navigates.
+  if (href && disabled)
+    return (
+      <span className={buttonClassName} aria-disabled="true">
+        {children}
+      </span>
+    );
+
   if (href)
     return (
       <Link className={buttonClassName} href={href}>

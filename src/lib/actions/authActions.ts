@@ -8,6 +8,7 @@ import { ERROR_MESSAGES } from '../constants/messages';
 import { getUserByEmail } from '../db/users';
 import { isLoginAllowed, isSignUpAllowed } from '../rateLimit';
 import { SignInSchema, SignUpSchema } from '../schemas/auth.schema';
+import { safeCallbackPath } from '../utils/callbackUrl';
 
 type SignUpFormData = z.infer<typeof SignUpSchema>;
 type SignInFormData = z.infer<typeof SignInSchema>;
@@ -43,7 +44,9 @@ export async function signUp(formData: SignUpFormData) {
   if (!result.success) return { error: result.error };
 }
 
-export async function login(formData: SignInFormData) {
+// callbackUrl is checked again here: the login page checks it, but a Server
+// Action can be called directly with any argument.
+export async function login(formData: SignInFormData, callbackUrl?: unknown) {
   const validatedFields = SignInSchema.safeParse(formData);
   if (!validatedFields.success)
     return { error: ERROR_MESSAGES.auth.INVALID_EMAIL_OR_PASSWORD };
@@ -58,6 +61,7 @@ export async function login(formData: SignInFormData) {
     'credentials',
     { email, password },
     ERROR_MESSAGES.auth.INVALID_EMAIL_OR_PASSWORD,
+    safeCallbackPath(typeof callbackUrl === 'string' ? callbackUrl : undefined),
   );
   if (!result.success) return { error: result.error };
 }
