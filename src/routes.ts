@@ -1,9 +1,3 @@
-/**
- * An array of routes that are accessible to the public.
- * These routes do not require authentication.
- */
-export const publicRoutes = ['/'];
-
 export const LOGIN_PATH = '/auth/login';
 export const SIGN_UP_PATH = '/auth/signup';
 
