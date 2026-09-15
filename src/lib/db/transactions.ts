@@ -106,22 +106,31 @@ export async function findTransactionsByUserId(
     `${sort.expression} ${direction}${sort.nullsLast ? ' NULLS LAST' : ''}, transaction_id ${direction}`,
   );
 
-  const [page, [{ count }]] = await Promise.all([
-    db.$queryRaw<{ transaction_id: string }[]>`
-      SELECT transaction_id FROM transactions
-      WHERE ${where}
-      ORDER BY ${orderBy}
-      LIMIT ${limit} OFFSET ${skip}`,
-    db.$queryRaw<{ count: number }[]>`
-      SELECT COUNT(*)::int AS count FROM transactions WHERE ${where}`,
-  ]);
+  // One snapshot for all three reads. They used to run as separate queries,
+  // two of them in parallel on different connections, so a row deleted in
+  // between could drop out of the page after its id was found, or leave a
+  // count that disagreed with the rows shown.
+  const { ids, count, rows } = await db.$transaction(
+    async (tx) => {
+      const page = await tx.$queryRaw<{ transaction_id: string }[]>`
+        SELECT transaction_id FROM transactions
+        WHERE ${where}
+        ORDER BY ${orderBy}
+        LIMIT ${limit} OFFSET ${skip}`;
+      const [{ count }] = await tx.$queryRaw<{ count: number }[]>`
+        SELECT COUNT(*)::int AS count FROM transactions WHERE ${where}`;
 
-  const ids = page.map((row) => row.transaction_id);
-  const rows = ids.length
-    ? await db.transaction.findMany({
-        where: { userId, transactionId: { in: ids } },
-      })
-    : [];
+      const ids = page.map((row) => row.transaction_id);
+      const rows = ids.length
+        ? await tx.transaction.findMany({
+            where: { userId, transactionId: { in: ids } },
+          })
+        : [];
+
+      return { ids, count, rows };
+    },
+    { isolationLevel: Prisma.TransactionIsolationLevel.RepeatableRead },
+  );
   const rowsById = new Map(rows.map((row) => [row.transactionId, row]));
 
   return {
