@@ -14,6 +14,10 @@
 -- Every statement is guarded, so on a database that already has these objects
 -- — the live Neon database — this migration changes nothing.
 
+-- Give up after 5 seconds instead of making both apps queue behind a lock
+-- another session holds. A timeout rolls this migration back; retry it.
+SET LOCAL lock_timeout = '5s';
+
 DO $$
 BEGIN
   IF to_regtype('"TransactionType"') IS NULL THEN

@@ -195,6 +195,8 @@ WHERE amount = 'NaN' OR amount IN ('Infinity', '-Infinity') OR abs(amount) >= 99
 
 If the count isn't 0, fix those rows first. If a migration has already failed, fix the data, run `npx prisma migrate resolve --rolled-back <migration name>`, and deploy again.
 
+The amount migration rewrites `transactions`, and the index migration replaces its index. Both hold an exclusive lock on the table while they run, and the restore migration briefly locks `users` as well. Deploy at a quiet time. Each of these migrations gives up after 5 seconds if another session holds a lock, instead of stalling both apps; if one times out, run `npx prisma migrate resolve --rolled-back <migration name>` and deploy again.
+
 ---
 
 ## Author

@@ -10,6 +10,10 @@
 -- as a JS number, which PostgreSQL casts to numeric, and reads it with
 -- Number(row.amount), which already handles node-postgres returning numeric
 -- as a string.
+-- Give up after 5 seconds instead of making both apps queue behind a lock
+-- another session holds. A timeout rolls this migration back; retry it.
+SET LOCAL lock_timeout = '5s';
+
 ALTER TABLE "transactions"
   ALTER COLUMN "amount" SET DATA TYPE DECIMAL(14, 2)
   USING ROUND("amount"::numeric, 2);
