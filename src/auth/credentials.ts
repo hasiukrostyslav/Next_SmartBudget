@@ -3,7 +3,11 @@ import bcrypt from 'bcryptjs';
 import { SALT_ROUNDS } from '@/lib/constants/constants';
 import { isUniqueConstraintError } from '@/lib/db/errors';
 import { createUser, getUserByEmail } from '@/lib/db/users';
-import { isLoginAllowed, isSignUpAllowed } from '@/lib/rateLimit';
+import {
+  isLoginAllowed,
+  isSignUpAllowed,
+  recordLoginFailure,
+} from '@/lib/rateLimit';
 import { SignInSchema, SignUpSchema } from '@/lib/schemas/auth.schema';
 
 import { RateLimitedSignIn } from './errors';
@@ -45,7 +49,12 @@ export async function verifyCredentials(credentials: unknown) {
     user?.password ?? DUMMY_PASSWORD_HASH,
   );
 
-  if (!user?.password || !isValidPassword) return null;
+  if (!user?.password || !isValidPassword) {
+    // Only failures count, so a successful sign-in never uses up the owner's
+    // allowance.
+    await recordLoginFailure(email);
+    return null;
+  }
 
   return toSessionUser(user);
 }

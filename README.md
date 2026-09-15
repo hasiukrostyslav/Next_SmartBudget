@@ -114,13 +114,14 @@ Copy the example file and fill it in:
 cp .env.example .env
 ```
 
-| Variable              | Required           | Purpose                                                        |
-| --------------------- | ------------------ | -------------------------------------------------------------- |
-| `DATABASE_URL`        | Yes                | PostgreSQL connection URL                                      |
-| `AUTH_SECRET`         | Yes                | At least 32 characters; generate one with `npx auth secret`    |
-| `SEED_USER_EMAIL`     | For seeding        | The existing account `npx prisma db seed` adds transactions to |
-| `TEST_DATABASE_URL`   | For DB tests       | A disposable database the integration tests write to           |
-| `SHADOW_DATABASE_URL` | For `migrate diff` | An empty database Prisma can reset                             |
+| Variable              | Required           | Purpose                                                                                                 |
+| --------------------- | ------------------ | ------------------------------------------------------------------------------------------------------- |
+| `DATABASE_URL`        | Yes                | PostgreSQL connection URL                                                                               |
+| `AUTH_SECRET`         | Yes                | At least 32 characters; generate one with `npx auth secret`                                             |
+| `SEED_USER_EMAIL`     | For seeding        | The existing account `npx prisma db seed` adds transactions to                                          |
+| `TEST_DATABASE_URL`   | For DB tests       | A disposable database the integration tests write to                                                    |
+| `SHADOW_DATABASE_URL` | For `migrate diff` | An empty database Prisma can reset                                                                      |
+| `TRUSTED_PROXY_HOPS`  | No                 | Proxies in front of the app that append to `X-Forwarded-For` (default 1); rate limits key clients on it |
 
 The app refuses to start if a required variable is missing or malformed. Don't set `NODE_ENV` in `.env`: Next.js sets it for each command.
 

@@ -3,6 +3,7 @@
 import { afterAll, describe, expect, it, vi } from 'vitest';
 
 const run = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+const request = vi.hoisted(() => ({ client: 'unset' }));
 
 vi.mock('./db/db', async () => {
   const { PrismaClient } = await import('../../generated/client');
@@ -16,13 +17,26 @@ vi.mock('./db/db', async () => {
   };
 });
 
+// The client sends its own X-Forwarded-For; the proxy in front appends the
+// address it saw. With TRUSTED_PROXY_HOPS unset (1), the rightmost counts.
 vi.mock('next/headers', () => ({
-  headers: async () => new Headers({ 'x-forwarded-for': `test-${run}, proxy` }),
+  headers: async () =>
+    new Headers({ 'x-forwarded-for': `forged-by-client, ${request.client}` }),
 }));
 
 const { db } = await import('./db/db');
-const { AUTH_RATE_LIMITS, consumeRateLimit, isLoginAllowed } =
-  await import('./rateLimit');
+const {
+  AUTH_RATE_LIMITS,
+  consumeRateLimit,
+  isLoginAllowed,
+  recordLoginFailure,
+} = await import('./rateLimit');
+
+const keysLike = async (fragment: string) =>
+  (
+    await db.$queryRaw<{ key: string }[]>`
+      SELECT key FROM rate_limits WHERE key LIKE ${`%${fragment}%`}`
+  ).map((row) => row.key);
 
 describe.skipIf(!process.env.TEST_DATABASE_URL)('rate limiting', () => {
   afterAll(async () => {
@@ -55,16 +69,36 @@ describe.skipIf(!process.env.TEST_DATABASE_URL)('rate limiting', () => {
     expect(await consumeRateLimit(key, limit)).toBe(true);
   });
 
-  it('limits sign-in per account regardless of email case', async () => {
+  it('checking the limit counts nothing', async () => {
+    request.client = `checker-${run}`;
+    const email = `checked-${run}@example.com`;
+
+    for (let i = 0; i < 15; i++) expect(await isLoginAllowed(email)).toBe(true);
+    expect(await keysLike(`checked-${run}`)).toEqual([]);
+  });
+
+  it("blocks one client after repeated failures, regardless of email case, but not the account's other clients", async () => {
     const email = `Someone-${run}@Example.com`;
-    const { limit } = AUTH_RATE_LIMITS.loginEmail;
-    const results: boolean[] = [];
+    const { limit } = AUTH_RATE_LIMITS.loginAccountClient;
 
-    for (let i = 0; i <= limit; i++) {
-      results.push(await isLoginAllowed(i % 2 ? email : email.toLowerCase()));
+    request.client = `attacker-${run}`;
+    for (let i = 0; i < limit; i++) {
+      await recordLoginFailure(i % 2 ? email : email.toLowerCase());
     }
+    expect(await isLoginAllowed(email)).toBe(false);
 
-    expect(results.slice(0, limit).every(Boolean)).toBe(true);
-    expect(results[limit]).toBe(false);
+    request.client = `owner-${run}`;
+    expect(await isLoginAllowed(email)).toBe(true);
+  });
+
+  it('keys the client on the address the proxy appended, not the one the client sent', async () => {
+    request.client = `appended-${run}`;
+    await recordLoginFailure(`keyed-${run}@example.com`);
+
+    const keys = await keysLike(`keyed-${run}`);
+    expect(keys).toContain(
+      `login:account-client:keyed-${run}@example.com:appended-${run}`,
+    );
+    expect(keys.some((key) => key.includes('forged-by-client'))).toBe(false);
   });
 });

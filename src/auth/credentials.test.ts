@@ -5,6 +5,7 @@ vi.mock('@/lib/db/users', () => ({ getUserByEmail: vi.fn() }));
 vi.mock('@/lib/rateLimit', () => ({
   isLoginAllowed: vi.fn(async () => true),
   isSignUpAllowed: vi.fn(async () => true),
+  recordLoginFailure: vi.fn(async () => {}),
 }));
 
 const { getUserByEmail } = await import('@/lib/db/users');
@@ -78,5 +79,15 @@ describe('verifyCredentials', () => {
     expect(compare).not.toHaveBeenCalled();
 
     compare.mockRestore();
+  });
+
+  it('counts a failed attempt, and only a failed one', async () => {
+    vi.mocked(getUserByEmail).mockResolvedValueOnce(user);
+    await verifyCredentials({ email: user.email, password });
+    expect(rateLimit.recordLoginFailure).not.toHaveBeenCalled();
+
+    vi.mocked(getUserByEmail).mockResolvedValueOnce(user);
+    await verifyCredentials({ email: user.email, password: 'wrong' });
+    expect(rateLimit.recordLoginFailure).toHaveBeenCalledWith(user.email);
   });
 });

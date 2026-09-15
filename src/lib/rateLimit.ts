@@ -7,13 +7,20 @@ interface RateLimit {
   windowSeconds: number;
 }
 
+// Sign-in limits count failed attempts only, so signing in successfully never
+// uses anyone's allowance. Their keys pair the account with the client: a
+// stranger's failures for your email use up the stranger's allowance, not
+// yours. The per-account limit counts from every client, and is set high
+// enough that only guessing from many addresses reaches it.
 export const AUTH_RATE_LIMITS = {
-  // Per account being signed into: slows guessing one account's password.
-  loginEmail: { limit: 10, windowSeconds: 15 * 60 },
-  // Per client: slows trying many accounts from one place.
-  loginIp: { limit: 30, windowSeconds: 15 * 60 },
-  // Per client: account creation is rare for a real person.
-  signUpIp: { limit: 5, windowSeconds: 60 * 60 },
+  // Failed sign-ins for one account from one client.
+  loginAccountClient: { limit: 10, windowSeconds: 15 * 60 },
+  // Failed sign-ins from one client, whatever the account.
+  loginClient: { limit: 30, windowSeconds: 15 * 60 },
+  // Failed sign-ins for one account, whatever the client.
+  loginAccount: { limit: 100, windowSeconds: 60 * 60 },
+  // Sign-ups from one client: account creation is rare for a real person.
+  signUpClient: { limit: 5, windowSeconds: 60 * 60 },
 } satisfies Record<string, RateLimit>;
 
 /**
@@ -60,34 +67,84 @@ export async function consumeRateLimit(
   }
 }
 
-// The client address. x-forwarded-for is set by the hosting proxy (Vercel and
-// most load balancers) and its first entry is the original client. Without a
-// proxy it can be forged, which only moves the caller to a different per-client
-// bucket: the per-account limit still applies.
+/** Whether `key` still has room, without counting an attempt. */
+export async function isWithinRateLimit(key: string, { limit }: RateLimit) {
+  try {
+    const [row] = await db.$queryRaw<{ count: number }[]>`
+      SELECT count FROM rate_limits
+      WHERE key = ${key} AND reset_at > CURRENT_TIMESTAMP`;
+    return (row?.count ?? 0) < limit;
+  } catch (error) {
+    console.error('[isWithinRateLimit]', error);
+    return true;
+  }
+}
+
+// How many proxies in front of the app append to X-Forwarded-For. Each one
+// adds the address it received the request from, so the entry that many places
+// from the right is the one the outermost trusted proxy saw; anything further
+// left is whatever the client sent. The default, 1, fits Vercel (which sets
+// the header to a single address) and a single reverse proxy. The old code took
+// the first entry, which the client controls whenever a proxy appends.
+function trustedProxyHops() {
+  const hops = Number(process.env.TRUSTED_PROXY_HOPS ?? 1);
+  return Number.isInteger(hops) && hops >= 1 && hops <= 10 ? hops : 1;
+}
+
 async function clientAddress() {
   const requestHeaders = await headers();
+  const chain =
+    requestHeaders
+      .get('x-forwarded-for')
+      ?.split(',')
+      .map((entry) => entry.trim())
+      .filter(Boolean) ?? [];
+
   return (
-    requestHeaders.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    chain[Math.max(chain.length - trustedProxyHops(), 0)] ||
     requestHeaders.get('x-real-ip') ||
     'unknown'
   );
 }
 
-export async function isLoginAllowed(email: string) {
-  const address = await clientAddress();
-  const [withinAccountLimit, withinClientLimit] = await Promise.all([
-    consumeRateLimit(
-      `login:email:${email.toLowerCase()}`,
-      AUTH_RATE_LIMITS.loginEmail,
-    ),
-    consumeRateLimit(`login:ip:${address}`, AUTH_RATE_LIMITS.loginIp),
-  ]);
-  return withinAccountLimit && withinClientLimit;
+async function loginKeys(email: string) {
+  const account = email.toLowerCase();
+  const client = await clientAddress();
+  return {
+    client: `login:client:${client}`,
+    accountClient: `login:account-client:${account}:${client}`,
+    account: `login:account:${account}`,
+  };
 }
 
+// Checked before the password. Reads only: nothing is counted until an attempt
+// fails. The client's own limit is read first, and a client over it touches
+// nothing else.
+export async function isLoginAllowed(email: string) {
+  const keys = await loginKeys(email);
+  if (!(await isWithinRateLimit(keys.client, AUTH_RATE_LIMITS.loginClient)))
+    return false;
+
+  const [withinAccountClient, withinAccount] = await Promise.all([
+    isWithinRateLimit(keys.accountClient, AUTH_RATE_LIMITS.loginAccountClient),
+    isWithinRateLimit(keys.account, AUTH_RATE_LIMITS.loginAccount),
+  ]);
+  return withinAccountClient && withinAccount;
+}
+
+export async function recordLoginFailure(email: string) {
+  const keys = await loginKeys(email);
+  await Promise.all([
+    consumeRateLimit(keys.client, AUTH_RATE_LIMITS.loginClient),
+    consumeRateLimit(keys.accountClient, AUTH_RATE_LIMITS.loginAccountClient),
+    consumeRateLimit(keys.account, AUTH_RATE_LIMITS.loginAccount),
+  ]);
+}
+
+// Every sign-up counts: creating accounts is what is being limited.
 export async function isSignUpAllowed() {
   return consumeRateLimit(
-    `signup:ip:${await clientAddress()}`,
-    AUTH_RATE_LIMITS.signUpIp,
+    `signup:client:${await clientAddress()}`,
+    AUTH_RATE_LIMITS.signUpClient,
   );
 }
