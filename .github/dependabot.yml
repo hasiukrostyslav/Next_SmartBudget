@@ -1,6 +1,9 @@
 # Weekly dependency PRs so a security advisory arrives as a pull request
-# instead of being discovered by an audit. Minor and patch updates are grouped
-# to keep the PR count manageable; majors come one at a time.
+# instead of being discovered by an audit. Packages that must move together
+# are grouped for every update type, majors included: the Prisma CLI, client
+# and adapter are pinned to one version, and eslint-config-next follows next.
+# Other minor and patch updates are grouped to keep the PR count manageable;
+# other majors come one at a time.
 version: 2
 updates:
   - package-ecosystem: npm
@@ -9,6 +12,10 @@ updates:
       interval: weekly
     open-pull-requests-limit: 10
     groups:
+      prisma:
+        patterns: [prisma, '@prisma/*']
+      next:
+        patterns: [next, eslint-config-next]
       minor-and-patch:
         update-types: [minor, patch]
 
