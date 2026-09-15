@@ -19,7 +19,17 @@ type RenderIcon = (props: IconProps) => React.ReactElement;
 const RENDER_BY_ROLE = new Map<string, RenderIcon>(
   icons.map(({ role, component: Component }) => [
     role,
-    (props) => <Component {...props} />,
+    // Only the icon's own props reach the <svg>. Spreading every prop put
+    // `name` and any stray attribute on it: a row checkbox's aria-checked made
+    // axe report an invalid ARIA attribute on every row.
+    ({ size, color, className, strokeWidth }) => (
+      <Component
+        size={size}
+        color={color}
+        className={className}
+        strokeWidth={strokeWidth}
+      />
+    ),
   ]),
 );
 
