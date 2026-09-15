@@ -31,6 +31,18 @@ describe('signInWithCredentials', () => {
     });
   });
 
+  it('reports a rate-limited attempt as too many attempts', async () => {
+    const { RateLimitedSignIn } = await import('./errors');
+    vi.mocked(signIn).mockRejectedValueOnce(new RateLimitedSignIn());
+
+    await expect(
+      signInWithCredentials('credentials', {}, 'rejected'),
+    ).resolves.toEqual({
+      success: false,
+      error: ERROR_MESSAGES.auth.TOO_MANY_ATTEMPTS,
+    });
+  });
+
   it('logs any other Auth.js error and reports it generically', async () => {
     const log = vi.spyOn(console, 'error').mockImplementation(() => {});
     vi.mocked(signIn).mockRejectedValueOnce(new CallbackRouteError());

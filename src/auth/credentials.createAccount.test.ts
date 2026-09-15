@@ -7,8 +7,13 @@ vi.mock('@/lib/db/users', () => ({
   getUserByEmail: vi.fn(),
   createUser: vi.fn(),
 }));
+vi.mock('@/lib/rateLimit', () => ({
+  isSignUpAllowed: vi.fn(async () => true),
+}));
 
 const users = await import('@/lib/db/users');
+const rateLimit = await import('@/lib/rateLimit');
+const { RateLimitedSignIn } = await import('./errors');
 const { createAccount } = await import('./credentials');
 
 const input = {
@@ -66,5 +71,18 @@ describe('createAccount', () => {
       createAccount({ ...input, password: 'weak' }),
     ).resolves.toBeNull();
     expect(users.createUser).not.toHaveBeenCalled();
+  });
+
+  it('refuses a rate-limited sign-up before hashing or writing', async () => {
+    vi.mocked(rateLimit.isSignUpAllowed).mockResolvedValueOnce(false);
+    const hash = vi.spyOn(bcrypt, 'hash');
+
+    await expect(createAccount(input)).rejects.toBeInstanceOf(
+      RateLimitedSignIn,
+    );
+    expect(hash).not.toHaveBeenCalled();
+    expect(users.createUser).not.toHaveBeenCalled();
+
+    hash.mockRestore();
   });
 });

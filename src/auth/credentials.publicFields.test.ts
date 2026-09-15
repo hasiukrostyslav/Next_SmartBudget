@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import { expect, it, vi } from 'vitest';
 
 vi.mock('@/lib/db/users', () => ({ getUserByEmail: vi.fn() }));
+vi.mock('@/lib/rateLimit', () => ({ isLoginAllowed: vi.fn(async () => true) }));
 
 const { getUserByEmail } = await import('@/lib/db/users');
 const { verifyCredentials } = await import('./credentials');

@@ -1,9 +1,10 @@
-import { AuthError } from 'next-auth';
+import { AuthError, type CredentialsSignin } from 'next-auth';
 
 import { DEFAULT_LOGIN_PATH } from '@/routes';
 import { ERROR_MESSAGES } from '@/lib/constants/messages';
 
 import { signIn } from './auth';
+import { RATE_LIMITED } from './errors';
 
 type CredentialsProvider = 'credentials' | 'signup';
 
@@ -24,7 +25,13 @@ export async function signInWithCredentials(
   } catch (error) {
     if (error instanceof AuthError) {
       if (error.type === 'CredentialsSignin')
-        return { success: false as const, error: rejectedMessage };
+        return {
+          success: false as const,
+          error:
+            (error as CredentialsSignin).code === RATE_LIMITED
+              ? ERROR_MESSAGES.auth.TOO_MANY_ATTEMPTS
+              : rejectedMessage,
+        };
 
       console.error('[signInWithCredentials]', error);
       return {

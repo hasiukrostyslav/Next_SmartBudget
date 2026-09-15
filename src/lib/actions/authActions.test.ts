@@ -5,14 +5,7 @@ import { ERROR_MESSAGES } from '../constants/messages';
 vi.mock('@/auth/utils', () => ({
   signInWithCredentials: vi.fn(async () => ({ success: true })),
 }));
-vi.mock('../db/users', () => ({ getUserByEmail: vi.fn(async () => null) }));
-vi.mock('../rateLimit', () => ({
-  isLoginAllowed: vi.fn(async () => true),
-  isSignUpAllowed: vi.fn(async () => true),
-}));
 
-const users = await import('../db/users');
-const rateLimit = await import('../rateLimit');
 const { signInWithCredentials } = await import('@/auth/utils');
 const { login, signUp } = await import('./authActions');
 
@@ -22,10 +15,7 @@ const form = {
   password: 'Str0ng!pass',
 };
 
-beforeEach(() => {
-  vi.clearAllMocks();
-  vi.spyOn(console, 'error').mockImplementation(() => {});
-});
+beforeEach(() => vi.clearAllMocks());
 
 describe('signUp', () => {
   it('creates and signs in through the sign-up provider', async () => {
@@ -37,46 +27,21 @@ describe('signUp', () => {
     );
   });
 
-  it('reports an email that already has an account before trying', async () => {
-    vi.mocked(users.getUserByEmail).mockResolvedValueOnce({
-      id: 'user-1',
-    } as never);
-
-    await expect(signUp(form)).resolves.toEqual({
-      error: ERROR_MESSAGES.auth.EMAIL_EXISTS,
-    });
-    expect(signInWithCredentials).not.toHaveBeenCalled();
-  });
-
-  it('reports a database outage as an error, not as a free email', async () => {
-    vi.mocked(users.getUserByEmail).mockRejectedValueOnce(
-      new Error('connection refused'),
-    );
-
-    await expect(signUp(form)).resolves.toEqual({
-      error: ERROR_MESSAGES.SOMETHING_WENT_WRONG,
-    });
-    expect(signInWithCredentials).not.toHaveBeenCalled();
-  });
-
   it("passes on the provider's rejection", async () => {
     vi.mocked(signInWithCredentials).mockResolvedValueOnce({
       success: false,
-      error: ERROR_MESSAGES.auth.EMAIL_EXISTS,
+      error: ERROR_MESSAGES.auth.TOO_MANY_ATTEMPTS,
     });
-
-    await expect(signUp(form)).resolves.toEqual({
-      error: ERROR_MESSAGES.auth.EMAIL_EXISTS,
-    });
-  });
-
-  it('stops before any lookup once the client is rate limited', async () => {
-    vi.mocked(rateLimit.isSignUpAllowed).mockResolvedValueOnce(false);
 
     await expect(signUp(form)).resolves.toEqual({
       error: ERROR_MESSAGES.auth.TOO_MANY_ATTEMPTS,
     });
-    expect(users.getUserByEmail).not.toHaveBeenCalled();
+  });
+
+  it('rejects invalid input without reaching the provider', async () => {
+    await expect(signUp({ ...form, password: 'weak' })).resolves.toEqual({
+      error: ERROR_MESSAGES.auth.INVALID_CREDENTIALS,
+    });
     expect(signInWithCredentials).not.toHaveBeenCalled();
   });
 });
@@ -84,10 +49,9 @@ describe('signUp', () => {
 describe('login', () => {
   const credentials = { email: 'user@example.com', password: 'anything' };
 
-  it('counts the attempt against the account, then signs in', async () => {
+  it('signs in through the credentials provider', async () => {
     await login(credentials);
 
-    expect(rateLimit.isLoginAllowed).toHaveBeenCalledWith(credentials.email);
     expect(signInWithCredentials).toHaveBeenCalledWith(
       'credentials',
       credentials,
@@ -114,12 +78,14 @@ describe('login', () => {
     },
   );
 
-  it('refuses to check the password once rate limited', async () => {
-    vi.mocked(rateLimit.isLoginAllowed).mockResolvedValueOnce(false);
+  it("passes on the provider's rate-limit message", async () => {
+    vi.mocked(signInWithCredentials).mockResolvedValueOnce({
+      success: false,
+      error: ERROR_MESSAGES.auth.TOO_MANY_ATTEMPTS,
+    });
 
     await expect(login(credentials)).resolves.toEqual({
       error: ERROR_MESSAGES.auth.TOO_MANY_ATTEMPTS,
     });
-    expect(signInWithCredentials).not.toHaveBeenCalled();
   });
 });

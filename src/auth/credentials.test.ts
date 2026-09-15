@@ -2,8 +2,14 @@ import bcrypt from 'bcryptjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@/lib/db/users', () => ({ getUserByEmail: vi.fn() }));
+vi.mock('@/lib/rateLimit', () => ({
+  isLoginAllowed: vi.fn(async () => true),
+  isSignUpAllowed: vi.fn(async () => true),
+}));
 
 const { getUserByEmail } = await import('@/lib/db/users');
+const rateLimit = await import('@/lib/rateLimit');
+const { RateLimitedSignIn } = await import('./errors');
 const { verifyCredentials } = await import('./credentials');
 
 const password = 'correct horse battery';
@@ -19,6 +25,7 @@ const user = {
 };
 
 beforeEach(() => {
+  vi.clearAllMocks();
   vi.mocked(getUserByEmail).mockReset();
 });
 
@@ -28,6 +35,7 @@ describe('verifyCredentials', () => {
     await expect(
       verifyCredentials({ email: user.email, password }),
     ).resolves.toMatchObject({ id: 'user-1' });
+    expect(rateLimit.isLoginAllowed).toHaveBeenCalledWith(user.email);
   });
 
   it('returns null for a wrong password', async () => {
@@ -57,5 +65,18 @@ describe('verifyCredentials', () => {
     await expect(
       verifyCredentials({ email: user.email, password: 'timing-equalizer' }),
     ).resolves.toBeNull();
+  });
+
+  it('refuses a rate-limited attempt before any lookup or comparison', async () => {
+    vi.mocked(rateLimit.isLoginAllowed).mockResolvedValueOnce(false);
+    const compare = vi.spyOn(bcrypt, 'compare');
+
+    await expect(
+      verifyCredentials({ email: user.email, password }),
+    ).rejects.toBeInstanceOf(RateLimitedSignIn);
+    expect(getUserByEmail).not.toHaveBeenCalled();
+    expect(compare).not.toHaveBeenCalled();
+
+    compare.mockRestore();
   });
 });
