@@ -28,6 +28,12 @@ export function useSearchInput({
   const pathname = usePathname();
   const router = useRouter();
   const pendingWrite = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // The last search value this hook wrote to the URL. The navigation arrives
+  // some time after router.replace, and the box may hold newer text by then;
+  // the hook's own earlier write must not wipe it.
+  const [lastWrittenSearch, setLastWrittenSearch] = useState<string | null>(
+    null,
+  );
 
   // State adjusted while rendering, from the previous render's values, instead
   // of in effects (which render twice and can cascade):
@@ -44,7 +50,10 @@ export function useSearchInput({
   const [lastUrlSearch, setLastUrlSearch] = useState(urlSearch);
   if (urlSearch !== lastUrlSearch) {
     setLastUrlSearch(urlSearch);
-    if (isUpdateSearchParam && !urlSearch) setSearchQuery('');
+    // Only a removal made elsewhere (e.g. "Clear all") empties the box: the
+    // hook's own Clear emptied it already, and the user may have typed since.
+    if (isUpdateSearchParam && !urlSearch && urlSearch !== lastWrittenSearch)
+      setSearchQuery('');
   }
 
   const cancelPendingWrite = useCallback(() => {
@@ -60,6 +69,7 @@ export function useSearchInput({
       const newSearchString = createQueryString(current, [
         { param: 'search', value },
       ]);
+      setLastWrittenSearch(value);
       router.replace(`${pathname}?${newSearchString}`);
     },
     [pathname, router],

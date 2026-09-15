@@ -65,4 +65,48 @@ describe('useSearchInput state sync', () => {
     rerender({ open: true });
     expect(result.current.searchQuery).toBe('');
   });
+
+  it('keeps text typed after Clear when the cleared URL arrives late', () => {
+    window.history.replaceState(null, '', '/dashboard/transactions?search=ab');
+    const { result, rerender } = renderHook(() =>
+      useSearchInput({ isUpdateSearchParam: true }),
+    );
+
+    act(() => result.current.handleClear());
+    act(() => type(result.current.handleChange, 'd'));
+
+    // The navigation from Clear lands after the user typed "d".
+    window.history.replaceState(null, '', '/dashboard/transactions');
+    rerender();
+
+    expect(result.current.searchQuery).toBe('d');
+  });
+
+  it('still empties the box when something else removes the search later', () => {
+    vi.useFakeTimers();
+    window.history.replaceState(null, '', '/dashboard/transactions?search=ab');
+    const { result, rerender } = renderHook(() =>
+      useSearchInput({ isUpdateSearchParam: true }),
+    );
+
+    act(() => result.current.handleClear());
+    window.history.replaceState(null, '', '/dashboard/transactions');
+    rerender();
+
+    act(() => type(result.current.handleChange, 'taxi'));
+    act(() => vi.advanceTimersByTime(300)); // the debounced write of "taxi"
+    window.history.replaceState(
+      null,
+      '',
+      '/dashboard/transactions?search=taxi',
+    );
+    rerender();
+
+    // "Clear all" elsewhere removes the search.
+    window.history.replaceState(null, '', '/dashboard/transactions');
+    rerender();
+    expect(result.current.searchQuery).toBe('');
+
+    vi.useRealTimers();
+  });
 });
