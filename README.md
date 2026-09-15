@@ -58,7 +58,8 @@ src/
 │   ├── (protected)/dashboard/   # Signed-in routes
 │   │   ├── transactions/        # The transactions list
 │   │   └── cards/ deposits/ loans/ payments/ savings/ profile/ settings/   # (planned)
-│   └── api/auth/[...nextauth]/  # Auth.js route handler
+│   ├── api/auth/[...nextauth]/  # Auth.js route handler
+│   └── error.tsx, global-error.tsx, not-found.tsx   # Error and 404 pages; the dashboard has its own error.tsx and loading.tsx
 ├── auth/                        # Auth.js config, credentials and session checks
 ├── components/
 │   ├── forms/                   # Form components
@@ -68,21 +69,24 @@ src/
 ├── hooks/                       # Custom React hooks
 ├── lib/
 │   ├── actions/                 # Server Actions (mutations only)
-│   ├── data/                    # Cached reads for Server Components
+│   ├── data/                    # Reads for Server Components (the page caches them per request)
 │   ├── db/                      # Prisma client and queries
 │   ├── schemas/                 # Zod schemas for every input
 │   ├── constants/               # App-wide constants and UI config
 │   ├── utils/                   # Helpers
-│   ├── env.ts                   # Environment variables, validated at startup
+│   ├── env.ts                   # Environment variables, validated on first use
 │   └── rateLimit.ts             # Sign-in and sign-up rate limiting
+├── styles/                      # Tailwind entry, animations and component classes
 ├── types/                       # Shared TypeScript types
+├── routes.ts                    # Route paths shared by the proxy and pages
 └── proxy.ts                     # Route protection and redirects
 prisma/
 ├── schema.prisma                # User, Account, Transaction, RateLimit
 ├── migrations/                  # Migration history
 └── seed.mjs                     # Sample transactions for local development
 scripts/replay-migrations.mjs    # Replays every migration into an empty database
-docs/transactions-query.md       # The search, filter and sort contract
+docs/transactions-query.md       # The search, filter and sort behaviour, and how Express differs
+.github/                         # CI workflow and Dependabot
 ```
 
 ---
@@ -123,7 +127,7 @@ cp .env.example .env
 | `SHADOW_DATABASE_URL` | For `migrate diff` | An empty database Prisma can reset                                                                      |
 | `TRUSTED_PROXY_HOPS`  | No                 | Proxies in front of the app that append to `X-Forwarded-For` (default 1); rate limits key clients on it |
 
-The app refuses to start if a required variable is missing or malformed. Don't set `NODE_ENV` in `.env`: Next.js sets it for each command.
+A missing or malformed required variable stops the server with the variable's name the first time it reads the environment, which is the first request, not `next start` itself. Don't set `NODE_ENV` in `.env`: Next.js sets it for each command.
 
 ---
 
