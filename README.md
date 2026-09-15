@@ -186,6 +186,15 @@ Apply new migrations to the production database before deploying code that needs
 npx prisma migrate deploy
 ```
 
+Before the first deploy that includes `20260914120000_amount_to_decimal`, check that every stored amount fits `numeric(14,2)`. The Express server and older versions of this app accepted any number. One row out of range fails the migration, and Prisma then refuses further deploys until it is resolved:
+
+```sql
+SELECT count(*) FROM transactions
+WHERE amount = 'NaN' OR amount IN ('Infinity', '-Infinity') OR abs(amount) >= 999999999999.995;
+```
+
+If the count isn't 0, fix those rows first. If a migration has already failed, fix the data, run `npx prisma migrate resolve --rolled-back <migration name>`, and deploy again.
+
 ---
 
 ## Author
